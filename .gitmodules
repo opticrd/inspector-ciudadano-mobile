@@ -1,0 +1,3 @@
+[submodule "src/xamarin-login-module"]
+	path = src/xamarin-login-module
+	url = https://github.com/opticrd/xamarin-login-module
