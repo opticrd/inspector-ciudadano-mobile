@@ -5,6 +5,7 @@ using Microsoft.AppCenter.Crashes;
 using Prism;
 using Prism.DryIoc;
 using Prism.Ioc;
+using Prism.Modularity;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -22,12 +23,6 @@ namespace Inspector
                             typeof(Analytics), typeof(Crashes));
         }
 
-        protected override void RegisterTypes(IContainerRegistry containerRegistry)
-        {
-            containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<MainPage>();
-        }
-
         protected override async void OnInitialized()
         {
             XF.Material.Forms.Material.Init(this);
@@ -36,6 +31,17 @@ namespace Inspector
             Application.Current.UserAppTheme = OSAppTheme.Light;
 
             await NavigationService.NavigateAsync($"NavigationPage/{nameof(MainPage)}");
+        }
+
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            containerRegistry.RegisterForNavigation<NavigationPage>();
+            containerRegistry.RegisterForNavigation<MainPage>();
+        }
+
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+        {
+            moduleCatalog.AddModule<LoginModule.LoginModule>(InitializationMode.WhenAvailable);
         }
     }
 }

@@ -27,4 +27,7 @@
     <Folder Include="Framework\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\xamarin-login-module\LoginModule\LoginModule.csproj" />
+  </ItemGroup>
 </Project>
