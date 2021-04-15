@@ -9,7 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inspector.iOS", "Inspector.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inspector", "Inspector\Inspector.csproj", "{11A5905B-0D99-4B81-AA50-BFCCAC446E22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginModule", "xamarin-login-module\LoginModule\LoginModule.csproj", "{DBB1A86B-ED9C-4D92-BC7C-72EDA8269B9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoginModule", "xamarin-login-module\LoginModule\LoginModule.csproj", "{DBB1A86B-ED9C-4D92-BC7C-72EDA8269B9F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Targets", "Targets", "{6D11A9F7-1A66-4ECD-9F25-2BDC8678C189}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{330FF4A1-2CA3-475E-A121-E7F77543C722}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,6 +76,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7E253AA0-FD68-4C1C-9E69-0EA35136AAA3} = {6D11A9F7-1A66-4ECD-9F25-2BDC8678C189}
+		{94429F43-74C7-40E0-8996-5AB1EBDA2AF3} = {6D11A9F7-1A66-4ECD-9F25-2BDC8678C189}
+		{DBB1A86B-ED9C-4D92-BC7C-72EDA8269B9F} = {330FF4A1-2CA3-475E-A121-E7F77543C722}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EADD099E-C829-4B8B-BE2E-588FE8BEBBF3}
