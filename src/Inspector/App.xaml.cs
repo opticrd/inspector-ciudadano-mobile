@@ -1,4 +1,6 @@
 ﻿using System;
+using Inspector.ViewModels;
+using Inspector.Views;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
@@ -15,13 +17,6 @@ namespace Inspector
     {
         public App(IPlatformInitializer initializer) : base(initializer) { }
 
-        protected override void OnStart()
-        {
-            base.OnStart();
-            AppCenter.Start("android=8b508ed0-50f1-4836-a73d-76a7665351bd;" +
-                            "ios=4afbe2f3-1f31-4fc7-8d10-21e62cea0fc9;",
-                            typeof(Analytics), typeof(Crashes));
-        }
 
         protected override async void OnInitialized()
         {
@@ -30,13 +25,29 @@ namespace Inspector
             XF.Material.Forms.Material.Use("Material.Configuration");
             Application.Current.UserAppTheme = OSAppTheme.Light;
 
-            await NavigationService.NavigateAsync($"NavigationPage/{nameof(MainPage)}");
+            var result = await NavigationService.NavigateAsync("WelcomePage");
+#if DEBUG
+            if (!result.Success)
+            {
+                System.Diagnostics.Debugger.Break();
+            }
+#endif
+        }
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+            AppCenter.Start("android=8b508ed0-50f1-4836-a73d-76a7665351bd;" +
+                            "ios=4afbe2f3-1f31-4fc7-8d10-21e62cea0fc9;",
+                            typeof(Analytics), typeof(Crashes));
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<MainPage>();
+            containerRegistry.RegisterForNavigation<MainTabbedPage, MainTabbedPageViewModel>("HomePage");
+            containerRegistry.RegisterForNavigation<ProfilePage, ProfilePageViewModel>();
+            containerRegistry.RegisterForNavigation<AddReportPage, AddReportPageViewModel>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
