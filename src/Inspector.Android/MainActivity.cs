@@ -6,6 +6,7 @@ using Android.Runtime;
 using Android.OS;
 using Prism;
 using Prism.Ioc;
+using Xamarin.Forms.Platform.Android;
 
 namespace Inspector.Droid
 {
@@ -18,7 +19,9 @@ namespace Inspector.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            LoadApplication(new App(new AndroidInitializer()));
+            XF.Material.Droid.Material.Init(this, savedInstanceState);
+
+            LoadApplication(new App(new AndroidInitializer()));            
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
