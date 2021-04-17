@@ -6,7 +6,6 @@ using Android.Runtime;
 using Android.OS;
 using Prism;
 using Prism.Ioc;
-using Xamarin.Forms.Platform.Android;
 
 namespace Inspector.Droid
 {
