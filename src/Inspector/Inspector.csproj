@@ -27,6 +27,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\xamarin-login-module\LoginModule\LoginModule.csproj" />
+    <ProjectReference Include="..\xamarin-ui-module\UIModule\UIModule.csproj" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Views\AddReportPage.xaml">
