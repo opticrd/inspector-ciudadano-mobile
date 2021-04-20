@@ -24,13 +24,19 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Framework\" />
-    <Folder Include="Views\Feed\" />
+    <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\xamarin-login-module\LoginModule\LoginModule.csproj" />
     <ProjectReference Include="..\xamarin-ui-module\UIModule\UIModule.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Update="Views\Reports\FeedReportsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Reports\ReportHistoryPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Reports\AddReportPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
