@@ -48,6 +48,8 @@ namespace Inspector
             containerRegistry.RegisterForNavigation<MainTabbedPage, MainTabbedPageViewModel>("HomePage");
             containerRegistry.RegisterForNavigation<ProfilePage, ProfilePageViewModel>();
             containerRegistry.RegisterForNavigation<AddReportPage, AddReportPageViewModel>();
+            containerRegistry.RegisterForNavigation<ReportHistoryPage, ReportHistoryPageViewModel>();
+            containerRegistry.RegisterForNavigation<FeedReportsPage, FeedReportsPageViewModel>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
