@@ -1,8 +1,76 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com"
-             prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="Inspector.Views.ProfilePage">
-  
+<ContentPage
+    x:Class="Inspector.Views.ProfilePage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:prism="http://prismlibrary.com"
+    Title="Perfil"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    BackgroundColor="Gray">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="TitleLabel" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource PrimaryColor}" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+
+            <Style x:Key="ItemLabel" TargetType="Label">
+                <Setter Property="TextColor" Value="#503026" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HeightRequest" Value="32" />
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+            </Style>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <StackLayout Padding="0,0,0,16" Spacing="16">
+
+            <Frame>
+                <StackLayout Orientation="Horizontal">
+                    <Image Source="icon.png" />
+
+                    <StackLayout Spacing="8">
+                        <Label Text="Nombre usuario" Style="{StaticResource TitleLabel}" />
+                        <Label Text="correo!@server.com" />
+                    </StackLayout>
+
+                </StackLayout>
+            </Frame>
+
+            <Frame>
+                <StackLayout Spacing="8">
+                    <Label Text="Mi Dirección" Style="{StaticResource TitleLabel}" />
+                    <Label Text="Luis F. Thomen #419 Santo Domingo D.N." />
+                </StackLayout>
+            </Frame>
+
+            <Frame>
+                <StackLayout Spacing="8">
+                    <Label Style="{StaticResource TitleLabel}" Text="Cuenta" />
+
+                    <Label Style="{StaticResource ItemLabel}" Text="Editar perfil" />
+                    <Label Style="{StaticResource ItemLabel}" Text="Notificaciones" />
+                </StackLayout>
+            </Frame>
+
+            <Frame>
+                <StackLayout Spacing="8">
+                    <Label Style="{StaticResource TitleLabel}" Text="Otros" />
+
+                    <Label Style="{StaticResource ItemLabel}" Text="Ayuda" />
+                    <Label Style="{StaticResource ItemLabel}" Text="Términos y condiciones" />
+                    <Label Style="{StaticResource ItemLabel}" Text="Politicas y privacidad" />
+                    <Label Style="{StaticResource ItemLabel}" Text="Términos y condiciones" />
+                    <Label Style="{StaticResource ItemLabel}" Text="Sobre el app" />
+                </StackLayout>
+            </Frame>
+
+        </StackLayout>
+    </ScrollView>
+
 </ContentPage>

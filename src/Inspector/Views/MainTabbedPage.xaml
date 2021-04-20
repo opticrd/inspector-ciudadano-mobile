@@ -7,15 +7,23 @@
     xmlns:prism="http://prismlibrary.com"
     xmlns:views="clr-namespace:Inspector.Views"
     android:TabbedPage.ToolbarPlacement="Bottom"
-    prism:ViewModelLocator.AutowireViewModel="True">
+    prism:ViewModelLocator.AutowireViewModel="True"
+    BarBackgroundColor="{StaticResource PrimaryColor}"
+    BarTextColor="{StaticResource OnPrimaryColor}">
 
-    <NavigationPage Title="Reportes" IconImageSource="schedule.png">
+    <NavigationPage Title="Inicio">
         <x:Arguments>
-            <views:AddReportPage />
+            <views:FeedReportsPage />
         </x:Arguments>
     </NavigationPage>
 
-    <NavigationPage Title="Perfil" IconImageSource="schedule.png">
+    <NavigationPage Title="Historial">
+        <x:Arguments>
+            <views:ReportHistoryPage />
+        </x:Arguments>
+    </NavigationPage>
+
+    <NavigationPage Title="Perfil">
         <x:Arguments>
             <views:ProfilePage />
         </x:Arguments>
