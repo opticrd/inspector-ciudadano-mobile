@@ -12,7 +12,7 @@
 
         <Frame Style="{StaticResource ButtonFrame}" VerticalOptions="EndAndExpand">
             <mtrl:MaterialButton
-                Command="{Binding ValidateDocumentCommand}"
+                Command="{prism:NavigateTo 'AddReportPage'}"
                 Style="{StaticResource ButtonPrimary}"
                 Text="Reportar" />
         </Frame>
