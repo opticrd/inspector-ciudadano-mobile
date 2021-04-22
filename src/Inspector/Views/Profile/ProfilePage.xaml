@@ -35,7 +35,7 @@
                     <Image Source="icon.png" />
 
                     <StackLayout Spacing="8">
-                        <Label Text="Nombre usuario" Style="{StaticResource TitleLabel}" />
+                        <Label Style="{StaticResource TitleLabel}" Text="Nombre usuario" />
                         <Label Text="correo!@server.com" />
                     </StackLayout>
 
@@ -44,7 +44,7 @@
 
             <Frame>
                 <StackLayout Spacing="8">
-                    <Label Text="Mi Dirección" Style="{StaticResource TitleLabel}" />
+                    <Label Style="{StaticResource TitleLabel}" Text="Mi Dirección" />
                     <Label Text="Luis F. Thomen #419 Santo Domingo D.N." />
                 </StackLayout>
             </Frame>
@@ -53,7 +53,11 @@
                 <StackLayout Spacing="8">
                     <Label Style="{StaticResource TitleLabel}" Text="Cuenta" />
 
-                    <Label Style="{StaticResource ItemLabel}" Text="Editar perfil" />
+                    <Label Style="{StaticResource ItemLabel}" Text="Editar perfil">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{prism:NavigateTo 'EditProfilePage'}" />
+                        </Label.GestureRecognizers>
+                    </Label>
                     <Label Style="{StaticResource ItemLabel}" Text="Notificaciones" />
                 </StackLayout>
             </Frame>
