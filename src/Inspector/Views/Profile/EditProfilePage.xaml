@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Inspector.Views.EditProfilePage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
+    xmlns:prism="http://prismlibrary.com"
+    Title="Editar perfil"
+    prism:ViewModelLocator.AutowireViewModel="True">
+
+    <ScrollView>
+        <StackLayout Spacing="16">
+
+            <Frame>
+                <StackLayout>
+                    <mtrl:MaterialTextField
+                        HelperText="Digite su dirección"
+                        Placeholder="Dirección"
+                        ReturnType="Next" />
+
+                    <mtrl:MaterialTextField Placeholder="Telefono" ReturnType="Done" />
+                </StackLayout>
+            </Frame>
+
+
+
+
+            <Frame Style="{StaticResource ButtonFrame}" VerticalOptions="EndAndExpand">
+                <mtrl:MaterialButton Style="{StaticResource ButtonPrimary}" Text="Crear reporte" />
+            </Frame>
+
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>

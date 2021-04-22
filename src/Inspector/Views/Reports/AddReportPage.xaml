@@ -1,8 +1,58 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com"
-             prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="Inspector.Views.AddReportPage">
-  
+<ContentPage
+    x:Class="Inspector.Views.AddReportPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
+    xmlns:prism="http://prismlibrary.com"
+    Title="Agregar reporte"
+    prism:ViewModelLocator.AutowireViewModel="True">
+
+    <ScrollView>
+        <StackLayout Spacing="16">
+            <Frame>
+                <StackLayout>
+                    <Label Text="Pruebas" />
+                    <mtrl:MaterialButton Style="{StaticResource ButtonOutlined}" Text="Adjuntar arachivo" />
+                </StackLayout>
+            </Frame>
+
+            <Frame>
+                <StackLayout>
+                    <Label Text="Dirección" />
+                    <mtrl:MaterialTextField
+                        HelperText="Digite su dirección"
+                        Placeholder="Calle, número, cuidad"
+                        ReturnType="Next" />
+                </StackLayout>
+            </Frame>
+
+            <Frame>
+                <StackLayout>
+                    <Label Text="Seleccione la incidencia" />
+                    <mtrl:MaterialTextField
+                        HelperText="Seleccione la incidencia"
+                        Placeholder="Tipo de incidencia"
+                        ReturnType="Next" />
+                </StackLayout>
+            </Frame>
+
+            <Frame>
+                <StackLayout>
+                    <Label Text="Observaciones" />
+                    <mtrl:MaterialTextField
+                        HelperText="Digite su comentario"
+                        Placeholder="Comentario"
+                        ReturnType="Done" />
+                </StackLayout>
+            </Frame>
+
+
+            <Frame Style="{StaticResource ButtonFrame}" VerticalOptions="EndAndExpand">
+                <mtrl:MaterialButton Style="{StaticResource ButtonPrimary}" Text="Crear reporte" />
+            </Frame>
+
+        </StackLayout>
+    </ScrollView>
+
 </ContentPage>

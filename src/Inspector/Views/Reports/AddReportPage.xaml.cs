@@ -6,7 +6,14 @@ namespace Inspector.Views
     {
         public AddReportPage()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (System.Exception e)
+            {
+
+            }
         }
     }
 }
