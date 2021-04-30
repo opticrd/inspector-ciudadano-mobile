@@ -8,8 +8,9 @@
     xmlns:views="clr-namespace:Inspector.Views"
     android:TabbedPage.ToolbarPlacement="Bottom"
     prism:ViewModelLocator.AutowireViewModel="True"
-    BarBackgroundColor="{StaticResource PrimaryColor}"
-    BarTextColor="{StaticResource OnPrimaryColor}">
+    BarBackgroundColor="{StaticResource SurfaceColor}"
+    SelectedTabColor="{StaticResource PrimaryColor}"
+    UnselectedTabColor="{StaticResource OnSurfaceColor}">
 
     <NavigationPage Title="Inicio">
         <x:Arguments>
