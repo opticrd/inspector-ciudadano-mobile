@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Renderers\ShadowNavigationBarRenderer.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -149,4 +150,5 @@
       <Name>Inspector</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
 </Project>

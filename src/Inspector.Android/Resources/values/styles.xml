@@ -14,7 +14,14 @@
     <!-- colorAccent is used as the default value for colorControlActivated
          which is used to tint widgets -->
     <item name="colorAccent">#003876</item>
+
+    <!-- Drop Shadows on Android Navigation Toolbar 
+         https://xamgirl.com/navigation-bar-with-shadow-in-xamarin-forms/ -->
+    <item name="android:elevation">4dp</item>
+    <item name="android:windowContentOverlay">@drawable/actionbar_shadow</item>
+    
   </style>
+  
   <style name="MyTheme.Splash" parent ="Theme.AppCompat.Light.NoActionBar">
     <item name="android:windowBackground">@drawable/splash_screen</item>
     <item name="android:windowNoTitle">true</item>  
@@ -22,4 +29,5 @@
     <item name="android:windowContentOverlay">@null</item>  
     <item name="android:windowActionBar">true</item>  
   </style>
+  
 </resources>

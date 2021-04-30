@@ -103,7 +103,9 @@
       </Generator>
     </AndroidResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\actionbar_shadow.xml" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Inspector\Inspector.csproj">
       <Project>{11A5905B-0D99-4B81-AA50-BFCCAC446E22}</Project>
