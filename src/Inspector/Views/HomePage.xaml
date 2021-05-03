@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Inspector.Views.HomePage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:prism="http://prismlibrary.com"
+    xmlns:views="clr-namespace:Inspector.Views"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    Title="Inspector"
+    prism:ViewModelLocator.AutowireViewModel="True">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <Color x:Key="tabTextColor" x:FactoryMethod="FromHsla">
+                <x:Arguments>
+                    <x:Double>0</x:Double>
+                    <x:Double>0</x:Double>
+                    <x:Double>0</x:Double>
+                    <x:Double>0.5</x:Double>
+                </x:Arguments>
+            </Color>
+
+            <Style TargetType="xct:TabViewItem">
+                <Setter Property="TextColor" Value="{StaticResource tabTextColor}" />
+                <Setter Property="TextColorSelected" Value="{StaticResource PrimaryColor}" />
+                <Setter Property="FontSize" Value="12" />
+            </Style>
+
+            <ControlTemplate x:Key="FabTabItemTemplate">
+                <Grid>
+                    <ImageButton
+                        Margin="6"
+                        Padding="10"
+                        BackgroundColor="#FF0000"
+                        HeightRequest="60"
+                        HorizontalOptions="Center"
+                        InputTransparent="True"
+                        Source="{TemplateBinding CurrentIcon}"
+                        WidthRequest="60">
+
+                        <ImageButton.CornerRadius>
+                            <OnPlatform x:TypeArguments="x:Int32">
+                                <On Platform="iOS" Value="30" />
+                                <On Platform="Android" Value="60" />
+                                <On Platform="UWP" Value="36" />
+                            </OnPlatform>
+                        </ImageButton.CornerRadius>
+
+                    </ImageButton>
+
+                </Grid>
+            </ControlTemplate>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <xct:TabView
+            TabContentBackgroundColor="{StaticResource BackgroundColor}"
+            TabStripBackgroundColor="White"
+            TabStripHeight="60"
+            TabStripPlacement="Bottom">
+
+            <xct:TabViewItem Icon="triangle.png" Text="Inicio" >
+                <Grid BackgroundColor="Gray">
+                    <Label
+                        HorizontalOptions="Center"
+                        Text="TabContent1"
+                        VerticalOptions="Center" />
+                </Grid>
+            </xct:TabViewItem>
+
+            <xct:TabViewItem Icon="circle.png" Text="Historial">
+                <Grid>
+                    <Label
+                        HorizontalOptions="Center"
+                        Text="TabContent2"
+                        VerticalOptions="Center" />
+                </Grid>
+            </xct:TabViewItem>
+
+
+            <xct:TabViewItem Icon="circle.png" Text="Perfil">
+                <views:ProfileView />
+            </xct:TabViewItem>
+
+            <xct:TabViewItem
+                ControlTemplate="{StaticResource FabTabItemTemplate}"
+                Icon="circle.png"
+                TapCommand="{prism:NavigateTo 'AddReportPage'}"
+                Text="Reportar" />
+
+        </xct:TabView>
+    </Grid>
+
+</ContentPage>

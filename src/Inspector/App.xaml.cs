@@ -25,7 +25,7 @@ namespace Inspector
             XF.Material.Forms.Material.Use("Material.Configuration");
             Application.Current.UserAppTheme = OSAppTheme.Light;
 
-            var result = await NavigationService.NavigateAsync("WelcomePage");
+            var result = await NavigationService.NavigateAsync("NavigationPage/HomePage");
 #if DEBUG
             if (!result.Success)
             {
@@ -45,12 +45,13 @@ namespace Inspector
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<MainTabbedPage, MainTabbedPageViewModel>("HomePage");
+            containerRegistry.RegisterForNavigation<MainTabbedPage, MainTabbedPageViewModel>();
             containerRegistry.RegisterForNavigation<ProfilePage, ProfilePageViewModel>();
             containerRegistry.RegisterForNavigation<AddReportPage, AddReportPageViewModel>();
             containerRegistry.RegisterForNavigation<ReportHistoryPage, ReportHistoryPageViewModel>();
             containerRegistry.RegisterForNavigation<FeedReportsPage, FeedReportsPageViewModel>();
             containerRegistry.RegisterForNavigation<EditProfilePage, EditProfilePageViewModel>();
+            containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
