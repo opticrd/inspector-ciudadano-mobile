@@ -90,21 +90,11 @@
             TabStripPlacement="Bottom">
 
             <xct:TabViewItem Icon="triangle.png" Text="Inicio">
-                <Grid BackgroundColor="Gray">
-                    <Label
-                        HorizontalOptions="Center"
-                        Text="TabContent1"
-                        VerticalOptions="Center" />
-                </Grid>
+                <views:FeedReportsView />
             </xct:TabViewItem>
 
             <xct:TabViewItem Icon="circle.png" Text="Historial">
-                <Grid>
-                    <Label
-                        HorizontalOptions="Center"
-                        Text="TabContent2"
-                        VerticalOptions="Center" />
-                </Grid>
+                <views:ReportHistoryView />
             </xct:TabViewItem>
 
 
