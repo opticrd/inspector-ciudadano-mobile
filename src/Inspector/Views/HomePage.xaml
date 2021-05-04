@@ -28,7 +28,26 @@
             </Style>
 
             <ControlTemplate x:Key="FabTabItemTemplate">
-                <Grid>
+                <Grid RowDefinitions="70,32" RowSpacing="0">
+
+                    <!--<Ellipse
+                        Fill="White"
+                        HeightRequest="90"
+                        HorizontalOptions="Center"
+                        TranslationY="6"
+                        VerticalOptions="Center"
+                        WidthRequest="75" />-->
+
+                    <Path
+                        Aspect="Fill"
+                        Data="M 0 0 C 2 0 4 -1 5 -3 C 7 -8 10 -11 15 -11 C 20 -11 23 -8 25 -3 C 26 -1 28 0 30 0 Z"
+                        Fill="White"
+                        HeightRequest="35"
+                        HorizontalOptions="Center"
+                        TranslationY="-8"
+                        VerticalOptions="Center"
+                        WidthRequest="100" />
+
                     <ImageButton
                         Margin="6"
                         Padding="10"
@@ -37,6 +56,8 @@
                         HorizontalOptions="Center"
                         InputTransparent="True"
                         Source="{TemplateBinding CurrentIcon}"
+                        TranslationY="8"
+                        VerticalOptions="FillAndExpand"
                         WidthRequest="60">
 
                         <ImageButton.CornerRadius>
@@ -48,6 +69,12 @@
                         </ImageButton.CornerRadius>
 
                     </ImageButton>
+                    <Label
+                        Grid.Row="1"
+                        HorizontalOptions="Center"
+                        Text="Reportar"
+                        TextColor="{StaticResource tabTextColor}"
+                        VerticalOptions="Center" />
 
                 </Grid>
             </ControlTemplate>
@@ -62,7 +89,7 @@
             TabStripHeight="60"
             TabStripPlacement="Bottom">
 
-            <xct:TabViewItem Icon="triangle.png" Text="Inicio" >
+            <xct:TabViewItem Icon="triangle.png" Text="Inicio">
                 <Grid BackgroundColor="Gray">
                     <Label
                         HorizontalOptions="Center"
