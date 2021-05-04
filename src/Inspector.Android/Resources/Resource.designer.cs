@@ -23356,43 +23356,46 @@ namespace Inspector.Droid
 			public const int notify_panel_notification_icon_bg = 2131165335;
 			
 			// aapt resource value: 0x7F070098
-			public const int splash_screen = 2131165336;
+			public const int sample = 2131165336;
 			
 			// aapt resource value: 0x7F070099
-			public const int test_custom_background = 2131165337;
+			public const int splash_screen = 2131165337;
 			
 			// aapt resource value: 0x7F07009A
-			public const int tooltip_frame_dark = 2131165338;
+			public const int test_custom_background = 2131165338;
 			
 			// aapt resource value: 0x7F07009B
-			public const int tooltip_frame_light = 2131165339;
+			public const int tooltip_frame_dark = 2131165339;
 			
 			// aapt resource value: 0x7F07009C
-			public const int xf_arrow_dropdown = 2131165340;
+			public const int tooltip_frame_light = 2131165340;
 			
 			// aapt resource value: 0x7F07009D
-			public const int xf_arrow_right = 2131165341;
+			public const int xf_arrow_dropdown = 2131165341;
 			
 			// aapt resource value: 0x7F07009E
-			public const int xf_check = 2131165342;
+			public const int xf_arrow_right = 2131165342;
 			
 			// aapt resource value: 0x7F07009F
-			public const int xf_checkbox_selected = 2131165343;
+			public const int xf_check = 2131165343;
 			
 			// aapt resource value: 0x7F0700A0
-			public const int xf_checkbox_unselected = 2131165344;
+			public const int xf_checkbox_selected = 2131165344;
 			
 			// aapt resource value: 0x7F0700A1
-			public const int xf_clear = 2131165345;
+			public const int xf_checkbox_unselected = 2131165345;
 			
 			// aapt resource value: 0x7F0700A2
-			public const int xf_error = 2131165346;
+			public const int xf_clear = 2131165346;
 			
 			// aapt resource value: 0x7F0700A3
-			public const int xf_radio_button_selected = 2131165347;
+			public const int xf_error = 2131165347;
 			
 			// aapt resource value: 0x7F0700A4
-			public const int xf_radio_button_unselected = 2131165348;
+			public const int xf_radio_button_selected = 2131165348;
+			
+			// aapt resource value: 0x7F0700A5
+			public const int xf_radio_button_unselected = 2131165349;
 			
 			static Drawable()
 			{
