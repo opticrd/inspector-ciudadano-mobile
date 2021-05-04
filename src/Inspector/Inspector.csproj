@@ -35,6 +35,12 @@
     <Compile Update="Views\Profile\ProfileView.xaml.cs">
       <DependentUpon>ProfileView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Reports\FeedReportsView.xaml.cs">
+      <DependentUpon>FeedReportsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Reports\ReportHistoryView.xaml.cs">
+      <DependentUpon>ReportHistoryView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Views\HomePage.xaml">

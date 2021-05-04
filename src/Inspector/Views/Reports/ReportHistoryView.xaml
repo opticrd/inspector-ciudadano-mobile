@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Grid
+    x:Class="Inspector.Views.ReportHistoryView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:prism="http://prismlibrary.com"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
+
+    <ScrollView>
+        <StackLayout
+            Padding="16"
+            Spacing="16"
+            VerticalOptions="FillAndExpand">
+
+            <xct:TabView
+                Margin="-16,-16,-16,0"
+                TabContentBackgroundColor="{StaticResource BackgroundColor}"
+                TabStripBackgroundColor="White"
+                TabStripHeight="60"
+                TabStripPlacement="Bottom">
+
+                <xct:TabViewItem Text="Todos" />
+
+                <xct:TabViewItem Text="Abiertos" />
+
+                <xct:TabViewItem Text="Cerrados" />
+
+            </xct:TabView>
+
+            <Frame Padding="8,8,16,8">
+                <Grid
+                    ColumnDefinitions="80,*"
+                    ColumnSpacing="8"
+                    RowDefinitions="24,16,32">
+
+                    <Frame
+                        Grid.RowSpan="3"
+                        Padding="0"
+                        CornerRadius="5">
+                        <Image Aspect="AspectFill" Source="sample.png" />
+                    </Frame>
+
+                    <Label
+                        Grid.Column="1"
+                        Style="{StaticResource H3}"
+                        Text="Reparación Calle" />
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Text="Luis F. Thomen #450, El Millon"
+                        TranslationY="-6" />
+
+                    <Grid
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        ColumnDefinitions="20,Auto"
+                        VerticalOptions="Center">
+
+                        <Rectangle
+                            Grid.ColumnSpan="2"
+                            Margin="-4"
+                            Fill="#27AE60"
+                            HorizontalOptions="FillAndExpand"
+                            Opacity="0.2"
+                            RadiusX="5"
+                            RadiusY="5"
+                            VerticalOptions="FillAndExpand" />
+
+                        <Rectangle
+                            Fill="#27AE60"
+                            HeightRequest="16"
+                            HorizontalOptions="Start"
+                            RadiusX="5"
+                            RadiusY="5"
+                            WidthRequest="20" />
+                        <Label Grid.Column="1" Text="EN PROCESO" />
+
+                    </Grid>
+
+                    <Grid
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        ColumnDefinitions="Auto"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center">
+                        <Rectangle
+                            Margin="-4"
+                            Fill="#000"
+                            HorizontalOptions="FillAndExpand"
+                            Opacity="0.04"
+                            RadiusX="5"
+                            RadiusY="5"
+                            VerticalOptions="FillAndExpand" />
+                        <Label Text="99" />
+                    </Grid>
+
+                </Grid>
+            </Frame>
+
+            <Frame Padding="8,8,16,8">
+                <Grid
+                    ColumnDefinitions="80,*"
+                    ColumnSpacing="8"
+                    RowDefinitions="24,16,32">
+
+                    <Frame
+                        Grid.RowSpan="3"
+                        Padding="0"
+                        CornerRadius="5">
+                        <Image Aspect="AspectFill" Source="sample.png" />
+                    </Frame>
+
+                    <Label
+                        Grid.Column="1"
+                        Style="{StaticResource H3}"
+                        Text="Reparación Calle" />
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Text="Luis F. Thomen #450, El Millon"
+                        TranslationY="-6" />
+
+                    <Grid
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        ColumnDefinitions="20,Auto"
+                        VerticalOptions="Center">
+
+                        <Rectangle
+                            Grid.ColumnSpan="2"
+                            Margin="-4"
+                            Fill="#27AE60"
+                            HorizontalOptions="FillAndExpand"
+                            Opacity="0.2"
+                            RadiusX="5"
+                            RadiusY="5"
+                            VerticalOptions="FillAndExpand" />
+
+                        <Rectangle
+                            Fill="#27AE60"
+                            HeightRequest="16"
+                            HorizontalOptions="Start"
+                            RadiusX="5"
+                            RadiusY="5"
+                            WidthRequest="20" />
+                        <Label Grid.Column="1" Text="EN PROCESO" />
+
+                    </Grid>
+
+                    <Grid
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        ColumnDefinitions="Auto"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center">
+                        <Rectangle
+                            Margin="-4"
+                            Fill="#000"
+                            HorizontalOptions="FillAndExpand"
+                            Opacity="0.04"
+                            RadiusX="5"
+                            RadiusY="5"
+                            VerticalOptions="FillAndExpand" />
+                        <Label Text="99" />
+                    </Grid>
+
+                </Grid>
+            </Frame>
+
+        </StackLayout>
+    </ScrollView>
+
+
+</Grid>
