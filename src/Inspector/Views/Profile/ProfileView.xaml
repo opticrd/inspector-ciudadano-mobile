@@ -25,7 +25,7 @@
     </Grid.Resources>
 
     <ScrollView>
-        <StackLayout Padding="0,0,0,16" Spacing="16">
+        <StackLayout Padding="16" Spacing="16">
 
             <Frame>
                 <StackLayout Orientation="Horizontal">
