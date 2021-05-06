@@ -3,13 +3,14 @@
     x:Class="Inspector.Views.AddReportPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ctrls="clr-namespace:UIModule.Controls;assembly=UIModule"
     xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
     xmlns:prism="http://prismlibrary.com"
     Title="Agregar reporte"
     prism:ViewModelLocator.AutowireViewModel="True">
 
     <ScrollView>
-        <StackLayout Spacing="16">
+        <StackLayout Padding="16" Spacing="16">
             <Frame>
                 <StackLayout>
                     <Label Text="Pruebas" />
@@ -20,35 +21,50 @@
             <Frame>
                 <StackLayout>
                     <Label Text="Dirección" />
-                    <mtrl:MaterialTextField
-                        HelperText="Digite su dirección"
-                        Placeholder="Calle, número, cuidad"
-                        ReturnType="Next" />
+
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
+                            HelperText="Digite su dirección"
+                            Placeholder="Calle, número, cuidad"
+                            ReturnType="Next" />
+                    </ctrls:TextFieldLayout>
+
                 </StackLayout>
             </Frame>
 
             <Frame>
                 <StackLayout>
                     <Label Text="Seleccione la incidencia" />
-                    <mtrl:MaterialTextField
-                        HelperText="Seleccione la incidencia"
-                        Placeholder="Tipo de incidencia"
-                        ReturnType="Next" />
+
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
+                            HelperText="Seleccione la incidencia"
+                            Placeholder="Tipo de incidencia"
+                            ReturnType="Next" />
+                    </ctrls:TextFieldLayout>
+
                 </StackLayout>
             </Frame>
 
             <Frame>
                 <StackLayout>
                     <Label Text="Observaciones" />
-                    <mtrl:MaterialTextField
-                        HelperText="Digite su comentario"
-                        Placeholder="Comentario"
-                        ReturnType="Done" />
+
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
+                            HelperText="Digite su comentario"
+                            Placeholder="Comentario"
+                            ReturnType="Done" />
+                    </ctrls:TextFieldLayout>
+
                 </StackLayout>
             </Frame>
 
 
-            <Frame Style="{StaticResource ButtonFrame}" VerticalOptions="EndAndExpand">
+            <Frame
+                Margin="-16,0,-16,-16"
+                Style="{StaticResource ButtonFrame}"
+                VerticalOptions="EndAndExpand">
                 <mtrl:MaterialButton Style="{StaticResource ButtonPrimary}" Text="Crear reporte" />
             </Frame>
 
