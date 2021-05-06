@@ -15,6 +15,7 @@
             <xct:TabView
                 Margin="-16,-16,-16,0"
                 TabContentBackgroundColor="{StaticResource BackgroundColor}"
+                TabIndicatorColor="{StaticResource PrimaryColor}"
                 TabStripBackgroundColor="White"
                 TabStripHeight="60"
                 TabStripPlacement="Bottom">
