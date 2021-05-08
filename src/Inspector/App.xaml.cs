@@ -25,7 +25,8 @@ namespace Inspector
             XF.Material.Forms.Material.Use("Material.Configuration");
             Application.Current.UserAppTheme = OSAppTheme.Light;
 
-            var result = await NavigationService.NavigateAsync("NavigationPage/HomePage");
+            //var result = await NavigationService.NavigateAsync("NavigationPage/HomePage");
+            var result = await NavigationService.NavigateAsync("WelcomePage");
 #if DEBUG
             if (!result.Success)
             {
