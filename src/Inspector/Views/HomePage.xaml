@@ -3,6 +3,7 @@
     x:Class="Inspector.Views.HomePage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:img="clr-namespace:Inspector.Framework.Helpers.Extensions;assembly=Inspector"
     xmlns:prism="http://prismlibrary.com"
     xmlns:views="clr-namespace:Inspector.Views"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
@@ -89,22 +90,22 @@
             TabStripHeight="60"
             TabStripPlacement="Bottom">
 
-            <xct:TabViewItem Icon="triangle.png" Text="Inicio">
+            <xct:TabViewItem Icon="home.png" Text="Inicio">
                 <views:FeedReportsView />
             </xct:TabViewItem>
 
-            <xct:TabViewItem Icon="circle.png" Text="Historial">
+            <xct:TabViewItem Icon="history.png" Text="Historial">
                 <views:ReportHistoryView />
             </xct:TabViewItem>
 
 
-            <xct:TabViewItem Icon="circle.png" Text="Perfil">
+            <xct:TabViewItem Icon="user.png" Text="Perfil">
                 <views:ProfileView />
             </xct:TabViewItem>
 
             <xct:TabViewItem
                 ControlTemplate="{StaticResource FabTabItemTemplate}"
-                Icon="circle.png"
+                Icon="{img:ImageResource Inspector.Resources.Images.bullhorn.png}"
                 TapCommand="{prism:NavigateTo 'AddReportPage'}"
                 Text="Reportar" />
 

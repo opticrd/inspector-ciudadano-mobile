@@ -15,16 +15,25 @@
             <xct:TabView
                 Margin="-16,-16,-16,0"
                 TabContentBackgroundColor="{StaticResource BackgroundColor}"
-                TabIndicatorColor="{StaticResource PrimaryColor}"
-                TabStripBackgroundColor="White"
+                TabIndicatorColor="White"
+                TabStripBackgroundColor="{StaticResource SecondaryColor}"
                 TabStripHeight="60"
-                TabStripPlacement="Bottom">
+                TabStripPlacement="Top">
 
-                <xct:TabViewItem Text="Todos" />
+                <xct:TabViewItem
+                    Text="Todos"
+                    TextColor="White"
+                    TextColorSelected="White" />
 
-                <xct:TabViewItem Text="Abiertos" />
+                <xct:TabViewItem
+                    Text="Abiertos"
+                    TextColor="White"
+                    TextColorSelected="White" />
 
-                <xct:TabViewItem Text="Cerrados" />
+                <xct:TabViewItem
+                    Text="Cerrados"
+                    TextColor="White"
+                    TextColorSelected="White" />
 
             </xct:TabView>
 
