@@ -38,6 +38,11 @@
             </xct:TabView>
 
             <Frame Padding="8,8,16,8">
+
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{prism:NavigateTo 'ReportDetailPage'}" />
+                </Frame.GestureRecognizers>
+
                 <Grid
                     ColumnDefinitions="80,*"
                     ColumnSpacing="8"

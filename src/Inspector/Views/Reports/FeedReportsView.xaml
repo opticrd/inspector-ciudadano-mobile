@@ -9,6 +9,11 @@
         <StackLayout Padding="16" Spacing="16">
 
             <Frame Padding="0">
+
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{prism:NavigateTo 'ReportDetailPage'}" />
+                </Frame.GestureRecognizers>
+
                 <Grid Padding="16,0" RowDefinitions="120,24,16,32">
 
                     <Image
