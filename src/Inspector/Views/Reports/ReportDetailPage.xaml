@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Inspector.Views.ReportDetailPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
+    Title="Detalles">
+
+    <ContentPage.Content>
+        <StackLayout Padding="16">
+
+            <Image
+                Margin="-16,-16,-16,0"
+                Aspect="AspectFill"
+                Source="sample.png" />
+
+            <Label
+                Grid.Row="1"
+                Style="{StaticResource H3}"
+                Text="Reparación Calle" />
+            <Label
+                Grid.Row="2"
+                Text="Luis F. Thomen #450, El Millon"
+                TranslationY="-6" />
+
+            <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                <Grid ColumnDefinitions="20,Auto" VerticalOptions="Start">
+
+                    <Rectangle
+                        Grid.ColumnSpan="2"
+                        Margin="-4"
+                        Fill="#27AE60"
+                        HorizontalOptions="FillAndExpand"
+                        Opacity="0.2"
+                        RadiusX="5"
+                        RadiusY="5"
+                        VerticalOptions="FillAndExpand" />
+
+                    <Rectangle
+                        Fill="#27AE60"
+                        HeightRequest="16"
+                        HorizontalOptions="Start"
+                        RadiusX="5"
+                        RadiusY="5"
+                        WidthRequest="20" />
+                    <Label Grid.Column="1" Text="EN PROCESO" />
+
+                </Grid>
+
+                <Grid
+                    ColumnDefinitions="Auto"
+                    HorizontalOptions="EndAndExpand"
+                    VerticalOptions="End">
+                    <Rectangle
+                        Margin="-4"
+                        Fill="#000"
+                        HorizontalOptions="FillAndExpand"
+                        Opacity="0.04"
+                        RadiusX="5"
+                        RadiusY="5"
+                        VerticalOptions="FillAndExpand" />
+                    <Label Text="99 Colaboradores" TextTransform="Uppercase" />
+                </Grid>
+            </StackLayout>
+
+            <StackLayout
+                Margin="0,8"
+                HeightRequest="48"
+                Orientation="Horizontal"
+                VerticalOptions="Start">
+                <mtrl:MaterialButton Style="{StaticResource ButtonOutlined}" Text="Compartir" />
+                <mtrl:MaterialButton Style="{StaticResource ButtonOutlined}" Text="Guardar" />
+            </StackLayout>
+
+            <Label LineHeight="1.6" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi in lacus gravida, dapibus lacus eget, commodo tellus. Integer nec dolor lobortis, tincidunt libero sit amet, sodales arcu. Nam feugiat nibh at erat placerat luctus. " />
+
+            <mtrl:MaterialButton
+                Style="{StaticResource ButtonPrimary}"
+                Text="Unirse como colaborador"
+                VerticalOptions="EndAndExpand" />
+
+        </StackLayout>
+    </ContentPage.Content>
+
+</ContentPage>
