@@ -22,6 +22,7 @@ namespace Inspector
         {
             XF.Material.Forms.Material.Init(this);
             InitializeComponent();
+            XF.Material.Forms.Material.Init(this); // WORKAROUND: Solving some reference issues
             XF.Material.Forms.Material.Use("Material.Configuration");
             Application.Current.UserAppTheme = OSAppTheme.Light;
 
