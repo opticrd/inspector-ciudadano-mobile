@@ -11,16 +11,121 @@
 
     <ScrollView>
         <StackLayout Padding="16" Spacing="16">
+
             <Frame>
                 <StackLayout>
-                    <Label Text="Pruebas" />
+                    <Label Style="{StaticResource Subtitle2}" Text="Estado" />
+
+                    <ctrls:TextFieldLayout>
+
+                        <mtrl:MaterialTextField
+                            HelperText="Seleccione el estado"
+                            Placeholder="Seleccione el estado"
+                            ReturnType="Next"
+                            Style="{StaticResource TextFieldChoiceStyle}">
+                            <mtrl:MaterialTextField.Choices>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Abierto</x:String>
+                                    <x:String>En progreso</x:String>
+                                    <x:String>Finalizado</x:String>
+                                    <x:String>Rechazado</x:String>
+                                </x:Array>
+                            </mtrl:MaterialTextField.Choices>
+                        </mtrl:MaterialTextField>
+                    </ctrls:TextFieldLayout>
+
+                </StackLayout>
+            </Frame>
+
+            <Frame>
+                <StackLayout>
+                    <Label Style="{StaticResource Subtitle2}" Text="Tipo de incidencia" />
+
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
+                            HelperText="Seleccione la incidencia"
+                            Placeholder="Tipo de incidencia"
+                            ReturnType="Next"
+                            Style="{StaticResource TextFieldChoiceStyle}">
+                            <mtrl:MaterialTextField.Choices>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Servicios</x:String>
+                                    <x:String>Infraestructura</x:String>
+                                    <x:String>Medio ambiente</x:String>
+                                </x:Array>
+                            </mtrl:MaterialTextField.Choices>
+                        </mtrl:MaterialTextField>
+                    </ctrls:TextFieldLayout>
+
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
+                            HelperText="Seleccione la categoria"
+                            Placeholder="Categoria"
+                            ReturnType="Next"
+                            Style="{StaticResource TextFieldChoiceStyle}">
+                            <mtrl:MaterialTextField.Choices>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>1</x:String>
+                                    <x:String>2</x:String>
+                                    <x:String>3</x:String>
+                                </x:Array>
+                            </mtrl:MaterialTextField.Choices>
+                        </mtrl:MaterialTextField>
+                    </ctrls:TextFieldLayout>
+
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
+                            HelperText="Seleccione"
+                            Placeholder="Seleccione"
+                            ReturnType="Next"
+                            Style="{StaticResource TextFieldChoiceStyle}">
+                            <mtrl:MaterialTextField.Choices>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>1</x:String>
+                                    <x:String>2</x:String>
+                                    <x:String>3</x:String>
+                                </x:Array>
+                            </mtrl:MaterialTextField.Choices>
+                        </mtrl:MaterialTextField>
+                    </ctrls:TextFieldLayout>
+
+                </StackLayout>
+            </Frame>
+
+            <Frame>
+                <StackLayout>
+                    <Label Style="{StaticResource Subtitle2}" Text="Institución" />
+
+                    <ctrls:TextFieldLayout>
+
+                        <mtrl:MaterialTextField
+                            HelperText="Seleccione"
+                            Placeholder="Seleccione"
+                            ReturnType="Next"
+                            Style="{StaticResource TextFieldChoiceStyle}">
+                            <mtrl:MaterialTextField.Choices>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>1</x:String>
+                                    <x:String>2</x:String>
+                                    <x:String>3</x:String>
+                                </x:Array>
+                            </mtrl:MaterialTextField.Choices>
+                        </mtrl:MaterialTextField>
+                    </ctrls:TextFieldLayout>
+
+                </StackLayout>
+            </Frame>
+
+            <Frame>
+                <StackLayout>
+                    <Label Style="{StaticResource Subtitle2}" Text="Pruebas" />
                     <mtrl:MaterialButton Style="{StaticResource ButtonOutlined}" Text="Adjuntar arachivo" />
                 </StackLayout>
             </Frame>
 
             <Frame>
                 <StackLayout>
-                    <Label Text="Dirección" />
+                    <Label Style="{StaticResource Subtitle2}" Text="Dirección" />
 
                     <ctrls:TextFieldLayout>
                         <mtrl:MaterialTextField
@@ -32,23 +137,10 @@
                 </StackLayout>
             </Frame>
 
-            <Frame>
-                <StackLayout>
-                    <Label Text="Seleccione la incidencia" />
-
-                    <ctrls:TextFieldLayout>
-                        <mtrl:MaterialTextField
-                            HelperText="Seleccione la incidencia"
-                            Placeholder="Tipo de incidencia"
-                            ReturnType="Next" />
-                    </ctrls:TextFieldLayout>
-
-                </StackLayout>
-            </Frame>
 
             <Frame>
                 <StackLayout>
-                    <Label Text="Observaciones" />
+                    <Label Style="{StaticResource Subtitle2}" Text="Observaciones" />
 
                     <ctrls:TextFieldLayout>
                         <mtrl:MaterialTextField
