@@ -14,11 +14,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-Agent|AnyCPU'">
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <DefineConstants>TRACE;DEBUG;DEBUG_AGENT</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;DEBUG_AGENT;AGENT</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-Agent|AnyCPU'">
-    <DefineConstants>DEBUG;TRACE;RELEASE_AGENT</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;RELEASE_AGENT;AGENT</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
