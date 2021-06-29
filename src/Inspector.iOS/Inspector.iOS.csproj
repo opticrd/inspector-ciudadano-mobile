@@ -107,7 +107,11 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Renderers\ShadowNavigationBarRenderer.cs" />
     <None Include="Entitlements.plist" />
-    <None Include="Info.plist" />
+    <None Include="InfoAgent.plist" />
+    <None Include="Info.plist" Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' Or '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' Or '$(Configuration)|$(Platform)' == 'Debug|iPhone' Or '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' " />
+    <None Include="InfoAgent.plist" Condition=" '$(Configuration)|$(Platform)' != 'Release|iPhone' And '$(Configuration)|$(Platform)' != 'Release|iPhoneSimulator' And '$(Configuration)|$(Platform)' != 'Debug|iPhone' And '$(Configuration)|$(Platform)' != 'Debug|iPhoneSimulator' ">
+      <LogicalName>Info.plist</LogicalName>
+    </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
