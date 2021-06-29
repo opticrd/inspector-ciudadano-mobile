@@ -26,22 +26,28 @@ namespace Inspector
             XF.Material.Forms.Material.Use("Material.Configuration");
             Application.Current.UserAppTheme = OSAppTheme.Light;
 
-            //var result = await NavigationService.NavigateAsync("NavigationPage/HomePage");
-            var result = await NavigationService.NavigateAsync("WelcomePage");
-#if DEBUG
+#if DEBUG || DEBUG_AGENT
+            var result = await NavigationService.NavigateAsync("NavigationPage/HomePage");
             if (!result.Success)
             {
                 System.Diagnostics.Debugger.Break();
             }
+#else
+            await NavigationService.NavigateAsync("WelcomePage");
 #endif
         }
 
         protected override void OnStart()
         {
             base.OnStart();
+#if DEBUG || RELEASE
             AppCenter.Start("android=8b508ed0-50f1-4836-a73d-76a7665351bd;" +
                             "ios=4afbe2f3-1f31-4fc7-8d10-21e62cea0fc9;",
                             typeof(Analytics), typeof(Crashes));
+#else
+            // appcenter keys for inspector agents
+#endif
+
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -59,7 +65,9 @@ namespace Inspector
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            moduleCatalog.AddModule<LoginModule.LoginModule>(InitializationMode.WhenAvailable);
+#if DEBUG || RELEASE
+        moduleCatalog.AddModule<LoginModule.LoginModule>(InitializationMode.WhenAvailable);
+#endif
         }
     }
 }
