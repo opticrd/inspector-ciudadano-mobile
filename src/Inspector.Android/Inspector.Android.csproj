@@ -54,6 +54,7 @@
     <LangVersion>8.0</LangVersion>
     <AndroidManifest>Properties\AndroidManifestAgent.xml</AndroidManifest>
     <ErrorReport>prompt</ErrorReport>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-Agent|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
