@@ -26,12 +26,16 @@ namespace Inspector
             XF.Material.Forms.Material.Use("Material.Configuration");
             Application.Current.UserAppTheme = OSAppTheme.Light;
 
-#if DEBUG || DEBUG_AGENT
-            var result = await NavigationService.NavigateAsync("NavigationPage/HomePage");
-            if (!result.Success)
-            {
+#if DEBUG
+            var result = await NavigationService.NavigateAsync("WelcomePage");
+            if (!result.Success)            
+                System.Diagnostics.Debugger.Break();            
+#elif DEBUG_AGENT
+            var result = await NavigationService.NavigateAsync("LoginPage");
+            if (!result.Success)            
                 System.Diagnostics.Debugger.Break();
-            }
+#elif RELEASE_AGENT
+            await NavigationService.NavigateAsync("LoginPage");
 #else
             await NavigationService.NavigateAsync("WelcomePage");
 #endif
@@ -59,11 +63,15 @@ namespace Inspector
             containerRegistry.RegisterForNavigation<EditProfilePage, EditProfilePageViewModel>();
             containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
             containerRegistry.RegisterForNavigation<ReportDetailPage>();
+
+#if AGENT
+            containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
+#endif
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-#if DEBUG || RELEASE
+#if !AGENT
         moduleCatalog.AddModule<LoginModule.LoginModule>(InitializationMode.WhenAvailable);
 #endif
         }

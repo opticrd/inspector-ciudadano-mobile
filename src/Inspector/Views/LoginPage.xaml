@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Inspector.Views.LoginPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ctrls="clr-namespace:UIModule.Controls;assembly=UIModule"
+    xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
+    xmlns:prism="http://prismlibrary.com"
+    prism:ViewModelLocator.AutowireViewModel="True">
+
+    <StackLayout
+        Padding="16,36,16,16"
+        Spacing="20"
+        VerticalOptions="FillAndExpand">
+
+        <Label
+            FontAttributes="Bold"
+            HorizontalTextAlignment="Center"
+            Style="{StaticResource H2}"
+            Text="Inicio de Sesión" />
+        <Label
+            HorizontalTextAlignment="Center"
+            Style="{StaticResource Body2}"
+            Text="Digita tus credenciales para iniciar sesión"
+            TranslationY="-16" />
+
+
+        <StackLayout
+            Margin="-16,0"
+            Padding="16"
+            BackgroundColor="White">
+
+            <ctrls:TextFieldLayout>
+                <mtrl:MaterialTextField
+                    HelperText="Digita tu correo electronico"
+                    Placeholder="Correo"
+                    ReturnType="Next" />
+            </ctrls:TextFieldLayout>
+
+            <ctrls:TextFieldLayout>
+                <mtrl:MaterialTextField
+                    HelperText="Digita tu contraseña"
+                    InputType="Password"
+                    Placeholder="Contraseña"
+                    ReturnType="Go" />
+            </ctrls:TextFieldLayout>
+
+            <Label HorizontalTextAlignment="Center" VerticalOptions="EndAndExpand">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="¿Olvidaste la contraseña? " TextColor="{StaticResource OnSurfaceColor}" />
+                        <Span
+                            FontAttributes="Bold"
+                            Text="Recuperar contraseña."
+                            TextColor="{StaticResource LinkColor}" />
+                    </FormattedString>
+                </Label.FormattedText>
+
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{prism:NavigateTo '/SocialMediaButtonsPage'}" />
+                </Label.GestureRecognizers>
+            </Label>
+
+        </StackLayout>
+
+
+        <mtrl:MaterialButton
+            Command="{prism:NavigateTo 'NavigationPage/HomePage'}"
+            Style="{StaticResource ButtonPrimary}"
+            Text="Iniciar Sesión" />
+
+
+
+    </StackLayout>
+
+</ContentPage>
