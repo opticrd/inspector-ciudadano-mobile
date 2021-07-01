@@ -94,6 +94,27 @@
 
             <Frame>
                 <StackLayout>
+                    <Label Style="{StaticResource Subtitle2}" Text="Cuidadano" />
+
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
+                            HelperText="Digite su cedula"
+                            Placeholder="Cedula"
+                            ReturnType="Next" />
+                    </ctrls:TextFieldLayout>
+
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
+                            HelperText="Digite el telefono"
+                            Placeholder="Telefono"
+                            ReturnType="Next" />
+                    </ctrls:TextFieldLayout>
+
+                </StackLayout>
+            </Frame>
+
+            <Frame>
+                <StackLayout>
                     <Label Style="{StaticResource Subtitle2}" Text="Institución" />
 
                     <ctrls:TextFieldLayout>
