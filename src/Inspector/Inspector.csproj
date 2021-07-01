@@ -22,6 +22,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\MainTabbedPage.xaml.cs" />
+    <Compile Remove="Views\Profile\ProfilePage.xaml.cs" />
+    <Compile Remove="Views\Reports\FeedReportsPage.xaml.cs" />
+    <Compile Remove="Views\Reports\ReportHistoryPage.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Views\MainTabbedPage.xaml" />
+    <EmbeddedResource Remove="Views\Profile\ProfilePage.xaml" />
+    <EmbeddedResource Remove="Views\Reports\FeedReportsPage.xaml" />
+    <EmbeddedResource Remove="Views\Reports\ReportHistoryPage.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Resources\Images\bullhorn.png" />
   </ItemGroup>
 
@@ -95,22 +109,10 @@
     <EmbeddedResource Update="Views\Profile\EditProfilePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Reports\FeedReportsPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Views\Reports\ReportDetailPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Reports\ReportHistoryPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Views\Reports\AddReportPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\MainTabbedPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Profile\ProfilePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

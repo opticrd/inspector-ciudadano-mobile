@@ -39,7 +39,7 @@
                 </StackLayout>
             </Frame>
 
-            <Frame>
+            <!--<Frame>
                 <StackLayout Spacing="8">
                     <Label Style="{StaticResource TitleLabel}" Text="Mi Dirección" />
                     <Label Text="Luis F. Thomen #419 Santo Domingo D.N." />
@@ -57,7 +57,7 @@
                     </Label>
                     <Label Style="{StaticResource ItemLabel}" Text="Notificaciones" />
                 </StackLayout>
-            </Frame>
+            </Frame>-->
 
             <Frame>
                 <StackLayout Spacing="8">

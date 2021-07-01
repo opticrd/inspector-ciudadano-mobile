@@ -55,11 +55,11 @@ namespace Inspector
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<MainTabbedPage, MainTabbedPageViewModel>();
-            containerRegistry.RegisterForNavigation<ProfilePage, ProfilePageViewModel>();
+            //containerRegistry.RegisterForNavigation<MainTabbedPage, MainTabbedPageViewModel>();
+            //containerRegistry.RegisterForNavigation<ProfilePage, ProfilePageViewModel>();
+            //containerRegistry.RegisterForNavigation<ReportHistoryPage, ReportHistoryPageViewModel>();
+            //containerRegistry.RegisterForNavigation<FeedReportsPage, FeedReportsPageViewModel>();
             containerRegistry.RegisterForNavigation<AddReportPage, AddReportPageViewModel>();
-            containerRegistry.RegisterForNavigation<ReportHistoryPage, ReportHistoryPageViewModel>();
-            containerRegistry.RegisterForNavigation<FeedReportsPage, FeedReportsPageViewModel>();
             containerRegistry.RegisterForNavigation<EditProfilePage, EditProfilePageViewModel>();
             containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
             containerRegistry.RegisterForNavigation<ReportDetailPage>();

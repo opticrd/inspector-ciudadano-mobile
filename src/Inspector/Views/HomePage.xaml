@@ -90,9 +90,9 @@
             TabStripHeight="60"
             TabStripPlacement="Bottom">
 
-            <xct:TabViewItem Icon="home.png" Text="Inicio">
+            <!--<xct:TabViewItem Icon="home.png" Text="Inicio">
                 <views:FeedReportsView />
-            </xct:TabViewItem>
+            </xct:TabViewItem>-->
 
             <xct:TabViewItem Icon="history.png" Text="Historial">
                 <views:ReportHistoryView />

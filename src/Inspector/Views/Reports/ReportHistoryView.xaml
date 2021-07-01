@@ -167,7 +167,7 @@
 
                     </Grid>
 
-                    <Grid
+                    <!--<Grid
                         Grid.Row="2"
                         Grid.Column="1"
                         ColumnDefinitions="Auto"
@@ -182,7 +182,7 @@
                             RadiusY="5"
                             VerticalOptions="FillAndExpand" />
                         <Label Text="99" />
-                    </Grid>
+                    </Grid>-->
 
                 </Grid>
             </Frame>
