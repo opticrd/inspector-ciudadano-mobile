@@ -30,9 +30,9 @@ namespace Inspector.Framework.Utils
             get
             {
 #if AGENT
-                return "Inspector.Resources.Labels";
+                return "Inspector.Resources.Labels.General";
 #else
-                return "Inspector.Resources.Labels";
+                return "Inspector.Resources.Labels.General";
 #endif
             }
         }
