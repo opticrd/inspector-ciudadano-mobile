@@ -7,10 +7,10 @@
     Title="Detalles">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Compartir" Order="Secondary" />
-        <ToolbarItem Text="Llamar al encargado"  Order="Secondary" />
-        <ToolbarItem Text="Whatsapp del encargado"  Order="Secondary" />
-        <ToolbarItem Text="Reportar"  Order="Secondary" />
+        <ToolbarItem Order="Secondary" Text="Compartir" />
+        <ToolbarItem Order="Secondary" Text="Llamar al encargado" />
+        <ToolbarItem Order="Secondary" Text="Whatsapp del encargado" />
+        <ToolbarItem Order="Secondary" Text="Reportar" />
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
@@ -55,7 +55,7 @@
 
                     </Grid>
 
-                    <Grid
+                    <!--<Grid
                         ColumnDefinitions="Auto"
                         HorizontalOptions="EndAndExpand"
                         VerticalOptions="End">
@@ -68,34 +68,45 @@
                             RadiusY="5"
                             VerticalOptions="FillAndExpand" />
                         <Label Text="99 Colaboradores" TextTransform="Uppercase" />
-                    </Grid>
+                    </Grid>-->
                 </StackLayout>
 
-                <StackLayout
+                <!--<StackLayout
                     Margin="0,8"
                     HeightRequest="48"
                     Orientation="Horizontal"
                     VerticalOptions="Start">
                     <mtrl:MaterialButton Style="{StaticResource ButtonOutlined}" Text="Compartir" />
                     <mtrl:MaterialButton Style="{StaticResource ButtonOutlined}" Text="Guardar" />
-                </StackLayout>
+                </StackLayout>-->
+
+                <Line
+                    HorizontalOptions="FillAndExpand"
+                    Stroke="Gray"
+                    StrokeLineCap="Round"
+                    StrokeThickness="2"
+                    TranslationX="-16"
+                    X1="0"
+                    X2="2000"
+                    Y1="20"
+                    Y2="20" />
 
                 <Label LineHeight="1.6" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi in lacus gravida, dapibus lacus eget, commodo tellus. Integer nec dolor lobortis, tincidunt libero sit amet, sodales arcu. Nam feugiat nibh at erat placerat luctus. " />
 
-                <mtrl:MaterialButton
+                <!--<mtrl:MaterialButton
                     Style="{StaticResource ButtonPrimary}"
                     Text="Unirse como colaborador"
-                    VerticalOptions="EndAndExpand" />
+                    VerticalOptions="EndAndExpand" />-->
 
                 <mtrl:MaterialButton
                     Style="{StaticResource ButtonPrimary}"
                     Text="Gestionar Incidente"
                     VerticalOptions="EndAndExpand" />
 
-                <mtrl:MaterialButton
+                <!--<mtrl:MaterialButton
                     Style="{StaticResource ButtonOutlined}"
                     Text="Priorizar caso"
-                    VerticalOptions="EndAndExpand" />
+                    VerticalOptions="EndAndExpand" />-->
 
             </StackLayout>
         </ScrollView>
