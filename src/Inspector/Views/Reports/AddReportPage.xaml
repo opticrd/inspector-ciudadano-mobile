@@ -105,6 +105,13 @@
 
                     <ctrls:TextFieldLayout>
                         <mtrl:MaterialTextField
+                            IsEnabled="False"
+                            Placeholder="Nombre completo"
+                            ReturnType="Next" />
+                    </ctrls:TextFieldLayout>
+
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
                             HelperText="Digite el telefono"
                             Placeholder="Telefono"
                             ReturnType="Next" />
