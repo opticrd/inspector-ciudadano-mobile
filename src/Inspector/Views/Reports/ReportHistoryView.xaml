@@ -57,8 +57,9 @@
 
                     <Label
                         Grid.Column="1"
-                        Style="{StaticResource H3}"
-                        Text="Reparación Calle" />
+                        FontSize="18"
+                        Text="Reparación Calle"
+                        TextColor="Black" />
                     <Label
                         Grid.Row="1"
                         Grid.Column="1"
@@ -132,8 +133,9 @@
 
                     <Label
                         Grid.Column="1"
-                        Style="{StaticResource H3}"
-                        Text="Reparación Calle" />
+                        FontSize="18"
+                        Text="Reparación Calle"
+                        TextColor="Black" />
                     <Label
                         Grid.Row="1"
                         Grid.Column="1"
