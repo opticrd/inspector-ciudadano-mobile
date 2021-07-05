@@ -3,6 +3,7 @@ using Inspector.Framework.Utils;
 using Inspector.Resources.Labels;
 using Plugin.ValidationRules;
 using Plugin.ValidationRules.Extensions;
+using Plugin.ValidationRules.Rules;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
@@ -23,7 +24,9 @@ namespace Inspector.ViewModels
                 .IsRequired(Message.FieldRequired)
                 .IsEmail(Message.InvalidEmail);
 
-            Password = Validator.Build<string>().IsRequired(Message.FieldRequired);
+            Password = Validator.Build<string>()
+                .IsRequired(Message.FieldRequired)
+                .Must(x => x.Length > 4);
 
             LoginCommand = new DelegateCommand(OnLoginCommandExecute);
             ForgetPasswordCommand = new DelegateCommand(()=> dialogService.DisplayAlertAsync(General.ForgetPassword, "Contacte su supervisor para mas información.", "Ok"));
@@ -37,7 +40,7 @@ namespace Inspector.ViewModels
 
         async void OnLoginCommandExecute()
         {
-            if (Email.Validate() & Email.Validate())
+            if (Email.Validate() & Password.Validate())
             {
                 try
                 {
