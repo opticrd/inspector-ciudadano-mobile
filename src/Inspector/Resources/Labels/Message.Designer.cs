@@ -61,6 +61,24 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ups, algo ha ocurrido. Favor validar tu cuenta o contacto con tu supervisor..
+        /// </summary>
+        internal static string AccountInvalid {
+            get {
+                return ResourceManager.GetString("AccountInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Esta cuenta no esta activa..
+        /// </summary>
+        internal static string AccountNotActivated {
+            get {
+                return ResourceManager.GetString("AccountNotActivated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Este campo es requerido..
         /// </summary>
         internal static string FieldRequired {
