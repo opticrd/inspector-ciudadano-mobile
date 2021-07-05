@@ -7,3 +7,6 @@
 [submodule "src/xamarin-ui-module"]
 	path = src/xamarin-ui-module
 	url = https://github.com/opticrd/xamarin-ui-module
+[submodule "src/Zammad.Client"]
+	path = src/Zammad.Client
+	url = https://github.com/opticrd/Zammad.Client
