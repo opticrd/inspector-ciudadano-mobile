@@ -1,4 +1,6 @@
-﻿using Inspector.Resources.Labels;
+﻿using Inspector.Framework.Services;
+using Inspector.Framework.Utils;
+using Inspector.Resources.Labels;
 using Plugin.ValidationRules;
 using Plugin.ValidationRules.Extensions;
 using Prism.Commands;
@@ -6,13 +8,17 @@ using Prism.Navigation;
 using Prism.Services;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Zammad.Client;
 
 namespace Inspector.ViewModels
 {
     public class LoginPageViewModel : BaseViewModel
     {
-        public LoginPageViewModel(INavigationService navigationService, IPageDialogService dialogService) : base(navigationService, dialogService)
+        ICacheService _cacheService;
+        public LoginPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ICacheService cacheService) : base(navigationService, dialogService)
         {
+            _cacheService = cacheService;
+
             Email = Validator.Build<string>()
                 .IsRequired(Message.FieldRequired)
                 .IsEmail(Message.InvalidEmail);
@@ -33,8 +39,26 @@ namespace Inspector.ViewModels
         {
             if (Email.Validate() & Email.Validate())
             {
-                //TODO: Call the server here
-                await _navigationService.NavigateAsync("NavigationPage/HomePage");
+                try
+                {
+                    var account = ZammadAccount.CreateBasicAccount(AppKeys.ZammadApiBaseUrl, Email.Value, Password.Value);
+                    var client = account.CreateUserClient();
+                    var me = await client.GetUserMeAsync();
+
+                    if (me.Active)
+                    {
+                        await _cacheService.InsertLocalObject(CacheKeys.ZammadAccount, account);
+                        await _navigationService.NavigateAsync(NavigationKeys.HomePage);
+                    }
+                    else
+                    {
+                        await _dialogService.DisplayAlertAsync("", Message.AccountNotActivated, "Ok");
+                    }                    
+                }
+                catch (System.Exception)
+                {
+                    await _dialogService.DisplayAlertAsync("", Message.AccountInvalid, "Ok");
+                }
             }
         }
     }
