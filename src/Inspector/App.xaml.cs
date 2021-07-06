@@ -1,4 +1,6 @@
 ﻿using System;
+using Inspector.Framework.Services;
+using Inspector.Framework.Utils;
 using Inspector.ViewModels;
 using Inspector.Views;
 using Microsoft.AppCenter;
@@ -26,6 +28,8 @@ namespace Inspector
             XF.Material.Forms.Material.Use("Material.Configuration");
             Application.Current.UserAppTheme = OSAppTheme.Light;
 
+            if (!Settings.IsLoggedIn)
+            {
 #if DEBUG
             var result = await NavigationService.NavigateAsync("WelcomePage");
             if (!result.Success)            
@@ -39,6 +43,11 @@ namespace Inspector
 #else
             await NavigationService.NavigateAsync("WelcomePage");
 #endif
+            }
+            else
+            {
+                await NavigationService.NavigateAsync(NavigationKeys.HomePage);
+            }
         }
 
         protected override void OnStart()
@@ -67,6 +76,10 @@ namespace Inspector
 #if AGENT
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
 #endif
+
+            // Registering types
+            //containerRegistry.RegisterSingleton<INetworkRepository, NetworkRepository>();
+            containerRegistry.RegisterSingleton<ICacheService, CacheService>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
