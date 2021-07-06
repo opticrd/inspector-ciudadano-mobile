@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Inspector.Framework.Services;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
@@ -13,9 +14,11 @@ namespace Inspector.ViewModels
     {
         protected IPageDialogService _dialogService;
         protected INavigationService _navigationService;
+        protected ICacheService _cacheService;
 
-        public BaseViewModel(INavigationService navigationService, IPageDialogService dialogService)
+        public BaseViewModel(INavigationService navigationService, IPageDialogService dialogService, ICacheService cacheService)
         {
+            _cacheService = cacheService;
             _navigationService = navigationService;
             _dialogService = dialogService;
 

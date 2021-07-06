@@ -1,4 +1,5 @@
 ﻿
+using Inspector.Framework.Services;
 using Inspector.Resources.Labels;
 using Plugin.ValidationRules;
 using Plugin.ValidationRules.Extensions;
@@ -13,7 +14,7 @@ namespace Inspector.ViewModels
 {
     public class AddReportPageViewModel : BaseViewModel
     {
-        public AddReportPageViewModel(INavigationService navigationService, IPageDialogService dialogService) : base(navigationService, dialogService)
+        public AddReportPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ICacheService cacheService) : base(navigationService, dialogService, cacheService)
         {
             ID = Validator.Build<string>()
                 .IsRequired(Message.FieldRequired)
