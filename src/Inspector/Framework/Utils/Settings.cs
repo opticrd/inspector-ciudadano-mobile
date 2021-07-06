@@ -13,7 +13,7 @@ namespace Inspector.Framework.Utils
             get
             {
                 var loggedInDate = Preferences.Get(IsLoggedInDateKey, IsLoggedInDateDefault);
-                var expirationDate = loggedInDate.AddHours(12);
+                var expirationDate = loggedInDate.AddDays(7);
 
                 if (expirationDate > DateTime.Now)
                 {
