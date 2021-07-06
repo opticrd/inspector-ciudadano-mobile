@@ -18,6 +18,6 @@ namespace Inspector.Framework.Utils
 
     public static class AppKeys
     {
-        public static string ZammadApiBaseUrl = AppSettingsManager.Settings["ZammadApiBaseUrl"];
+        public static string ZammadApiBaseUrl => AppSettingsManager.Settings["ZammadApiBaseUrl"];
     }
 }
