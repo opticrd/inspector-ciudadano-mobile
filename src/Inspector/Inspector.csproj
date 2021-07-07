@@ -22,6 +22,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ViewModels\Base\MainTabbedPageViewModel.cs" />
+    <Compile Remove="ViewModels\Reports\FeedReportsPageViewModel.cs" />
+    <Compile Remove="ViewModels\Reports\ReportHistoryPageViewModel.cs" />
     <Compile Remove="Views\MainTabbedPage.xaml.cs" />
     <Compile Remove="Views\Profile\ProfilePage.xaml.cs" />
     <Compile Remove="Views\Reports\FeedReportsPage.xaml.cs" />
@@ -36,10 +39,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="appsettings.json" />
     <None Remove="Resources\Images\bullhorn.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="appsettings.json" />
     <EmbeddedResource Include="Resources\Images\bullhorn.png" />
   </ItemGroup>
 
@@ -114,6 +119,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Reports\AddReportPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Shared\ShipState.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
