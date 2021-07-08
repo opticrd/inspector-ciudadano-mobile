@@ -52,12 +52,14 @@ namespace Inspector.ViewModels
             {
                 var account = ZammadAccount.CreateBasicAccount(AppKeys.ZammadApiBaseUrl, Email.Value, Password.Value);
                 var client = account.CreateUserClient();
-                var me = await client.GetUserMeAsync();
+                var userAccount = await client.GetUserMeAsync();
 
-                if (me.Active)
+                if (userAccount.Active)
                 {
                     Settings.IsLoggedIn = true;
-                    await _cacheService.InsertLocalObject(CacheKeys.ZammadAccount, account);
+                    await _cacheService.InsertSecureObject(CacheKeys.ZammadAccount, account);
+                    await _cacheService.InsertSecureObject(CacheKeys.UserAccount, userAccount);
+
                     await _navigationService.NavigateAsync(NavigationKeys.HomePage);
                 }
                 else
