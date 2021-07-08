@@ -88,6 +88,15 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cargar más.
+        /// </summary>
+        internal static string LoadMore {
+            get {
+                return ResourceManager.GetString("LoadMore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Iniciar Sesión.
         /// </summary>
         internal static string Login {

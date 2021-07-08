@@ -126,6 +126,9 @@
   <data name="ForgetPassword" xml:space="preserve">
     <value>¿Olvidaste tu contraseña?</value>
   </data>
+  <data name="LoadMore" xml:space="preserve">
+    <value>Cargar más</value>
+  </data>
   <data name="Login" xml:space="preserve">
     <value>Iniciar Sesión</value>
   </data>
