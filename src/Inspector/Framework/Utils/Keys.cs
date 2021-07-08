@@ -14,6 +14,7 @@ namespace Inspector.Framework.Utils
     {
         public const string Tickets = nameof(Tickets);
         public const string ZammadAccount = nameof(ZammadAccount);
+        public const string UserAccount = nameof(UserAccount);
     }
 
     public static class AppKeys
