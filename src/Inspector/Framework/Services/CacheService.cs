@@ -68,7 +68,7 @@ namespace Inspector.Framework.Services
         #endregion
     }
 
-    public interface ICacheService : ILocalMachineCache//, ISecureCache
+    public interface ICacheService : ILocalMachineCache, ISecureCache
     {
 
     }
