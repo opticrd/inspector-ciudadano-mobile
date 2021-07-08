@@ -4,7 +4,9 @@ using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
 using System;
+using System.Collections;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Zammad.Client;
@@ -15,6 +17,8 @@ namespace Inspector.ViewModels
     public class HomePageViewModel : BaseViewModel
     {
         TicketClient _ticketClient;
+        User _userAccount;
+        IEnumerable _allTickets;
         int _page = 1;
         public HomePageViewModel(INavigationService navigationService, IPageDialogService dialogService, ICacheService cacheService) : base(navigationService, dialogService, cacheService)
         {
@@ -29,8 +33,10 @@ namespace Inspector.ViewModels
 
         private async void Init()
         {
-            var account = await _cacheService.GetLocalObject<ZammadAccount>(CacheKeys.ZammadAccount);
+            var account = await _cacheService.GetSecureObject<ZammadAccount>(CacheKeys.ZammadAccount);
             _ticketClient = account.CreateTicketClient();
+
+            _userAccount = await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount);
 
             await Task.Run(OnRefreshCommandExecute);
         }
@@ -41,10 +47,12 @@ namespace Inspector.ViewModels
                 return;
 
             IsBusy = true;
-
             _page = 1;
-            var ticketList = await _ticketClient.GetTicketListAsync(_page, 10);
-            Tickets = new ObservableCollection<Ticket>(ticketList);
+
+            var ticketList = await _ticketClient.GetTicketListAsync(_page, 30);
+            var _allTickets = ticketList.Where(x => x.OwnerId == _userAccount.Id);
+
+            Tickets = new ObservableCollection<Ticket>(_allTickets);
 
             IsBusy = false;
         }
@@ -57,9 +65,10 @@ namespace Inspector.ViewModels
             IsBusy = true;
 
             _page++;
-            var ticketList = await _ticketClient.GetTicketListAsync(_page, 10);
+            var ticketList = await _ticketClient.GetTicketListAsync(_page, 30);
+            var userTickets = ticketList.Where(x => x.OwnerId == _userAccount.Id);
 
-            foreach (var item in ticketList)            
+            foreach (var item in userTickets)            
                 Tickets.Add(item);
             
             IsBusy = false;
