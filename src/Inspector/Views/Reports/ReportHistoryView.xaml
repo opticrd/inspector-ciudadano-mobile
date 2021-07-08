@@ -3,6 +3,8 @@
     x:Class="Inspector.Views.ReportHistoryView"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:l18n="clr-namespace:Inspector.Framework.Helpers.Extensions"
+    xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
     xmlns:prism="http://prismlibrary.com"
     xmlns:views="clr-namespace:Inspector.Views.Shared"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
@@ -44,10 +46,9 @@
                 RefreshColor="{StaticResource PrimaryColor}">
 
                 <CollectionView
+                    Margin="0,16,0,0"
                     ItemSizingStrategy="MeasureFirstItem"
-                    ItemsSource="{Binding Tickets}"
-                    RemainingItemsThreshold="3"
-                    RemainingItemsThresholdReachedCommand="{Binding LoadMoreItemsCommand}">
+                    ItemsSource="{Binding Tickets}">
 
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout ItemSpacing="8" Orientation="Vertical" />
@@ -117,6 +118,22 @@
                             </Frame>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
+
+                    <CollectionView.Footer>
+
+                        <StackLayout
+                            Padding="0,16,0,16"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Start">
+
+                            <mtrl:MaterialButton
+                                Command="{Binding LoadMoreItemsCommand}"
+                                Style="{StaticResource ButtonOutlined}"
+                                Text="{l18n:Translate LoadMore}" />
+
+                        </StackLayout>
+
+                    </CollectionView.Footer>
 
                 </CollectionView>
             </RefreshView>
