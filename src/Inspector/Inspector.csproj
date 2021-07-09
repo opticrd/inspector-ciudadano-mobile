@@ -68,7 +68,6 @@
     <Folder Include="Architecture\Data\" />
     <Folder Include="Architecture\Entities\" />
     <Folder Include="Architecture\Abstractions\" />
-    <Folder Include="Framework\Dtos\" />
     <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>

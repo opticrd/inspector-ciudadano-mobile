@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Inspector.Framework.Dtos;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -33,37 +29,37 @@ namespace Inspector.Views.Shared
 
             switch ((int)newValue)
             {
-                case 1:
+                case (int)TicketState.New:
                     ((ShipState)bindable).shipBackgroundColor.Fill = Brush.Blue;
                     ((ShipState)bindable).shipState.Fill = Brush.Blue;
                     ((ShipState)bindable).shipStateText.Text = "Nuevo";
                     break;
-                case 2:
+                case (int)TicketState.Open:
                     ((ShipState)bindable).shipBackgroundColor.Fill = Brush.Green;
                     ((ShipState)bindable).shipState.Fill = Brush.Green;
                     ((ShipState)bindable).shipStateText.Text = "Abierto";
                     break;
-                case 3:
+                case (int)TicketState.PendingReminder:
                     ((ShipState)bindable).shipBackgroundColor.Fill = Brush.Yellow;
                     ((ShipState)bindable).shipState.Fill = Brush.Yellow;
                     ((ShipState)bindable).shipStateText.Text = "Pendiente Recordatorio";
                     break;
-                case 4:
+                case (int)TicketState.Closed:
                     ((ShipState)bindable).shipBackgroundColor.Fill = Brush.DarkRed;
                     ((ShipState)bindable).shipState.Fill = Brush.DarkRed;
                     ((ShipState)bindable).shipStateText.Text = "Cerrado";
                     break;
-                case 5:
+                case (int)TicketState.Merged:
                     ((ShipState)bindable).shipBackgroundColor.Fill = Brush.Magenta;
                     ((ShipState)bindable).shipState.Fill = Brush.Magenta;
                     ((ShipState)bindable).shipStateText.Text = "Fusionado";
                     break;
-                //case 6:
+                //case (int)TicketState.InProgress:
                 //    ((ShipState)bindable).shipBackgroundColor.Fill = Brush.Green;
                 //    ((ShipState)bindable).shipState.Fill = Brush.Green;
                 //    ((ShipState)bindable).shipStateText.Text = "En progreso";
                 //    break;
-                case 7:
+                case (int)TicketState.PendingClose:
                     ((ShipState)bindable).shipBackgroundColor.Fill = Brush.OrangeRed;
                     ((ShipState)bindable).shipState.Fill = Brush.OrangeRed;
                     ((ShipState)bindable).shipStateText.Text = "Pendiente Cerrar";

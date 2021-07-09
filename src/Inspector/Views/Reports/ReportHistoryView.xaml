@@ -17,6 +17,7 @@
 
             <xct:TabView
                 Margin="-16"
+                SelectedIndex="{Binding HistoryIndexSelected}"
                 TabContentBackgroundColor="{StaticResource BackgroundColor}"
                 TabIndicatorColor="White"
                 TabStripBackgroundColor="{StaticResource SecondaryColor}"
@@ -24,16 +25,19 @@
                 TabStripPlacement="Top">
 
                 <xct:TabViewItem
+                    TapCommand="{Binding AllTicketsCommand}"
                     Text="Todos"
                     TextColor="White"
                     TextColorSelected="White" />
 
                 <xct:TabViewItem
+                    TapCommand="{Binding OpenTicketsCommand}"
                     Text="Abiertos"
                     TextColor="White"
                     TextColorSelected="White" />
 
                 <xct:TabViewItem
+                    TapCommand="{Binding ClosedTicketsCommand}"
                     Text="Cerrados"
                     TextColor="White"
                     TextColorSelected="White" />
