@@ -14,24 +14,18 @@
 
             <Frame>
                 <StackLayout>
-                    <Label Style="{StaticResource Subtitle2}" Text="Estado" />
+                    <Label Style="{StaticResource Subtitle2}" Text="Estado del reporte" />
 
                     <ctrls:TextFieldLayout>
-
                         <mtrl:MaterialTextField
-                            HelperText="Seleccione el estado"
+                            Choices="{Binding States}"
+                            ChoicesBindingName="Name"
+                            ChoicesResultBindingName="State"
+                            HelperText="Seleccione el estado del ticket"
                             Placeholder="Seleccione el estado"
                             ReturnType="Next"
-                            Style="{StaticResource TextFieldChoiceStyle}">
-                            <mtrl:MaterialTextField.Choices>
-                                <x:Array Type="{x:Type x:String}">
-                                    <x:String>Abierto</x:String>
-                                    <x:String>En progreso</x:String>
-                                    <x:String>Finalizado</x:String>
-                                    <x:String>Rechazado</x:String>
-                                </x:Array>
-                            </mtrl:MaterialTextField.Choices>
-                        </mtrl:MaterialTextField>
+                            SelectedChoice="{Binding StateSelected}"
+                            Style="{StaticResource TextFieldChoiceStyle}" />
                     </ctrls:TextFieldLayout>
 
                 </StackLayout>
@@ -39,7 +33,70 @@
 
             <Frame>
                 <StackLayout>
-                    <Label Style="{StaticResource Subtitle2}" Text="Tipo de incidencia" />
+                    <Label Style="{StaticResource Subtitle2}" Text="Detalles del cuidadano" />
+
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
+                            HelperText="Digite su cedula"
+                            Placeholder="Cedula"
+                            ReturnType="Next" />
+                    </ctrls:TextFieldLayout>
+
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
+                            HelperText="Nombre completo del cuidadano"
+                            IsEnabled="False"
+                            Placeholder="Nombre completo"
+                            ReturnType="Next" />
+                    </ctrls:TextFieldLayout>
+
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
+                            HelperText="Digite el telefono"
+                            Placeholder="Telefono"
+                            ReturnType="Next" />
+                    </ctrls:TextFieldLayout>
+
+                </StackLayout>
+            </Frame>
+
+            <Frame>
+                <StackLayout>
+                    <Label Style="{StaticResource Subtitle2}" Text="Detalles del reporte" />
+
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
+                            HelperText="Digite el titulo del reporte"
+                            Placeholder="Titulo"
+                            ReturnType="Next"
+                            Text="{Binding Address.Value}" />
+                    </ctrls:TextFieldLayout>
+
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
+                            HelperText="Digite la dirección del incidente"
+                            Placeholder="Calle, número, cuidad"
+                            ReturnType="Next"
+                            Text="{Binding Address.Value}" />
+                    </ctrls:TextFieldLayout>
+
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
+                            HelperText="Seleccione la zona"
+                            Placeholder="Zona"
+                            ReturnType="Next"
+                            Style="{StaticResource TextFieldChoiceStyle}">
+                            <mtrl:MaterialTextField.Choices>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>1</x:String>
+                                    <x:String>2</x:String>
+                                    <x:String>3</x:String>
+                                </x:Array>
+                            </mtrl:MaterialTextField.Choices>
+                        </mtrl:MaterialTextField>
+                    </ctrls:TextFieldLayout>
+
+                    <!--<Label Style="{StaticResource Subtitle2}" Text="Tipo de incidencia" />
 
                     <ctrls:TextFieldLayout>
                         <mtrl:MaterialTextField
@@ -55,9 +112,9 @@
                                 </x:Array>
                             </mtrl:MaterialTextField.Choices>
                         </mtrl:MaterialTextField>
-                    </ctrls:TextFieldLayout>
+                    </ctrls:TextFieldLayout>-->
 
-                    <ctrls:TextFieldLayout>
+                    <!--<ctrls:TextFieldLayout>
                         <mtrl:MaterialTextField
                             HelperText="Seleccione la categoria"
                             Placeholder="Categoria"
@@ -87,59 +144,7 @@
                                 </x:Array>
                             </mtrl:MaterialTextField.Choices>
                         </mtrl:MaterialTextField>
-                    </ctrls:TextFieldLayout>
-
-                </StackLayout>
-            </Frame>
-
-            <Frame>
-                <StackLayout>
-                    <Label Style="{StaticResource Subtitle2}" Text="Cuidadano" />
-
-                    <ctrls:TextFieldLayout>
-                        <mtrl:MaterialTextField
-                            HelperText="Digite su cedula"
-                            Placeholder="Cedula"
-                            ReturnType="Next" />
-                    </ctrls:TextFieldLayout>
-
-                    <ctrls:TextFieldLayout>
-                        <mtrl:MaterialTextField
-                            IsEnabled="False"
-                            Placeholder="Nombre completo"
-                            ReturnType="Next" />
-                    </ctrls:TextFieldLayout>
-
-                    <ctrls:TextFieldLayout>
-                        <mtrl:MaterialTextField
-                            HelperText="Digite el telefono"
-                            Placeholder="Telefono"
-                            ReturnType="Next" />
-                    </ctrls:TextFieldLayout>
-
-                </StackLayout>
-            </Frame>
-
-            <Frame>
-                <StackLayout>
-                    <Label Style="{StaticResource Subtitle2}" Text="Institución" />
-
-                    <ctrls:TextFieldLayout>
-
-                        <mtrl:MaterialTextField
-                            HelperText="Seleccione"
-                            Placeholder="Seleccione"
-                            ReturnType="Next"
-                            Style="{StaticResource TextFieldChoiceStyle}">
-                            <mtrl:MaterialTextField.Choices>
-                                <x:Array Type="{x:Type x:String}">
-                                    <x:String>1</x:String>
-                                    <x:String>2</x:String>
-                                    <x:String>3</x:String>
-                                </x:Array>
-                            </mtrl:MaterialTextField.Choices>
-                        </mtrl:MaterialTextField>
-                    </ctrls:TextFieldLayout>
+                    </ctrls:TextFieldLayout>-->
 
                 </StackLayout>
             </Frame>
@@ -147,24 +152,9 @@
             <Frame>
                 <StackLayout>
                     <Label Style="{StaticResource Subtitle2}" Text="Pruebas" />
-                    <mtrl:MaterialButton Style="{StaticResource ButtonOutlined}" Text="Adjuntar arachivo" />
+                    <mtrl:MaterialButton Style="{StaticResource ButtonOutlined}" Text="Adjuntar pruebas" />
                 </StackLayout>
             </Frame>
-
-            <Frame>
-                <StackLayout>
-                    <Label Style="{StaticResource Subtitle2}" Text="Dirección" />
-
-                    <ctrls:TextFieldLayout>
-                        <mtrl:MaterialTextField
-                            HelperText="Digite su dirección"
-                            Placeholder="Calle, número, cuidad"
-                            ReturnType="Next" />
-                    </ctrls:TextFieldLayout>
-
-                </StackLayout>
-            </Frame>
-
 
             <Frame>
                 <StackLayout>
@@ -174,7 +164,8 @@
                         <mtrl:MaterialTextField
                             HelperText="Digite su comentario"
                             Placeholder="Comentario"
-                            ReturnType="Done" />
+                            ReturnType="Done"
+                            Text="{Binding Comments}" />
                     </ctrls:TextFieldLayout>
 
                 </StackLayout>
