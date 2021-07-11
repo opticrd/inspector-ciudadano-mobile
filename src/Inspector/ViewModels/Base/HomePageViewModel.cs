@@ -112,5 +112,16 @@ namespace Inspector.ViewModels
                     break;
             }
         }
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.GetNavigationMode() == NavigationMode.Back && parameters.ContainsKey("newTicket"))
+            {
+                var ticket = parameters.GetValues<Ticket>("newTicket");
+                _allTickets = _allTickets.Concat(ticket);
+                HistoryIndexSelected = 0;
+                OnChangeHistoryTicketsFilter(0);
+            }
+        }
     }
 }
