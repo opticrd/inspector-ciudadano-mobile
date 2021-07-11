@@ -25,7 +25,6 @@ namespace Inspector.ViewModels
             NavigateCommand = new DelegateCommand<string>(NavigateCommandExecute);
         }
 
-        public string Title { get; set; }
         public bool IsBusy { get; set; }
 
 
