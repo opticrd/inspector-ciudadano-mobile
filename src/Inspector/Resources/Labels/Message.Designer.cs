@@ -95,5 +95,50 @@ namespace Inspector.Resources.Labels {
                 return ResourceManager.GetString("InvalidEmail", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Campo incorrecto o incompleto..
+        /// </summary>
+        internal static string InvalidField {
+            get {
+                return ResourceManager.GetString("InvalidField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Numero de telefono incorrecto o incompleto..
+        /// </summary>
+        internal static string InvalidPhoneNumber {
+            get {
+                return ResourceManager.GetString("InvalidPhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Algo ha pasado. Intentelo de nuevo mas tarde..
+        /// </summary>
+        internal static string SomethingHappen {
+            get {
+                return ResourceManager.GetString("SomethingHappen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to El ticket ha sido creado exitosamente..
+        /// </summary>
+        internal static string TicketCreated {
+            get {
+                return ResourceManager.GetString("TicketCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to El ticket no ha sido creado, intentelo de nuevo mas tarde..
+        /// </summary>
+        internal static string TicketNotCreated {
+            get {
+                return ResourceManager.GetString("TicketNotCreated", resourceCulture);
+            }
+        }
     }
 }

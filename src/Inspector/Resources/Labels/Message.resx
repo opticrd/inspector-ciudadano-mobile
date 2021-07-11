@@ -129,4 +129,19 @@
   <data name="InvalidEmail" xml:space="preserve">
     <value>Correo no valido. </value>
   </data>
+  <data name="InvalidField" xml:space="preserve">
+    <value>Campo incorrecto o incompleto.</value>
+  </data>
+  <data name="InvalidPhoneNumber" xml:space="preserve">
+    <value>Numero de telefono incorrecto o incompleto.</value>
+  </data>
+  <data name="SomethingHappen" xml:space="preserve">
+    <value>Algo ha pasado. Intentelo de nuevo mas tarde.</value>
+  </data>
+  <data name="TicketCreated" xml:space="preserve">
+    <value>El ticket ha sido creado exitosamente.</value>
+  </data>
+  <data name="TicketNotCreated" xml:space="preserve">
+    <value>El ticket no ha sido creado, intentelo de nuevo mas tarde.</value>
+  </data>
 </root>
