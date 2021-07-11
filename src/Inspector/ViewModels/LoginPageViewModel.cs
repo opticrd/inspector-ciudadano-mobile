@@ -56,6 +56,11 @@ namespace Inspector.ViewModels
 
                 if (userAccount.Active)
                 {
+                    var groupClient = account.CreateGroupClient();
+                    var groups = await groupClient.GetGroupListAsync();
+
+                    await _cacheService.InsertLocalObject(CacheKeys.Groups, groups);
+
                     Settings.IsLoggedIn = true;
                     await _cacheService.InsertSecureObject(CacheKeys.ZammadAccount, account);
                     await _cacheService.InsertSecureObject(CacheKeys.UserAccount, userAccount);
