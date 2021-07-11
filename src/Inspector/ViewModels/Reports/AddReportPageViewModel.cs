@@ -9,6 +9,7 @@ using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -22,33 +23,65 @@ namespace Inspector.ViewModels
     {
         TicketClient _ticketClient;
         User _userAccount;
+        ValidationUnit _validationUnit;
 
         public AddReportPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ICacheService cacheService) : base(navigationService, dialogService, cacheService)
         {
+            StateSelected = Validator.Build<int>()
+                            .Must(x => x > 0, Message.FieldRequired);
+
             ID = Validator.Build<string>()
                 .IsRequired(Message.FieldRequired)
                 .WithRule(new CedulaRule());
 
-            Address = Validator.Build<string>().IsRequired(Message.FieldRequired);
+            PhoneNumber = Validator.Build<string>()
+                            .When(x => !string.IsNullOrEmpty(x))
+                            .Must(x => x.Length >= 10, Message.InvalidPhoneNumber);
 
-            States = new ObservableCollection<StateTicket>(StateTicket.GetStatesForNewTicket());
+            Title = Validator.Build<string>()
+                            .IsRequired(Message.FieldRequired)
+                            .Must(x => x.Length >= 10, Message.InvalidField);
+
+            Address = Validator.Build<string>()
+                            .IsRequired(Message.FieldRequired)
+                            .Must(x => x.Length >= 10, Message.InvalidField);
+
+            GroupSelected = Validator.Build<int>()
+                            .Must(x => x > 0, Message.FieldRequired);
+
+            Comments = Validator.Build<string>()
+                            .When(x => !string.IsNullOrEmpty(x))
+                            .Must(x => x.Length >= 10, Message.InvalidField);
+
+            _validationUnit = new ValidationUnit(StateSelected, ID, PhoneNumber, Title, Address, GroupSelected, Comments);
+
+            States = new List<StateTicket>(StateTicket.GetStatesForNewTicket());
 
             ReportCommand = new DelegateCommand(ReportCommandExecute);
+            SelectStateCommand = new DelegateCommand<StateTicket>(state => StateSelected.Value = state.State);
+            SelectGroupCommand = new DelegateCommand<Group>(group => GroupSelected.Value = group.Id);
+
+            Init();
         }
 
+        public List<StateTicket> States { get; set; }
+        public Validatable<int> StateSelected { get; set; }
         public Validatable<string> ID { get; set; }
-        public Validatable<string> Address { get; set; }
-        public ObservableCollection<StateTicket> States { get; set; }
-        public int StateSelected { get; set; }
-        public int IncidentSelected { get; set; }
-        public int CategorySelected { get; set; }
-        public int xSelected { get; set; }
         public string CitizenName { get; set; }
-        public string PhoneNumber { get; set; }
-        public int InstitutionSelected { get; set; }
-        public string Comments { get; set; }
+        public Validatable<string> PhoneNumber { get; set; }
+        public Validatable<string> Title { get; set; }
+        public Validatable<string> Address { get; set; }
+        public int CategorySelected { get; set; }
+        public List<Group> Groups { get; set; }
+        public Validatable<int> GroupSelected { get; set; }
+        public Validatable<string> Comments { get; set; }
+        //public int IncidentSelected { get; set; }
+        //public int xSelected { get; set; }
+        //public int InstitutionSelected { get; set; }
 
         public ICommand ReportCommand { get; set; }
+        public ICommand SelectStateCommand { get; set; }
+        public ICommand SelectGroupCommand { get; set; }
 
         private async void Init()
         {
@@ -56,29 +89,59 @@ namespace Inspector.ViewModels
             _ticketClient = account.CreateTicketClient();
 
             _userAccount = await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount);
+            Groups = await _cacheService.GetLocalObject<List<Group>>(CacheKeys.Groups);
         }
 
         private async void ReportCommandExecute()
         {
-            if (IsBusy)
+            if (IsBusy || !_validationUnit.Validate())
                 return;
 
             IsBusy = true;
 
-            var ticket = await _ticketClient.CreateTicketAsync(
-                new Ticket
+            try
+            {
+                var ticket = await _ticketClient.CreateTicketAsync(
+                        new Ticket
+                        {
+                            Title = Title.Value,
+                            GroupId = StateSelected.Value,
+                            CustomerId = _userAccount.Id,
+                            OwnerId = _userAccount.Id,
+                            StateId = GroupSelected.Value,
+                            CustomAttributes = new Dictionary<string, object>()
+                            {
+                                { "address",  Address.Value },
+                            }
+                        },
+                        new TicketArticle
+                        {
+                            Subject = Title.Value,
+                            Body = Comments.Value,
+                            Type = "note",
+                        });
+
+                if (ticket.Id <= 0)                
+                    await _dialogService.DisplayAlertAsync("", Message.TicketNotCreated, "Ok");
+                else
                 {
-                    Title = "Help me!",
-                    GroupId = 1,
-                    CustomerId = 1,
-                    OwnerId = 1,
-                },
-                new TicketArticle
-                {
-                    Subject = "Help me!!!",
-                    Body = "Nothing Work!",
-                    Type = "note",
-                });
+                    await _dialogService.DisplayAlertAsync(":)", Message.TicketCreated, "Ok");
+
+                    var parameters = new NavigationParameters()
+                    {
+                        { "newTicket", ticket }
+                    };
+                    await _navigationService.GoBackAsync(parameters);
+                }                         
+            }
+            catch (Zammad.Client.Core.ZammadException e)
+            {
+#if DEBUG || DEBUG_AGENT
+                var content = await e.Response.Content.ReadAsStringAsync();
+                Console.WriteLine(content);
+#endif
+                await _dialogService.DisplayAlertAsync("Ups :(", Message.SomethingHappen, "Ok");
+            }
 
             IsBusy = false;
         }

@@ -6,8 +6,10 @@
     xmlns:ctrls="clr-namespace:UIModule.Controls;assembly=UIModule"
     xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
     xmlns:prism="http://prismlibrary.com"
+    xmlns:views="clr-namespace:Inspector.ViewModels"
     Title="Agregar reporte"
-    prism:ViewModelLocator.AutowireViewModel="True">
+    prism:ViewModelLocator.AutowireViewModel="True"
+    x:DataType="views:AddReportPageViewModel">
 
     <ScrollView>
         <StackLayout Padding="16" Spacing="16">
@@ -18,13 +20,15 @@
 
                     <ctrls:TextFieldLayout>
                         <mtrl:MaterialTextField
+                            ChoiceSelectedCommand="{Binding SelectStateCommand}"
                             Choices="{Binding States}"
                             ChoicesBindingName="Name"
-                            ChoicesResultBindingName="State"
+                            ChoicesResultBindingName="Name"
+                            ErrorText="{Binding StateSelected.Error}"
+                            HasError="{Binding StateSelected.HasErrors}"
                             HelperText="Seleccione el estado del ticket"
                             Placeholder="Seleccione el estado"
                             ReturnType="Next"
-                            SelectedChoice="{Binding StateSelected}"
                             Style="{StaticResource TextFieldChoiceStyle}" />
                     </ctrls:TextFieldLayout>
 
@@ -37,24 +41,32 @@
 
                     <ctrls:TextFieldLayout>
                         <mtrl:MaterialTextField
+                            ErrorText="{Binding ID.Error}"
+                            HasError="{Binding ID.HasErrors}"
                             HelperText="Digite su cedula"
                             Placeholder="Cedula"
-                            ReturnType="Next" />
+                            ReturnType="Next"
+                            Text="{Binding ID.Value}" />
                     </ctrls:TextFieldLayout>
 
-                    <ctrls:TextFieldLayout>
+                    <ctrls:TextFieldLayout IsTabStop="False">
                         <mtrl:MaterialTextField
                             HelperText="Nombre completo del cuidadano"
                             IsEnabled="False"
+                            IsTabStop="False"
                             Placeholder="Nombre completo"
-                            ReturnType="Next" />
+                            ReturnType="Next"
+                            Text="{Binding CitizenName}" />
                     </ctrls:TextFieldLayout>
 
                     <ctrls:TextFieldLayout>
                         <mtrl:MaterialTextField
+                            ErrorText="{Binding PhoneNumber.Error}"
+                            HasError="{Binding PhoneNumber.HasErrors}"
                             HelperText="Digite el telefono"
                             Placeholder="Telefono"
-                            ReturnType="Next" />
+                            ReturnType="Next"
+                            Text="{Binding PhoneNumber.Value}" />
                     </ctrls:TextFieldLayout>
 
                 </StackLayout>
@@ -66,14 +78,18 @@
 
                     <ctrls:TextFieldLayout>
                         <mtrl:MaterialTextField
+                            ErrorText="{Binding Title.Error}"
+                            HasError="{Binding Title.HasErrors}"
                             HelperText="Digite el titulo del reporte"
                             Placeholder="Titulo"
                             ReturnType="Next"
-                            Text="{Binding Address.Value}" />
+                            Text="{Binding Title.Value}" />
                     </ctrls:TextFieldLayout>
 
                     <ctrls:TextFieldLayout>
                         <mtrl:MaterialTextField
+                            ErrorText="{Binding Address.Error}"
+                            HasError="{Binding Address.HasErrors}"
                             HelperText="Digite la dirección del incidente"
                             Placeholder="Calle, número, cuidad"
                             ReturnType="Next"
@@ -82,18 +98,16 @@
 
                     <ctrls:TextFieldLayout>
                         <mtrl:MaterialTextField
+                            ChoiceSelectedCommand="{Binding SelectGroupCommand}"
+                            Choices="{Binding Groups}"
+                            ChoicesBindingName="Name"
+                            ChoicesResultBindingName="Name"
+                            ErrorText="{Binding GroupSelected.Error}"
+                            HasError="{Binding GroupSelected.HasErrors}"
                             HelperText="Seleccione la zona"
                             Placeholder="Zona"
                             ReturnType="Next"
-                            Style="{StaticResource TextFieldChoiceStyle}">
-                            <mtrl:MaterialTextField.Choices>
-                                <x:Array Type="{x:Type x:String}">
-                                    <x:String>1</x:String>
-                                    <x:String>2</x:String>
-                                    <x:String>3</x:String>
-                                </x:Array>
-                            </mtrl:MaterialTextField.Choices>
-                        </mtrl:MaterialTextField>
+                            Style="{StaticResource TextFieldChoiceStyle}" />
                     </ctrls:TextFieldLayout>
 
                     <!--<Label Style="{StaticResource Subtitle2}" Text="Tipo de incidencia" />
@@ -162,12 +176,14 @@
 
                     <ctrls:TextFieldLayout>
                         <mtrl:MaterialTextField
+                            ErrorText="{Binding Comments.Error}"
+                            HasError="{Binding Comments.HasErrors}"
                             HelperText="Digite su comentario"
                             Placeholder="Comentario"
+                            ReturnCommand="{Binding ReportCommand}"
                             ReturnType="Done"
-                            Text="{Binding Comments}" />
+                            Text="{Binding Comments.Value}" />
                     </ctrls:TextFieldLayout>
-
                 </StackLayout>
             </Frame>
 
@@ -176,7 +192,10 @@
                 Margin="-16,0,-16,-16"
                 Style="{StaticResource ButtonFrame}"
                 VerticalOptions="EndAndExpand">
-                <mtrl:MaterialButton Style="{StaticResource ButtonPrimary}" Text="Crear reporte" />
+                <mtrl:MaterialButton
+                    Command="{Binding ReportCommand}"
+                    Style="{StaticResource ButtonPrimary}"
+                    Text="Crear reporte" />
             </Frame>
 
         </StackLayout>
