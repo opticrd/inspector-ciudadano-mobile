@@ -39,6 +39,14 @@ namespace Inspector.Droid
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent intent)
+        {
+            if (NativeMedia.Platform.CheckCanProcessResult(requestCode, resultCode, intent))
+                NativeMedia.Platform.OnActivityResult(requestCode, resultCode, intent);
+
+            base.OnActivityResult(requestCode, resultCode, intent);
+        }
     }
 
     [Activity(NoHistory = true, LaunchMode = LaunchMode.SingleTop)]
