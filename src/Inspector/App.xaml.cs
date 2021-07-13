@@ -72,6 +72,7 @@ namespace Inspector
             containerRegistry.RegisterForNavigation<EditProfilePage, EditProfilePageViewModel>();
             containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
             containerRegistry.RegisterForNavigation<ReportDetailPage>();
+            containerRegistry.RegisterForNavigation<GalleryPage, GalleryPageViewModel>();
 
 #if AGENT
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
