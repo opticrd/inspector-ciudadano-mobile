@@ -166,7 +166,10 @@
             <Frame>
                 <StackLayout>
                     <Label Style="{StaticResource Subtitle2}" Text="Pruebas" />
-                    <mtrl:MaterialButton Style="{StaticResource ButtonOutlined}" Text="Adjuntar pruebas" />
+                    <StackLayout Orientation="Horizontal">
+                        <mtrl:MaterialButton Style="{StaticResource ButtonOutlined}" Text="Adjuntar" />
+                        <mtrl:MaterialButton Style="{StaticResource ButtonPrimary}" Text="Ver"  />
+                    </StackLayout>
                 </StackLayout>
             </Frame>
 
