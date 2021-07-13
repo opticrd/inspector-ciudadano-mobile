@@ -1,8 +1,10 @@
 ﻿
+using Inspector.Framework.Helpers.Extensions;
 using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
 using Inspector.Models;
 using Inspector.Resources.Labels;
+using NativeMedia;
 using Plugin.ValidationRules;
 using Plugin.ValidationRules.Extensions;
 using Prism.Commands;
@@ -11,6 +13,9 @@ using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using UIModule.Helpers.Rules;
@@ -60,6 +65,7 @@ namespace Inspector.ViewModels
             ReportCommand = new DelegateCommand(ReportCommandExecute);
             SelectStateCommand = new DelegateCommand<StateTicket>(state => StateSelected.Value = state.State);
             SelectGroupCommand = new DelegateCommand<Group>(group => GroupSelected.Value = group.Id);
+            AttachFileCommand = new DelegateCommand(OnAttachFileCommandExecute);
 
             Init();
         }
@@ -78,10 +84,13 @@ namespace Inspector.ViewModels
         //public int IncidentSelected { get; set; }
         //public int xSelected { get; set; }
         //public int InstitutionSelected { get; set; }
+        public ObservableCollection<IMediaFile> Attachements { get; set; } = new ObservableCollection<IMediaFile>();
 
         public ICommand ReportCommand { get; set; }
         public ICommand SelectStateCommand { get; set; }
         public ICommand SelectGroupCommand { get; set; }
+        public ICommand AttachFileCommand { get; set; }
+        public ICommand SeeFileCommand { get; set; }
 
         private async void Init()
         {
@@ -94,13 +103,39 @@ namespace Inspector.ViewModels
 
         private async void ReportCommandExecute()
         {
-            if (IsBusy || !_validationUnit.Validate())
+            if (IsBusy)
                 return;
+
+            if (!_validationUnit.Validate())
+            {
+                await _dialogService.DisplayAlertAsync("Ups :(", "Verifique que todas las propiedades estan correctas.", "Ok");
+                return;
+            }
 
             IsBusy = true;
 
             try
             {
+                List<TicketAttachment> attachements = null;
+
+                if(Attachements.Count > 0)
+                {
+                    attachements = new List<TicketAttachment>();
+                    foreach (var file in Attachements)
+                    {
+                        var fileName = string.IsNullOrEmpty(file.NameWithoutExtension) ? "evidencia" : file.NameWithoutExtension;
+
+                        attachements.Add(new TicketAttachment
+                        {
+                            Filename = fileName + "." + file.Extension,
+                            MimeType = file.ContentType,
+                            Data = (await file.OpenReadAsync()).ConvertToStringBase64() 
+                        });
+
+                        file.Dispose();
+                    }          
+                }               
+
                 var ticket = await _ticketClient.CreateTicketAsync(
                         new Ticket
                         {
@@ -119,6 +154,7 @@ namespace Inspector.ViewModels
                             Subject = Title.Value,
                             Body = Comments.Value,
                             Type = "note",
+                            Attachments = attachements
                         });
 
                 if (ticket.Id <= 0)                
@@ -146,5 +182,40 @@ namespace Inspector.ViewModels
             IsBusy = false;
         }
 
+        private async void OnAttachFileCommandExecute()
+        {
+            //IActionSheetButton imageAction = ActionSheetButton.CreateButton("Image", () => { Debug.WriteLine("Select A"); });
+            //var response = await _dialogService.DisplayActionSheetAsync("Tipo de archivo", "Cancelar", null, "Imagen", "Video");
+
+            var cts = new CancellationTokenSource();
+
+            try
+            {
+                var request = new MediaPickRequest(5, MediaFileType.Image, MediaFileType.Video)
+                {
+                    PresentationSourceBounds = System.Drawing.Rectangle.Empty,
+                    Title = "Select"
+                };
+
+                cts.CancelAfter(TimeSpan.FromMinutes(3));
+
+                var results = await MediaGallery.PickAsync(request, cts.Token);
+
+                if(results?.Files != null)
+                    Attachements = new ObservableCollection<IMediaFile>(results?.Files);
+            }
+            //catch (OperationCanceledException)
+            //{
+            //    // handling a cancellation request
+            //}
+            catch (Exception)
+            {
+                await _dialogService.DisplayAlertAsync("Ups :(", Message.SomethingHappen, "Ok");
+            }
+            finally
+            {
+                cts.Dispose();
+            }
+        }
     }
 }
