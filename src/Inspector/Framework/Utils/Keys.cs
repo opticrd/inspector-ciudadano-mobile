@@ -7,7 +7,12 @@ namespace Inspector.Framework.Utils
     public static class NavigationKeys
     {
         public const string TicketAdded = nameof(TicketAdded);
+        public const string NewTicket = nameof(NewTicket);
+        public const string ShowFiles = nameof(ShowFiles);
+        public const string RemoveAllFiles = nameof(RemoveAllFiles);
+
         public const string HomePage = "NavigationPage/HomePage";
+        public const string GalleryPage = "GalleryPage";
     }
 
     public static class CacheKeys

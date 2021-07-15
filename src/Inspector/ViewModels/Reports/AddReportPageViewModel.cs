@@ -66,6 +66,7 @@ namespace Inspector.ViewModels
             SelectStateCommand = new DelegateCommand<StateTicket>(state => StateSelected.Value = state.State);
             SelectGroupCommand = new DelegateCommand<Group>(group => GroupSelected.Value = group.Id);
             AttachFileCommand = new DelegateCommand(OnAttachFileCommandExecute);
+            ShowFilesCommand = new DelegateCommand(OnShowFilesCommandExecute);
 
             Init();
         }
@@ -90,7 +91,7 @@ namespace Inspector.ViewModels
         public ICommand SelectStateCommand { get; set; }
         public ICommand SelectGroupCommand { get; set; }
         public ICommand AttachFileCommand { get; set; }
-        public ICommand SeeFileCommand { get; set; }
+        public ICommand ShowFilesCommand { get; set; }
 
         private async void Init()
         {
@@ -118,7 +119,7 @@ namespace Inspector.ViewModels
             {
                 List<TicketAttachment> attachements = null;
 
-                if(Attachements.Count > 0)
+                if (Attachements.Count > 0)
                 {
                     attachements = new List<TicketAttachment>();
                     foreach (var file in Attachements)
@@ -165,7 +166,7 @@ namespace Inspector.ViewModels
 
                     var parameters = new NavigationParameters()
                     {
-                        { "newTicket", ticket }
+                        { NavigationKeys.NewTicket, ticket }
                     };
                     await _navigationService.GoBackAsync(parameters);
                 }                         
@@ -215,6 +216,23 @@ namespace Inspector.ViewModels
             finally
             {
                 cts.Dispose();
+            }
+        }
+
+        private async void OnShowFilesCommandExecute()
+        {
+            var parameters = new NavigationParameters()
+            {
+                { NavigationKeys.ShowFiles, Attachements }
+            };
+            await _navigationService.NavigateAsync(NavigationKeys.GalleryPage, parameters);
+        }
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey(NavigationKeys.RemoveAllFiles))
+            {
+                Attachements = new ObservableCollection<IMediaFile>();
             }
         }
     }

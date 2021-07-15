@@ -173,7 +173,7 @@
                                 Style="{StaticResource ButtonOutlined}"
                                 Text="Adjuntar" />
                             <mtrl:MaterialButton
-                                Command="{Binding SeeFileCommand}"
+                                Command="{Binding ShowFilesCommand}"
                                 Style="{StaticResource ButtonPrimary}"
                                 Text="{Binding Attachements.Count, StringFormat='Ver ({0})'}">
                                 <mtrl:MaterialButton.Triggers>

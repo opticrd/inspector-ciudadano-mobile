@@ -115,9 +115,9 @@ namespace Inspector.ViewModels
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.GetNavigationMode() == NavigationMode.Back && parameters.ContainsKey("newTicket"))
+            if (parameters.GetNavigationMode() == NavigationMode.Back && parameters.ContainsKey(NavigationKeys.NewTicket))
             {
-                var ticket = parameters.GetValues<Ticket>("newTicket");
+                var ticket = parameters.GetValues<Ticket>(NavigationKeys.NewTicket);
                 _allTickets = _allTickets.Concat(ticket);
                 HistoryIndexSelected = 0;
                 OnChangeHistoryTicketsFilter(0);

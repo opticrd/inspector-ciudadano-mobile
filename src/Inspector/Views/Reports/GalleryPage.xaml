@@ -3,43 +3,49 @@
     x:Class="Inspector.Views.GalleryPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ctrls="clr-namespace:Inspector.Framework.Controls"
+    xmlns:vm="clr-namespace:Inspector.ViewModels"
     Title="Galeria">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Borrar todo" />
+        <ToolbarItem Text="Borrar todo" Command="{Binding DeleteAllItemsCommand}" />
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
 
-        <CollectionView ItemsSource="{Binding Monkeys}">
+        <CollectionView ItemsSource="{Binding Attachements}">
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="20" Orientation="Vertical" />
+            </CollectionView.ItemsLayout>
+
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Padding="10">
+                    <Grid Padding="10" BackgroundColor="White">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="35" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="100" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <Image
+                        <ctrls:MediaFileView
                             Grid.RowSpan="2"
-                            Aspect="AspectFill"
-                            HeightRequest="60"
-                            Source="{Binding ImageUrl}"
-                            WidthRequest="60" />
-                        <Label
-                            Grid.Column="1"
-                            FontAttributes="Bold"
-                            Text="{Binding Name}" />
-                        <Label
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            FontAttributes="Italic"
-                            Text="{Binding Location}"
-                            VerticalOptions="End" />
+                            File="{Binding File}"
+                            HeightRequest="300"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand"
+                            WidthRequest="300" />
+
+                        <StackLayout Grid.Column="1">
+                            <Label FontAttributes="Bold" Text="{Binding Name}" />
+                            <Label
+                                FontAttributes="Italic"
+                                Text="{Binding Type}"
+                                VerticalOptions="Start" />
+                        </StackLayout>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
