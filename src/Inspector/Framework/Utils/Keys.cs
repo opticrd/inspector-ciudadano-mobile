@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 
 namespace Inspector.Framework.Utils
 {
@@ -11,9 +9,11 @@ namespace Inspector.Framework.Utils
         public const string ShowFiles = nameof(ShowFiles);
         public const string RemoveAllFiles = nameof(RemoveAllFiles);
         public const string TicketSelected = nameof(TicketSelected);
+        public const string CommentSelected = nameof(CommentSelected);
 
         public const string HomePage = "NavigationPage/HomePage";
         public const string GalleryPage = nameof(GalleryPage);
+        public const string PreviewGalleryPage = nameof(PreviewGalleryPage);
         public const string ReportDetailPage = nameof(ReportDetailPage);
     }
 
