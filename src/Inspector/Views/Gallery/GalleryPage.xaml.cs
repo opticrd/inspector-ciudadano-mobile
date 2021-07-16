@@ -10,20 +10,11 @@ using Xamarin.Forms.Xaml;
 namespace Inspector.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ReportDetailPage : ContentPage
+    public partial class GalleryPage : ContentPage
     {
-        public ReportDetailPage()
+        public GalleryPage()
         {
-            try
-            {
-                InitializeComponent();
-            }
-            catch (Exception e)
-            {
-
-                
-            }
+            InitializeComponent();
         }
-
     }
 }

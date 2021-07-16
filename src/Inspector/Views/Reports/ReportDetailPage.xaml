@@ -4,8 +4,10 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
+    xmlns:prism="http://prismlibrary.com"
     xmlns:tmp="clr-namespace:Inspector.Framework.Helpers"
     xmlns:vm="clr-namespace:Inspector.ViewModels"
+    x:Name="this"
     Title="Detalles">
     <!--  x:DataType="vm:ReportDetailPageViewModel"  -->
 
@@ -43,6 +45,8 @@
                                 X2="3000" />
                             <Button
                                 BackgroundColor="#E3E3E3"
+                                Command="{Binding BindingContext.ShowFilesCommand, Source={x:Reference this}}"
+                                CommandParameter="{Binding .}"
                                 IsVisible="{Binding HasAttachments}"
                                 Text="Ver Adjuntos" />
                         </StackLayout>
@@ -77,6 +81,8 @@
                                 X2="3000" />
                             <Button
                                 BackgroundColor="{StaticResource PrimaryColor}"
+                                Command="{Binding BindingContext.ShowFilesCommand, Source={x:Reference this}}"
+                                CommandParameter="{Binding .}"
                                 IsVisible="{Binding HasAttachments}"
                                 Text="Ver Adjuntos"
                                 TextColor="White" />
@@ -94,81 +100,74 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout Padding="16">
 
-                <!--<Image
-                    Margin="-16,-16,-16,0"
-                    Aspect="AspectFill"
-                    Source="sample.png" />-->
+        <StackLayout Padding="16,16,16,0" VerticalOptions="FillAndExpand">
 
-                <Label
-                    Grid.Row="1"
-                    Style="{StaticResource H3}"
-                    Text="{Binding TicketSelected.Title}" />
-                <Label
-                    Grid.Row="2"
-                    Text="{Binding TicketSelected.CustomAttributes[address]}"
-                    TranslationY="-6" />
+            <RefreshView IsRefreshing="{Binding IsBusy}">
+                <CollectionView ItemTemplate="{StaticResource commentTemplateSelector}" ItemsSource="{Binding Comments}">
+                    <CollectionView.Header>
+                        <StackLayout>
+                            <Label
+                                Grid.Row="1"
+                                Style="{StaticResource H3}"
+                                Text="{Binding TicketSelected.Title}" />
+                            <Label
+                                Grid.Row="2"
+                                Text="{Binding TicketSelected.CustomAttributes[address]}"
+                                TranslationY="-6" />
 
-                <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
-                    <mtrl:MaterialChip
-                        BackgroundColor="#EFFAE6"
-                        Text="EN PROCESO"
-                        TextColor="#DE000000" />
-                    <mtrl:MaterialChip
-                        BackgroundColor="#EFFAE6"
-                        Text="Prioridad alta"
-                        TextColor="#DE000000" />
+                            <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                                <mtrl:MaterialChip
+                                    BackgroundColor="#EFFAE6"
+                                    Text="EN PROCESO"
+                                    TextColor="#DE000000" />
+                                <mtrl:MaterialChip
+                                    BackgroundColor="#EFFAE6"
+                                    Text="Prioridad alta"
+                                    TextColor="#DE000000" />
 
-                    <mtrl:MaterialChip
-                        BackgroundColor="#EFFAE6"
-                        Text="31/12/2021"
-                        TextColor="#DE000000" />
-                </StackLayout>
+                                <mtrl:MaterialChip
+                                    BackgroundColor="#EFFAE6"
+                                    Text="31/12/2021"
+                                    TextColor="#DE000000" />
+                            </StackLayout>
 
-                <!--<StackLayout Orientation="Horizontal">
-                    <Image />
-                    <Label Text="Person name" />
-                </StackLayout>-->
+                            <Line
+                                Margin="-16,0,-16,0"
+                                HorizontalOptions="FillAndExpand"
+                                Opacity="0.3"
+                                Stroke="Gray"
+                                StrokeLineCap="Round"
+                                StrokeThickness="2"
+                                X1="0"
+                                X2="3000"
+                                Y1="8"
+                                Y2="0" />
 
-                <Line
-                    Margin="-16,0,-16,0"
-                    HorizontalOptions="FillAndExpand"
-                    Opacity="0.3"
-                    Stroke="Gray"
-                    StrokeLineCap="Round"
-                    StrokeThickness="2"
-                    X1="0"
-                    X2="3000"
-                    Y1="8"
-                    Y2="0" />
+                            <mtrl:MaterialButton Style="{StaticResource ButtonPrimary}" Text="Gestionar Caso" />
 
-                <mtrl:MaterialButton Style="{StaticResource ButtonPrimary}" Text="Gestionar Caso" />
+                            <Line
+                                Margin="-16,0,-16,16"
+                                HorizontalOptions="FillAndExpand"
+                                Opacity="0.3"
+                                Stroke="Gray"
+                                StrokeLineCap="Round"
+                                StrokeThickness="2"
+                                X1="0"
+                                X2="3000"
+                                Y1="8"
+                                Y2="0" />
+                        </StackLayout>
+                    </CollectionView.Header>
 
-                <Line
-                    Margin="-16,0,-16,0"
-                    HorizontalOptions="FillAndExpand"
-                    Opacity="0.3"
-                    Stroke="Gray"
-                    StrokeLineCap="Round"
-                    StrokeThickness="2"
-                    X1="0"
-                    X2="3000"
-                    Y1="8"
-                    Y2="0" />
+                    <CollectionView.EmptyView>
+                        <Label Text="Sin comentarios" />
+                    </CollectionView.EmptyView>
+                </CollectionView>
+            </RefreshView>
 
-                <Grid>
-                    <StackLayout
-                        BindableLayout.ItemTemplateSelector="{StaticResource commentTemplateSelector}"
-                        BindableLayout.ItemsSource="{Binding Comments}"
-                        VerticalOptions="FillAndExpand" />
-                </Grid>
+        </StackLayout>
 
-
-
-            </StackLayout>
-        </ScrollView>
     </ContentPage.Content>
 
 </ContentPage>

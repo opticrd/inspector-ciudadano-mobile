@@ -8,8 +8,10 @@ using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Zammad.Client;
 using Zammad.Client.Resources;
@@ -23,20 +25,12 @@ namespace Inspector.ViewModels
 
         public ReportDetailPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ICacheService cacheService) : base(navigationService, dialogService, cacheService)
         {
-            //DeleteAllItemsCommand = new DelegateCommand(async ()=> 
-            //{
-            //    var parameters = new NavigationParameters()
-            //    {
-            //        { NavigationKeys.RemoveAllFiles, true }
-            //    };
-            //    await _navigationService.GoBackAsync(parameters);
-            //});
-
+            ShowFilesCommand = new DelegateCommand<Comment>(OnShowFilesCommandExecute);
             Init();
         }
         public Ticket TicketSelected { get; set; }
         public ObservableCollection<Comment> Comments { get; set; }
-        public ICommand DeleteAllItemsCommand { get; set; }
+        public DelegateCommand<Comment> ShowFilesCommand { get; set; }
 
         private async void Init()
         {
@@ -64,6 +58,8 @@ namespace Inspector.ViewModels
                     var owner = item.CreatedById == _userAccount.Id;
                     comments.Add(new Comment
                     {
+                        Id = item.Id,
+                        TicketId = item.TicketId,
                         UserName = item.From,
                         Body = item.Body,
                         CreatedAt = item.CreatedAt,
@@ -73,16 +69,24 @@ namespace Inspector.ViewModels
                 }
                 Comments = new ObservableCollection<Comment>(comments);
             }
-            catch
-            {
-
-            }
             finally
             {
                 IsBusy = false;
             }
         }
 
+        private async void OnShowFilesCommandExecute(Comment comment)
+        {
+            if (!comment.HasAttachments)
+                return;
+
+            var parameters = new NavigationParameters()
+            {
+                //{ NavigationKeys.ShowFiles, comment.Attachments },
+                { NavigationKeys.CommentSelected, comment},
+            };
+            await _navigationService.NavigateAsync(NavigationKeys.PreviewGalleryPage, parameters);
+        }
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
@@ -94,4 +98,7 @@ namespace Inspector.ViewModels
         }
 
     }
+
+    
+
 }

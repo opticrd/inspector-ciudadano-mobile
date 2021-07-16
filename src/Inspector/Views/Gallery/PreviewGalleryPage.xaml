@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Inspector.Views.PreviewGalleryPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ctrls="clr-namespace:Inspector.Framework.Controls"
+    xmlns:prism="http://prismlibrary.com"
+    Title="Galeria"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    BackgroundColor="Black">
+
+    <ContentPage.Content>
+
+        <RefreshView IsRefreshing="{Binding IsBusy}">
+
+            <CollectionView ItemsSource="{Binding Attachements}" VerticalOptions="FillAndExpand">
+
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="20" Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid RowDefinitions="1*" VerticalOptions="CenterAndExpand">
+
+                            <ctrls:MediaFileView
+                                Attachment="{Binding .}"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="CenterAndExpand" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </RefreshView>
+
+    </ContentPage.Content>
+
+</ContentPage>

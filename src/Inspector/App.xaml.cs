@@ -71,7 +71,7 @@ namespace Inspector
             containerRegistry.RegisterForNavigation<AddReportPage, AddReportPageViewModel>();
             containerRegistry.RegisterForNavigation<EditProfilePage, EditProfilePageViewModel>();
             containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
-            containerRegistry.RegisterForNavigation<ReportDetailPage>();
+            containerRegistry.RegisterForNavigation<ReportDetailPage, ReportDetailPageViewModel>();
             containerRegistry.RegisterForNavigation<GalleryPage, GalleryPageViewModel>();
 
 #if AGENT
@@ -81,6 +81,7 @@ namespace Inspector
             // Registering types
             //containerRegistry.RegisterSingleton<INetworkRepository, NetworkRepository>();
             containerRegistry.RegisterSingleton<ICacheService, CacheService>();
+            containerRegistry.RegisterForNavigation<PreviewGalleryPage, PreviewGalleyPageViewModel>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
