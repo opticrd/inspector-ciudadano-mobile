@@ -1,5 +1,6 @@
 ﻿using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
+using Inspector.Models;
 using NativeMedia;
 using Prism.Commands;
 using Prism.Navigation;
@@ -13,7 +14,7 @@ using System.Windows.Input;
 
 namespace Inspector.ViewModels
 {
-    public class GalleryPageViewModel : BaseViewModel
+    public class GalleryPageViewModel : GalleryViewModel
     {
         public GalleryPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ICacheService cacheService) : base(navigationService, dialogService, cacheService)
         {
@@ -51,13 +52,6 @@ namespace Inspector.ViewModels
 
                 Attachements = new ObservableCollection<Gallery>(listFiles);
             }
-        }
-
-        public class Gallery
-        {
-            public IMediaFile File { get; set; }
-            public string Name { get; set; }
-            public string Type { get; set; }
         }
     }
 }

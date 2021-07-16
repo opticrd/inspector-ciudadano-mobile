@@ -69,7 +69,6 @@
     <Folder Include="Architecture\Data\" />
     <Folder Include="Architecture\Entities\" />
     <Folder Include="Architecture\Abstractions\" />
-    <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\xamarin-login-module\LoginModule\LoginModule.csproj" />
@@ -86,6 +85,9 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Message.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Gallery\PreviewGalleryPage.xaml.cs">
+      <DependentUpon>PreviewGalleryPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Profile\ProfileView.xaml.cs">
       <DependentUpon>ProfileView.xaml</DependentUpon>
@@ -106,16 +108,19 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Message.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\HomePage.xaml">
+    <EmbeddedResource Update="Views\Home\HomePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\LoginPage.xaml">
+    <EmbeddedResource Update="Views\Home\LoginPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Gallery\PreviewGalleryPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Profile\EditProfilePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Reports\GalleryPage.xaml">
+    <EmbeddedResource Update="Views\Gallery\GalleryPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Reports\ReportDetailPage.xaml">
