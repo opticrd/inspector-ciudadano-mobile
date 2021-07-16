@@ -4,7 +4,10 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
+    xmlns:tmp="clr-namespace:Inspector.Framework.Helpers"
+    xmlns:vm="clr-namespace:Inspector.ViewModels"
     Title="Detalles">
+    <!--  x:DataType="vm:ReportDetailPageViewModel"  -->
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Order="Secondary" Text="Compartir" />
@@ -13,100 +16,156 @@
         <ToolbarItem Order="Secondary" Text="Reportar" />
     </ContentPage.ToolbarItems>
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <DataTemplate x:Key="incomingTemplate">
+                <StackLayout Margin="0,16,0,0">
+                    <Label Text="{Binding UserName}" TextColor="Black" />
+                    <Frame
+                        Margin="0,0,32,0"
+                        Padding="8,8,8,4"
+                        BackgroundColor="#E3E3E3"
+                        CornerRadius="10"
+                        HasShadow="False">
+                        <StackLayout>
+                            <Label Text="{Binding Body}" />
+                            <Label HorizontalOptions="End" Text="31/12/2021" />
+                            <Line
+                                Margin="-16,0,-16,0"
+                                HorizontalOptions="FillAndExpand"
+                                IsVisible="{Binding HasAttachments}"
+                                Opacity="0.3"
+                                Stroke="Black"
+                                StrokeLineCap="Round"
+                                StrokeThickness="2"
+                                X1="0"
+                                X2="3000" />
+                            <Button
+                                BackgroundColor="#E3E3E3"
+                                IsVisible="{Binding HasAttachments}"
+                                Text="Ver Adjuntos" />
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+            </DataTemplate>
+
+            <DataTemplate x:Key="outgoingTemplate">
+                <StackLayout Margin="0,16,0,0">
+                    <!--<Label Text="{Binding UserName}" TextColor="Black" />-->
+                    <Frame
+                        Margin="32,0,0,0"
+                        Padding="8,8,8,4"
+                        BackgroundColor="{StaticResource PrimaryColor}"
+                        CornerRadius="10"
+                        HasShadow="False">
+                        <StackLayout>
+                            <Label Text="{Binding Body}" TextColor="White" />
+                            <Label
+                                HorizontalOptions="End"
+                                Text="31/12/2021"
+                                TextColor="White" />
+                            <Line
+                                Margin="-16,0,-16,0"
+                                HorizontalOptions="FillAndExpand"
+                                IsVisible="{Binding HasAttachments}"
+                                Opacity="0.6"
+                                Stroke="White"
+                                StrokeLineCap="Round"
+                                StrokeThickness="2"
+                                X1="0"
+                                X2="3000" />
+                            <Button
+                                BackgroundColor="{StaticResource PrimaryColor}"
+                                IsVisible="{Binding HasAttachments}"
+                                Text="Ver Adjuntos"
+                                TextColor="White" />
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+            </DataTemplate>
+
+            <tmp:CommentTemplateSelector
+                x:Key="commentTemplateSelector"
+                IncomingDataTemplate="{StaticResource incomingTemplate}"
+                OutgoingDataTemplate="{StaticResource outgoingTemplate}" />
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Padding="16">
 
-                <Image
+                <!--<Image
                     Margin="-16,-16,-16,0"
                     Aspect="AspectFill"
-                    Source="sample.png" />
+                    Source="sample.png" />-->
 
                 <Label
                     Grid.Row="1"
                     Style="{StaticResource H3}"
-                    Text="Reparación Calle" />
+                    Text="{Binding TicketSelected.Title}" />
                 <Label
                     Grid.Row="2"
-                    Text="Luis F. Thomen #450, El Millon"
+                    Text="{Binding TicketSelected.CustomAttributes[address]}"
                     TranslationY="-6" />
 
                 <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
-                    <Grid ColumnDefinitions="20,Auto" VerticalOptions="Start">
+                    <mtrl:MaterialChip
+                        BackgroundColor="#EFFAE6"
+                        Text="EN PROCESO"
+                        TextColor="#DE000000" />
+                    <mtrl:MaterialChip
+                        BackgroundColor="#EFFAE6"
+                        Text="Prioridad alta"
+                        TextColor="#DE000000" />
 
-                        <Rectangle
-                            Grid.ColumnSpan="2"
-                            Margin="-4"
-                            Fill="#27AE60"
-                            HorizontalOptions="FillAndExpand"
-                            Opacity="0.2"
-                            RadiusX="5"
-                            RadiusY="5"
-                            VerticalOptions="FillAndExpand" />
-
-                        <Rectangle
-                            Fill="#27AE60"
-                            HeightRequest="16"
-                            HorizontalOptions="Start"
-                            RadiusX="5"
-                            RadiusY="5"
-                            WidthRequest="20" />
-                        <Label Grid.Column="1" Text="EN PROCESO" />
-
-                    </Grid>
-
-                    <!--<Grid
-                        ColumnDefinitions="Auto"
-                        HorizontalOptions="EndAndExpand"
-                        VerticalOptions="End">
-                        <Rectangle
-                            Margin="-4"
-                            Fill="#000"
-                            HorizontalOptions="FillAndExpand"
-                            Opacity="0.04"
-                            RadiusX="5"
-                            RadiusY="5"
-                            VerticalOptions="FillAndExpand" />
-                        <Label Text="99 Colaboradores" TextTransform="Uppercase" />
-                    </Grid>-->
+                    <mtrl:MaterialChip
+                        BackgroundColor="#EFFAE6"
+                        Text="31/12/2021"
+                        TextColor="#DE000000" />
                 </StackLayout>
 
-                <!--<StackLayout
-                    Margin="0,8"
-                    HeightRequest="48"
-                    Orientation="Horizontal"
-                    VerticalOptions="Start">
-                    <mtrl:MaterialButton Style="{StaticResource ButtonOutlined}" Text="Compartir" />
-                    <mtrl:MaterialButton Style="{StaticResource ButtonOutlined}" Text="Guardar" />
+                <!--<StackLayout Orientation="Horizontal">
+                    <Image />
+                    <Label Text="Person name" />
                 </StackLayout>-->
 
                 <Line
+                    Margin="-16,0,-16,0"
                     HorizontalOptions="FillAndExpand"
+                    Opacity="0.3"
                     Stroke="Gray"
                     StrokeLineCap="Round"
                     StrokeThickness="2"
-                    TranslationX="-16"
                     X1="0"
-                    X2="2000"
-                    Y1="20"
-                    Y2="20" />
+                    X2="3000"
+                    Y1="8"
+                    Y2="0" />
 
-                <Label LineHeight="1.6" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi in lacus gravida, dapibus lacus eget, commodo tellus. Integer nec dolor lobortis, tincidunt libero sit amet, sodales arcu. Nam feugiat nibh at erat placerat luctus. " />
+                <mtrl:MaterialButton Style="{StaticResource ButtonPrimary}" Text="Gestionar Caso" />
 
-                <!--<mtrl:MaterialButton
-                    Style="{StaticResource ButtonPrimary}"
-                    Text="Unirse como colaborador"
-                    VerticalOptions="EndAndExpand" />-->
+                <Line
+                    Margin="-16,0,-16,0"
+                    HorizontalOptions="FillAndExpand"
+                    Opacity="0.3"
+                    Stroke="Gray"
+                    StrokeLineCap="Round"
+                    StrokeThickness="2"
+                    X1="0"
+                    X2="3000"
+                    Y1="8"
+                    Y2="0" />
 
-                <mtrl:MaterialButton
-                    Style="{StaticResource ButtonPrimary}"
-                    Text="Gestionar Incidente"
-                    VerticalOptions="EndAndExpand" />
+                <Grid>
+                    <StackLayout
+                        BindableLayout.ItemTemplateSelector="{StaticResource commentTemplateSelector}"
+                        BindableLayout.ItemsSource="{Binding Comments}"
+                        VerticalOptions="FillAndExpand" />
+                </Grid>
 
-                <!--<mtrl:MaterialButton
-                    Style="{StaticResource ButtonOutlined}"
-                    Text="Priorizar caso"
-                    VerticalOptions="EndAndExpand" />-->
+
 
             </StackLayout>
         </ScrollView>

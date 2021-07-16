@@ -3,6 +3,7 @@ using Inspector.Framework.Utils;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -28,15 +29,26 @@ namespace Inspector.ViewModels
             AllTicketsCommand = new DelegateCommand(() => OnChangeHistoryTicketsFilter(0));
             OpenTicketsCommand = new DelegateCommand(() => OnChangeHistoryTicketsFilter(1));
             ClosedTicketsCommand = new DelegateCommand(() => OnChangeHistoryTicketsFilter(2));
+            TicketSelectedCommand = new DelegateCommand(async () =>
+            {
+                var parameters = new NavigationParameters()
+                {
+                    { NavigationKeys.TicketSelected, TicketSelected }
+                };
+                await _navigationService.NavigateAsync(NavigationKeys.ReportDetailPage, parameters);
+            });
         }
-
+                
         public ObservableCollection<Ticket> Tickets { get; set; } = new ObservableCollection<Ticket>();
+        public Ticket TicketSelected { get; set; }
         public int HistoryIndexSelected { get; set; }
+
         public ICommand RefreshCommand { get; set; }
         public ICommand LoadMoreItemsCommand { get; set; }
         public ICommand AllTicketsCommand { get; set; }
         public ICommand OpenTicketsCommand { get; set; }
         public ICommand ClosedTicketsCommand { get; set; }
+        public ICommand TicketSelectedCommand { get; set; }
 
         private async void Init()
         {

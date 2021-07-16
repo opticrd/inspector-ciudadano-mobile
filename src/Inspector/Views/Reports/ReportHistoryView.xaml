@@ -7,7 +7,9 @@
     xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
     xmlns:prism="http://prismlibrary.com"
     xmlns:views="clr-namespace:Inspector.Views.Shared"
+    xmlns:vm="clr-namespace:Inspector.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
+    <!--  x:DataType="vm:HomePageViewModel"  -->
 
     <ScrollView>
         <StackLayout
@@ -52,7 +54,8 @@
                 <CollectionView
                     Margin="0,16,0,0"
                     ItemSizingStrategy="MeasureFirstItem"
-                    ItemsSource="{Binding Tickets}">
+                    ItemsSource="{Binding Tickets}"
+                    SelectedItem="{Binding TicketSelected}">
 
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout ItemSpacing="8" Orientation="Vertical" />
@@ -64,7 +67,11 @@
                             <Frame Padding="8,8,16,8" VerticalOptions="Start">
 
                                 <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{prism:NavigateTo 'ReportDetailPage'}" />
+                                    <TapGestureRecognizer Command="{prism:NavigateTo 'ReportDetailPage'}">
+                                        <TapGestureRecognizer.CommandParameter>
+                                            <prism:NavigationParameter Key="TicketSelected" Value="{Binding .}" />
+                                        </TapGestureRecognizer.CommandParameter>
+                                    </TapGestureRecognizer>
                                 </Frame.GestureRecognizers>
 
                                 <Grid

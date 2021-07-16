@@ -10,9 +10,11 @@ namespace Inspector.Framework.Utils
         public const string NewTicket = nameof(NewTicket);
         public const string ShowFiles = nameof(ShowFiles);
         public const string RemoveAllFiles = nameof(RemoveAllFiles);
+        public const string TicketSelected = nameof(TicketSelected);
 
         public const string HomePage = "NavigationPage/HomePage";
-        public const string GalleryPage = "GalleryPage";
+        public const string GalleryPage = nameof(GalleryPage);
+        public const string ReportDetailPage = nameof(ReportDetailPage);
     }
 
     public static class CacheKeys
