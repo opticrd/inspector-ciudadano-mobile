@@ -1,10 +1,12 @@
-﻿using NativeMedia;
+﻿using Inspector.Models;
+using NativeMedia;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using MediaFile = Inspector.Models.MediaFile;
 
 namespace Inspector.Framework.Controls
 {
@@ -12,7 +14,8 @@ namespace Inspector.Framework.Controls
     {
         public MediaFileView()
         {
-            OnChanged();
+            //OnFileChanged();
+            //OnAttachmentChanged();
         }
 
         public static readonly BindableProperty FileProperty =
@@ -22,7 +25,7 @@ namespace Inspector.Framework.Controls
                 typeof(MediaFileView),
                 null,
                 BindingMode.OneWay,
-                propertyChanged: (b, o, n) => ((MediaFileView)b).OnChanged());
+                propertyChanged: (b, o, n) => ((MediaFileView)b).OnFileChanged());
 
         public IMediaFile File
         {
@@ -30,7 +33,22 @@ namespace Inspector.Framework.Controls
             set => SetValue(FileProperty, value);
         }
 
-        private async void OnChanged()
+        public static readonly BindableProperty AttachmentProperty =
+            BindableProperty.Create(
+                nameof(Attachment),
+                typeof(MediaFile),
+                typeof(MediaFileView),
+                null,
+                BindingMode.OneWay,
+                propertyChanged: (b, o, n) => ((MediaFileView)b).OnAttachmentChanged());
+
+        public MediaFile Attachment
+        {
+            get => (MediaFile)GetValue(AttachmentProperty);
+            set => SetValue(AttachmentProperty, value);
+        }
+
+        private async void OnFileChanged()
         {
             var file = File;
 
@@ -62,6 +80,42 @@ namespace Inspector.Framework.Controls
             }
 
             File.Dispose();
+        }
+
+        private async void OnAttachmentChanged()
+        {
+            if (Attachment?.Data == null)
+            {
+                Content = null;
+                return;
+            }
+
+            switch (Attachment.Type)
+            {
+                case FileType.Image:
+
+                    var imageSource = ImageSource.FromStream(() => Attachment.Data);
+
+                    Content = new Image { Source = imageSource };
+                    break;
+                case FileType.Video:
+
+                    //var path = await SaveToCacheAsync(Attachment.Data, "video");
+
+                    Content = new MediaElement 
+                    { 
+                        Source = new Xamarin.CommunityToolkit.Core.StreamMediaSource() 
+                        { 
+                            Stream = new Func<System.Threading.CancellationToken, Task<Stream>>((cancellationToken) => 
+                            { 
+                                return Task.FromResult<Stream>(Attachment.Data); 
+                            })
+                        }
+                    };
+                    break;
+                default:
+                    break;
+            }
         }
 
         public async Task<string> SaveToCacheAsync(Stream data, string fileName)
