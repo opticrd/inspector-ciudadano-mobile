@@ -22,17 +22,16 @@
         <ResourceDictionary>
 
             <DataTemplate x:Key="incomingTemplate">
-                <StackLayout Margin="0,16,0,0">
+                <StackLayout Margin="0,16,0,0" Padding="16,0,32,0">
                     <Label Text="{Binding UserName}" TextColor="Black" />
                     <Frame
-                        Margin="0,0,32,0"
                         Padding="8,8,8,4"
                         BackgroundColor="#E3E3E3"
                         CornerRadius="10"
                         HasShadow="False">
                         <StackLayout>
                             <Label Text="{Binding Body}" />
-                            <Label HorizontalOptions="End" Text="31/12/2021" />
+                            <Label HorizontalOptions="End" Text="{Binding CreatedAt, StringFormat='{0:g}'}" />
                             <Line
                                 Margin="-16,0,-16,0"
                                 HorizontalOptions="FillAndExpand"
@@ -55,10 +54,9 @@
             </DataTemplate>
 
             <DataTemplate x:Key="outgoingTemplate">
-                <StackLayout Margin="0,16,0,0">
+                <StackLayout Margin="0,16,0,0" Padding="32,0,16,0">
                     <!--<Label Text="{Binding UserName}" TextColor="Black" />-->
                     <Frame
-                        Margin="32,0,0,0"
                         Padding="8,8,8,4"
                         BackgroundColor="{StaticResource PrimaryColor}"
                         CornerRadius="10"
@@ -67,7 +65,7 @@
                             <Label Text="{Binding Body}" TextColor="White" />
                             <Label
                                 HorizontalOptions="End"
-                                Text="31/12/2021"
+                                Text="{Binding CreatedAt, StringFormat='{0:g}'}"
                                 TextColor="White" />
                             <Line
                                 Margin="-16,0,-16,0"
@@ -101,72 +99,117 @@
 
     <ContentPage.Content>
 
-        <StackLayout Padding="16,16,16,0" VerticalOptions="FillAndExpand">
+        <RefreshView IsRefreshing="{Binding IsBusy}">
+            <CollectionView ItemTemplate="{StaticResource commentTemplateSelector}" ItemsSource="{Binding Comments}">
+                <CollectionView.Header>
+                    <StackLayout Padding="16">
+                        <Label
+                            Grid.Row="1"
+                            Style="{StaticResource H3}"
+                            Text="{Binding TicketSelected.Title}" />
+                        <Label
+                            Grid.Row="2"
+                            Text="{Binding TicketSelected.CustomAttributes[address]}"
+                            TranslationY="-6" />
 
-            <RefreshView IsRefreshing="{Binding IsBusy}">
-                <CollectionView ItemTemplate="{StaticResource commentTemplateSelector}" ItemsSource="{Binding Comments}">
-                    <CollectionView.Header>
-                        <StackLayout>
-                            <Label
-                                Grid.Row="1"
-                                Style="{StaticResource H3}"
-                                Text="{Binding TicketSelected.Title}" />
-                            <Label
-                                Grid.Row="2"
-                                Text="{Binding TicketSelected.CustomAttributes[address]}"
-                                TranslationY="-6" />
+                        <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                            <mtrl:MaterialChip TextColor="#DE000000">
+                                <mtrl:MaterialChip.Triggers>
+                                    <DataTrigger
+                                        Binding="{Binding TicketSelected.StateId}"
+                                        TargetType="mtrl:MaterialChip"
+                                        Value="1">
+                                        <Setter Property="Text" Value="Abierto" />
+                                        <Setter Property="BackgroundColor" Value="#EBF4FF" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding TicketSelected.StateId}"
+                                        TargetType="mtrl:MaterialChip"
+                                        Value="2">
+                                        <Setter Property="Text" Value="Abierto" />
+                                        <Setter Property="BackgroundColor" Value="#EFFAE6" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding TicketSelected.StateId}"
+                                        TargetType="mtrl:MaterialChip"
+                                        Value="6">
+                                        <Setter Property="Text" Value="En progreso" />
+                                        <Setter Property="BackgroundColor" Value="#FEFCE7" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding TicketSelected.StateId}"
+                                        TargetType="mtrl:MaterialChip"
+                                        Value="4">
+                                        <Setter Property="Text" Value="Cerrado" />
+                                        <Setter Property="BackgroundColor" Value="#FEE7E7" />
+                                    </DataTrigger>
+                                </mtrl:MaterialChip.Triggers>
+                            </mtrl:MaterialChip>
+                            <mtrl:MaterialChip TextColor="#DE000000">
+                                <mtrl:MaterialChip.Triggers>
+                                    <DataTrigger
+                                        Binding="{Binding TicketSelected.PriorityId}"
+                                        TargetType="mtrl:MaterialChip"
+                                        Value="1">
+                                        <Setter Property="Text" Value="Prioridad Baja" />
+                                        <Setter Property="BackgroundColor" Value="#EFFAE6" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding TicketSelected.PriorityId}"
+                                        TargetType="mtrl:MaterialChip"
+                                        Value="2">
+                                        <Setter Property="Text" Value="Prioridad Normal" />
+                                        <Setter Property="BackgroundColor" Value="#FEFCE7" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding TicketSelected.PriorityId}"
+                                        TargetType="mtrl:MaterialChip"
+                                        Value="3">
+                                        <Setter Property="Text" Value="Prioridad Alta" />
+                                        <Setter Property="BackgroundColor" Value="#FEE7E7" />
+                                    </DataTrigger>
+                                </mtrl:MaterialChip.Triggers>
+                            </mtrl:MaterialChip>
 
-                            <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
-                                <mtrl:MaterialChip
-                                    BackgroundColor="#EFFAE6"
-                                    Text="EN PROCESO"
-                                    TextColor="#DE000000" />
-                                <mtrl:MaterialChip
-                                    BackgroundColor="#EFFAE6"
-                                    Text="Prioridad alta"
-                                    TextColor="#DE000000" />
-
-                                <mtrl:MaterialChip
-                                    BackgroundColor="#EFFAE6"
-                                    Text="31/12/2021"
-                                    TextColor="#DE000000" />
-                            </StackLayout>
-
-                            <Line
-                                Margin="-16,0,-16,0"
-                                HorizontalOptions="FillAndExpand"
-                                Opacity="0.3"
-                                Stroke="Gray"
-                                StrokeLineCap="Round"
-                                StrokeThickness="2"
-                                X1="0"
-                                X2="3000"
-                                Y1="8"
-                                Y2="0" />
-
-                            <mtrl:MaterialButton Style="{StaticResource ButtonPrimary}" Text="Gestionar Caso" />
-
-                            <Line
-                                Margin="-16,0,-16,16"
-                                HorizontalOptions="FillAndExpand"
-                                Opacity="0.3"
-                                Stroke="Gray"
-                                StrokeLineCap="Round"
-                                StrokeThickness="2"
-                                X1="0"
-                                X2="3000"
-                                Y1="8"
-                                Y2="0" />
+                            <mtrl:MaterialChip
+                                BackgroundColor="#EEEEEE"
+                                Text="{Binding TicketSelected.CreatedAt, StringFormat='{0:d}'}"
+                                TextColor="#DE000000" />
                         </StackLayout>
-                    </CollectionView.Header>
 
-                    <CollectionView.EmptyView>
-                        <Label Text="Sin comentarios" />
-                    </CollectionView.EmptyView>
-                </CollectionView>
-            </RefreshView>
+                        <Line
+                            Margin="-16,0,-16,0"
+                            HorizontalOptions="FillAndExpand"
+                            Opacity="0.3"
+                            Stroke="Gray"
+                            StrokeLineCap="Round"
+                            StrokeThickness="2"
+                            X1="0"
+                            X2="3000"
+                            Y1="8"
+                            Y2="0" />
 
-        </StackLayout>
+                        <mtrl:MaterialButton Style="{StaticResource ButtonPrimary}" Text="Gestionar Caso" />
+
+                        <Line
+                            Margin="-16,0,-16,0"
+                            HorizontalOptions="FillAndExpand"
+                            Opacity="0.3"
+                            Stroke="Gray"
+                            StrokeLineCap="Round"
+                            StrokeThickness="2"
+                            X1="0"
+                            X2="3000"
+                            Y1="8"
+                            Y2="0" />
+                    </StackLayout>
+                </CollectionView.Header>
+
+                <CollectionView.EmptyView>
+                    <Label Text="Sin comentarios" />
+                </CollectionView.EmptyView>
+            </CollectionView>
+        </RefreshView>
 
     </ContentPage.Content>
 
