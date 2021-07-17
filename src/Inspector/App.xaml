@@ -47,6 +47,16 @@
                 </Style.Triggers>
             </Style>-->
 
+            <Style TargetType="Line" x:Key="lineStyle">
+                <Setter Property="Margin" Value="-16,0,-16,0" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="Opacity" Value="0.3" />
+                <Setter Property="Stroke" Value="Gray" />
+                <Setter Property="StrokeLineCap" Value="Round" />
+                <Setter Property="StrokeThickness" Value="2" />
+                <Setter Property="X2" Value="3000" />
+            </Style>
+
 
         </ResourceDictionary>
     </Application.Resources>

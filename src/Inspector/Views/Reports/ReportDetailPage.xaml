@@ -3,6 +3,7 @@
     x:Class="Inspector.Views.ReportDetailPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:img="clr-namespace:Inspector.Framework.Helpers.Extensions;assembly=Inspector"
     xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
     xmlns:prism="http://prismlibrary.com"
     xmlns:tmp="clr-namespace:Inspector.Framework.Helpers"
@@ -12,10 +13,14 @@
     <!--  x:DataType="vm:ReportDetailPageViewModel"  -->
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Order="Secondary" Text="Compartir" />
+        <!--<ToolbarItem Order="Secondary" Text="Compartir" />
         <ToolbarItem Order="Secondary" Text="Llamar al encargado" />
         <ToolbarItem Order="Secondary" Text="Whatsapp del encargado" />
-        <ToolbarItem Order="Secondary" Text="Reportar" />
+        <ToolbarItem Order="Secondary" Text="Reportar" />-->
+        <ToolbarItem
+            Command="{Binding AttachFileCommand}"
+            Order="Secondary"
+            Text="Adjuntar archivos" />
     </ContentPage.ToolbarItems>
 
     <ContentPage.Resources>
@@ -99,117 +104,160 @@
 
     <ContentPage.Content>
 
-        <RefreshView IsRefreshing="{Binding IsBusy}">
-            <CollectionView ItemTemplate="{StaticResource commentTemplateSelector}" ItemsSource="{Binding Comments}">
-                <CollectionView.Header>
-                    <StackLayout Padding="16">
-                        <Label
-                            Grid.Row="1"
-                            Style="{StaticResource H3}"
-                            Text="{Binding TicketSelected.Title}" />
-                        <Label
-                            Grid.Row="2"
-                            Text="{Binding TicketSelected.CustomAttributes[address]}"
-                            TranslationY="-6" />
+        <Grid ColumnSpacing="0" RowSpacing="0">
 
-                        <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
-                            <mtrl:MaterialChip TextColor="#DE000000">
-                                <mtrl:MaterialChip.Triggers>
-                                    <DataTrigger
-                                        Binding="{Binding TicketSelected.StateId}"
-                                        TargetType="mtrl:MaterialChip"
-                                        Value="1">
-                                        <Setter Property="Text" Value="Abierto" />
-                                        <Setter Property="BackgroundColor" Value="#EBF4FF" />
-                                    </DataTrigger>
-                                    <DataTrigger
-                                        Binding="{Binding TicketSelected.StateId}"
-                                        TargetType="mtrl:MaterialChip"
-                                        Value="2">
-                                        <Setter Property="Text" Value="Abierto" />
-                                        <Setter Property="BackgroundColor" Value="#EFFAE6" />
-                                    </DataTrigger>
-                                    <DataTrigger
-                                        Binding="{Binding TicketSelected.StateId}"
-                                        TargetType="mtrl:MaterialChip"
-                                        Value="6">
-                                        <Setter Property="Text" Value="En progreso" />
-                                        <Setter Property="BackgroundColor" Value="#FEFCE7" />
-                                    </DataTrigger>
-                                    <DataTrigger
-                                        Binding="{Binding TicketSelected.StateId}"
-                                        TargetType="mtrl:MaterialChip"
-                                        Value="4">
-                                        <Setter Property="Text" Value="Cerrado" />
-                                        <Setter Property="BackgroundColor" Value="#FEE7E7" />
-                                    </DataTrigger>
-                                </mtrl:MaterialChip.Triggers>
-                            </mtrl:MaterialChip>
-                            <mtrl:MaterialChip TextColor="#DE000000">
-                                <mtrl:MaterialChip.Triggers>
-                                    <DataTrigger
-                                        Binding="{Binding TicketSelected.PriorityId}"
-                                        TargetType="mtrl:MaterialChip"
-                                        Value="1">
-                                        <Setter Property="Text" Value="Prioridad Baja" />
-                                        <Setter Property="BackgroundColor" Value="#EFFAE6" />
-                                    </DataTrigger>
-                                    <DataTrigger
-                                        Binding="{Binding TicketSelected.PriorityId}"
-                                        TargetType="mtrl:MaterialChip"
-                                        Value="2">
-                                        <Setter Property="Text" Value="Prioridad Normal" />
-                                        <Setter Property="BackgroundColor" Value="#FEFCE7" />
-                                    </DataTrigger>
-                                    <DataTrigger
-                                        Binding="{Binding TicketSelected.PriorityId}"
-                                        TargetType="mtrl:MaterialChip"
-                                        Value="3">
-                                        <Setter Property="Text" Value="Prioridad Alta" />
-                                        <Setter Property="BackgroundColor" Value="#FEE7E7" />
-                                    </DataTrigger>
-                                </mtrl:MaterialChip.Triggers>
-                            </mtrl:MaterialChip>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="1" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-                            <mtrl:MaterialChip
-                                BackgroundColor="#EEEEEE"
-                                Text="{Binding TicketSelected.CreatedAt, StringFormat='{0:d}'}"
-                                TextColor="#DE000000" />
+            <RefreshView IsRefreshing="{Binding IsBusy}">
+                <CollectionView
+                    ItemTemplate="{StaticResource commentTemplateSelector}"
+                    ItemsSource="{Binding Comments}"
+                    ItemsUpdatingScrollMode="KeepLastItemInView">
+                    <CollectionView.Header>
+                        <StackLayout Padding="16">
+                            <Label
+                                Grid.Row="1"
+                                Style="{StaticResource H3}"
+                                Text="{Binding TicketSelected.Title}" />
+                            <Label
+                                Grid.Row="2"
+                                Text="{Binding TicketSelected.CustomAttributes[address]}"
+                                TranslationY="-6" />
+
+                            <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                                <mtrl:MaterialChip TextColor="#DE000000">
+                                    <mtrl:MaterialChip.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding TicketSelected.StateId}"
+                                            TargetType="mtrl:MaterialChip"
+                                            Value="1">
+                                            <Setter Property="Text" Value="Abierto" />
+                                            <Setter Property="BackgroundColor" Value="#EBF4FF" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding TicketSelected.StateId}"
+                                            TargetType="mtrl:MaterialChip"
+                                            Value="2">
+                                            <Setter Property="Text" Value="Abierto" />
+                                            <Setter Property="BackgroundColor" Value="#EFFAE6" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding TicketSelected.StateId}"
+                                            TargetType="mtrl:MaterialChip"
+                                            Value="6">
+                                            <Setter Property="Text" Value="En progreso" />
+                                            <Setter Property="BackgroundColor" Value="#FEFCE7" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding TicketSelected.StateId}"
+                                            TargetType="mtrl:MaterialChip"
+                                            Value="4">
+                                            <Setter Property="Text" Value="Cerrado" />
+                                            <Setter Property="BackgroundColor" Value="#FEE7E7" />
+                                        </DataTrigger>
+                                    </mtrl:MaterialChip.Triggers>
+                                </mtrl:MaterialChip>
+                                <mtrl:MaterialChip TextColor="#DE000000">
+                                    <mtrl:MaterialChip.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding TicketSelected.PriorityId}"
+                                            TargetType="mtrl:MaterialChip"
+                                            Value="1">
+                                            <Setter Property="Text" Value="Prioridad Baja" />
+                                            <Setter Property="BackgroundColor" Value="#EFFAE6" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding TicketSelected.PriorityId}"
+                                            TargetType="mtrl:MaterialChip"
+                                            Value="2">
+                                            <Setter Property="Text" Value="Prioridad Normal" />
+                                            <Setter Property="BackgroundColor" Value="#FEFCE7" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding TicketSelected.PriorityId}"
+                                            TargetType="mtrl:MaterialChip"
+                                            Value="3">
+                                            <Setter Property="Text" Value="Prioridad Alta" />
+                                            <Setter Property="BackgroundColor" Value="#FEE7E7" />
+                                        </DataTrigger>
+                                    </mtrl:MaterialChip.Triggers>
+                                </mtrl:MaterialChip>
+
+                                <mtrl:MaterialChip
+                                    BackgroundColor="#EEEEEE"
+                                    Text="{Binding TicketSelected.CreatedAt, StringFormat='{0:d}'}"
+                                    TextColor="#DE000000" />
+                            </StackLayout>
+
+                            <Line Style="{StaticResource lineStyle}" Y1="8" />
+
+                            <mtrl:MaterialButton Style="{StaticResource ButtonPrimary}" Text="Gestionar Caso" />
+
+                            <Line Style="{StaticResource lineStyle}" Y1="8" />
                         </StackLayout>
+                    </CollectionView.Header>
 
-                        <Line
-                            Margin="-16,0,-16,0"
-                            HorizontalOptions="FillAndExpand"
-                            Opacity="0.3"
-                            Stroke="Gray"
-                            StrokeLineCap="Round"
-                            StrokeThickness="2"
-                            X1="0"
-                            X2="3000"
-                            Y1="8"
-                            Y2="0" />
+                    <CollectionView.EmptyView>
+                        <Label Text="Sin comentarios" />
+                    </CollectionView.EmptyView>
+                </CollectionView>
+            </RefreshView>
 
-                        <mtrl:MaterialButton Style="{StaticResource ButtonPrimary}" Text="Gestionar Caso" />
+            <Line Grid.Row="1" Style="{StaticResource lineStyle}" />
 
-                        <Line
-                            Margin="-16,0,-16,0"
-                            HorizontalOptions="FillAndExpand"
-                            Opacity="0.3"
-                            Stroke="Gray"
-                            StrokeLineCap="Round"
-                            StrokeThickness="2"
-                            X1="0"
-                            X2="3000"
-                            Y1="8"
-                            Y2="0" />
-                    </StackLayout>
-                </CollectionView.Header>
+            <Grid
+                Grid.Row="2"
+                ColumnSpacing="0"
+                RowSpacing="0">
 
-                <CollectionView.EmptyView>
-                    <Label Text="Sin comentarios" />
-                </CollectionView.EmptyView>
-            </CollectionView>
-        </RefreshView>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!--<Entry
+                    Margin="1"
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="FillAndExpand"
+                    Keyboard="Chat"
+                    Placeholder="Type your message here"
+                    PlaceholderColor="LightGray"
+                    TextColor="Black" />-->
+
+                <mtrl:MaterialTextField
+                    Margin="10,10,10,10"
+                    AlwaysShowUnderline="False"
+                    CardBackgroundColor="#F5F5F5"
+                    FloatingPlaceholderEnabled="False"
+                    HorizontalOptions="FillAndExpand"
+                    Placeholder="Escribe aqui"
+                    PlaceholderColor="#626262"
+                    ReturnType="Send"
+                    ShouldAnimateUnderline="False"
+                    Text="{Binding NewComment}"
+                    TextColor="Black"
+                    UnderlineColor="Transparent" />
+
+                <Button
+                    Grid.Column="1"
+                    Margin="2,6,2,6"
+                    BackgroundColor="{StaticResource PrimaryColor}"
+                    Command="{Binding SendCommentCommand}"
+                    CornerRadius="50"
+                    HeightRequest="50"
+                    ImageSource="{img:ImageResource Inspector.Resources.Images.send.png}"
+                    WidthRequest="50" />
+
+            </Grid>
+
+        </Grid>
 
     </ContentPage.Content>
 
