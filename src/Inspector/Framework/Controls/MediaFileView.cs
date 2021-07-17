@@ -100,18 +100,20 @@ namespace Inspector.Framework.Controls
                     break;
                 case FileType.Video:
 
-                    //var path = await SaveToCacheAsync(Attachment.Data, "video");
+                    var name = string.IsNullOrWhiteSpace(Attachment.FileName) ? Guid.NewGuid().ToString() : Attachment.FileName;
+                    var path = await SaveToCacheAsync(Attachment.Data, name);
+                    Content = new MediaElement { Source = path };
 
-                    Content = new MediaElement 
-                    { 
-                        Source = new Xamarin.CommunityToolkit.Core.StreamMediaSource() 
-                        { 
-                            Stream = new Func<System.Threading.CancellationToken, Task<Stream>>((cancellationToken) => 
-                            { 
-                                return Task.FromResult<Stream>(Attachment.Data); 
-                            })
-                        }
-                    };
+                    //Content = new MediaElement 
+                    //{ 
+                    //    Source = new Xamarin.CommunityToolkit.Core.StreamMediaSource() 
+                    //    { 
+                    //        Stream = new Func<System.Threading.CancellationToken, Task<Stream>>((cancellationToken) => 
+                    //        { 
+                    //            return Task.FromResult<Stream>(Attachment.Data); 
+                    //        })
+                    //    }
+                    //};
                     break;
                 default:
                     break;

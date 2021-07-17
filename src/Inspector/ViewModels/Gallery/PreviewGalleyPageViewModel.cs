@@ -72,7 +72,8 @@ namespace Inspector.ViewModels
                     listFiles.Add(new MediaFile
                     {
                         Data = fileStream,
-                        Type = fileType
+                        Type = fileType,
+                        FileName = item.Filename
                     });
                 }
 

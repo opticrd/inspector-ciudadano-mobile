@@ -11,7 +11,7 @@
 
     <ContentPage.Content>
 
-        <RefreshView IsRefreshing="{Binding IsBusy}">
+        <RefreshView IsRefreshing="{Binding IsBusy}" >
 
             <CollectionView ItemsSource="{Binding Attachements}" VerticalOptions="FillAndExpand">
 

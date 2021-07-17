@@ -21,5 +21,6 @@ namespace Inspector.Models
     {
         public Stream Data { get; set; }
         public FileType Type { get; set; }
+        public string FileName { get; set; }
     }
 }
