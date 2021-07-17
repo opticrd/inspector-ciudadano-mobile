@@ -41,11 +41,13 @@
   <ItemGroup>
     <None Remove="appsettings.json" />
     <None Remove="Resources\Images\bullhorn.png" />
+    <None Remove="Resources\Images\looking_notes.png" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="appsettings.json" />
     <EmbeddedResource Include="Resources\Images\bullhorn.png" />
+    <EmbeddedResource Include="Resources\Images\looking_notes.png" />
   </ItemGroup>
 
   <ItemGroup>
