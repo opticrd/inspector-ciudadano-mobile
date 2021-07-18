@@ -16,6 +16,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using XF.Material.Forms.UI;
+using XF.Material.Forms.UI.Dialogs;
 using Zammad.Client;
 using Zammad.Client.Resources;
 
@@ -31,6 +33,7 @@ namespace Inspector.ViewModels
             ShowFilesCommand = new DelegateCommand<Comment>(OnShowFilesCommandExecute);
             SendCommentCommand = new DelegateCommand(OnSendCommentCommandExecute);
             AttachFileCommand = new DelegateCommand(OnAttachFileCommandExecute);
+            ChangeStatusTicketCommand = new DelegateCommand(OnChangeStatusTicketCommandExecute);
             Init();
         }
 
@@ -41,6 +44,7 @@ namespace Inspector.ViewModels
         public DelegateCommand<Comment> ShowFilesCommand { get; set; }
         public DelegateCommand SendCommentCommand { get; set; }
         public ICommand AttachFileCommand { get; set; }
+        public ICommand ChangeStatusTicketCommand { get; set; }
 
         private async void Init()
         {
@@ -202,6 +206,54 @@ namespace Inspector.ViewModels
             {
                 IsBusy = false;
             }
+        }
+
+        private async void OnChangeStatusTicketCommandExecute()
+        {
+            if (IsBusy)
+                return;
+
+            IsBusy = true;
+
+            try
+            {
+                var choices = new string[]
+                {
+                    "Abierto",
+                    "En progreso",
+                    "Cerrado",
+                };
+
+                var view = new MaterialRadioButtonGroup() { Choices = choices };
+                bool? wasConfirmed = await MaterialDialog.Instance.ShowCustomContentAsync(view, TicketSelected.Title, "Cambiar estado del ticket");
+
+                if (wasConfirmed == null || !(bool)wasConfirmed)
+                    return;
+
+                int status = 0;
+
+                if (view.SelectedIndex == 0)
+                    status = (int)Framework.Dtos.TicketState.Open;
+                else if (view.SelectedIndex == 1)
+                    status = (int)Framework.Dtos.TicketState.InProgress;
+                else if (view.SelectedIndex == 2)
+                    status = (int)Framework.Dtos.TicketState.Closed;
+
+                var updatedTicket = TicketSelected;
+                updatedTicket.StateId = status;
+
+                var ticket = await _ticketClient.UpdateTicketAsync(TicketSelected.Id, updatedTicket);
+                if (ticket != null)
+                    TicketSelected = ticket;
+            }
+            catch(Zammad.Client.Core.ZammadException e)
+            {
+
+            }
+            finally
+            {
+                IsBusy = false;
+            }           
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)
