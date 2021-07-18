@@ -54,11 +54,11 @@ namespace Inspector.Views.Shared
                     ((ShipState)bindable).shipState.Fill = Brush.Magenta;
                     ((ShipState)bindable).shipStateText.Text = "Fusionado";
                     break;
-                //case (int)TicketState.InProgress:
-                //    ((ShipState)bindable).shipBackgroundColor.Fill = Brush.Green;
-                //    ((ShipState)bindable).shipState.Fill = Brush.Green;
-                //    ((ShipState)bindable).shipStateText.Text = "En progreso";
-                //    break;
+                case (int)TicketState.InProgress:
+                    ((ShipState)bindable).shipBackgroundColor.Fill = Brush.CadetBlue;
+                    ((ShipState)bindable).shipState.Fill = Brush.CadetBlue;
+                    ((ShipState)bindable).shipStateText.Text = "En progreso";
+                    break;
                 case (int)TicketState.PendingClose:
                     ((ShipState)bindable).shipBackgroundColor.Fill = Brush.OrangeRed;
                     ((ShipState)bindable).shipState.Fill = Brush.OrangeRed;
