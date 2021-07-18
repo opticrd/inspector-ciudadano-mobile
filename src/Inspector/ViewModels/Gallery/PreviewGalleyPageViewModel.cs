@@ -93,8 +93,3 @@ namespace Inspector.ViewModels
 
     }
 }
-
-namespace NativeMedia
-{
-    partial class MediaFile { }
-}
