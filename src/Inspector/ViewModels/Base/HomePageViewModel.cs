@@ -68,12 +68,17 @@ namespace Inspector.ViewModels
             IsBusy = true;
             _page = 1;
 
-            var ticketList = await _ticketClient.GetTicketListAsync(_page, 30);
-            _allTickets = ticketList.Where(x => x.OwnerId == _userAccount.Id);
+            try
+            {
+                var ticketList = await _ticketClient.GetTicketListAsync(_page, 30);
+                _allTickets = ticketList.Where(x => x.OwnerId == _userAccount.Id);
 
-            Tickets = new ObservableCollection<Ticket>(_allTickets);
-
-            IsBusy = false;
+                Tickets = new ObservableCollection<Ticket>(_allTickets);
+            }
+            finally
+            {
+                IsBusy = false;
+            }            
         }
 
         private async void OnLoadMoreItemsCommandsExecute()
