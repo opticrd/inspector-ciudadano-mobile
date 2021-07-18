@@ -10,6 +10,7 @@ namespace Inspector.Framework.Utils
         public const string RemoveAllFiles = nameof(RemoveAllFiles);
         public const string TicketSelected = nameof(TicketSelected);
         public const string CommentSelected = nameof(CommentSelected);
+        public const string IsEditing = nameof(IsEditing);
 
         public const string HomePage = "NavigationPage/HomePage";
         public const string GalleryPage = nameof(GalleryPage);

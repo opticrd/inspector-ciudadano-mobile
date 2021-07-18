@@ -29,6 +29,7 @@ namespace Inspector.ViewModels
         TicketClient _ticketClient;
         User _userAccount;
         ValidationUnit _validationUnit;
+        Ticket _editingTicket;
 
         public AddReportPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ICacheService cacheService) : base(navigationService, dialogService, cacheService)
         {
@@ -69,6 +70,19 @@ namespace Inspector.ViewModels
             ShowFilesCommand = new DelegateCommand(OnShowFilesCommandExecute);
 
             Init();
+        }
+
+        public string PageTitle { get; set; } = "Crear Reporte";
+
+        bool _isEditing;
+        public bool IsEditing
+        {
+            get => _isEditing;
+            set
+            {
+                _isEditing = value;
+                PageTitle = value ? "Editar reporte" : "Crear Reporte";
+            }
         }
 
         public List<StateTicket> States { get; set; }
@@ -135,28 +149,37 @@ namespace Inspector.ViewModels
 
                         file.Dispose();
                     }          
-                }               
+                }
 
-                var ticket = await _ticketClient.CreateTicketAsync(
-                        new Ticket
-                        {
-                            Title = Title.Value,
-                            GroupId = StateSelected.Value,
-                            CustomerId = _userAccount.Id,
-                            OwnerId = _userAccount.Id,
-                            StateId = GroupSelected.Value,
-                            CustomAttributes = new Dictionary<string, object>()
-                            {
-                                { "address",  Address.Value },
-                            }
-                        },
-                        new TicketArticle
-                        {
-                            Subject = Title.Value,
-                            Body = Comments.Value,
-                            Type = "note",
-                            Attachments = attachements
-                        });
+                var formTicket = new Ticket
+                {
+                    Title = Title.Value,
+                    GroupId = StateSelected.Value,
+                    CustomerId = _userAccount.Id,
+                    OwnerId = _userAccount.Id,
+                    StateId = GroupSelected.Value,
+                    CustomAttributes = new Dictionary<string, object>()
+                    {
+                        { "address",  Address.Value },
+                    }
+                };                
+
+                Ticket ticket;
+
+                if(IsEditing)
+                    ticket = await _ticketClient.UpdateTicketAsync(_editingTicket.Id, formTicket);
+                else
+                {
+                    var formTicketArticle = new TicketArticle
+                    {
+                        Subject = Title.Value,
+                        Body = Comments.Value,
+                        Type = "note",
+                        Attachments = attachements
+                    };
+
+                    ticket = await _ticketClient.CreateTicketAsync(formTicket, formTicketArticle);
+                }                    
 
                 if (ticket.Id <= 0)                
                     await _dialogService.DisplayAlertAsync("", Message.TicketNotCreated, "Ok");
@@ -233,6 +256,12 @@ namespace Inspector.ViewModels
             if (parameters.ContainsKey(NavigationKeys.RemoveAllFiles))
             {
                 Attachements = new ObservableCollection<IMediaFile>();
+            }
+
+            if (parameters.ContainsKey(NavigationKeys.IsEditing))
+            {
+                IsEditing = true;
+                _editingTicket = parameters.GetValue<Ticket>(NavigationKeys.IsEditing);
             }
         }
     }
