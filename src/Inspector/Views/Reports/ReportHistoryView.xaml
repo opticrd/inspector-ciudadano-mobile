@@ -49,7 +49,7 @@
 
             <RefreshView
                 Command="{Binding RefreshCommand}"
-                IsRefreshing="{Binding IsBusy}"
+                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                 RefreshColor="{StaticResource PrimaryColor}">
 
                 <CollectionView
