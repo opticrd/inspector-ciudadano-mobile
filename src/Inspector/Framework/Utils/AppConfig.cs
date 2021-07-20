@@ -17,7 +17,7 @@ namespace Inspector.Framework.Utils
 
         void LoadAppStyles()
         {
-#if AGENT
+#if RELEASE_AGENT || DEBUG_AGENT
             //Application.Current.Resources.MergedDictionaries.Add(new App1Style());
 #else
             //Application.Current.Resources.MergedDictionaries.Add(new App1Style());
@@ -29,7 +29,7 @@ namespace Inspector.Framework.Utils
         {
             get
             {
-#if AGENT
+#if RELEASE_AGENT || DEBUG_AGENT
                 return "Inspector.Resources.Labels.General";
 #else
                 return "Inspector.Resources.Labels.General";
@@ -41,7 +41,7 @@ namespace Inspector.Framework.Utils
         {
             get
             {
-#if true
+#if RELEASE_AGENT || DEBUG_AGENT
                 return "Agent";
 #else
                 return "User";
@@ -53,7 +53,7 @@ namespace Inspector.Framework.Utils
         {
             get
             {
-#if true
+#if RELEASE_AGENT || DEBUG_AGENT
                 return "https:MyApi1";
 #else
                 return "https:MyApi2";

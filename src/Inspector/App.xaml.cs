@@ -53,7 +53,7 @@ namespace Inspector
         protected override void OnStart()
         {
             base.OnStart();
-#if AGENT
+#if RELEASE_AGENT || DEBUG_AGENT
             // appcenter keys for inspector agents
 #else
             AppCenter.Start("android=8b508ed0-50f1-4836-a73d-76a7665351bd;" +
@@ -74,7 +74,7 @@ namespace Inspector
             containerRegistry.RegisterForNavigation<ReportDetailPage, ReportDetailPageViewModel>();
             containerRegistry.RegisterForNavigation<GalleryPage, GalleryPageViewModel>();
 
-#if true
+#if RELEASE_AGENT || DEBUG_AGENT
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
 #endif
 
@@ -86,7 +86,7 @@ namespace Inspector
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-#if false
+#if DEBUG || RELEASE
         moduleCatalog.AddModule<LoginModule.LoginModule>(InitializationMode.WhenAvailable);
 #endif
         }
