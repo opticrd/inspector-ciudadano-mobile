@@ -74,7 +74,7 @@ namespace Inspector
             containerRegistry.RegisterForNavigation<ReportDetailPage, ReportDetailPageViewModel>();
             containerRegistry.RegisterForNavigation<GalleryPage, GalleryPageViewModel>();
 
-#if AGENT
+#if true
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
 #endif
 
@@ -86,7 +86,7 @@ namespace Inspector
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-#if !AGENT
+#if false
         moduleCatalog.AddModule<LoginModule.LoginModule>(InitializationMode.WhenAvailable);
 #endif
         }
