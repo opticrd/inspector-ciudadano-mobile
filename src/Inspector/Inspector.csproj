@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-Agent|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;RELEASE_AGENT;AGENT</DefineConstants>
+    <DefineConstants>TRACE;RELEASE_AGENT;AGENT</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
