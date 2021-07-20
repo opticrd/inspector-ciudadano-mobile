@@ -41,7 +41,7 @@ namespace Inspector.Framework.Utils
         {
             get
             {
-#if AGENT
+#if true
                 return "Agent";
 #else
                 return "User";
@@ -53,7 +53,7 @@ namespace Inspector.Framework.Utils
         {
             get
             {
-#if AGENT
+#if true
                 return "https:MyApi1";
 #else
                 return "https:MyApi2";
