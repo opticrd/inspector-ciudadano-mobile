@@ -30,6 +30,8 @@ namespace Inspector.Droid
             StartActivity(new Intent(Application.Context, typeof(MainActivity)));
             Log.Debug(TAG, "Startup work is finished - starting MainActivity.");
         }
+
+        public override void OnBackPressed() { }
     }
 
 }
