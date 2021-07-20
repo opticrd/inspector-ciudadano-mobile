@@ -55,6 +55,7 @@
     <AndroidManifest>Properties\AndroidManifestAgent.xml</AndroidManifest>
     <ErrorReport>prompt</ErrorReport>
     <AndroidLinkMode>None</AndroidLinkMode>
+    <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-Agent|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -114,7 +115,7 @@
     <None Include="Properties\AndroidManifestAgent.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\logo.png" />
+    <AndroidResource Include="Resources\drawable\cupula.png" />
     <AndroidResource Include="Resources\values\styles.xml" />
     <AndroidResource Include="Resources\values\colors.xml" />
     <AndroidResource Include="Resources\drawable\splash_screen.xml">
