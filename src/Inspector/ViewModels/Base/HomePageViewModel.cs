@@ -18,7 +18,6 @@ namespace Inspector.ViewModels
     public class HomePageViewModel : BaseViewModel
     {
         TicketClient _ticketClient;
-        User _userAccount;
         IEnumerable<Ticket> _allTickets;
         int _page = 1;
         public HomePageViewModel(INavigationService navigationService, IPageDialogService dialogService, ICacheService cacheService) : base(navigationService, dialogService, cacheService)
@@ -37,11 +36,21 @@ namespace Inspector.ViewModels
                 };
                 await _navigationService.NavigateAsync(NavigationKeys.ReportDetailPage, parameters);
             });
+            LogoutCommand = new DelegateCommand(async () =>
+            {
+                Settings.RemoveAllSettings();
+
+                await _cacheService.RemoveSecureObject(CacheKeys.ZammadAccount);
+                await _cacheService.RemoveSecureObject(CacheKeys.UserAccount);
+
+                await _navigationService.NavigateAsync("/" + NavigationKeys.LoginPage);
+            });
         }
                 
         public ObservableCollection<Ticket> Tickets { get; set; } = new ObservableCollection<Ticket>();
         public Ticket TicketSelected { get; set; }
         public int HistoryIndexSelected { get; set; }
+        public User UserAccount { get; set; }
 
         public ICommand RefreshCommand { get; set; }
         public ICommand LoadMoreItemsCommand { get; set; }
@@ -49,13 +58,14 @@ namespace Inspector.ViewModels
         public ICommand OpenTicketsCommand { get; set; }
         public ICommand ClosedTicketsCommand { get; set; }
         public ICommand TicketSelectedCommand { get; set; }
+        public ICommand LogoutCommand { get; set; }
 
         private async void Init()
         {
             var account = await _cacheService.GetSecureObject<ZammadAccount>(CacheKeys.ZammadAccount);
             _ticketClient = account.CreateTicketClient();
 
-            _userAccount = await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount);
+            UserAccount = await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount);
 
             await Task.Run(OnRefreshCommandExecute);
         }
@@ -71,7 +81,7 @@ namespace Inspector.ViewModels
             try
             {
                 var ticketList = await _ticketClient.GetTicketListAsync(_page, 30);
-                _allTickets = ticketList.Where(x => x.OwnerId == _userAccount.Id);
+                _allTickets = ticketList.Where(x => x.OwnerId == UserAccount.Id);
 
                 Tickets = new ObservableCollection<Ticket>(_allTickets);
             }
@@ -90,7 +100,7 @@ namespace Inspector.ViewModels
 
             _page++; 
             var ticketList = await _ticketClient.GetTicketListAsync(_page, 30);
-            var userTickets = ticketList.Where(x => x.OwnerId == _userAccount.Id);
+            var userTickets = ticketList.Where(x => x.OwnerId == UserAccount.Id);
 
             switch (HistoryIndexSelected)
             {

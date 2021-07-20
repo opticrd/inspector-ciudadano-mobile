@@ -32,8 +32,15 @@
                     <Image Source="icon.png" />
 
                     <StackLayout Spacing="8">
-                        <Label Style="{StaticResource TitleLabel}" Text="Nombre usuario" />
-                        <Label Text="correo!@server.com" />
+                        <Label Style="{StaticResource TitleLabel}">
+                            <Label.Text>
+                                <MultiBinding StringFormat="{}{0} {1}">
+                                    <Binding Path="UserAccount.FirstName" />
+                                    <Binding Path="UserAccount.LastName" />
+                                </MultiBinding>
+                            </Label.Text>
+                        </Label>
+                        <Label Text="{Binding UserAccount.Email}" />
                     </StackLayout>
 
                 </StackLayout>
@@ -68,6 +75,7 @@
                     <Label Style="{StaticResource ItemLabel}" Text="Politicas y privacidad" />
                     <Label Style="{StaticResource ItemLabel}" Text="Términos y condiciones" />
                     <Label Style="{StaticResource ItemLabel}" Text="Sobre el app" />
+                    <Label Style="{StaticResource ItemLabel}" Text="Cerrar sesión" />
                 </StackLayout>
             </Frame>
 
