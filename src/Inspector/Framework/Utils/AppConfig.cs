@@ -41,7 +41,7 @@ namespace Inspector.Framework.Utils
         {
             get
             {
-#if AGENT
+#if true
                 return "Agent";
 #else
                 return "User";
