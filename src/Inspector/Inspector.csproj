@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <Compile Remove="ViewModels\Base\MainTabbedPageViewModel.cs" />
+    <Compile Remove="ViewModels\Profile\ProfilePageViewModel.cs" />
     <Compile Remove="ViewModels\Reports\FeedReportsPageViewModel.cs" />
     <Compile Remove="ViewModels\Reports\ReportHistoryPageViewModel.cs" />
     <Compile Remove="Views\MainTabbedPage.xaml.cs" />
