@@ -67,7 +67,8 @@
     <LangVersion>8.0</LangVersion>
     <AndroidManifest>Properties\AndroidManifestAgent.xml</AndroidManifest>
     <ErrorReport>prompt</ErrorReport>
-    <DefineConstants>AGENT</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
