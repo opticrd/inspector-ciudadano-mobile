@@ -117,14 +117,53 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Address" xml:space="preserve">
+    <value>Calle, número, cuidad</value>
+  </data>
+  <data name="Attach" xml:space="preserve">
+    <value>Adjuntar</value>
+  </data>
+  <data name="CitizenDetails" xml:space="preserve">
+    <value>Detalles del cuidadano</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Comentario</value>
+  </data>
+  <data name="CreateReport" xml:space="preserve">
+    <value>Crear Reporte</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>Correo electronico</value>
   </data>
   <data name="EmailHelper" xml:space="preserve">
     <value>Digita tu correo electronico</value>
   </data>
+  <data name="EnterAddress" xml:space="preserve">
+    <value>Digite la dirección del incidente</value>
+  </data>
+  <data name="EnterComment" xml:space="preserve">
+    <value>Digite su comentario</value>
+  </data>
+  <data name="EnterId" xml:space="preserve">
+    <value>Digite su cedula</value>
+  </data>
+  <data name="EnterPhone" xml:space="preserve">
+    <value>Digite su telefono</value>
+  </data>
+  <data name="EnterTitleReport" xml:space="preserve">
+    <value>Digite el titulo del reporte</value>
+  </data>
+  <data name="Evidences" xml:space="preserve">
+    <value>Pruebas</value>
+  </data>
   <data name="ForgetPassword" xml:space="preserve">
     <value>¿Olvidaste tu contraseña?</value>
+  </data>
+  <data name="FullName" xml:space="preserve">
+    <value>Nombre completo</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>Cedula</value>
   </data>
   <data name="LoadMore" xml:space="preserve">
     <value>Cargar más</value>
@@ -138,13 +177,40 @@
   <data name="LoginTitle" xml:space="preserve">
     <value>Inicio de Sesión</value>
   </data>
+  <data name="Observations" xml:space="preserve">
+    <value>Observaciones</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Contraseña</value>
   </data>
   <data name="PasswordHelper" xml:space="preserve">
     <value>Digita tu contraseña</value>
   </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Telefono</value>
+  </data>
   <data name="RecoverPassword" xml:space="preserve">
     <value>Recuperar contraseña</value>
+  </data>
+  <data name="ReportDetails" xml:space="preserve">
+    <value>Detalles del reporte</value>
+  </data>
+  <data name="ReportSelection" xml:space="preserve">
+    <value>Seleccione el estado</value>
+  </data>
+  <data name="ReportState" xml:space="preserve">
+    <value>Estado del reporte</value>
+  </data>
+  <data name="SelectTicketState" xml:space="preserve">
+    <value>Seleccione el estado del ticket</value>
+  </data>
+  <data name="SelectZone" xml:space="preserve">
+    <value>Seleccione la zona</value>
+  </data>
+  <data name="TitleReport" xml:space="preserve">
+    <value>Titulo</value>
+  </data>
+  <data name="Zone" xml:space="preserve">
+    <value>Zona/Sector/Barrio</value>
   </data>
 </root>

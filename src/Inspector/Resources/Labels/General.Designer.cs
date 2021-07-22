@@ -61,6 +61,51 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Calle, número, cuidad.
+        /// </summary>
+        internal static string Address {
+            get {
+                return ResourceManager.GetString("Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adjuntar.
+        /// </summary>
+        internal static string Attach {
+            get {
+                return ResourceManager.GetString("Attach", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Detalles del cuidadano.
+        /// </summary>
+        internal static string CitizenDetails {
+            get {
+                return ResourceManager.GetString("CitizenDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comentario.
+        /// </summary>
+        internal static string Comment {
+            get {
+                return ResourceManager.GetString("Comment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Crear Reporte.
+        /// </summary>
+        internal static string CreateReport {
+            get {
+                return ResourceManager.GetString("CreateReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Correo electronico.
         /// </summary>
         internal static string Email {
@@ -79,11 +124,83 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Digite la dirección del incidente.
+        /// </summary>
+        internal static string EnterAddress {
+            get {
+                return ResourceManager.GetString("EnterAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Digite su comentario.
+        /// </summary>
+        internal static string EnterComment {
+            get {
+                return ResourceManager.GetString("EnterComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Digite su cedula.
+        /// </summary>
+        internal static string EnterId {
+            get {
+                return ResourceManager.GetString("EnterId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Digite su telefono.
+        /// </summary>
+        internal static string EnterPhone {
+            get {
+                return ResourceManager.GetString("EnterPhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Digite el titulo del reporte.
+        /// </summary>
+        internal static string EnterTitleReport {
+            get {
+                return ResourceManager.GetString("EnterTitleReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pruebas.
+        /// </summary>
+        internal static string Evidences {
+            get {
+                return ResourceManager.GetString("Evidences", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ¿Olvidaste tu contraseña?.
         /// </summary>
         internal static string ForgetPassword {
             get {
                 return ResourceManager.GetString("ForgetPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nombre completo.
+        /// </summary>
+        internal static string FullName {
+            get {
+                return ResourceManager.GetString("FullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cedula.
+        /// </summary>
+        internal static string Id {
+            get {
+                return ResourceManager.GetString("Id", resourceCulture);
             }
         }
         
@@ -124,6 +241,15 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Observaciones.
+        /// </summary>
+        internal static string Observations {
+            get {
+                return ResourceManager.GetString("Observations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contraseña.
         /// </summary>
         internal static string Password {
@@ -142,11 +268,83 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Telefono.
+        /// </summary>
+        internal static string Phone {
+            get {
+                return ResourceManager.GetString("Phone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Recuperar contraseña.
         /// </summary>
         internal static string RecoverPassword {
             get {
                 return ResourceManager.GetString("RecoverPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Detalles del reporte.
+        /// </summary>
+        internal static string ReportDetails {
+            get {
+                return ResourceManager.GetString("ReportDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Seleccione el estado.
+        /// </summary>
+        internal static string ReportSelection {
+            get {
+                return ResourceManager.GetString("ReportSelection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Estado del reporte.
+        /// </summary>
+        internal static string ReportState {
+            get {
+                return ResourceManager.GetString("ReportState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Seleccione el estado del ticket.
+        /// </summary>
+        internal static string SelectTicketState {
+            get {
+                return ResourceManager.GetString("SelectTicketState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Seleccione la zona.
+        /// </summary>
+        internal static string SelectZone {
+            get {
+                return ResourceManager.GetString("SelectZone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Titulo.
+        /// </summary>
+        internal static string TitleReport {
+            get {
+                return ResourceManager.GetString("TitleReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zona/Sector/Barrio.
+        /// </summary>
+        internal static string Zone {
+            get {
+                return ResourceManager.GetString("Zone", resourceCulture);
             }
         }
     }
