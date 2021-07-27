@@ -54,7 +54,7 @@
     <LangVersion>8.0</LangVersion>
     <AndroidManifest>Properties\AndroidManifestAgent.xml</AndroidManifest>
     <ErrorReport>prompt</ErrorReport>
-    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidLinkMode>None</AndroidLinkMode>
     <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
     <AotAssemblies>false</AotAssemblies>
     <EnableLLVM>false</EnableLLVM>
