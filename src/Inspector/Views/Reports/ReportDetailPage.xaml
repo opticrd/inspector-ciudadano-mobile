@@ -195,12 +195,12 @@
                                     TextColor="#DE000000" />
                             </StackLayout>
 
-                            <Line Style="{StaticResource lineStyle}" Y1="8" />
+                            <!--<Line Style="{StaticResource lineStyle}" Y1="8" />
 
                             <mtrl:MaterialButton
                                 Command="{Binding ChangeStatusTicketCommand}"
                                 Style="{StaticResource ButtonPrimary}"
-                                Text="Editar estado" />
+                                Text="Editar estado" />-->
 
                             <Line Style="{StaticResource lineStyle}" Y1="8" />
                         </StackLayout>
