@@ -4,84 +4,87 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ctrls="clr-namespace:UIModule.Controls;assembly=UIModule"
+    xmlns:img="clr-namespace:Inspector.Framework.Helpers.Extensions;assembly=Inspector"
     xmlns:l18n="clr-namespace:Inspector.Framework.Helpers.Extensions"
     xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
     xmlns:prism="http://prismlibrary.com"
     prism:ViewModelLocator.AutowireViewModel="True">
 
-    <StackLayout
-        Padding="16,36,16,16"
-        Spacing="20"
-        VerticalOptions="FillAndExpand">
-
-        <Image
-            HeightRequest="80"
-            Source="cupula.png"
-            WidthRequest="80" />
-        <Label
-            FontAttributes="Bold"
-            HorizontalTextAlignment="Center"
-            Style="{StaticResource H2}"
-            Text="{l18n:Translate LoginTitle}" />
-        <Label
-            HorizontalTextAlignment="Center"
-            Style="{StaticResource Body2}"
-            Text="{l18n:Translate LoginSubtitle}"
-            TranslationY="-16" />
-
-
+    <RefreshView IsRefreshing="{Binding IsBusy, Mode=OneWay}" RefreshColor="{StaticResource PrimaryColor}">
         <StackLayout
-            Margin="-16,0"
-            Padding="16"
-            BackgroundColor="White">
+            Padding="16,36,16,16"
+            Spacing="20"
+            VerticalOptions="FillAndExpand">
 
-            <ctrls:TextFieldLayout>
-                <mtrl:MaterialTextField
-                    ErrorText="{Binding Email.Error}"
-                    HasError="{Binding Email.HasErrors}"
-                    HelperText="{l18n:Translate EmailHelper}"
-                    Placeholder="{l18n:Translate Email}"
-                    ReturnType="Next"
-                    Text="{Binding Email.Value}" />
-            </ctrls:TextFieldLayout>
+            <Image
+                HeightRequest="80"
+                Source="{img:ImageResource Inspector.Resources.Images.logo.png}"
+                WidthRequest="80" />
+            <Label
+                FontAttributes="Bold"
+                HorizontalTextAlignment="Center"
+                Style="{StaticResource H2}"
+                Text="{l18n:Translate LoginTitle}" />
+            <Label
+                HorizontalTextAlignment="Center"
+                Style="{StaticResource Body2}"
+                Text="{l18n:Translate LoginSubtitle}"
+                TranslationY="-16" />
 
-            <ctrls:TextFieldLayout>
-                <mtrl:MaterialTextField
-                    ErrorText="{Binding Password.Error}"
-                    HasError="{Binding Password.HasErrors}"
-                    HelperText="{l18n:Translate PasswordHelper}"
-                    InputType="Password"
-                    Placeholder="{l18n:Translate Password}"
-                    ReturnType="Go"
-                    Text="{Binding Password.Value}" />
-            </ctrls:TextFieldLayout>
 
-            <Label HorizontalTextAlignment="Center" VerticalOptions="EndAndExpand">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="¿Olvidaste la contraseña? " TextColor="{StaticResource OnSurfaceColor}" />
-                        <Span
-                            FontAttributes="Bold"
-                            Text="Recuperar contraseña."
-                            TextColor="{StaticResource LinkColor}" />
-                    </FormattedString>
-                </Label.FormattedText>
+            <StackLayout
+                Margin="-16,0"
+                Padding="16"
+                BackgroundColor="White">
 
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding ForgetPasswordCommand}" />
-                </Label.GestureRecognizers>
-            </Label>
+                <ctrls:TextFieldLayout>
+                    <mtrl:MaterialTextField
+                        ErrorText="{Binding Email.Error}"
+                        HasError="{Binding Email.HasErrors}"
+                        HelperText="{l18n:Translate EmailHelper}"
+                        Placeholder="{l18n:Translate Email}"
+                        ReturnType="Next"
+                        Text="{Binding Email.Value}" />
+                </ctrls:TextFieldLayout>
+
+                <ctrls:TextFieldLayout>
+                    <mtrl:MaterialTextField
+                        ErrorText="{Binding Password.Error}"
+                        HasError="{Binding Password.HasErrors}"
+                        HelperText="{l18n:Translate PasswordHelper}"
+                        InputType="Password"
+                        Placeholder="{l18n:Translate Password}"
+                        ReturnType="Go"
+                        Text="{Binding Password.Value}" />
+                </ctrls:TextFieldLayout>
+
+                <Label HorizontalTextAlignment="Center" VerticalOptions="EndAndExpand">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="¿Olvidaste la contraseña? " TextColor="{StaticResource OnSurfaceColor}" />
+                            <Span
+                                FontAttributes="Bold"
+                                Text="Recuperar contraseña."
+                                TextColor="{StaticResource LinkColor}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ForgetPasswordCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+            </StackLayout>
+
+
+            <mtrl:MaterialButton
+                Command="{Binding LoginCommand}"
+                Style="{StaticResource ButtonPrimary}"
+                Text="{l18n:Translate Login}" />
+
+
 
         </StackLayout>
-
-
-        <mtrl:MaterialButton
-            Command="{Binding LoginCommand}"
-            Style="{StaticResource ButtonPrimary}"
-            Text="{l18n:Translate Login}" />
-
-
-
-    </StackLayout>
+    </RefreshView>
 
 </ContentPage>
