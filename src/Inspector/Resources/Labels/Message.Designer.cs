@@ -115,6 +115,15 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Máximo o minimo de caracteres incorrectos..
+        /// </summary>
+        internal static string MaxMinInvalidField {
+            get {
+                return ResourceManager.GetString("MaxMinInvalidField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Algo ha pasado. Intentelo de nuevo mas tarde..
         /// </summary>
         internal static string SomethingHappen {

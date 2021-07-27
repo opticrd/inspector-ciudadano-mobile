@@ -42,22 +42,22 @@ namespace Inspector.ViewModels
 
             PhoneNumber = Validator.Build<string>()
                             .When(x => !string.IsNullOrEmpty(x))
-                            .Must(x => x.Length >= 10, Message.InvalidPhoneNumber);
+                            .Must(x => x.Length >= 10, Message.MaxMinInvalidField);
 
             Title = Validator.Build<string>()
                             .IsRequired(Message.FieldRequired)
-                            .Must(x => x.Length >= 10, Message.InvalidField);
+                            .Must(x => x.Length >= 10, Message.MaxMinInvalidField);
 
             Address = Validator.Build<string>()
                             .IsRequired(Message.FieldRequired)
-                            .Must(x => x.Length >= 10, Message.InvalidField);
+                            .Must(x => x.Length >= 10, Message.MaxMinInvalidField);
 
             GroupSelected = Validator.Build<int>()
                             .Must(x => x > 0, Message.FieldRequired);
 
             Comments = Validator.Build<string>()
                             .When(x => !string.IsNullOrEmpty(x))
-                            .Must(x => x.Length >= 10, Message.InvalidField);
+                            .Must(x => x.Length >= 10, Message.MaxMinInvalidField);
 
             _validationUnit = new ValidationUnit(StateSelected, ID, PhoneNumber, Title, Address, GroupSelected, Comments);
 

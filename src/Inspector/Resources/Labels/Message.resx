@@ -135,6 +135,9 @@
   <data name="InvalidPhoneNumber" xml:space="preserve">
     <value>Numero de telefono incorrecto o incompleto.</value>
   </data>
+  <data name="MaxMinInvalidField" xml:space="preserve">
+    <value>Máximo o minimo de caracteres incorrectos.</value>
+  </data>
   <data name="SomethingHappen" xml:space="preserve">
     <value>Algo ha pasado. Intentelo de nuevo mas tarde.</value>
   </data>

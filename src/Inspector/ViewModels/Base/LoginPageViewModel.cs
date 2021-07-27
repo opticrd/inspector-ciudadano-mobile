@@ -23,7 +23,7 @@ namespace Inspector.ViewModels
 
             Password = Validator.Build<string>()
                 .IsRequired(Message.FieldRequired)
-                .Must(x => x.Length > 4);
+                .Must(x => x.Length > 4, Message.MaxMinInvalidField);
 
             LoginCommand = new DelegateCommand(OnLoginCommandExecute);
             ForgetPasswordCommand = new DelegateCommand(()=> dialogService.DisplayAlertAsync(General.ForgetPassword, "Contacte su supervisor para mas información.", "Ok"));
