@@ -202,6 +202,30 @@
                                 Style="{StaticResource ButtonPrimary}"
                                 Text="Editar estado" />-->
 
+                            <Frame Padding="16,8" BackgroundColor="#E3E3E3">
+                                <Grid RowSpacing="0">
+                                    <Label Text="Cuidadano" />
+                                    <Label
+                                        Grid.Row="1"
+                                        FontAttributes="Bold"
+                                        Text="Nombre cuidadano" />
+
+                                    <StackLayout Grid.Row="2" Orientation="Horizontal">
+                                        <Image HeightRequest="14" WidthRequest="14" Source="{img:ImageResource Inspector.Resources.Images.carnet.png}" />
+                                        <Label
+                                            Grid.Row="2"
+                                            Grid.Column="1"
+                                            Text="001-000000-1" Margin="0,0,16,0" />
+
+                                        <Image HeightRequest="14" WidthRequest="14"  Source="{img:ImageResource Inspector.Resources.Images.phone.png}" />
+                                        <Label
+                                            Grid.Row="3"
+                                            Grid.Column="1"
+                                            Text="809-123-1234" />
+                                    </StackLayout>
+                                </Grid>
+                            </Frame>
+
                             <Line Style="{StaticResource lineStyle}" Y1="8" />
                         </StackLayout>
                     </CollectionView.Header>

@@ -63,7 +63,7 @@ namespace Inspector.ViewModels
             try
             {
                 var ticketArticles = await _ticketClient.GetTicketArticleListForTicketAsync(TicketSelected.Id);
-                if (ticketArticles.Count == 0)
+                if (ticketArticles?.Count == 0)
                     return;
 
                 var comments = new List<Comment>();
