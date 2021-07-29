@@ -18,7 +18,7 @@ namespace Inspector.ViewModels
     public class HomePageViewModel : BaseViewModel
     {
         TicketClient _ticketClient;
-        IEnumerable<Ticket> _allTickets;
+        List<Ticket> _allTickets;
         int _page = 1;
         public HomePageViewModel(INavigationService navigationService, IPageDialogService dialogService, ICacheService cacheService) : base(navigationService, dialogService, cacheService)
         {
@@ -46,19 +46,21 @@ namespace Inspector.ViewModels
                 await _navigationService.NavigateAsync("/" + NavigationKeys.LoginPage);
             });
         }
-                
+
         public ObservableCollection<Ticket> Tickets { get; set; } = new ObservableCollection<Ticket>();
         public Ticket TicketSelected { get; set; }
         public int HistoryIndexSelected { get; set; }
         public User UserAccount { get; set; }
 
+        #region Commands
         public ICommand RefreshCommand { get; set; }
         public ICommand LoadMoreItemsCommand { get; set; }
         public ICommand AllTicketsCommand { get; set; }
         public ICommand OpenTicketsCommand { get; set; }
         public ICommand ClosedTicketsCommand { get; set; }
         public ICommand TicketSelectedCommand { get; set; }
-        public ICommand LogoutCommand { get; set; }
+        public ICommand LogoutCommand { get; set; } 
+        #endregion
 
         private async void Init()
         {
@@ -81,14 +83,16 @@ namespace Inspector.ViewModels
             try
             {
                 var ticketList = await _ticketClient.GetTicketListAsync(_page, 30);
-                _allTickets = ticketList.Where(x => x.OwnerId == UserAccount.Id);
+                _allTickets = ticketList.Where(x => x.OwnerId == UserAccount.Id).ToList();
 
                 Tickets = new ObservableCollection<Ticket>(_allTickets);
             }
+            catch { }
             finally
             {
+                HistoryIndexSelected = 0;
                 IsBusy = false;
-            }            
+            }
         }
 
         private async void OnLoadMoreItemsCommandsExecute()
@@ -98,30 +102,37 @@ namespace Inspector.ViewModels
 
             IsBusy = true;
 
-            _page++; 
-            var ticketList = await _ticketClient.GetTicketListAsync(_page, 30);
-            var userTickets = ticketList.Where(x => x.OwnerId == UserAccount.Id);
-
-            switch (HistoryIndexSelected)
+            try
             {
-                case 1:
-                    var openTickets = userTickets.Where(x => x.StateId == (int)TicketState.Open);
+                _page++;
+                var ticketList = await _ticketClient.GetTicketListAsync(_page, 30);
+                var userTickets = ticketList.Where(x => x.OwnerId == UserAccount.Id);
+                _allTickets = _allTickets.Concat(userTickets).ToList();
 
-                    foreach (var item in openTickets)
-                        Tickets.Add(item);
-                    break;
-                case 2:
-                    var closedTickets = userTickets.Where(x => x.StateId == (int)TicketState.Closed);
+                switch (HistoryIndexSelected)
+                {
+                    case 1:
+                        var openTickets = userTickets.Where(x => x.StateId == (int)TicketState.Open);
 
-                    foreach (var item in closedTickets)
-                        Tickets.Add(item);
-                    break;
-                default:
-                    Tickets = new ObservableCollection<Ticket>(userTickets);
-                    break;
+                        foreach (var item in openTickets)
+                            Tickets.Add(item);
+                        break;
+                    case 2:
+                        var closedTickets = userTickets.Where(x => x.StateId == (int)TicketState.Closed);
+
+                        foreach (var item in closedTickets)
+                            Tickets.Add(item);
+                        break;
+                    default:
+                        Tickets = new ObservableCollection<Ticket>(_allTickets);
+                        break;
+                }
             }
-
-            IsBusy = false;
+            catch { }
+            finally
+            {
+                IsBusy = false;
+            }            
         }
 
         private void OnChangeHistoryTicketsFilter(int index)
@@ -145,7 +156,8 @@ namespace Inspector.ViewModels
             if (parameters.GetNavigationMode() == NavigationMode.Back && parameters.ContainsKey(NavigationKeys.NewTicket))
             {
                 var ticket = parameters.GetValues<Ticket>(NavigationKeys.NewTicket);
-                _allTickets = _allTickets.Concat(ticket);
+                _allTickets = _allTickets.Concat(ticket).ToList();
+
                 HistoryIndexSelected = 0;
                 OnChangeHistoryTicketsFilter(0);
             }
