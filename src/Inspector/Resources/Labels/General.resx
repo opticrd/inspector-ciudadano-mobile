@@ -132,6 +132,9 @@
   <data name="CreateReport" xml:space="preserve">
     <value>Crear Reporte</value>
   </data>
+  <data name="District" xml:space="preserve">
+    <value>Distrito</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>Correo electronico</value>
   </data>
@@ -177,6 +180,9 @@
   <data name="LoginTitle" xml:space="preserve">
     <value>Inicio de Sesión</value>
   </data>
+  <data name="Municipality" xml:space="preserve">
+    <value>Municipio</value>
+  </data>
   <data name="Observations" xml:space="preserve">
     <value>Observaciones</value>
   </data>
@@ -189,8 +195,14 @@
   <data name="Phone" xml:space="preserve">
     <value>Telefono</value>
   </data>
+  <data name="Province" xml:space="preserve">
+    <value>Provincia</value>
+  </data>
   <data name="RecoverPassword" xml:space="preserve">
     <value>Recuperar contraseña</value>
+  </data>
+  <data name="Region" xml:space="preserve">
+    <value>Region</value>
   </data>
   <data name="ReportDetails" xml:space="preserve">
     <value>Detalles del reporte</value>
@@ -200,6 +212,18 @@
   </data>
   <data name="ReportState" xml:space="preserve">
     <value>Estado del reporte</value>
+  </data>
+  <data name="SelectDistrict" xml:space="preserve">
+    <value>Seleccione el distrito</value>
+  </data>
+  <data name="SelectMunicipality" xml:space="preserve">
+    <value>Seleccione el municipio</value>
+  </data>
+  <data name="SelectProvince" xml:space="preserve">
+    <value>Seleccione la provincia</value>
+  </data>
+  <data name="SelectRegion" xml:space="preserve">
+    <value>Seleccione la region</value>
   </data>
   <data name="SelectTicketState" xml:space="preserve">
     <value>Seleccione el estado del ticket</value>

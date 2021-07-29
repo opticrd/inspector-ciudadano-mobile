@@ -1,5 +1,7 @@
 ﻿
+using Inspector.Framework.Dtos;
 using Inspector.Framework.Helpers.Extensions;
+using Inspector.Framework.Interfaces;
 using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
 using Inspector.Models;
@@ -24,14 +26,15 @@ using Zammad.Client.Resources;
 
 namespace Inspector.ViewModels
 {
-    public class AddReportPageViewModel : BaseViewModel
+    public class AddReportPageViewModel : TerritorialDivisionViewModel
     {
         TicketClient _ticketClient;
         User _userAccount;
         ValidationUnit _validationUnit;
         Ticket _editingTicket;
 
-        public AddReportPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ICacheService cacheService) : base(navigationService, dialogService, cacheService)
+        public AddReportPageViewModel(INavigationService navigationService, IPageDialogService dialogService, 
+            ICacheService cacheService, ITerritorialDivision territorialDivisionClient) : base(navigationService, dialogService, cacheService, territorialDivisionClient)
         {
             StateSelected = Validator.Build<int>()
                             .Must(x => x > 0, Message.FieldRequired);
@@ -85,6 +88,8 @@ namespace Inspector.ViewModels
             }
         }
 
+        #region Properties
+        //public TerritorialDivision TerritorialDivisions { get; set; }
         public List<StateTicket> States { get; set; }
         public Validatable<int> StateSelected { get; set; }
         public Validatable<string> ID { get; set; }
@@ -100,12 +105,15 @@ namespace Inspector.ViewModels
         //public int xSelected { get; set; }
         //public int InstitutionSelected { get; set; }
         public ObservableCollection<IMediaFile> Attachements { get; set; } = new ObservableCollection<IMediaFile>();
+        #endregion
 
+        #region Commands
         public ICommand ReportCommand { get; set; }
         public ICommand SelectStateCommand { get; set; }
         public ICommand SelectGroupCommand { get; set; }
         public ICommand AttachFileCommand { get; set; }
-        public ICommand ShowFilesCommand { get; set; }
+        public ICommand ShowFilesCommand { get; set; } 
+        #endregion
 
         private async void Init()
         {
@@ -113,7 +121,7 @@ namespace Inspector.ViewModels
             _ticketClient = account.CreateTicketClient();
 
             _userAccount = await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount);
-            Groups = await _cacheService.GetLocalObject<List<Group>>(CacheKeys.Groups);
+            Groups = await _cacheService.GetLocalObject<List<Group>>(CacheKeys.Groups);         
         }
 
         private async void ReportCommandExecute()

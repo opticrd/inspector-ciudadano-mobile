@@ -1,4 +1,5 @@
 ﻿using System;
+using Inspector.Framework.Interfaces;
 using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
 using Inspector.ViewModels;
@@ -10,6 +11,7 @@ using Prism;
 using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Modularity;
+using Refit;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -82,6 +84,9 @@ namespace Inspector
             //containerRegistry.RegisterSingleton<INetworkRepository, NetworkRepository>();
             containerRegistry.RegisterSingleton<ICacheService, CacheService>();
             containerRegistry.RegisterForNavigation<PreviewGalleryPage, PreviewGalleyPageViewModel>();
+
+            var territorialClient = RestService.For<ITerritorialDivision>(new System.Net.Http.HttpClient() { BaseAddress = new Uri(AppKeys.TerritorialDivisionApiBaseUrl) });
+            containerRegistry.RegisterInstance<ITerritorialDivision>(territorialClient);
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
