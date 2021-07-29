@@ -34,7 +34,7 @@ namespace Inspector.ViewModels
         Ticket _editingTicket;
 
         public AddReportPageViewModel(INavigationService navigationService, IPageDialogService dialogService, 
-            ICacheService cacheService, ITerritorialDivision territorialDivisionClient) : base(navigationService, dialogService, cacheService, territorialDivisionClient)
+            ICacheService cacheService, ITerritorialDivisionAPI territorialDivisionClient) : base(navigationService, dialogService, cacheService, territorialDivisionClient)
         {
             StateSelected = Validator.Build<int>()
                             .Must(x => x > 0, Message.FieldRequired);

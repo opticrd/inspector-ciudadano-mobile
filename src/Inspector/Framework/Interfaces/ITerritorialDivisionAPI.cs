@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Inspector.Framework.Interfaces
 {
-    public interface ITerritorialDivision
+    public interface ITerritorialDivisionAPI
     {
         [Get("/territories/regions")]
         Task<Response<List<Zone>>> GetRegions();

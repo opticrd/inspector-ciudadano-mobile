@@ -85,8 +85,8 @@ namespace Inspector
             containerRegistry.RegisterSingleton<ICacheService, CacheService>();
             containerRegistry.RegisterForNavigation<PreviewGalleryPage, PreviewGalleyPageViewModel>();
 
-            var territorialClient = RestService.For<ITerritorialDivision>(new System.Net.Http.HttpClient() { BaseAddress = new Uri(AppKeys.TerritorialDivisionApiBaseUrl) });
-            containerRegistry.RegisterInstance<ITerritorialDivision>(territorialClient);
+            var territorialClient = RestService.For<ITerritorialDivisionAPI>(new System.Net.Http.HttpClient() { BaseAddress = new Uri(AppKeys.TerritorialDivisionApiBaseUrl) });
+            containerRegistry.RegisterInstance<ITerritorialDivisionAPI>(territorialClient);
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

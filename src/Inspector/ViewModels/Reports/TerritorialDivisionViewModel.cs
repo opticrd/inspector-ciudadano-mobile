@@ -17,9 +17,9 @@ namespace Inspector.ViewModels
 {
     public class TerritorialDivisionViewModel : BaseViewModel
     {
-        ITerritorialDivision _territorialDivisionClient;
+        ITerritorialDivisionAPI _territorialDivisionClient;
         public TerritorialDivisionViewModel(INavigationService navigationService, IPageDialogService dialogService,
-            ICacheService cacheService, ITerritorialDivision territorialDivisionClient) : base(navigationService, dialogService, cacheService)
+            ICacheService cacheService, ITerritorialDivisionAPI territorialDivisionClient) : base(navigationService, dialogService, cacheService)
         {
             _territorialDivisionClient = territorialDivisionClient;
             Init();
