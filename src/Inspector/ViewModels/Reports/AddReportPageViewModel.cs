@@ -86,6 +86,7 @@ namespace Inspector.ViewModels
             Init();
         }
 
+        #region Properties
         public string PageTitle { get; set; } = "Crear Reporte";
 
         bool _isEditing;
@@ -99,7 +100,6 @@ namespace Inspector.ViewModels
             }
         }
 
-        #region Properties
         //public TerritorialDivision TerritorialDivisions { get; set; }
         //public List<StateTicket> States { get; set; }
         //public Validatable<int> StateSelected { get; set; }
