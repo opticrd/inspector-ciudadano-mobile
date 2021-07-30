@@ -30,11 +30,14 @@ namespace Inspector.ViewModels
     public class AddReportPageViewModel : TerritorialDivisionViewModel
     {
         TicketClient _ticketClient;
+        UserClient _userClient;
         User _userAccount;
+        User _clientAccount;
         ValidationUnit _validationUnit;
         Ticket _editingTicket;
         ICitizenAPI _citizenClient;
-        bool _documentValidated;
+        Citizen _citizen;
+        bool _documentValidated, _clientCreated;
 
         public AddReportPageViewModel(INavigationService navigationService, IPageDialogService dialogService, 
             ICacheService cacheService, ITerritorialDivisionAPI territorialDivisionClient, ICitizenAPI citizenClient) : base(navigationService, dialogService, cacheService, territorialDivisionClient)
@@ -129,6 +132,7 @@ namespace Inspector.ViewModels
         {
             var account = await _cacheService.GetSecureObject<ZammadAccount>(CacheKeys.ZammadAccount);
             _ticketClient = account.CreateTicketClient();
+            _userClient = account.CreateUserClient();
 
             _userAccount = await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount);
             Groups = await _cacheService.GetLocalObject<List<Group>>(CacheKeys.Groups);
@@ -143,13 +147,25 @@ namespace Inspector.ViewModels
 
                 IsValidatingDocument = true;
 
-                var resp = await _citizenClient.GetCitizenBasicInfo(ID.Value.Replace("-", ""));
+                var id = ID.Value.Replace("-", "");
+                var users = await _userClient.SearchUserAsync(id, 1);
+
+                if (users?.Count > 0)
+                {
+                    _clientAccount = users[0];
+                    CitizenName = _clientAccount.FirstName + " " + _clientAccount.LastName;
+                    _clientCreated = true;
+                    return;
+                }
+                
+                var resp = await _citizenClient.GetCitizenBasicInfo(id);
 
                 if (resp != null && resp.Valid)
                 {
-                    CitizenName = resp.Payload.Names + " " + resp.Payload.FirstSurname;
-                    _documentValidated = true;
-                }                    
+                    _citizen = resp.Payload;
+                    CitizenName = _citizen.Names + " " + _citizen.FirstSurname + " " + _citizen.SecondSurname;
+                    _clientCreated = false;
+                }
             }
             catch (Exception e)
             {
@@ -158,6 +174,7 @@ namespace Inspector.ViewModels
             finally
             {
                 IsValidatingDocument = false;
+                _documentValidated = true;
             }
         }
 
@@ -166,16 +183,39 @@ namespace Inspector.ViewModels
             if (IsBusy)
                 return;
 
-            if (!_validationUnit.Validate())
+            if (!_validationUnit.Validate() && !_documentValidated)
             {
                 await _dialogService.DisplayAlertAsync("Ups :(", "Verifique que todas las propiedades estan correctas.", "Ok");
                 return;
             }
 
             IsBusy = true;
+            var customerId = _userAccount.Id;
 
             try
             {
+                if (!_clientCreated)
+                {
+                    var newUser = await _userClient.CreateUserAsync(new User
+                    {
+                        FirstName = _citizen.Names,
+                        LastName = _citizen.FirstSurname + " " + _citizen.SecondSurname,
+                        Phone = PhoneNumber.Value,
+                        CustomAttributes = new Dictionary<string, object>()
+                        {
+                            { "cedula",  ID.Value.Replace("-", "") },
+                        }
+                    });
+
+                    if (newUser == null)
+                        return;
+
+                    _clientAccount = newUser;
+                    _clientCreated = true;
+                }
+
+                customerId = _clientAccount.Id;
+
                 List<TicketAttachment> attachements = null;
 
                 if (Attachements.Count > 0)
@@ -200,7 +240,7 @@ namespace Inspector.ViewModels
                 {
                     Title = Title.Value,
                     GroupId = StateSelected.Value,
-                    CustomerId = _userAccount.Id,
+                    CustomerId = customerId,
                     OwnerId = _userAccount.Id,
                     StateId = GroupSelected.Value,
                     CustomAttributes = new Dictionary<string, object>()
