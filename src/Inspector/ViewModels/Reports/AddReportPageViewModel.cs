@@ -154,6 +154,7 @@ namespace Inspector.ViewModels
                 {
                     _clientAccount = users[0];
                     CitizenName = _clientAccount.FirstName + " " + _clientAccount.LastName;
+                    PhoneNumber.Value = _clientAccount.Phone;
                     _clientCreated = true;
                     return;
                 }
@@ -239,7 +240,7 @@ namespace Inspector.ViewModels
                 var formTicket = new Ticket
                 {
                     Title = Title.Value,
-                    GroupId = GroupSelected.Value,
+                    GroupId = 1, //GroupSelected.Value,
                     CustomerId = customerId,
                     OwnerId = _userAccount.Id,
                     StateId = (int)Framework.Dtos.TicketState.New,
