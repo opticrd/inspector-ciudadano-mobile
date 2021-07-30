@@ -39,6 +39,7 @@
 
                 <Frame>
                     <StackLayout>
+                        <ActivityIndicator IsRunning="True" IsVisible="{Binding IsValidatingDocument}" />
                         <Label Style="{StaticResource Subtitle2}" Text="{l18n:Translate CitizenDetails}" />
 
                         <ctrls:TextFieldLayout>
@@ -48,7 +49,8 @@
                                 HelperText="{l18n:Translate EnterId}"
                                 Placeholder="{l18n:Translate Id}"
                                 ReturnType="Next"
-                                Text="{Binding ID.Value}" />
+                                Text="{Binding ID.Value}"
+                                Unfocused="MaterialTextField_Unfocused" />
                         </ctrls:TextFieldLayout>
 
                         <ctrls:TextFieldLayout IsTabStop="False">

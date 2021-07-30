@@ -25,11 +25,16 @@ namespace Inspector.Framework.Utils
         public const string ZammadAccount = nameof(ZammadAccount);
         public const string UserAccount = nameof(UserAccount);
         public const string Groups = nameof(Groups);
+        public const string OAuthToken = nameof(OAuthToken);
     }
 
     public static class AppKeys
     {
         public static string ZammadApiBaseUrl => AppSettingsManager.Settings["ZammadApiBaseUrl"];
         public static string TerritorialDivisionApiBaseUrl => AppSettingsManager.Settings["TerritorialDivisionApiBaseUrl"];
+        public static string IAmApiBaseUrl => AppSettingsManager.Settings["IAmApiBaseUrl"];
+        public static string IamAuthToken => AppSettingsManager.Settings["IamAuthToken"];
+        public static string DigitalGobApiBaseUrl => AppSettingsManager.Settings["DigitalGobApiBaseUrl"];
+        public static string XAccessToken => AppSettingsManager.Settings["XAccessToken"];
     }
 }

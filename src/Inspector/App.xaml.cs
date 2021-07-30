@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Inspector.Framework.Helpers;
 using Inspector.Framework.Interfaces;
 using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
@@ -85,8 +89,17 @@ namespace Inspector
             containerRegistry.RegisterSingleton<ICacheService, CacheService>();
             containerRegistry.RegisterForNavigation<PreviewGalleryPage, PreviewGalleyPageViewModel>();
 
-            var territorialClient = RestService.For<ITerritorialDivisionAPI>(new System.Net.Http.HttpClient() { BaseAddress = new Uri(AppKeys.TerritorialDivisionApiBaseUrl) });
-            containerRegistry.RegisterInstance<ITerritorialDivisionAPI>(territorialClient);
+            var territorialClient = RestService.For<ITerritorialDivisionAPI>(new HttpClient() { BaseAddress = new Uri(AppKeys.TerritorialDivisionApiBaseUrl) });
+            containerRegistry.RegisterInstance(territorialClient);
+
+            var iamclient = new HttpClient() { BaseAddress = new Uri(AppKeys.IAmApiBaseUrl) };
+            iamclient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", AppKeys.IamAuthToken);
+            var iamService = RestService.For<IAMAPI>(iamclient);
+            
+            containerRegistry.RegisterInstance(iamService);
+
+            var citizenClient = RestService.For<ICitizenAPI>(new HttpClient(new AuthHeaderHandler(iamService)) { BaseAddress = new Uri(AppKeys.DigitalGobApiBaseUrl) });
+            containerRegistry.RegisterInstance(citizenClient);
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

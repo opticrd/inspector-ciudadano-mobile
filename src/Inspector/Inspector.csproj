@@ -22,6 +22,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Architecture\**" />
+    <EmbeddedResource Remove="Architecture\**" />
+    <None Remove="Architecture\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Framework\Services\CitizenService.cs" />
     <Compile Remove="ViewModels\Base\MainTabbedPageViewModel.cs" />
     <Compile Remove="ViewModels\Profile\ProfilePageViewModel.cs" />
     <Compile Remove="ViewModels\Reports\FeedReportsPageViewModel.cs" />
@@ -74,12 +81,6 @@
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.2.0" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.3.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Architecture\Domain\" />
-    <Folder Include="Architecture\Data\" />
-    <Folder Include="Architecture\Entities\" />
-    <Folder Include="Architecture\Abstractions\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\xamarin-login-module\LoginModule\LoginModule.csproj" />

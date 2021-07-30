@@ -9,6 +9,7 @@ using Inspector.Resources.Labels;
 using NativeMedia;
 using Plugin.ValidationRules;
 using Plugin.ValidationRules.Extensions;
+using Plugin.ValidationRules.Formatters;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
@@ -32,16 +33,22 @@ namespace Inspector.ViewModels
         User _userAccount;
         ValidationUnit _validationUnit;
         Ticket _editingTicket;
+        ICitizenAPI _citizenClient;
+        bool _documentValidated;
 
         public AddReportPageViewModel(INavigationService navigationService, IPageDialogService dialogService, 
-            ICacheService cacheService, ITerritorialDivisionAPI territorialDivisionClient) : base(navigationService, dialogService, cacheService, territorialDivisionClient)
+            ICacheService cacheService, ITerritorialDivisionAPI territorialDivisionClient, ICitizenAPI citizenClient) : base(navigationService, dialogService, cacheService, territorialDivisionClient)
         {
+            _citizenClient = citizenClient;
+
             StateSelected = Validator.Build<int>()
                             .Must(x => x > 0, Message.FieldRequired);
 
             ID = Validator.Build<string>()
                 .IsRequired(Message.FieldRequired)
                 .WithRule(new CedulaRule());
+
+            ID.ValueFormatter = new MaskFormatter("XXX-XXXXXXX-X");
 
             PhoneNumber = Validator.Build<string>()
                             .When(x => !string.IsNullOrEmpty(x))
@@ -71,6 +78,7 @@ namespace Inspector.ViewModels
             SelectGroupCommand = new DelegateCommand<Group>(group => GroupSelected.Value = group.Id);
             AttachFileCommand = new DelegateCommand(OnAttachFileCommandExecute);
             ShowFilesCommand = new DelegateCommand(OnShowFilesCommandExecute);
+            ValidateIDCommand = new DelegateCommand(OnValidateIDCommandExecute);
 
             Init();
         }
@@ -105,6 +113,7 @@ namespace Inspector.ViewModels
         //public int xSelected { get; set; }
         //public int InstitutionSelected { get; set; }
         public ObservableCollection<IMediaFile> Attachements { get; set; } = new ObservableCollection<IMediaFile>();
+        public bool IsValidatingDocument { get; set; }
         #endregion
 
         #region Commands
@@ -112,7 +121,8 @@ namespace Inspector.ViewModels
         public ICommand SelectStateCommand { get; set; }
         public ICommand SelectGroupCommand { get; set; }
         public ICommand AttachFileCommand { get; set; }
-        public ICommand ShowFilesCommand { get; set; } 
+        public ICommand ShowFilesCommand { get; set; }
+        public ICommand ValidateIDCommand { get; set; }
         #endregion
 
         private async void Init()
@@ -121,7 +131,34 @@ namespace Inspector.ViewModels
             _ticketClient = account.CreateTicketClient();
 
             _userAccount = await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount);
-            Groups = await _cacheService.GetLocalObject<List<Group>>(CacheKeys.Groups);         
+            Groups = await _cacheService.GetLocalObject<List<Group>>(CacheKeys.Groups);
+        }
+
+        private async void OnValidateIDCommandExecute()
+        {
+            try
+            {
+                if (IsValidatingDocument || !ID.Validate())
+                    return;
+
+                IsValidatingDocument = true;
+
+                var resp = await _citizenClient.GetCitizenBasicInfo(ID.Value.Replace("-", ""));
+
+                if (resp != null && resp.Valid)
+                {
+                    CitizenName = resp.Payload.Names + " " + resp.Payload.FirstSurname;
+                    _documentValidated = true;
+                }                    
+            }
+            catch (Exception e)
+            {
+                
+            }
+            finally
+            {
+                IsValidatingDocument = false;
+            }
         }
 
         private async void ReportCommandExecute()
