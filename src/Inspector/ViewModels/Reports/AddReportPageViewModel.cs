@@ -44,8 +44,8 @@ namespace Inspector.ViewModels
         {
             _citizenClient = citizenClient;
 
-            StateSelected = Validator.Build<int>()
-                            .Must(x => x > 0, Message.FieldRequired);
+            //StateSelected = Validator.Build<int>()
+            //                .Must(x => x > 0, Message.FieldRequired);
 
             ID = Validator.Build<string>()
                 .IsRequired(Message.FieldRequired)
@@ -72,12 +72,12 @@ namespace Inspector.ViewModels
                             .When(x => !string.IsNullOrEmpty(x))
                             .Must(x => x.Length >= 10, Message.MaxMinInvalidField);
 
-            _validationUnit = new ValidationUnit(StateSelected, ID, PhoneNumber, Title, Address, GroupSelected, Comments);
+            _validationUnit = new ValidationUnit(/*StateSelected,*/ ID, PhoneNumber, Title, Address, GroupSelected, Comments);
 
-            States = new List<StateTicket>(StateTicket.GetStatesForNewTicket());
+            //States = new List<StateTicket>(StateTicket.GetStatesForNewTicket());
 
             ReportCommand = new DelegateCommand(ReportCommandExecute);
-            SelectStateCommand = new DelegateCommand<StateTicket>(state => StateSelected.Value = state.State);
+            //SelectStateCommand = new DelegateCommand<StateTicket>(state => StateSelected.Value = state.State);
             SelectGroupCommand = new DelegateCommand<Group>(group => GroupSelected.Value = group.Id);
             AttachFileCommand = new DelegateCommand(OnAttachFileCommandExecute);
             ShowFilesCommand = new DelegateCommand(OnShowFilesCommandExecute);
@@ -101,8 +101,8 @@ namespace Inspector.ViewModels
 
         #region Properties
         //public TerritorialDivision TerritorialDivisions { get; set; }
-        public List<StateTicket> States { get; set; }
-        public Validatable<int> StateSelected { get; set; }
+        //public List<StateTicket> States { get; set; }
+        //public Validatable<int> StateSelected { get; set; }
         public Validatable<string> ID { get; set; }
         public string CitizenName { get; set; }
         public Validatable<string> PhoneNumber { get; set; }
@@ -239,10 +239,10 @@ namespace Inspector.ViewModels
                 var formTicket = new Ticket
                 {
                     Title = Title.Value,
-                    GroupId = StateSelected.Value,
+                    GroupId = GroupSelected.Value,
                     CustomerId = customerId,
                     OwnerId = _userAccount.Id,
-                    StateId = GroupSelected.Value,
+                    StateId = (int)Framework.Dtos.TicketState.New,
                     CustomAttributes = new Dictionary<string, object>()
                     {
                         { "address",  Address.Value },

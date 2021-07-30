@@ -16,7 +16,7 @@
         <RefreshView IsRefreshing="{Binding IsBusy}">
             <StackLayout Padding="16" Spacing="16">
 
-                <Frame>
+                <!--<Frame>
                     <StackLayout>
                         <Label Style="{StaticResource Subtitle2}" Text="{l18n:Translate ReportState}" />
 
@@ -35,7 +35,7 @@
                         </ctrls:TextFieldLayout>
 
                     </StackLayout>
-                </Frame>
+                </Frame>-->
 
                 <Frame>
                     <StackLayout>
