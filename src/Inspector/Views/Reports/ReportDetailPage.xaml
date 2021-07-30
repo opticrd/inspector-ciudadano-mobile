@@ -205,23 +205,34 @@
                             <Frame Padding="16,8" BackgroundColor="#E3E3E3">
                                 <Grid RowSpacing="0">
                                     <Label Text="Cuidadano" />
-                                    <Label
-                                        Grid.Row="1"
-                                        FontAttributes="Bold"
-                                        Text="Nombre cuidadano" />
+                                    <Label Grid.Row="1" FontAttributes="Bold">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}{0} {1}">
+                                                <Binding Path="Customer.FirstName" />
+                                                <Binding Path="Customer.LastName" />
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
 
                                     <StackLayout Grid.Row="2" Orientation="Horizontal">
-                                        <Image HeightRequest="14" WidthRequest="14" Source="{img:ImageResource Inspector.Resources.Images.carnet.png}" />
+                                        <Image
+                                            HeightRequest="14"
+                                            Source="{img:ImageResource Inspector.Resources.Images.carnet.png}"
+                                            WidthRequest="14" />
                                         <Label
                                             Grid.Row="2"
                                             Grid.Column="1"
-                                            Text="001-000000-1" Margin="0,0,16,0" />
+                                            Margin="0,0,16,0"
+                                            Text="{Binding Customer.CustomAttributes[cedula]}" />
 
-                                        <Image HeightRequest="14" WidthRequest="14"  Source="{img:ImageResource Inspector.Resources.Images.phone.png}" />
+                                        <Image
+                                            HeightRequest="14"
+                                            Source="{img:ImageResource Inspector.Resources.Images.phone.png}"
+                                            WidthRequest="14" />
                                         <Label
                                             Grid.Row="3"
                                             Grid.Column="1"
-                                            Text="809-123-1234" />
+                                            Text="{Binding Customer.Phone}" />
                                     </StackLayout>
                                 </Grid>
                             </Frame>

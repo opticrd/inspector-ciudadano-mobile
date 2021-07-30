@@ -27,6 +27,8 @@ namespace Inspector.ViewModels
     {
         TicketClient _ticketClient;
         User _userAccount;
+        User _clientAccount;
+        UserClient _userClient;
 
         public ReportDetailPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ICacheService cacheService) : base(navigationService, dialogService, cacheService)
         {
@@ -39,18 +41,22 @@ namespace Inspector.ViewModels
 
         public Ticket TicketSelected { get; set; }
         public string NewComment { get; set; }
+        public User Customer { get; set; }
 
+        #region Commands
         public ObservableCollection<Comment> Comments { get; set; }
         public DelegateCommand<Comment> ShowFilesCommand { get; set; }
         public DelegateCommand SendCommentCommand { get; set; }
         public ICommand AttachFileCommand { get; set; }
-        public ICommand ChangeStatusTicketCommand { get; set; }
+        public ICommand ChangeStatusTicketCommand { get; set; } 
+        #endregion
 
         private async void Init()
         {
             var account = await _cacheService.GetSecureObject<ZammadAccount>(CacheKeys.ZammadAccount);
             _userAccount = await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount);
             _ticketClient = account.CreateTicketClient();
+            _userClient = account.CreateUserClient();
         }
 
         private async void InitComments()
@@ -62,6 +68,8 @@ namespace Inspector.ViewModels
 
             try
             {
+                Customer = await _userClient.GetUserAsync(TicketSelected.CustomerId);
+
                 var ticketArticles = await _ticketClient.GetTicketArticleListForTicketAsync(TicketSelected.Id);
                 if (ticketArticles?.Count == 0)
                     return;
