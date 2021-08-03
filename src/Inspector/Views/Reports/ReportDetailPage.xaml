@@ -169,22 +169,23 @@
                                             Binding="{Binding TicketSelected.PriorityId}"
                                             TargetType="mtrl:MaterialChip"
                                             Value="1">
-                                            <Setter Property="Text" Value="Prioridad Baja" />
-                                            <Setter Property="BackgroundColor" Value="#EFFAE6" />
+                                            <!--<Setter Property="Text" Value="Prioridad Baja" />
+                                            <Setter Property="BackgroundColor" Value="#EFFAE6" />-->
+                                            <Setter Property="IsVisible" Value="False" />
                                         </DataTrigger>
                                         <DataTrigger
                                             Binding="{Binding TicketSelected.PriorityId}"
                                             TargetType="mtrl:MaterialChip"
                                             Value="2">
                                             <Setter Property="Text" Value="Prioridad Normal" />
-                                            <Setter Property="BackgroundColor" Value="#FEFCE7" />
+                                            <Setter Property="BackgroundColor" Value="#FFFF7F50" />
                                         </DataTrigger>
                                         <DataTrigger
                                             Binding="{Binding TicketSelected.PriorityId}"
                                             TargetType="mtrl:MaterialChip"
                                             Value="3">
                                             <Setter Property="Text" Value="Prioridad Alta" />
-                                            <Setter Property="BackgroundColor" Value="#FEE7E7" />
+                                            <Setter Property="BackgroundColor" Value="#FFCD5C5C" />
                                         </DataTrigger>
                                     </mtrl:MaterialChip.Triggers>
                                 </mtrl:MaterialChip>
