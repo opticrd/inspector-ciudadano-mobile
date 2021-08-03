@@ -30,43 +30,43 @@ namespace Inspector.Views.Shared
             switch ((int)newValue)
             {
                 case (int)TicketState.New:
-                    ((ShipState)bindable).shipBackgroundColor.Fill = Brush.Blue;
-                    ((ShipState)bindable).shipState.Fill = Brush.Blue;
+                    ((ShipState)bindable).shipBackgroundColor.Fill = Brush.Gold;
+                    ((ShipState)bindable).shipState.Fill = Brush.Gold;
                     ((ShipState)bindable).shipStateText.Text = "Nuevo";
                     break;
                 case (int)TicketState.Open:
-                    ((ShipState)bindable).shipBackgroundColor.Fill = Brush.Green;
-                    ((ShipState)bindable).shipState.Fill = Brush.Green;
+                    ((ShipState)bindable).shipBackgroundColor.Fill = Brush.LimeGreen;
+                    ((ShipState)bindable).shipState.Fill = Brush.LimeGreen;
                     ((ShipState)bindable).shipStateText.Text = "Abierto";
                     break;
                 case (int)TicketState.PendingReminder:
-                    ((ShipState)bindable).shipBackgroundColor.Fill = Brush.Yellow;
-                    ((ShipState)bindable).shipState.Fill = Brush.Yellow;
+                    ((ShipState)bindable).shipBackgroundColor.Fill = Brush.Crimson;
+                    ((ShipState)bindable).shipState.Fill = Brush.Crimson;
                     ((ShipState)bindable).shipStateText.Text = "Pendiente Recordatorio";
                     break;
                 case (int)TicketState.Closed:
-                    ((ShipState)bindable).shipBackgroundColor.Fill = Brush.DarkRed;
-                    ((ShipState)bindable).shipState.Fill = Brush.DarkRed;
+                    ((ShipState)bindable).shipBackgroundColor.Fill = Brush.DarkGray;
+                    ((ShipState)bindable).shipState.Fill = Brush.DarkGray;
                     ((ShipState)bindable).shipStateText.Text = "Cerrado";
                     break;
                 case (int)TicketState.Merged:
-                    ((ShipState)bindable).shipBackgroundColor.Fill = Brush.Magenta;
-                    ((ShipState)bindable).shipState.Fill = Brush.Magenta;
+                    ((ShipState)bindable).shipBackgroundColor.Fill = Brush.DarkOrchid;
+                    ((ShipState)bindable).shipState.Fill = Brush.DarkOrchid;
                     ((ShipState)bindable).shipStateText.Text = "Fusionado";
                     break;
                 case (int)TicketState.InProgress:
-                    ((ShipState)bindable).shipBackgroundColor.Fill = Brush.CadetBlue;
-                    ((ShipState)bindable).shipState.Fill = Brush.CadetBlue;
+                    ((ShipState)bindable).shipBackgroundColor.Fill = Brush.DodgerBlue;
+                    ((ShipState)bindable).shipState.Fill = Brush.DodgerBlue;
                     ((ShipState)bindable).shipStateText.Text = "En progreso";
                     break;
                 case (int)TicketState.PendingClose:
-                    ((ShipState)bindable).shipBackgroundColor.Fill = Brush.OrangeRed;
-                    ((ShipState)bindable).shipState.Fill = Brush.OrangeRed;
+                    ((ShipState)bindable).shipBackgroundColor.Fill = Brush.DarkOrange;
+                    ((ShipState)bindable).shipState.Fill = Brush.DarkOrange;
                     ((ShipState)bindable).shipStateText.Text = "Pendiente Cerrar";
                     break;
                 default:
-                    ((ShipState)bindable).shipBackgroundColor.Fill = Brush.Gray;
-                    ((ShipState)bindable).shipState.Fill = Brush.Gray;
+                    ((ShipState)bindable).shipBackgroundColor.Fill = Brush.LightGray;
+                    ((ShipState)bindable).shipState.Fill = Brush.LightGray;
                     ((ShipState)bindable).shipStateText.Text = "Indefinido";
                     break;
             }
