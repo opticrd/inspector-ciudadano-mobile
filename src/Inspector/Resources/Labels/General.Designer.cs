@@ -115,7 +115,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Correo electronico.
+        ///   Looks up a localized string similar to Correo electrónico.
         /// </summary>
         internal static string Email {
             get {
@@ -124,7 +124,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Digita tu correo electronico.
+        ///   Looks up a localized string similar to Digita tu correo electrónico.
         /// </summary>
         internal static string EmailHelper {
             get {
@@ -151,7 +151,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Digite su cedula.
+        ///   Looks up a localized string similar to Digite su cédula.
         /// </summary>
         internal static string EnterId {
             get {
@@ -160,7 +160,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Digite su telefono.
+        ///   Looks up a localized string similar to Digite su teléfono.
         /// </summary>
         internal static string EnterPhone {
             get {
@@ -169,7 +169,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Digite el titulo del reporte.
+        ///   Looks up a localized string similar to Digite el título del reporte.
         /// </summary>
         internal static string EnterTitleReport {
             get {
@@ -205,7 +205,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cedula.
+        ///   Looks up a localized string similar to Cédula.
         /// </summary>
         internal static string Id {
             get {
