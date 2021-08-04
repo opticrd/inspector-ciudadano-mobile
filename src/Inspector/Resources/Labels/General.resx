@@ -136,10 +136,10 @@
     <value>Distrito</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value>Correo electronico</value>
+    <value>Correo electrónico</value>
   </data>
   <data name="EmailHelper" xml:space="preserve">
-    <value>Digita tu correo electronico</value>
+    <value>Digita tu correo electrónico</value>
   </data>
   <data name="EnterAddress" xml:space="preserve">
     <value>Digite la dirección del incidente</value>
@@ -148,13 +148,13 @@
     <value>Digite su comentario</value>
   </data>
   <data name="EnterId" xml:space="preserve">
-    <value>Digite su cedula</value>
+    <value>Digite su cédula</value>
   </data>
   <data name="EnterPhone" xml:space="preserve">
-    <value>Digite su telefono</value>
+    <value>Digite su teléfono</value>
   </data>
   <data name="EnterTitleReport" xml:space="preserve">
-    <value>Digite el titulo del reporte</value>
+    <value>Digite el título del reporte</value>
   </data>
   <data name="Evidences" xml:space="preserve">
     <value>Pruebas</value>
@@ -166,7 +166,7 @@
     <value>Nombre completo</value>
   </data>
   <data name="Id" xml:space="preserve">
-    <value>Cedula</value>
+    <value>Cédula</value>
   </data>
   <data name="LoadMore" xml:space="preserve">
     <value>Cargar más</value>
