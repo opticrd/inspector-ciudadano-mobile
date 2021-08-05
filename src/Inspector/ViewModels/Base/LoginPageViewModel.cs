@@ -100,7 +100,8 @@ namespace Inspector.ViewModels
                         Organization = "Ogtic",
                         Note = "Created from mobile",
                         Verified = true,
-                        RoleIds = new List<int>() { 3 },
+                        //TODO: Revaluate this assignment
+                        RoleIds = new List<int>() { 1 }, //1: Admin, 2: Agent, 3: Customer
                         Active = true
                     });
                 }
