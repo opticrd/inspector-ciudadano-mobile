@@ -9,6 +9,7 @@ using Plugin.ValidationRules.Rules;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Zammad.Client;
@@ -98,14 +99,13 @@ namespace Inspector.ViewModels
                         Password = cedula,
                         Organization = "Ogtic",
                         Note = "Created from mobile",
-                        Verified = true
+                        Verified = true,
+                        RoleIds = new List<int>() { 3 },
+                        Active = true
                     });
                 }
+                // TODO
                 // If the user exists check if the user has the cedula field
-                else
-                {
-
-                }
                 // If the cedula field is set, see if the password match the cedula
                 // If the cedula field is not set, update the user, set the cedula field, and proceed
 

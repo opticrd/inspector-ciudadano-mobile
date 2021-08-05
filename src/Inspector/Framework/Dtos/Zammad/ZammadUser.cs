@@ -116,7 +116,7 @@ namespace Inspector.Framework.Dtos.Zammad
         public string Cedula { get; set; }
 
         [JsonProperty("role_ids")]
-        public List<long> RoleIds { get; set; }
+        public List<int> RoleIds { get; set; }
 
         [JsonProperty("authorization_ids")]
         public List<int> AuthorizationIds { get; set; }
