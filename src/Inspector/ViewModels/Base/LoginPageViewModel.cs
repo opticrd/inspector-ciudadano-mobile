@@ -1,4 +1,6 @@
-﻿using Inspector.Framework.Services;
+﻿using Inspector.Framework.Dtos.Zammad;
+using Inspector.Framework.Interfaces;
+using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
 using Inspector.Resources.Labels;
 using Plugin.ValidationRules;
@@ -15,8 +17,15 @@ namespace Inspector.ViewModels
 {
     public class LoginPageViewModel : BaseViewModel
     {
-        public LoginPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ICacheService cacheService) : base(navigationService, dialogService, cacheService)
+        IKeycloakApi _keycloakApi;
+        IZammadLiteApi _zammadLiteApi;
+        public LoginPageViewModel(INavigationService navigationService, IPageDialogService dialogService, 
+            ICacheService cacheService, IKeycloakApi keycloakApi, IZammadLiteApi zammadLiteApi) 
+            : base(navigationService, dialogService, cacheService)
         {
+            _keycloakApi = keycloakApi;
+            _zammadLiteApi = zammadLiteApi;
+
             Email = Validator.Build<string>()
                 .IsRequired(Message.FieldRequired)
                 .IsEmail(Message.InvalidEmail);
@@ -50,7 +59,60 @@ namespace Inspector.ViewModels
                 
             try
             {
-                var account = ZammadAccount.CreateBasicAccount(AppKeys.ZammadApiBaseUrl, Email.Value, Password.Value);
+                var email = Email.Value;
+                var password = Password.Value;
+
+                //TODO Refactor this, pass these parameters with the appsettings file
+                var keycloakToken = await _keycloakApi.Authenticate(new Framework.Dtos.Keycloak.TokenRequestBody
+                {
+                    ClientId = "admin-cli",
+                    GrantType = "password",
+                    Password = "1234",
+                    Username = "toribioea@gmail.com"
+                });
+                var keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", Email.Value);
+
+
+                // Validate I get the user from keycloak
+                if(keycloakUserCollection == null || keycloakUserCollection.Count != 1)
+                    throw new System.Exception("El usuario no existe");
+                var keycloakUser = keycloakUserCollection[0];
+
+                // Get the cedula
+                var cedula = keycloakUser.Attributes?.Cedula[0]??string.Empty;
+                if (string.IsNullOrWhiteSpace(cedula))
+                    throw new System.Exception($"Tu usuario {Email.Value} en keycloak no tiene cédula. Contacta a un administrador.");
+
+                // Search for the user email in zammad
+                var zammadUserSearch = await _zammadLiteApi.SearchUser($"Bearer {AppKeys.ZammadToken}", Email.Value);
+
+                // If the user doesn't exist in zammad, create it
+                if (zammadUserSearch == null || zammadUserSearch.Count != 1)
+                {
+                    var zammadUser = await _zammadLiteApi.CreateUser($"Bearer {AppKeys.ZammadToken}", new ZammadUser
+                    {
+                        Email = Email.Value,
+                        Firstname = keycloakUser.FirstName,
+                        Lastname = keycloakUser.LastName,
+                        Cedula = cedula,
+                        Password = cedula,
+                        Organization = "Ogtic",
+                        Note = "Created from mobile",
+                        Verified = true
+                    });
+                }
+                // If the user exists check if the user has the cedula field
+                else
+                {
+
+                }
+                // If the cedula field is set, see if the password match the cedula
+                // If the cedula field is not set, update the user, set the cedula field, and proceed
+
+
+
+
+                var account = ZammadAccount.CreateBasicAccount(AppKeys.ZammadApiBaseUrl, email, password);
                 var client = account.CreateUserClient();
                 var userAccount = await client.GetUserMeAsync();
 
@@ -72,7 +134,7 @@ namespace Inspector.ViewModels
                     await _dialogService.DisplayAlertAsync("", Message.AccountNotActivated, "Ok");
                 }                    
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 await _dialogService.DisplayAlertAsync("", Message.AccountInvalid, "Ok");
             }
