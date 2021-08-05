@@ -31,6 +31,7 @@ namespace Inspector.Framework.Utils
     public static class AppKeys
     {
         public static string ZammadApiBaseUrl => AppSettingsManager.Settings["ZammadApiBaseUrl"];
+        public static string KeycloakBaseUrl => AppSettingsManager.Settings["KeycloakBaseUrl"];
         public static string TerritorialDivisionApiBaseUrl => AppSettingsManager.Settings["TerritorialDivisionApiBaseUrl"];
         public static string IAmApiBaseUrl => AppSettingsManager.Settings["IAmApiBaseUrl"];
         public static string IamAuthToken => AppSettingsManager.Settings["IamAuthToken"];

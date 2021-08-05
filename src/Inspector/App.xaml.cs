@@ -92,10 +92,12 @@ namespace Inspector
             var territorialClient = RestService.For<ITerritorialDivisionAPI>(new HttpClient() { BaseAddress = new Uri(AppKeys.TerritorialDivisionApiBaseUrl) });
             containerRegistry.RegisterInstance(territorialClient);
 
+            var keycloakClient = RestService.For<IKeycloakApi>(AppKeys.KeycloakBaseUrl);
+            containerRegistry.RegisterInstance(keycloakClient);
+
             var iamclient = new HttpClient() { BaseAddress = new Uri(AppKeys.IAmApiBaseUrl) };
             iamclient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", AppKeys.IamAuthToken);
             var iamService = RestService.For<IAMAPI>(iamclient);
-            
             containerRegistry.RegisterInstance(iamService);
 
             var citizenClient = RestService.For<ICitizenAPI>(new HttpClient(new AuthHeaderHandler(iamService)) { BaseAddress = new Uri(AppKeys.DigitalGobApiBaseUrl) });
