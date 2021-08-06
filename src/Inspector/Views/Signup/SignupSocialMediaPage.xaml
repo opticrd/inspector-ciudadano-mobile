@@ -28,7 +28,7 @@
             <Label
                 HorizontalTextAlignment="Center"
                 Style="{StaticResource Body2}"
-                Text="Ingresa tu cédula y correo electrónico"
+                Text="Confirma tu perfil en una red social"
                 TranslationY="-16" />
 
 
@@ -36,7 +36,7 @@
                 Margin="-16,0"
                 Padding="16"
                 BackgroundColor="White">
-                
+
                 <mtrl:MaterialButton
                     Command="{Binding GoogleCommand}"
                     ImageSource="icon.png"
@@ -50,12 +50,6 @@
                     Text="Inicia con Facebook" />
 
             </StackLayout>
-
-
-            <mtrl:MaterialButton
-                Command="{Binding ValidateDocumentCommand}"
-                Style="{StaticResource ButtonPrimary}"
-                Text="{l18n:Translate Signup}" />
 
         </StackLayout>
     </RefreshView>
