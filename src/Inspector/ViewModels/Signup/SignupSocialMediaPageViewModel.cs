@@ -112,5 +112,89 @@ namespace Inspector.ViewModels
                 await _dialogService.DisplayAlertAsync("", $"Failed: {ex.Message}", "Ok");
             }
         }
+
+
+        private async Task Login(string email, string password)
+        {
+            try
+            {
+
+                //TODO Refactor this, pass these parameters with the appsettings file
+                var keycloakToken = await _keycloakApi.Authenticate(new Framework.Dtos.Keycloak.TokenRequestBody
+                {
+                    ClientId = "admin-cli",
+                    GrantType = "password",
+                    Password = "1234",
+                    Username = "toribioea@gmail.com"
+                });
+                var keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", Email.Value);
+
+
+                // Validate I get the user from keycloak
+                if (keycloakUserCollection == null || keycloakUserCollection.Count != 1)
+                    throw new System.Exception("El usuario no existe");
+                var keycloakUser = keycloakUserCollection[0];
+
+                // Get the cedula
+                var cedula = keycloakUser.Attributes?.Cedula[0] ?? string.Empty;
+                if (string.IsNullOrWhiteSpace(cedula))
+                    throw new System.Exception($"Tu usuario {email} en keycloak no tiene cédula. Contacta a un administrador.");
+
+                // Search for the user email in zammad
+                var zammadUserSearch = await _zammadLiteApi.SearchUser($"Bearer {AppKeys.ZammadToken}", email);
+
+                // If the user doesn't exist in zammad, create it
+                if (zammadUserSearch == null || zammadUserSearch.Count != 1)
+                {
+                    var zammadUser = await _zammadLiteApi.CreateUser($"Bearer {AppKeys.ZammadToken}", new ZammadUser
+                    {
+                        Email = email,
+                        Firstname = keycloakUser.FirstName,
+                        Lastname = keycloakUser.LastName,
+                        Cedula = cedula,
+                        Password = cedula,
+                        Organization = "Ogtic",
+                        Note = "Created from mobile",
+                        Verified = true,
+                        //TODO: Revaluate this assignment
+                        RoleIds = new List<int>() { 1 }, //1: Admin, 2: Agent, 3: Customer
+                        Active = true
+                    });
+                }
+                // TODO
+                // If the user exists check if the user has the cedula field
+                // If the cedula field is set, see if the password match the cedula
+                // If the cedula field is not set, update the user, set the cedula field, and proceed
+
+
+
+
+                var account = ZammadAccount.CreateBasicAccount(AppKeys.ZammadApiBaseUrl, email, password);
+                var client = account.CreateUserClient();
+                var userAccount = await client.GetUserMeAsync();
+
+                if (userAccount.Active)
+                {
+                    var groupClient = account.CreateGroupClient();
+                    var groups = await groupClient.GetGroupListAsync();
+
+                    await _cacheService.InsertLocalObject(CacheKeys.Groups, groups);
+
+                    Settings.IsLoggedIn = true;
+                    await _cacheService.InsertSecureObject(CacheKeys.ZammadAccount, account);
+                    await _cacheService.InsertSecureObject(CacheKeys.UserAccount, userAccount);
+
+                    await _navigationService.NavigateAsync(NavigationKeys.HomePage);
+                }
+                else
+                {
+                    await _dialogService.DisplayAlertAsync("", Message.AccountNotActivated, "Ok");
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await _dialogService.DisplayAlertAsync("", Message.AccountInvalid, "Ok");
+            }
+        }
     }
 }
