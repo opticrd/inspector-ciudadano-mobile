@@ -11,6 +11,8 @@ using Inspector.Views;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Prism;
 using Prism.DryIoc;
 using Prism.Ioc;
@@ -92,10 +94,15 @@ namespace Inspector
             var territorialClient = RestService.For<ITerritorialDivisionAPI>(new HttpClient() { BaseAddress = new Uri(AppKeys.TerritorialDivisionApiBaseUrl) });
             containerRegistry.RegisterInstance(territorialClient);
 
+            var keycloakClient = RestService.For<IKeycloakApi>(AppKeys.KeycloakBaseUrl, new RefitSettings(new NewtonsoftJsonContentSerializer(new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() })));
+            containerRegistry.RegisterInstance(keycloakClient);
+
+            var zammadClientLite = RestService.For<IZammadLiteApi>(AppKeys.ZammadApiBaseUrl, new RefitSettings(new NewtonsoftJsonContentSerializer(new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() })));
+            containerRegistry.RegisterInstance(zammadClientLite);
+
             var iamclient = new HttpClient() { BaseAddress = new Uri(AppKeys.IAmApiBaseUrl) };
             iamclient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", AppKeys.IamAuthToken);
             var iamService = RestService.For<IAMAPI>(iamclient);
-            
             containerRegistry.RegisterInstance(iamService);
 
             var citizenClient = RestService.For<ICitizenAPI>(new HttpClient(new AuthHeaderHandler(iamService)) { BaseAddress = new Uri(AppKeys.DigitalGobApiBaseUrl) });
