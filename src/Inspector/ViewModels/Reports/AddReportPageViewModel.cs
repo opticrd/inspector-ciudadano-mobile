@@ -72,7 +72,7 @@ namespace Inspector.ViewModels
                             .When(x => !string.IsNullOrEmpty(x))
                             .Must(x => x.Length >= 10, Message.MaxMinInvalidField);
 
-            _validationUnit = new ValidationUnit(/*StateSelected,*/ ID, PhoneNumber, Title, Address, GroupSelected, Comments);
+            _validationUnit = new ValidationUnit(/*StateSelected,*/ ID, PhoneNumber, Title, Address, /*GroupSelected,*/ District, Comments);
 
             //States = new List<StateTicket>(StateTicket.GetStatesForNewTicket());
 
@@ -247,6 +247,7 @@ namespace Inspector.ViewModels
                     CustomAttributes = new Dictionary<string, object>()
                     {
                         { "address",  Address.Value },
+                        { "zone",  District.Value.Code },
                     }
                 };                
 
