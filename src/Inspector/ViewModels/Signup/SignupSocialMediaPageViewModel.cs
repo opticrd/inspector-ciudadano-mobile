@@ -1,4 +1,6 @@
 ﻿using Inspector.Framework.Dtos;
+using Inspector.Framework.Dtos.Keycloak;
+using Inspector.Framework.Dtos.Keycloak.Keycloak;
 using Inspector.Framework.Dtos.Zammad;
 using Inspector.Framework.Interfaces;
 using Inspector.Framework.Services;
@@ -92,7 +94,30 @@ namespace Inspector.ViewModels
                     _email = email.Replace("%40", "@");
 
                     // Go to keycloak
+                    var keycloakToken = await _keycloakApi.Authenticate(new Framework.Dtos.Keycloak.TokenRequestBody
+                    {
+                        ClientId = "admin-cli",
+                        GrantType = "password",
+                        Password = "1234",
+                        Username = "toribioea@gmail.com"
+                    });
+
+                    var createdUser = await _keycloakApi.CreateUser($"Bearer {keycloakToken.AccessToken}",
+                        new KeycloakUser { 
+                            FirstName = _citizen.Names,
+                            Attributes = new KeycloakAttributes
+                            {
+                                Cedula = new List<string>
+                                {
+                                    _citizen.Id
+                                }
+                            }
+                        });
+
                     // Create user with email and Password
+                    // Login
+
+                    await Login(_email, _document);
                 }
                 AuthToken += result?.AccessToken ?? result?.IdToken;
 
