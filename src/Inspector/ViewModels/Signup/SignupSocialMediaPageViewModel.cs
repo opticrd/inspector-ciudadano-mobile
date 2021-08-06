@@ -152,7 +152,7 @@ namespace Inspector.ViewModels
                     Password = "1234",
                     Username = "toribioea@gmail.com"
                 });
-                var keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", Email.Value);
+                var keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", email);
 
 
                 // Validate I get the user from keycloak

@@ -17,7 +17,7 @@ namespace Inspector.Framework.Interfaces
         [Get("/auth/admin/realms/master/users")]
         Task<List<KeycloakUser>> GetUser([Header("Authorization")]string token, string search);
 
-        [Get("/auth/admin/realms/master/users")]
+        [Post("/auth/admin/realms/master/users")]
         Task<List<KeycloakUser>> CreateUser([Header("Authorization")] string token, [Body] KeycloakUser user);
     }
 }
