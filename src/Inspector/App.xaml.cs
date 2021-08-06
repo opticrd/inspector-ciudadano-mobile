@@ -84,6 +84,7 @@ namespace Inspector
 
 #if RELEASE_AGENT || DEBUG_AGENT
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
+            containerRegistry.RegisterForNavigation<SignupDocumentPage, SignupDocumentPageViewModel> ();
 #endif
 
             // Registering types

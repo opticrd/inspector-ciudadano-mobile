@@ -34,9 +34,14 @@ namespace Inspector.ViewModels
             Password = Validator.Build<string>()
                 .IsRequired(Message.FieldRequired)
                 .Must(x => x.Length > 4, Message.MaxMinInvalidField);
-
+            SignupCommand = new DelegateCommand(OnSignupCommandExecute);
             LoginCommand = new DelegateCommand(OnLoginCommandExecute);
             ForgetPasswordCommand = new DelegateCommand(()=> dialogService.DisplayAlertAsync(General.ForgetPassword, "Contacte su supervisor para mas información.", "Ok"));
+        }
+
+        private void OnSignupCommandExecute()
+        {
+            _navigationService.NavigateAsync("SignupDocumentPage");
         }
 
         public Validatable<string> Password { get; set; }
@@ -44,6 +49,7 @@ namespace Inspector.ViewModels
 
         public ICommand LoginCommand { get; set; }
         public ICommand ForgetPasswordCommand { get; set; }
+        public ICommand SignupCommand { get; set; }
 
         async void OnLoginCommandExecute()
         {

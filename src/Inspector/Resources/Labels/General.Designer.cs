@@ -403,11 +403,29 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Registrate.
+        /// </summary>
+        internal static string Signup {
+            get {
+                return ResourceManager.GetString("Signup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Titulo.
         /// </summary>
         internal static string TitleReport {
             get {
                 return ResourceManager.GetString("TitleReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Validar Cédula.
+        /// </summary>
+        internal static string ValidateDocument {
+            get {
+                return ResourceManager.GetString("ValidateDocument", resourceCulture);
             }
         }
         

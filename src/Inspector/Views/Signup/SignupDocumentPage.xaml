@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="Inspector.Views.LoginPage"
+    x:Class="Inspector.Views.SignupDocumentPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ctrls="clr-namespace:UIModule.Controls;assembly=UIModule"
@@ -24,11 +24,11 @@
                 FontAttributes="Bold"
                 HorizontalTextAlignment="Center"
                 Style="{StaticResource H2}"
-                Text="{l18n:Translate LoginTitle}" />
+                Text="Registrate" />
             <Label
                 HorizontalTextAlignment="Center"
                 Style="{StaticResource Body2}"
-                Text="{l18n:Translate LoginSubtitle}"
+                Text="Ingresa tu cédula y correo electrónico"
                 TranslationY="-16" />
 
 
@@ -36,6 +36,16 @@
                 Margin="-16,0"
                 Padding="16"
                 BackgroundColor="White">
+
+                <ctrls:TextFieldLayout>
+                    <mtrl:MaterialTextField
+                        ErrorText="{Binding Document.Error}"
+                        HasError="{Binding Document.HasErrors}"
+                        HelperText="{l18n:Translate EnterId}"
+                        Placeholder="{l18n:Translate Id}"
+                        ReturnType="Next"
+                        Text="{Binding Document.Value}" />
+                </ctrls:TextFieldLayout>
 
                 <ctrls:TextFieldLayout>
                     <mtrl:MaterialTextField
@@ -47,46 +57,12 @@
                         Text="{Binding Email.Value}" />
                 </ctrls:TextFieldLayout>
 
-                <ctrls:TextFieldLayout>
-                    <mtrl:MaterialTextField
-                        ErrorText="{Binding Password.Error}"
-                        HasError="{Binding Password.HasErrors}"
-                        HelperText="{l18n:Translate PasswordHelper}"
-                        InputType="Password"
-                        Placeholder="{l18n:Translate Password}"
-                        ReturnType="Go"
-                        Text="{Binding Password.Value}" />
-                </ctrls:TextFieldLayout>
-
-                <Label HorizontalTextAlignment="Center" VerticalOptions="EndAndExpand">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="¿Olvidaste la contraseña? " TextColor="{StaticResource OnSurfaceColor}" />
-                            <Span
-                                FontAttributes="Bold"
-                                Text="Recuperar contraseña."
-                                TextColor="{StaticResource LinkColor}" />
-                        </FormattedString>
-                    </Label.FormattedText>
-
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ForgetPasswordCommand}" />
-                    </Label.GestureRecognizers>
-                </Label>
-
             </StackLayout>
-            
-            <mtrl:MaterialButton
-                Command="{Binding SignupCommand}"
-                Style="{StaticResource ButtonOutlined}"
-                Text="{l18n:Translate Signup}" />
 
             <mtrl:MaterialButton
-                Command="{Binding LoginCommand}"
+                Command="{Binding ValidateDocumentCommand}"
                 Style="{StaticResource ButtonPrimary}"
-                Text="{l18n:Translate Login}" />
-
-
+                Text="{l18n:Translate Signup}" />
 
         </StackLayout>
     </RefreshView>
