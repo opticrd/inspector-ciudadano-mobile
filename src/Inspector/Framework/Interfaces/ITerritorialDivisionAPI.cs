@@ -13,12 +13,12 @@ namespace Inspector.Framework.Interfaces
         Task<Response<List<Zone>>> GetRegions();
 
         [Get("/territories/regions/{regionId}/provinces")]
-        Task<Response<List<Zone>>> GetRegionProvince(int regionId);
+        Task<Response<List<Zone>>> GetRegionProvince(string regionId);
 
-        [Get("/territories/provinces/{provinceId}/municipalities")]
-        Task<Response<List<Zone>>> GetProvinceMunicipality(int provinceId);
+        [Get("/territories/regions/{regionId}/provinces/{provinceId}/municipalities")]
+        Task<Response<List<Zone>>> GetProvinceMunicipality(string regionId, string provinceId);
 
-        [Get("/territories/municipalities/{municipalityId}/districts")]
-        Task<Response<List<Zone>>> GetMunicipalityDistrict(int municipalityId);
+        [Get("/territories/regions/{regionId}/provinces/{provinceId}/municipalities/{municipalityId}/districts")]
+        Task<Response<List<Zone>>> GetMunicipalityDistrict(string regionId, string provinceId, string municipalityId);
     }
 }

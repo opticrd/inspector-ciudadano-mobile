@@ -7,6 +7,9 @@ namespace Inspector.Framework.Dtos
         [JsonProperty("valid")]
         public bool Valid { get; set; }
 
+        [JsonProperty("data")]
+        public T Data { get; set; }
+
         [JsonProperty("payload")]
         public T Payload { get; set; }
     }

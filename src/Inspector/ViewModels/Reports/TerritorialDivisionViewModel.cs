@@ -51,21 +51,21 @@ namespace Inspector.ViewModels
             {
                 Region.Value = zone;
                 Provinces = Municipalities = Districts = null;
-                SearchProvince(zone.Id);
+                SearchProvince(zone.Code);
             });
 
             SelectProvinceCommand = new DelegateCommand<Zone>(zone =>
             {
                 Province.Value = zone;
                 Municipalities = Districts = null;
-                SearchMunicipality(zone.Id);
+                SearchMunicipality(Region.Value.Code, zone.Code);
             });
 
             SelectMunicipalityCommand = new DelegateCommand<Zone>(zone =>
             {
                 Municipality.Value = zone;
                 Districts = null;
-                SearchDistrict(zone.Id);
+                SearchDistrict(Region.Value.Code, Province.Value.Code, zone.Code);
             });
 
             SelectDistrictCommand = new DelegateCommand<Zone>(zone => District.Value = zone);
@@ -73,31 +73,31 @@ namespace Inspector.ViewModels
             var result = await _territorialDivisionClient.GetRegions();
 
             if (result.Valid)
-               Regions = new ObservableCollection<Zone>(result.Payload);
+               Regions = new ObservableCollection<Zone>(result.Data);
         }
 
-        private async void SearchProvince(int id)
+        private async void SearchProvince(string id)
         {
             var result = await _territorialDivisionClient.GetRegionProvince(id);
 
             if (result.Valid)
-                Provinces = new ObservableCollection<Zone>(result.Payload);
+                Provinces = new ObservableCollection<Zone>(result.Data);
         }
 
-        private async void SearchMunicipality(int id)
+        private async void SearchMunicipality(string regionId, string provinceId)
         {
-            var result = await _territorialDivisionClient.GetProvinceMunicipality(id);
+            var result = await _territorialDivisionClient.GetProvinceMunicipality(regionId, provinceId);
 
             if (result.Valid)
-                Municipalities = new ObservableCollection<Zone>(result.Payload);
+                Municipalities = new ObservableCollection<Zone>(result.Data);
         }
 
-        private async void SearchDistrict(int id)
+        private async void SearchDistrict(string regionId, string provinceId, string municipalityId)
         {
-            var result = await _territorialDivisionClient.GetMunicipalityDistrict(id);
+            var result = await _territorialDivisionClient.GetMunicipalityDistrict(regionId, provinceId, municipalityId);
 
             if (result.Valid)
-                Districts = new ObservableCollection<Zone>(result.Payload);
+                Districts = new ObservableCollection<Zone>(result.Data);
         }
 
     }
