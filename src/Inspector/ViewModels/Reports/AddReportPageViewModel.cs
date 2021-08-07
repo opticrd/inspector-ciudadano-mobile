@@ -205,6 +205,7 @@ namespace Inspector.ViewModels
                         CustomAttributes = new Dictionary<string, object>()
                         {
                             { "cedula",  ID.Value.Replace("-", "") },
+                            { "zone",  District.Value.Code },
                         }
                     });
 
