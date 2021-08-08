@@ -55,7 +55,7 @@ namespace Inspector.ViewModels
                 {
                     var parameters = new NavigationParameters();
                     parameters.Add("Citizen", info.Payload);
-                    await _navigationService.NavigateAsync("/SignupSocialMediaPage", parameters);
+                    await _navigationService.NavigateAsync("SignupSocialMediaPage", parameters);
                 }
             }
             catch (System.Exception ex)

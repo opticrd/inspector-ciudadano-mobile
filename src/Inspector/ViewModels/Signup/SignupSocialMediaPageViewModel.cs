@@ -14,6 +14,7 @@ using Prism.Navigation;
 using Prism.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using UIModule.Helpers.Rules;
@@ -186,7 +187,7 @@ namespace Inspector.ViewModels
                 var zammadUserSearch = await _zammadLiteApi.SearchUser($"Bearer {AppKeys.ZammadToken}", email);
 
                 // If the user doesn't exist in zammad, create it
-                if (zammadUserSearch == null || zammadUserSearch.Count != 1)
+                if (zammadUserSearch == null && zammadUserSearch.Where(x=>x.Email == email).Any())
                 {
                     var zammadUser = await _zammadLiteApi.CreateUser($"Bearer {AppKeys.ZammadToken}", new ZammadUser
                     {
