@@ -16,7 +16,7 @@ namespace Inspector.Framework.Dtos.Keycloak
         public class KeycloakUser
         {
             [JsonProperty("id")]
-            public Guid Id { get; set; }
+            public string Id { get; set; }
 
             [JsonProperty("createdTimestamp")]
             public long CreatedTimestamp { get; set; }

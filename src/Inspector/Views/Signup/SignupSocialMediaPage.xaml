@@ -28,7 +28,7 @@
             <Label
                 HorizontalTextAlignment="Center"
                 Style="{StaticResource Body2}"
-                Text="Confirma tu perfil en una red social"
+                Text="Confirma tu perfil con una red social"
                 TranslationY="-16" />
 
 
@@ -36,7 +36,23 @@
                 Margin="-16,0"
                 Padding="16"
                 BackgroundColor="White">
+                
+                <Label Text="{Binding Citizen.Id}"
+                HorizontalTextAlignment="Center"
+                Style="{StaticResource Body2}" />
+                
+                <Label Text="{Binding Citizen.Names}"
+                HorizontalTextAlignment="Center"
+                Style="{StaticResource Body2}" />
+                
+                <Label Text="{Binding Citizen.FirstSurname}"
+                HorizontalTextAlignment="Center"
+                Style="{StaticResource Body2}" />
 
+                <Label Text="{Binding Citizen.SecondSurname}"
+                HorizontalTextAlignment="Center"
+                Style="{StaticResource Body2}" />
+                
                 <mtrl:MaterialButton
                     Command="{Binding GoogleCommand}"
                     ImageSource="icon.png"

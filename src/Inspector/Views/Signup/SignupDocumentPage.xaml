@@ -43,6 +43,7 @@
                         HasError="{Binding Document.HasErrors}"
                         HelperText="{l18n:Translate EnterId}"
                         Placeholder="{l18n:Translate Id}"
+                        InputType="Numeric"
                         ReturnType="Next"
                         Text="{Binding Document.Value}" />
                 </ctrls:TextFieldLayout>

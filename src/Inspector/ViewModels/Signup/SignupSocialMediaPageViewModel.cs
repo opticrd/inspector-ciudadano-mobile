@@ -35,7 +35,7 @@ namespace Inspector.ViewModels
 
         private string _email;
         private string _document;
-        private Citizen _citizen;
+        public Citizen Citizen { get; set; }
         public string AuthToken { get; set; }
         public SignupSocialMediaPageViewModel(INavigationService navigationService, IPageDialogService dialogService,
             ICacheService cacheService, IKeycloakApi keycloakApi, IZammadLiteApi zammadLiteApi)
@@ -52,8 +52,8 @@ namespace Inspector.ViewModels
         {
             if (parameters != null)
             {
-                _citizen = parameters.GetValue<Citizen>("Citizen");
-                _document = _citizen.Id;
+                Citizen = parameters.GetValue<Citizen>("Citizen");
+                _document = Citizen.Id;
             }
         }
 
@@ -61,7 +61,7 @@ namespace Inspector.ViewModels
         {
             try
             {
-
+                IsBusy = true;
                 WebAuthenticatorResult result = null;
 
                 if (scheme.Equals("Apple") && DeviceInfo.Platform == DevicePlatform.iOS && DeviceInfo.Version.Major >= 13)
@@ -94,28 +94,44 @@ namespace Inspector.ViewModels
                     _email = email.Replace("%40", "@");
 
                     // Go to keycloak
-                    var keycloakToken = await _keycloakApi.Authenticate(new Framework.Dtos.Keycloak.TokenRequestBody
+                    var keycloakToken = await _keycloakApi.Authenticate(new TokenRequestBody
                     {
                         ClientId = "admin-cli",
                         GrantType = "password",
                         Password = "1234",
                         Username = "toribioea@gmail.com"
                     });
-
-                    var createdUser = await _keycloakApi.CreateUser($"Bearer {keycloakToken.AccessToken}",
-                        new KeycloakUser { 
-                            FirstName = _citizen.Names,
-                            Attributes = new KeycloakAttributes
-                            {
-                                Cedula = new List<string>
-                                {
-                                    _citizen.Id
-                                }
-                            }
-                        });
+                    
+                    var lastName = Citizen.FirstSurname ?? string.Empty;
+                    if (!string.IsNullOrWhiteSpace(Citizen.SecondSurname))
+                    {
+                        lastName += " " + Citizen.SecondSurname;
+                    }
+                    var attributes = new Dictionary<string, List<string>>();
+                    attributes.Add("cedula", new List<string>
+                    {
+                        Citizen.Id
+                    });
 
                     // Create user with email and Password
+                    var newKeycloakUser = new UserRepresentation
+                    {
+                        FirstName = Citizen.Names,
+                        LastName = lastName,
+                        EmailVerified = true,
+                        Enabled = true,
+                        Username = _email,
+                        Email = _email,
+                        Attributes = attributes
+                    };
+                    await _keycloakApi.CreateUser($"Bearer {keycloakToken.AccessToken}", newKeycloakUser);
+                    var createdUser = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", _email);
+
                     // Login
+                    await _keycloakApi.ResetPassword($"Bearer {keycloakToken.AccessToken}", createdUser[0].Id, new CredentialRepresentation
+                    {
+                        Password = Citizen.Id
+                    });
 
                     await Login(_email, _document);
                 }
@@ -131,11 +147,12 @@ namespace Inspector.ViewModels
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed: {ex.Message}");
+                    Console.WriteLine($"Failed: {ex.Message}");
 
                 AuthToken = string.Empty;
                 await _dialogService.DisplayAlertAsync("", $"Failed: {ex.Message}", "Ok");
             }
+            IsBusy = false;
         }
 
 
@@ -180,6 +197,7 @@ namespace Inspector.ViewModels
                         Password = cedula,
                         Organization = "Ogtic",
                         Note = "Created from mobile",
+                        Zone = "1",
                         Verified = true,
                         //TODO: Revaluate this assignment
                         RoleIds = new List<int>() { 1 }, //1: Admin, 2: Agent, 3: Customer

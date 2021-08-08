@@ -13,6 +13,9 @@ namespace Inspector.Framework.Dtos.Zammad
         [JsonProperty("organization_id")]
         public string OrganizationId { get; set; }
 
+        [JsonProperty("zone")]
+        public string Zone { get; set; }
+
         [JsonProperty("organization")]
         public string Organization { get; set; }
 
