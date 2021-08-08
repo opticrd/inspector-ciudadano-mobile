@@ -187,7 +187,7 @@ namespace Inspector.ViewModels
                 var zammadUserSearch = await _zammadLiteApi.SearchUser($"Bearer {AppKeys.ZammadToken}", email);
 
                 // If the user doesn't exist in zammad, create it
-                if (zammadUserSearch == null && zammadUserSearch.Where(x=>x.Email == email).Any())
+                if (zammadUserSearch != null && zammadUserSearch.Where(x=>x.Email == email).Count() == 0)
                 {
                     var zammadUser = await _zammadLiteApi.CreateUser($"Bearer {AppKeys.ZammadToken}", new ZammadUser
                     {
