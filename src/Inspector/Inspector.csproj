@@ -83,7 +83,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\xamarin-login-module\LoginModule\LoginModule.csproj" />
     <ProjectReference Include="..\xamarin-ui-module\UIModule\UIModule.csproj" />
     <ProjectReference Include="..\Zammad.Client\src\Zammad.Client\Zammad.Client.csproj" />
   </ItemGroup>
