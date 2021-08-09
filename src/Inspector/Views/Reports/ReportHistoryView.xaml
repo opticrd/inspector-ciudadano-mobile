@@ -134,7 +134,7 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
 
-                    <CollectionView.Footer>
+                    <!--<CollectionView.Footer>
 
                         <StackLayout
                             Padding="0,16,0,16"
@@ -148,7 +148,7 @@
 
                         </StackLayout>
 
-                    </CollectionView.Footer>
+                    </CollectionView.Footer>-->
 
                 </CollectionView>
             </RefreshView>
