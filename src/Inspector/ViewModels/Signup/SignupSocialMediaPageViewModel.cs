@@ -228,7 +228,7 @@ namespace Inspector.ViewModels
                     await _cacheService.InsertSecureObject(CacheKeys.ZammadAccount, account);
                     await _cacheService.InsertSecureObject(CacheKeys.UserAccount, userAccount);
 
-                    await _navigationService.NavigateAsync(NavigationKeys.HomePage);
+                    await _navigationService.NavigateAsync($"/{NavigationKeys.HomePage}");
                 }
                 else
                 {

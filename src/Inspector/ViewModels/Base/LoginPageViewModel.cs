@@ -10,6 +10,7 @@ using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Zammad.Client;
@@ -94,7 +95,7 @@ namespace Inspector.ViewModels
                 var zammadUserSearch = await _zammadLiteApi.SearchUser($"Bearer {AppKeys.ZammadToken}", Email.Value);
 
                 // If the user doesn't exist in zammad, create it
-                if (zammadUserSearch == null || zammadUserSearch.Count != 1)
+                if (zammadUserSearch != null && zammadUserSearch.Where(x => x.Email == email).Count() == 0)
                 {
                     var zammadUser = await _zammadLiteApi.CreateUser($"Bearer {AppKeys.ZammadToken}", new ZammadUser
                     {
@@ -134,7 +135,7 @@ namespace Inspector.ViewModels
                     await _cacheService.InsertSecureObject(CacheKeys.ZammadAccount, account);
                     await _cacheService.InsertSecureObject(CacheKeys.UserAccount, userAccount);
 
-                    await _navigationService.NavigateAsync(NavigationKeys.HomePage);
+                    await _navigationService.NavigateAsync($"/{NavigationKeys.HomePage}");
                 }
                 else
                 {
