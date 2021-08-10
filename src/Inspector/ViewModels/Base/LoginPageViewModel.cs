@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Zammad.Client;
 
 namespace Inspector.ViewModels
@@ -45,6 +46,13 @@ namespace Inspector.ViewModels
             _navigationService.NavigateAsync("SignupDocumentPage");
         }
 
+        public string VersionNumber
+        {
+            get
+            {
+                return VersionTracking.CurrentVersion;
+            }
+        }
         public Validatable<string> Password { get; set; }
         public Validatable<string> Email { get; set; }
 
