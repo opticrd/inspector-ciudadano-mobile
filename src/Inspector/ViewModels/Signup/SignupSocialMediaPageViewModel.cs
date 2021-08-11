@@ -217,6 +217,10 @@ namespace Inspector.ViewModels
                         Active = true
                     });
                 }
+                else
+                {
+                    //Update Password to document
+                }
                 // TODO
                 // If the user exists check if the user has the cedula field
                 // If the cedula field is set, see if the password match the cedula
