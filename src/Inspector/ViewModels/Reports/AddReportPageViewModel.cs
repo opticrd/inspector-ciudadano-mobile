@@ -50,7 +50,7 @@ namespace Inspector.ViewModels
             ID = Validator.Build<string>()
                 .IsRequired(Message.FieldRequired)
                 .WithRule(new CedulaRule())
-                .Must(x => x.Replace("-", "") != _userAccount.CustomAttributes["cedula"].ToString().Replace("-", ""), Message.SameId);
+                .Must(x => x?.Replace("-", "") != _userAccount?.CustomAttributes["cedula"]?.ToString()?.Replace("-", ""), Message.SameId);
 
             ID.ValueFormatter = new MaskFormatter("XXX-XXXXXXX-X");
 
@@ -187,7 +187,7 @@ namespace Inspector.ViewModels
             if (IsBusy)
                 return;
 
-            if (!_validationUnit.Validate() && !_documentValidated)
+            if (!_validationUnit.Validate() || !_documentValidated)
             {
                 await _dialogService.DisplayAlertAsync("Ups :(", "Verifique que todas las propiedades estan correctas.", "Ok");
                 return;
