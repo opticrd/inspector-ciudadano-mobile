@@ -114,6 +114,16 @@ namespace Inspector.ViewModels
                         Citizen.Id
                     });
 
+                    //If the user already exists, do a login
+                    var keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", _email);
+                    if(keycloakUserCollection != null && keycloakUserCollection.Count == 1)
+                    {
+
+                        await Login(_email, _document);
+                        IsBusy = false;
+                        return;
+                    }
+
                     // Create user with email and Password
                     var newKeycloakUser = new UserRepresentation
                     {
@@ -175,7 +185,9 @@ namespace Inspector.ViewModels
 
                 // Validate I get the user from keycloak
                 if (keycloakUserCollection == null || keycloakUserCollection.Count != 1)
+                {
                     throw new System.Exception("El usuario no existe");
+                }
                 var keycloakUser = keycloakUserCollection[0];
 
                 // Get the cedula
@@ -201,7 +213,7 @@ namespace Inspector.ViewModels
                         Zone = "1",
                         Verified = true,
                         //TODO: Revaluate this assignment
-                        RoleIds = new List<int>() { 1 }, //1: Admin, 2: Agent, 3: Customer
+                        RoleIds = new List<int>() { 2 }, //1: Admin, 2: Agent, 3: Customer
                         Active = true
                     });
                 }

@@ -79,7 +79,7 @@
 
                 <StackLayout
                     Orientation="Vertical"
-                    HorizontalOptions="CenterAndExpand"
+                    HorizontalOptions="FillAndExpand"
                     >
                         <mtrl:MaterialButton
                             Command="{Binding LoginCommand}"
