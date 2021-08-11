@@ -55,7 +55,9 @@ namespace Inspector.ViewModels
 
             PhoneNumber = Validator.Build<string>()
                             .When(x => !string.IsNullOrEmpty(x))
-                            .Must(x => x.Length >= 10, Message.MaxMinInvalidField);
+                            .Must(x => x.Length == 12, Message.MaxMinInvalidField);
+
+            PhoneNumber.ValueFormatter = new MaskFormatter("XXX-XXX-XXXX");
 
             Title = Validator.Build<string>()
                             .IsRequired(Message.FieldRequired)
@@ -201,7 +203,7 @@ namespace Inspector.ViewModels
                     {
                         FirstName = _citizen.Names,
                         LastName = _citizen.FirstSurname + " " + _citizen.SecondSurname,
-                        Phone = PhoneNumber.Value,
+                        Phone = PhoneNumber.Value.Replace("-", ""),
                         CustomAttributes = new Dictionary<string, object>()
                         {
                             { "cedula",  ID.Value.Replace("-", "") },
