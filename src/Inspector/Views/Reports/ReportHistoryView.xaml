@@ -54,6 +54,7 @@
 
                 <CollectionView
                     Margin="0,16,0,0"
+                    EmptyView="No hay reportes disponibles."
                     ItemSizingStrategy="MeasureFirstItem"
                     ItemsSource="{Binding Tickets}"
                     SelectedItem="{Binding TicketSelected}">
