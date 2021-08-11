@@ -49,7 +49,8 @@ namespace Inspector.ViewModels
 
             ID = Validator.Build<string>()
                 .IsRequired(Message.FieldRequired)
-                .WithRule(new CedulaRule());
+                .WithRule(new CedulaRule())
+                .Must(x => x.Replace("-", "") != _userAccount.CustomAttributes["cedula"].ToString().Replace("-", ""), Message.SameId);
 
             ID.ValueFormatter = new MaskFormatter("XXX-XXXXXXX-X");
 

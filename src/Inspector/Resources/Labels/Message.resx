@@ -138,6 +138,9 @@
   <data name="MaxMinInvalidField" xml:space="preserve">
     <value>Máximo o minimo de caracteres incorrectos.</value>
   </data>
+  <data name="SameId" xml:space="preserve">
+    <value>No puedes digitar tu propia cedula.</value>
+  </data>
   <data name="SomethingHappen" xml:space="preserve">
     <value>Algo ha pasado. Intentelo de nuevo mas tarde.</value>
   </data>

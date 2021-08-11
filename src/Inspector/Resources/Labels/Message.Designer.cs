@@ -124,6 +124,15 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No puedes digitar tu propia cedula..
+        /// </summary>
+        internal static string SameId {
+            get {
+                return ResourceManager.GetString("SameId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Algo ha pasado. Intentelo de nuevo mas tarde..
         /// </summary>
         internal static string SomethingHappen {
