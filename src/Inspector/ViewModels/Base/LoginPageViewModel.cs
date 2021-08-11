@@ -90,8 +90,11 @@ namespace Inspector.ViewModels
 
 
                 // Validate I get the user from keycloak
-                if(keycloakUserCollection == null || keycloakUserCollection.Count != 1)
+                if (keycloakUserCollection == null || keycloakUserCollection.Count != 1)
+                {
                     throw new System.Exception("El usuario no existe");
+                }
+
                 var keycloakUser = keycloakUserCollection[0];
 
                 // Get the cedula
@@ -116,7 +119,7 @@ namespace Inspector.ViewModels
                         Note = "Created from mobile",
                         Verified = true,
                         //TODO: Revaluate this assignment
-                        RoleIds = new List<int>() { 1 }, //1: Admin, 2: Agent, 3: Customer
+                        RoleIds = new List<int>() { 2 }, //1: Admin, 2: Agent, 3: Customer
                         Active = true
                     });
                 }
