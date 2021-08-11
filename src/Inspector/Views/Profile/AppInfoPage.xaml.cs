@@ -8,7 +8,7 @@ namespace Inspector.Views
         public AppInfoPage()
         {
             InitializeComponent();
-            appName.Text = AppInfo.Name;
+            appName.Text = "Reportero de la Gestión Gubernamental"; //AppInfo.Name;
             appVersion.Text = AppInfo.VersionString;
         }
     }
