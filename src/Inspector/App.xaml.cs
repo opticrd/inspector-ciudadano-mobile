@@ -85,6 +85,7 @@ namespace Inspector
             containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
             containerRegistry.RegisterForNavigation<ReportDetailPage, ReportDetailPageViewModel>();
             containerRegistry.RegisterForNavigation<GalleryPage, GalleryPageViewModel>();
+            containerRegistry.RegisterForNavigation<AppInfoPage, AppInfoPageViewModel>();
 
 #if RELEASE_AGENT || DEBUG_AGENT
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
