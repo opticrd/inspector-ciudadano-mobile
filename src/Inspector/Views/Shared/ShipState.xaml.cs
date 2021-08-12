@@ -30,8 +30,8 @@ namespace Inspector.Views.Shared
             switch ((int)newValue)
             {
                 case (int)TicketState.New:
-                    ((ShipState)bindable).shipBackgroundColor.Fill = Brush.Gold;
-                    ((ShipState)bindable).shipState.Fill = Brush.Gold;
+                    ((ShipState)bindable).shipBackgroundColor.Fill = Brush.Orange;
+                    ((ShipState)bindable).shipState.Fill = Brush.Orange;
                     ((ShipState)bindable).shipStateText.Text = "Nuevo";
                     break;
                 case (int)TicketState.Open:
@@ -60,8 +60,8 @@ namespace Inspector.Views.Shared
                     ((ShipState)bindable).shipStateText.Text = "En progreso";
                     break;
                 case (int)TicketState.PendingClose:
-                    ((ShipState)bindable).shipBackgroundColor.Fill = Brush.DarkOrange;
-                    ((ShipState)bindable).shipState.Fill = Brush.DarkOrange;
+                    ((ShipState)bindable).shipBackgroundColor.Fill = Brush.Firebrick;
+                    ((ShipState)bindable).shipState.Fill = Brush.Firebrick;
                     ((ShipState)bindable).shipStateText.Text = "Pendiente Cerrar";
                     break;
                 default:

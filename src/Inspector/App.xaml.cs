@@ -102,6 +102,9 @@ namespace Inspector
             var territorialClient = RestService.For<ITerritorialDivisionAPI>(new HttpClient() { BaseAddress = new Uri(AppKeys.TerritorialDivisionApiBaseUrl) });
             containerRegistry.RegisterInstance(territorialClient);
 
+            var incidentsClient = RestService.For<IIncidentsAPI>(new HttpClient() { BaseAddress = new Uri(AppKeys.IncidentsApiBaseUrl) });
+            containerRegistry.RegisterInstance(incidentsClient);
+
             var keycloakClient = RestService.For<IKeycloakApi>(AppKeys.KeycloakBaseUrl, new RefitSettings(new NewtonsoftJsonContentSerializer(new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() })));
             containerRegistry.RegisterInstance(keycloakClient);
 
