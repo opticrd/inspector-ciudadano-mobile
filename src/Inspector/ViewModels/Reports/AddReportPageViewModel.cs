@@ -27,10 +27,11 @@ using Zammad.Client.Resources;
 
 namespace Inspector.ViewModels
 {
-    public class AddReportPageViewModel : TerritorialDivisionViewModel
+    public class AddReportPageViewModel : IncidentsViewModel
     {
         TicketClient _ticketClient;
         UserClient _userClient;
+        TagClient _tagClient;
         User _userAccount;
         User _clientAccount;
         ValidationUnit _validationUnit;
@@ -40,7 +41,8 @@ namespace Inspector.ViewModels
         bool _documentValidated, _clientCreated;
 
         public AddReportPageViewModel(INavigationService navigationService, IPageDialogService dialogService, 
-            ICacheService cacheService, ITerritorialDivisionAPI territorialDivisionClient, ICitizenAPI citizenClient) : base(navigationService, dialogService, cacheService, territorialDivisionClient)
+            ICacheService cacheService, ITerritorialDivisionAPI territorialDivisionClient, ICitizenAPI citizenClient, IIncidentsAPI incidentsClient) 
+            : base(navigationService, dialogService, cacheService, incidentsClient, territorialDivisionClient)
         {
             _citizenClient = citizenClient;
 
@@ -75,7 +77,7 @@ namespace Inspector.ViewModels
                             .When(x => !string.IsNullOrEmpty(x))
                             .Must(x => x.Length >= 10, Message.MaxMinInvalidField);
 
-            _validationUnit = new ValidationUnit(/*StateSelected,*/ ID, PhoneNumber, Title, Address, /*GroupSelected,*/ District, Comments);
+            _validationUnit = new ValidationUnit(/*StateSelected,*/ ID, /*PhoneNumber,*/ Title, Address, /*GroupSelected,*/ District, SubCategory, Comments);
 
             //States = new List<StateTicket>(StateTicket.GetStatesForNewTicket());
 
@@ -136,6 +138,7 @@ namespace Inspector.ViewModels
             var account = await _cacheService.GetSecureObject<ZammadAccount>(CacheKeys.ZammadAccount);
             _ticketClient = account.CreateTicketClient();
             _userClient = account.CreateUserClient();
+            _tagClient = account.CreateTagClient();
 
             _userAccount = await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount);
             Groups = await _cacheService.GetLocalObject<List<Group>>(CacheKeys.Groups);
@@ -193,6 +196,7 @@ namespace Inspector.ViewModels
                 return;
             }
 
+            PhoneNumber.Validate(); // when condition is returning false even if there is not errors. Validations occurs here for now
             IsBusy = true;
             var customerId = _userAccount.Id;
 
@@ -248,6 +252,7 @@ namespace Inspector.ViewModels
                     CustomerId = customerId,
                     OwnerId = _userAccount.Id,
                     StateId = (int)Framework.Dtos.TicketState.New,
+                    
                     CustomAttributes = new Dictionary<string, object>()
                     {
                         { "address",  Address.Value },
@@ -272,10 +277,11 @@ namespace Inspector.ViewModels
                     ticket = await _ticketClient.CreateTicketAsync(formTicket, formTicketArticle);
                 }                    
 
-                if (ticket.Id <= 0)                
+                if (ticket?.Id <= 0)                
                     await _dialogService.DisplayAlertAsync("", Message.TicketNotCreated, "Ok");
                 else
                 {
+                    await AddTagsToTicket(ticket.Id);
                     await _dialogService.DisplayAlertAsync(":)", Message.TicketCreated, "Ok");
 
                     var parameters = new NavigationParameters()
@@ -295,6 +301,18 @@ namespace Inspector.ViewModels
             }
 
             IsBusy = false;
+        }
+
+        private async Task AddTagsToTicket(int id)
+        {
+            if(Incident.Validate())
+                await _tagClient.AddTagAsync("Ticket", id, Incident.Value.Name);
+
+            if (Category.Validate())
+                await _tagClient.AddTagAsync("Ticket", id, Category.Value.Name);
+
+            if (SubCategory.Validate())
+                await _tagClient.AddTagAsync("Ticket", id, SubCategory.Value.Name);
         }
 
         private async void OnAttachFileCommandExecute()

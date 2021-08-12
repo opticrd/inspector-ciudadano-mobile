@@ -174,10 +174,10 @@
   <data name="Login" xml:space="preserve">
     <value>Iniciar Sesión</value>
   </data>
-	<data name="ValidateDocument" xml:space="preserve">
+  <data name="ValidateDocument" xml:space="preserve">
     <value>Validar Cédula</value>
   </data>
-	<data name="Signup" xml:space="preserve">
+  <data name="Signup" xml:space="preserve">
     <value>Registrate</value>
   </data>
   <data name="LoginSubtitle" xml:space="preserve">
@@ -242,5 +242,26 @@
   </data>
   <data name="Zone" xml:space="preserve">
     <value>Zona/Sector/Barrio</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Categoria</value>
+  </data>
+  <data name="Incident" xml:space="preserve">
+    <value>Incidente</value>
+  </data>
+  <data name="IncidentType" xml:space="preserve">
+    <value>Tipo de incidencia</value>
+  </data>
+  <data name="SelectCategory" xml:space="preserve">
+    <value>Selecciona la categoria</value>
+  </data>
+  <data name="SelectIncident" xml:space="preserve">
+    <value>Selecciona el tipo de incidente</value>
+  </data>
+  <data name="SelectSubCategory" xml:space="preserve">
+    <value>Selecciona la subcategoria</value>
+  </data>
+  <data name="SubCategory" xml:space="preserve">
+    <value>Subcategoria</value>
   </data>
 </root>

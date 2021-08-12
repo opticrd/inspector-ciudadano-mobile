@@ -79,6 +79,15 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Categoria.
+        /// </summary>
+        internal static string Category {
+            get {
+                return ResourceManager.GetString("Category", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Detalles del cuidadano.
         /// </summary>
         internal static string CitizenDetails {
@@ -210,6 +219,24 @@ namespace Inspector.Resources.Labels {
         internal static string Id {
             get {
                 return ResourceManager.GetString("Id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incidente.
+        /// </summary>
+        internal static string Incident {
+            get {
+                return ResourceManager.GetString("Incident", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tipo de incidencia.
+        /// </summary>
+        internal static string IncidentType {
+            get {
+                return ResourceManager.GetString("IncidentType", resourceCulture);
             }
         }
         
@@ -349,11 +376,29 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Selecciona la categoria.
+        /// </summary>
+        internal static string SelectCategory {
+            get {
+                return ResourceManager.GetString("SelectCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Seleccione el distrito.
         /// </summary>
         internal static string SelectDistrict {
             get {
                 return ResourceManager.GetString("SelectDistrict", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selecciona el tipo de incidente.
+        /// </summary>
+        internal static string SelectIncident {
+            get {
+                return ResourceManager.GetString("SelectIncident", resourceCulture);
             }
         }
         
@@ -385,6 +430,15 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Selecciona la subcategoria.
+        /// </summary>
+        internal static string SelectSubCategory {
+            get {
+                return ResourceManager.GetString("SelectSubCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Seleccione el estado del ticket.
         /// </summary>
         internal static string SelectTicketState {
@@ -408,6 +462,15 @@ namespace Inspector.Resources.Labels {
         internal static string Signup {
             get {
                 return ResourceManager.GetString("Signup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subcategoria.
+        /// </summary>
+        internal static string SubCategory {
+            get {
+                return ResourceManager.GetString("SubCategory", resourceCulture);
             }
         }
         
