@@ -11,6 +11,7 @@ using Inspector.Views;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Microsoft.AppCenter.Distribute;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Prism;
@@ -66,10 +67,10 @@ namespace Inspector
             AppCenter.Start("android=1090a168-34ba-434f-ab47-7bef6201cd16;" +
                   "uwp={Your UWP App secret here};" +
                   "ios={Your iOS App secret here}",
-                  typeof(Analytics), typeof(Crashes));
+                  typeof(Analytics), typeof(Crashes), typeof(Distribute));
 #else
             AppCenter.Start("android=8b508ed0-50f1-4836-a73d-76a7665351bd;" +
-                "ios=4afbe2f3-1f31-4fc7-8d10-21e62cea0fc9;", typeof(Analytics), typeof(Crashes));
+                "ios=4afbe2f3-1f31-4fc7-8d10-21e62cea0fc9;", typeof(Analytics), typeof(Crashes), typeof(Distribute));
 #endif
         }
 
