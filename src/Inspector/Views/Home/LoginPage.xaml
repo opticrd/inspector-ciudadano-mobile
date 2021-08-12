@@ -15,7 +15,8 @@
             <StackLayout
                 Padding="16,36,16,16"
                 Spacing="20"
-                VerticalOptions="FillAndExpand">
+                VerticalOptions="FillAndExpand"
+                    BackgroundColor="White">
 
                 <Image
                     HeightRequest="80"
@@ -36,7 +37,7 @@
                 <StackLayout
                     Margin="-16,0"
                     Padding="16"
-                    BackgroundColor="White">
+                    Spacing="4">
 
                     <ctrls:TextFieldLayout>
                         <mtrl:MaterialTextField
@@ -75,25 +76,32 @@
                         </Label.GestureRecognizers>
                     </Label>
 
-                </StackLayout>
-
-                <StackLayout
-                    Orientation="Vertical"
-                    HorizontalOptions="FillAndExpand"
-                    >
-                        <mtrl:MaterialButton
+                    <mtrl:MaterialButton
                             Command="{Binding LoginCommand}"
                             Style="{StaticResource ButtonPrimary}"
                             Text="{l18n:Translate Login}" />
-                        <mtrl:MaterialButton
+                    <mtrl:MaterialButton
                             Command="{Binding SignupCommand}"
                             Style="{StaticResource ButtonOutlined}"
                             Text="{l18n:Translate Signup}" />
-                        <Label
-                            Text="{Binding VersionNumber}" 
-                            HorizontalOptions="CenterAndExpand"
-                            HorizontalTextAlignment="Center" />
+                    <mtrl:MaterialButton
+                        Command="{Binding GoogleCommand}"
+                        ImageSource="icon.png"
+                        Style="{StaticResource ButtonOutlined}"
+                        Text="Inicia con Google" />
+
+                    <mtrl:MaterialButton
+                        Command="{Binding FacebookCommand}"
+                        ImageSource="icon.png"
+                        Style="{StaticResource ButtonOutlined}"
+                        Text="Inicia con Facebook" />
+                    <Label
+                        Text="{Binding VersionNumber}" 
+                        HorizontalOptions="CenterAndExpand"
+                        HorizontalTextAlignment="Center" />
+
                 </StackLayout>
+
 
             </StackLayout>
         </ScrollView>

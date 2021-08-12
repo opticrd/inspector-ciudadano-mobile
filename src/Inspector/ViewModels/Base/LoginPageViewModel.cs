@@ -1,4 +1,5 @@
-﻿using Inspector.Framework.Dtos.Zammad;
+﻿using Inspector.Framework.Dtos.Keycloak;
+using Inspector.Framework.Dtos.Zammad;
 using Inspector.Framework.Interfaces;
 using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
@@ -9,6 +10,7 @@ using Plugin.ValidationRules.Rules;
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,6 +24,10 @@ namespace Inspector.ViewModels
     {
         IKeycloakApi _keycloakApi;
         IZammadLiteApi _zammadLiteApi;
+        public ICommand GoogleCommand { get; set; }
+        public ICommand FacebookCommand { get; set; }
+
+        const string AuthenticationUrl = "https://citizens-auth-api-dev-i42qq4zxeq-ue.a.run.app/mobileauth/";
         public LoginPageViewModel(INavigationService navigationService, IPageDialogService dialogService, 
             ICacheService cacheService, IKeycloakApi keycloakApi, IZammadLiteApi zammadLiteApi) 
             : base(navigationService, dialogService, cacheService)
@@ -38,7 +44,11 @@ namespace Inspector.ViewModels
                 .Must(x => x.Length > 4, Message.MaxMinInvalidField);
             SignupCommand = new DelegateCommand(OnSignupCommandExecute);
             LoginCommand = new DelegateCommand(OnLoginCommandExecute);
-            ForgetPasswordCommand = new DelegateCommand(()=> dialogService.DisplayAlertAsync(General.ForgetPassword, "Contacte su supervisor para mas información.", "Ok"));
+
+            GoogleCommand = new DelegateCommand(async () => await OnAuthenticate("Google"));
+            FacebookCommand = new DelegateCommand(async () => await OnAuthenticate("Facebook"));
+
+            ForgetPasswordCommand = new DelegateCommand(()=> dialogService.DisplayAlertAsync(General.ForgetPassword, "Contacte su supervisor para más información.", "Ok"));
         }
 
         private void OnSignupCommandExecute()
@@ -59,9 +69,78 @@ namespace Inspector.ViewModels
         public ICommand LoginCommand { get; set; }
         public ICommand ForgetPasswordCommand { get; set; }
         public ICommand SignupCommand { get; set; }
-
-        async void OnLoginCommandExecute()
+        private async Task OnAuthenticate(string scheme)
         {
+            try
+            {
+                IsBusy = true;
+                WebAuthenticatorResult result = null;
+
+                if (scheme.Equals("Apple") && DeviceInfo.Platform == DevicePlatform.iOS && DeviceInfo.Version.Major >= 13)
+                {
+                    // Make sure to enable Apple Sign In in both the
+                    // entitlements and the provisioning profile.
+                    var options = new AppleSignInAuthenticator.Options
+                    {
+                        IncludeEmailScope = true,
+                        IncludeFullNameScope = true,
+                    };
+                    result = await AppleSignInAuthenticator.AuthenticateAsync(options);
+                }
+                else
+                {
+                    var authUrl = new Uri(AuthenticationUrl + scheme);
+                    var callbackUrl = new Uri("ogticapp://");
+
+                    result = await WebAuthenticator.AuthenticateAsync(authUrl, callbackUrl);
+                }
+
+                if (result.Properties.TryGetValue("email", out var email) && !string.IsNullOrEmpty(email))
+                {
+                    email = email.Replace("%40", "@");
+
+                    // Go to keycloak
+                    var keycloakToken = await _keycloakApi.Authenticate(new TokenRequestBody
+                    {
+                        ClientId = "admin-cli",
+                        GrantType = "password",
+                        Password = "1234",
+                        Username = "toribioea@gmail.com"
+                    });
+
+                    //If the user already exists, do a login
+                    var keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", email);
+                    if (keycloakUserCollection != null && keycloakUserCollection.Count == 1)
+                    {
+
+                        await DoLogin(email, keycloakUserCollection[0].Attributes.Cedula[0]);
+                        IsBusy = false;
+                        return;
+                    }
+
+                }
+
+            }
+            catch (OperationCanceledException)
+            {
+                Console.WriteLine("Login canceled.");
+
+                await _dialogService.DisplayAlertAsync("", "Login cancelado.", "Ok");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed: {ex.Message}");
+
+                await _dialogService.DisplayAlertAsync("", $"Failed: {ex.Message}", "Ok");
+            }
+            IsBusy = false;
+        }
+        async Task OnLoginCommandExecute()
+        {
+            await DoLogin(Email.Value, Password.Value);
+        }
+        async Task DoLogin(string email, string password) 
+        { 
             if (IsBusy)
                 return;
 
@@ -75,9 +154,6 @@ namespace Inspector.ViewModels
                 
             try
             {
-                var email = Email.Value;
-                var password = Password.Value;
-
                 //TODO Refactor this, pass these parameters with the appsettings file
                 var keycloakToken = await _keycloakApi.Authenticate(new Framework.Dtos.Keycloak.TokenRequestBody
                 {
