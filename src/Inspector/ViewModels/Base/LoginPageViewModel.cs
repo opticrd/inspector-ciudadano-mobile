@@ -112,8 +112,8 @@ namespace Inspector.ViewModels
                     var keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", email);
                     if (keycloakUserCollection != null && keycloakUserCollection.Count == 1)
                     {
-
-                        await DoLogin(email, keycloakUserCollection[0].Attributes.Cedula[0]);
+                        var cedula = keycloakUserCollection[0]?.Attributes?.Cedula[0] ?? string.Empty;
+                        await DoLogin(email, cedula);
                         IsBusy = false;
                         return;
                     }
@@ -160,7 +160,7 @@ namespace Inspector.ViewModels
                     Password = "1234",
                     Username = "toribioea@gmail.com"
                 });
-                var keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", Email.Value);
+                var keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", email);
 
 
                 // Validate I get the user from keycloak
@@ -174,17 +174,17 @@ namespace Inspector.ViewModels
                 // Get the cedula
                 var cedula = keycloakUser.Attributes?.Cedula[0]??string.Empty;
                 if (string.IsNullOrWhiteSpace(cedula))
-                    throw new System.Exception($"Tu usuario {Email.Value} en keycloak no tiene cédula. Contacta a un administrador.");
+                    throw new System.Exception($"Tu usuario {email} en keycloak no tiene cédula. Contacta a un administrador.");
 
                 // Search for the user email in zammad
-                var zammadUserSearch = await _zammadLiteApi.SearchUser($"Bearer {AppKeys.ZammadToken}", Email.Value);
+                var zammadUserSearch = await _zammadLiteApi.SearchUser($"Bearer {AppKeys.ZammadToken}", email);
 
                 // If the user doesn't exist in zammad, create it
                 if (zammadUserSearch != null && zammadUserSearch.Where(x => x.Email == email).Count() == 0)
                 {
                     var zammadUser = await _zammadLiteApi.CreateUser($"Bearer {AppKeys.ZammadToken}", new ZammadUser
                     {
-                        Email = Email.Value,
+                        Email = email,
                         Firstname = keycloakUser.FirstName,
                         Lastname = keycloakUser.LastName,
                         Cedula = cedula,
