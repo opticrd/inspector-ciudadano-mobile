@@ -137,6 +137,9 @@ namespace Inspector.ViewModels
         }
         async void OnLoginCommandExecute()
         {
+            if (IsBusy)
+                return;
+
             if (!Email.Validate() || !Password.Validate())
             {
                 return;
@@ -145,9 +148,6 @@ namespace Inspector.ViewModels
         }
         async Task DoLogin(string email, string password) 
         { 
-            if (IsBusy)
-                return;
-
             IsBusy = true;
 
             try
