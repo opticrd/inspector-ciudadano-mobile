@@ -135,8 +135,12 @@ namespace Inspector.ViewModels
             }
             IsBusy = false;
         }
-        async Task OnLoginCommandExecute()
+        async void OnLoginCommandExecute()
         {
+            if (!Email.Validate() || !Password.Validate())
+            {
+                return;
+            }
             await DoLogin(Email.Value, Password.Value);
         }
         async Task DoLogin(string email, string password) 
@@ -146,12 +150,6 @@ namespace Inspector.ViewModels
 
             IsBusy = true;
 
-            if (!Email.Validate() || !Password.Validate())
-            {
-                IsBusy = false;
-                return;
-            }
-                
             try
             {
                 //TODO Refactor this, pass these parameters with the appsettings file
