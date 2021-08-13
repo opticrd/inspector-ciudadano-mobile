@@ -200,6 +200,9 @@ namespace Inspector.ViewModels
             IsBusy = true;
             var customerId = _userAccount.Id;
 
+            Ticket ticket = null;
+            var ticketCreated = false;
+
             try
             {
                 if (!_clientCreated)
@@ -260,8 +263,6 @@ namespace Inspector.ViewModels
                     }
                 };                
 
-                Ticket ticket;
-
                 if(IsEditing)
                     ticket = await _ticketClient.UpdateTicketAsync(_editingTicket.Id, formTicket);
                 else
@@ -281,14 +282,8 @@ namespace Inspector.ViewModels
                     await _dialogService.DisplayAlertAsync("", Message.TicketNotCreated, "Ok");
                 else
                 {
-                    await AddTagsToTicket(ticket.Id);
-                    await _dialogService.DisplayAlertAsync(":)", Message.TicketCreated, "Ok");
-
-                    var parameters = new NavigationParameters()
-                    {
-                        { NavigationKeys.NewTicket, ticket }
-                    };
-                    await _navigationService.GoBackAsync(parameters);
+                    ticketCreated = true;
+                    await AddTagsToTicket(ticket.Id);                   
                 }                         
             }
             catch (Zammad.Client.Core.ZammadException e)
@@ -299,8 +294,23 @@ namespace Inspector.ViewModels
 #endif
                 await _dialogService.DisplayAlertAsync("Ups :(", Message.SomethingHappen, "Ok");
             }
+            catch { }
+            finally
+            {
+                if (ticketCreated)
+                {
+                    await _dialogService.DisplayAlertAsync(":)", Message.TicketCreated, "Ok");
 
-            IsBusy = false;
+                    var parameters = new NavigationParameters()
+                    {
+                        { NavigationKeys.NewTicket, ticket }
+                    };
+                    await _navigationService.GoBackAsync(parameters);
+                }
+
+                IsBusy = false;
+            }
+
         }
 
         private async Task AddTagsToTicket(int id)
