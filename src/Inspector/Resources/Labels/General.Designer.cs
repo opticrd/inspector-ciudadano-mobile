@@ -160,7 +160,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Digite su cédula.
+        ///   Looks up a localized string similar to Digite la cédula.
         /// </summary>
         internal static string EnterId {
             get {
