@@ -123,6 +123,9 @@
   <data name="AccountNotActivated" xml:space="preserve">
     <value>Esta cuenta no esta activa.</value>
   </data>
+  <data name="AssignedZoneNotProcessed" xml:space="preserve">
+    <value>Zona asignada no procesada. Por favor instentelo de nuevo mas tarde. Si el problema persiste, contacte su supervisor.</value>
+  </data>
   <data name="FieldRequired" xml:space="preserve">
     <value>Este campo es requerido.</value>
   </data>

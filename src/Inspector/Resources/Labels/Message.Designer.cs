@@ -79,6 +79,15 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Zona asignada no procesada. Por favor instentelo de nuevo mas tarde. Si el problema persiste, contacte su supervisor..
+        /// </summary>
+        internal static string AssignedZoneNotProcessed {
+            get {
+                return ResourceManager.GetString("AssignedZoneNotProcessed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Este campo es requerido..
         /// </summary>
         internal static string FieldRequired {

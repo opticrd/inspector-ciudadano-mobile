@@ -1,6 +1,7 @@
 ﻿using Inspector.Framework.Dtos;
 using Inspector.Framework.Interfaces;
 using Inspector.Framework.Services;
+using Inspector.Framework.Utils;
 using Inspector.Resources.Labels;
 using Plugin.ValidationRules;
 using Plugin.ValidationRules.Extensions;
@@ -10,8 +11,11 @@ using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Zammad.Client.Resources;
 
 namespace Inspector.ViewModels
 {
@@ -35,6 +39,11 @@ namespace Inspector.ViewModels
         public Validatable<Zone> Municipality { get; set; }
         public Validatable<Zone> District { get; set; }
 
+        public bool RegionIsEnabled { get; set; }
+        public bool ProvinceIsEnabled { get; set; }
+        public bool MunicipalityIsEnabled { get; set; }
+        public bool DistrictIsEnabled { get; set; }
+
         public ICommand SelectRegionCommand { get; set; }
         public ICommand SelectProvinceCommand { get; set; }
         public ICommand SelectMunicipalityCommand { get; set; }
@@ -47,36 +56,121 @@ namespace Inspector.ViewModels
             Municipality = Validator.Build<Zone>().IsRequired(Message.FieldRequired);
             District = Validator.Build<Zone>().IsRequired(Message.FieldRequired);
 
-            SelectRegionCommand = new DelegateCommand<Zone>(zone =>
+            SelectRegionCommand = new DelegateCommand<Zone>(async zone =>
             {
                 Region.Value = zone;
                 Provinces = Municipalities = Districts = null;
-                SearchProvince(zone.Code);
+                await SearchProvince(zone.Code);
             });
 
-            SelectProvinceCommand = new DelegateCommand<Zone>(zone =>
+            SelectProvinceCommand = new DelegateCommand<Zone>(async zone =>
             {
                 Province.Value = zone;
                 Municipalities = Districts = null;
-                SearchMunicipality(Region.Value.Code, zone.Code);
+                await SearchMunicipality(Region.Value.Code, zone.Code);
             });
 
-            SelectMunicipalityCommand = new DelegateCommand<Zone>(zone =>
+            SelectMunicipalityCommand = new DelegateCommand<Zone>(async zone =>
             {
                 Municipality.Value = zone;
                 Districts = null;
-                SearchDistrict(Region.Value.Code, Province.Value.Code, zone.Code);
+                await SearchDistrict(Region.Value.Code, Province.Value.Code, zone.Code);
             });
 
             SelectDistrictCommand = new DelegateCommand<Zone>(zone => District.Value = zone);
 
+            bool valid = false;
+
+            try
+            {
+                var userAccount = await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount);
+
+                if (userAccount?.CustomAttributes["zone"] == null)
+                    return;
+
+                var response = await _territorialDivisionClient.GetHierarchy(userAccount.CustomAttributes["zone"].ToString());
+
+                if (!response.Valid)
+                    return;
+
+                switch (response.Data.Level)
+                {
+                    case ZoneLevel.Region:
+                        await LoadRegions();
+                        Region.Value = Regions.SingleOrDefault(i => i.Code == response.Data.Region);
+                        RegionIsEnabled = false;
+                        break;
+                    case ZoneLevel.Province:
+                        await LoadRegions();
+                        Region.Value = Regions.SingleOrDefault(i => i.Code == response.Data.Region);
+                        RegionIsEnabled = false;
+
+                        await SearchProvince(response.Data.Province);
+                        Province.Value = Provinces.SingleOrDefault(i => i.Code == response.Data.Province);
+                        ProvinceIsEnabled = false;
+                        break;
+                    case ZoneLevel.Municipality:
+                        await LoadRegions();
+                        Region.Value = Regions.SingleOrDefault(i => i.Code == response.Data.Region);
+                        RegionIsEnabled = false;
+
+                        await SearchProvince(response.Data.Province);
+                        Province.Value = Provinces.SingleOrDefault(i => i.Code == response.Data.Province);
+                        ProvinceIsEnabled = false;
+
+                        await SearchMunicipality(response.Data.Region, response.Data.Province);
+                        Municipality.Value = Municipalities.SingleOrDefault(i => i.Code == response.Data.Municipality);
+                        MunicipalityIsEnabled = false;
+                        break;
+                    case ZoneLevel.District:
+                        await LoadRegions();
+                        Region.Value = Regions.SingleOrDefault(i => i.Code == response.Data.Region);
+                        RegionIsEnabled = false;
+
+                        await SearchProvince(response.Data.Province);
+                        Province.Value = Provinces.SingleOrDefault(i => i.Code == response.Data.Province);
+                        ProvinceIsEnabled = false;
+
+                        await SearchMunicipality(response.Data.Region, response.Data.Province);
+                        Municipality.Value = Municipalities.SingleOrDefault(i => i.Code == response.Data.Municipality);
+                        MunicipalityIsEnabled = false;
+
+                        await SearchDistrict(response.Data.Region, response.Data.Province, response.Data.District);
+                        District.Value = Districts.SingleOrDefault(i => i.Code == response.Data.District);
+                        DistrictIsEnabled = false;
+                        break;
+                    //case ZoneLevel.Section:
+                    //    break;
+                    //case ZoneLevel.Neighborhood:
+                    //    break;
+                    //case ZoneLevel.SubNeighborhood:
+                    //    break;
+                    default:
+                        break;
+                }
+
+                valid = true;
+            }
+            catch { }
+            finally
+            {
+                if (!valid)
+                {
+                    await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
+                    await _navigationService.GoBackAsync();
+                }
+            }
+        }
+
+        private async Task LoadRegions()
+        {
             var result = await _territorialDivisionClient.GetRegions();
 
             if (result.Valid)
-               Regions = new ObservableCollection<Zone>(result.Data);
+                Regions = new ObservableCollection<Zone>(result.Data);
         }
 
-        private async void SearchProvince(string id)
+        private async Task SearchProvince(string id)
         {
             var result = await _territorialDivisionClient.GetRegionProvince(id);
 
@@ -84,7 +178,7 @@ namespace Inspector.ViewModels
                 Provinces = new ObservableCollection<Zone>(result.Data);
         }
 
-        private async void SearchMunicipality(string regionId, string provinceId)
+        private async Task SearchMunicipality(string regionId, string provinceId)
         {
             var result = await _territorialDivisionClient.GetProvinceMunicipality(regionId, provinceId);
 
@@ -92,7 +186,7 @@ namespace Inspector.ViewModels
                 Municipalities = new ObservableCollection<Zone>(result.Data);
         }
 
-        private async void SearchDistrict(string regionId, string provinceId, string municipalityId)
+        private async Task SearchDistrict(string regionId, string provinceId, string municipalityId)
         {
             var result = await _territorialDivisionClient.GetMunicipalityDistrict(regionId, provinceId, municipalityId);
 

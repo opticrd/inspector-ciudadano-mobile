@@ -20,5 +20,8 @@ namespace Inspector.Framework.Interfaces
 
         [Get("/territories/regions/{regionId}/provinces/{provinceId}/municipalities/{municipalityId}/districts")]
         Task<Response<List<Zone>>> GetMunicipalityDistrict(string regionId, string provinceId, string municipalityId);
+
+        [Get("/territories/hierarchy/{code}")]
+        Task<Response<ZoneHierarchy>> GetHierarchy(string code);
     }
 }
