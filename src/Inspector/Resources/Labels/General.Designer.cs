@@ -151,6 +151,15 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Digite la cédula del beneficiario.
+        /// </summary>
+        internal static string EnterCitizenId {
+            get {
+                return ResourceManager.GetString("EnterCitizenId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Digite su comentario.
         /// </summary>
         internal static string EnterComment {
