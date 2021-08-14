@@ -52,18 +52,24 @@
                 <Label Text="{Binding Citizen.SecondSurname}"
                 HorizontalTextAlignment="Center"
                 Style="{StaticResource Body2}" />
-                
-                <mtrl:MaterialButton
-                    Command="{Binding GoogleCommand}"
-                    ImageSource="icon.png"
-                    Style="{StaticResource ButtonOutlined}"
-                    Text="Inicia con Google" />
 
                 <mtrl:MaterialButton
-                    Command="{Binding FacebookCommand}"
-                    ImageSource="icon.png"
-                    Style="{StaticResource ButtonOutlined}"
-                    Text="Inicia con Facebook" />
+                        Command="{Binding GoogleCommand}"
+                        Style="{StaticResource ButtonGoogle}"
+                        ImageSource="icon.png"
+                        Text="Inicia con Google" />
+
+                <mtrl:MaterialButton
+                        Command="{Binding MicrosoftCommand}"
+                        ImageSource="icon.png"
+                        Style="{StaticResource ButtonMicrosoft}"
+                        Text="Inicia con Microsoft" />
+
+                <mtrl:MaterialButton
+                        Command="{Binding FacebookCommand}"
+                        ImageSource="icon.png"
+                        Style="{StaticResource ButtonFacebook}"
+                        Text="Inicia con Facebook" />
 
             </StackLayout>
 

@@ -31,6 +31,7 @@ namespace Inspector.ViewModels
         IZammadLiteApi _zammadLiteApi;
         public ICommand GoogleCommand { get; set; }
         public ICommand FacebookCommand { get; set; }
+        public ICommand MicrosoftCommand { get; set; }
 
         const string AuthenticationUrl = "https://citizens-auth-api-dev-i42qq4zxeq-ue.a.run.app/mobileauth/";
 
@@ -47,6 +48,7 @@ namespace Inspector.ViewModels
 
             GoogleCommand = new Command(async () => await OnAuthenticate("Google"));
             FacebookCommand = new Command(async () => await OnAuthenticate("Facebook"));
+            MicrosoftCommand = new Command(async () => await OnAuthenticate("Microsoft"));
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

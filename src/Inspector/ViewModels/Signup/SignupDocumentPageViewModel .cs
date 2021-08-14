@@ -45,6 +45,12 @@ namespace Inspector.ViewModels
             if (IsBusy)
                 return;
 
+            if (!Document.Validate())
+            {
+                await _dialogService.DisplayAlertAsync("", "Debes proveer un documento de identidad válido.", "Ok");
+                return;
+            }
+
             IsBusy = true;
 
             try
