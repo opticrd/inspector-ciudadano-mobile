@@ -93,7 +93,7 @@
                                 Text="{Binding Title.Value}" />
                         </ctrls:TextFieldLayout>
 
-                        <ctrls:TextFieldLayout>
+                        <ctrls:TextFieldLayout IsVisible="{Binding RegionIsEnabled}">
                             <mtrl:MaterialTextField
                                 ChoiceSelectedCommand="{Binding SelectRegionCommand}"
                                 Choices="{Binding Regions}"
@@ -102,13 +102,12 @@
                                 ErrorText="{Binding Region.Error}"
                                 HasError="{Binding Region.HasErrors}"
                                 HelperText="{l18n:Translate SelectRegion}"
-                                IsEnabled="{Binding RegionIsEnabled}"
                                 Placeholder="{l18n:Translate Region}"
                                 ReturnType="Next"
                                 Style="{StaticResource TextFieldChoiceStyle}" />
                         </ctrls:TextFieldLayout>
 
-                        <ctrls:TextFieldLayout>
+                        <ctrls:TextFieldLayout IsVisible="{Binding ProvinceIsEnabled}">
                             <mtrl:MaterialTextField
                                 ChoiceSelectedCommand="{Binding SelectProvinceCommand}"
                                 Choices="{Binding Provinces}"
@@ -117,13 +116,12 @@
                                 ErrorText="{Binding Province.Error}"
                                 HasError="{Binding Province.HasErrors}"
                                 HelperText="{l18n:Translate SelectProvince}"
-                                IsEnabled="{Binding ProvinceIsEnabled}"
                                 Placeholder="{l18n:Translate Province}"
                                 ReturnType="Next"
                                 Style="{StaticResource TextFieldChoiceStyle}" />
                         </ctrls:TextFieldLayout>
 
-                        <ctrls:TextFieldLayout>
+                        <ctrls:TextFieldLayout IsVisible="{Binding MunicipalityIsEnabled}">
                             <mtrl:MaterialTextField
                                 ChoiceSelectedCommand="{Binding SelectMunicipalityCommand}"
                                 Choices="{Binding Municipalities}"
@@ -132,13 +130,12 @@
                                 ErrorText="{Binding Municipality.Error}"
                                 HasError="{Binding Municipality.HasErrors}"
                                 HelperText="{l18n:Translate SelectMunicipality}"
-                                IsEnabled="{Binding MunicipalityIsEnabled}"
                                 Placeholder="{l18n:Translate Municipality}"
                                 ReturnType="Next"
                                 Style="{StaticResource TextFieldChoiceStyle}" />
                         </ctrls:TextFieldLayout>
 
-                        <ctrls:TextFieldLayout>
+                        <ctrls:TextFieldLayout IsVisible="{Binding DistrictIsEnabled}">
                             <mtrl:MaterialTextField
                                 ChoiceSelectedCommand="{Binding SelectDistrictCommand}"
                                 Choices="{Binding Districts}"
@@ -147,7 +144,6 @@
                                 ErrorText="{Binding District.Error}"
                                 HasError="{Binding District.HasErrors}"
                                 HelperText="{l18n:Translate SelectDistrict}"
-                                IsEnabled="{Binding DistrictIsEnabled}"
                                 Placeholder="{l18n:Translate District}"
                                 ReturnType="Next"
                                 Style="{StaticResource TextFieldChoiceStyle}" />
