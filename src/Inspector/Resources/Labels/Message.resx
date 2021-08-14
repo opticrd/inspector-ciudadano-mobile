@@ -153,4 +153,10 @@
   <data name="TicketNotCreated" xml:space="preserve">
     <value>El ticket no ha sido creado, intentelo de nuevo mas tarde.</value>
   </data>
+  <data name="MinLengthField10" xml:space="preserve">
+    <value>Minimo de caracteres es 10.</value>
+  </data>
+  <data name="MinLengthField12" xml:space="preserve">
+    <value>Minimo de caracteres es 12.</value>
+  </data>
 </root>
