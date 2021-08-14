@@ -80,20 +80,28 @@
                             Command="{Binding LoginCommand}"
                             Style="{StaticResource ButtonPrimary}"
                             Text="{l18n:Translate Login}" />
+                    
                     <mtrl:MaterialButton
                             Command="{Binding SignupCommand}"
                             Style="{StaticResource ButtonOutlined}"
                             Text="{l18n:Translate Signup}" />
+                    
                     <mtrl:MaterialButton
                         Command="{Binding GoogleCommand}"
+                        Style="{StaticResource ButtonGoogle}"
                         ImageSource="icon.png"
-                        Style="{StaticResource ButtonOutlined}"
                         Text="Inicia con Google" />
 
                     <mtrl:MaterialButton
+                        Command="{Binding MicrosoftCommand}"
+                        ImageSource="icon.png"
+                        Style="{StaticResource ButtonMicrosoft}"
+                        Text="Inicia con Microsoft" />
+                    
+                    <mtrl:MaterialButton
                         Command="{Binding FacebookCommand}"
                         ImageSource="icon.png"
-                        Style="{StaticResource ButtonOutlined}"
+                        Style="{StaticResource ButtonFacebook}"
                         Text="Inicia con Facebook" />
                     <Label
                         Text="{Binding VersionNumber}" 
