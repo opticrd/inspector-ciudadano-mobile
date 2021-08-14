@@ -82,7 +82,8 @@ namespace Inspector.ViewModels
 
             try
             {
-                var ticketList = await _ticketClient.SearchTicketAsync("owner_id:" + UserAccount.Id, 50);
+                var query = "owner_id:" + UserAccount.Id + " OR " + "created_by_id:" + UserAccount.Id;
+                var ticketList = await _ticketClient.SearchTicketAsync(query, 50);
                 _allTickets = ticketList.ToList();
 
                 //var ticketList = await _ticketClient.GetTicketListAsync(_page, 30);
