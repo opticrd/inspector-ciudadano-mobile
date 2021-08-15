@@ -24,14 +24,14 @@ jobs:
     - name: Install dependencies
       run: nuget restore ./src/Inspector.sln
 
+    - name: Build
+      run: msbuild ./src/Inspector.Android/Inspector.Android.csproj /t:PackageForAndroid /p:Configuration=Debug-Agent
+
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v1
       # Override language selection by uncommenting this and choosing your languages
       with:
         languages: csharp
-
-    - name: Build
-      run: msbuild ./src/Inspector.Android/Inspector.Android.csproj /t:PackageForAndroid /p:Configuration=Debug-Agent
 
     # Initializes the CodeQL tools for scanning.
     - name: Perform CodeQL Analysis
