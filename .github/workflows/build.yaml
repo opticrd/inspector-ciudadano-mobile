@@ -7,8 +7,8 @@ jobs:
 
     runs-on: macos-latest
     env: 
-      MONO_VERSION: 6.10
-      ANDROID_VERSION: 11.1
+      MONO_VERSION: '6.10'
+      ANDROID_VERSION: '11.1'
       SLN_FILE_PATH: './src/Inspector.sln'
       CSPROJ_FILE_PATH: './src/Inspector.Android/Inspector.Android.csproj'
       BUILD_CONFIGURATION: Debug-Agent
@@ -26,7 +26,7 @@ jobs:
       uses: github/codeql-action/init@v1
       with:
         languages: csharp
-
+        config-file: ./.github/codeql/codeql-config.yml
     - name: Set default Xamarin SDK versions
       run: |
         $VM_ASSETS/select-xamarin-sdk-v2.sh --mono=${{ env.MONO_VERSION }} --android=${{ env.ANDROID_VERSION }}
