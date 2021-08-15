@@ -82,7 +82,7 @@ jobs:
     - uses: actions/download-artifact@v2
       with:
         name: android-apk
-        path: ./${{ env.ANDROID_BUILD_APK }}
+        # path: ./${{ env.ANDROID_BUILD_APK }}
 
     - name: Display structure of downloaded files
       run: ls -R
@@ -94,6 +94,6 @@ jobs:
         token: ${{ secrets.APP_CENTER_TOKEN }}
         group: Internal
         # Artifact to upload (.apk or .ipa)
-        file: ./${{ env.ANDROID_BUILD_APK }}
+        file: ./src/Inspector.Android/bin/Debug-Agent/x_do.gob.ogtic.inspector.apk
         # Release notes visible on release page
         releaseNotes: "github action test"
