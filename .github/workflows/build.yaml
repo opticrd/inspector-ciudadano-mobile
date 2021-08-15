@@ -8,9 +8,8 @@ jobs:
     runs-on: windows-latest
     env: 
       # Path to the solution file relative to the root of the project.
-      SLN_FILE_PATH: 'PartsUnlimited-aspnet45'
+      SLN_FILE_PATH: './src/Inspector.sln'
       CSPROJ_FILE_PATH: './src/Inspector.Android/Inspector.Android.csproj'
-      SOLUTION: 'PartsUnlimited-aspnet45/PartsUnlimited.sln'
       BUILD_PLATFORM: 'anycpu'
       BUILD_CONFIGURATION: Debug-Agent
 
