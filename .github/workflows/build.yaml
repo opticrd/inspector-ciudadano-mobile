@@ -5,7 +5,7 @@ on: [push]
 jobs:
   build:
 
-    runs-on: macos-latest
+    runs-on: windows-latest
     env: 
       MONO_VERSION: '6.10'
       ANDROID_VERSION: '11.1'
@@ -28,9 +28,9 @@ jobs:
         languages: csharp
         config-file: ./.github/codeql/codeql-config.yml
 
-    - name: Set default Xamarin SDK versions
-      run: |
-        $VM_ASSETS/select-xamarin-sdk-v2.sh --mono=${{ env.MONO_VERSION }} --android=${{ env.ANDROID_VERSION }}
+    # - name: Set default Xamarin SDK versions
+    #   run: |
+    #     $VM_ASSETS/select-xamarin-sdk-v2.sh --mono=${{ env.MONO_VERSION }} --android=${{ env.ANDROID_VERSION }}
 
     - name: Add msbuild to PATH and build
       uses: microsoft/setup-msbuild@v1
