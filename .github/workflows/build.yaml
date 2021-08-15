@@ -48,3 +48,9 @@ jobs:
       # Override language selection by uncommenting this and choosing your languages
       with:
         languages: csharp
+
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v1
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v1
