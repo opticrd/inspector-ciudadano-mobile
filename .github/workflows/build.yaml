@@ -55,10 +55,10 @@ jobs:
     - name: App Center
       uses: wzieba/AppCenter-Github-Action@v1.0.0
       with:
-        appName: gobdo/Reportero Ciudadano - Droid
+        appName: gobdo/Reportero-Ciudadano-Droid
         token: ${{ secrets.APP_CENTER_TOKEN }}
         group: Internal
-        # Artefact to upload (.apk or .ipa)
-        file: Inspector/${{ env.APP_NAME }}/bin/${{ env.BUILD_CONFIGURATION }}/${{ env.ANDROID_BUILD_APK }}
+        # Artifact to upload (.apk or .ipa)
+        file: ${{ env.ANDROID_BUILD_APK }}
         # Release notes visible on release page
-        releaseNotes: "demo test"
+        releaseNotes: "github action test"
