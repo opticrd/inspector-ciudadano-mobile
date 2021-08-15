@@ -6,12 +6,13 @@ jobs:
   build-android:
     runs-on: macos-latest
     env: 
-      MONO_VERSION: '6.10'
-      ANDROID_VERSION: '11.1'
+      APP_NAME: Inspector.Android
       SLN_FILE_PATH: './src/Inspector.sln'
       CSPROJ_FILE_PATH: './src/Inspector.Android/Inspector.Android.csproj'
       BUILD_CONFIGURATION: Debug-Agent
       ANDROID_BUILD_APK: x_do.gob.ogtic.inspector.apk
+      MONO_VERSION: '6.10'
+      ANDROID_VERSION: '11.1'
 
     steps:
     - uses: actions/checkout@v2
@@ -32,10 +33,15 @@ jobs:
         nuget restore ${{ env.SLN_FILE_PATH }}
         msbuild /t:PackageForAndroid /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:UseSharedCompilation=false ${{ env.CSPROJ_FILE_PATH }}
 
+    - run: |
+        nuget restore ${{ env.SLN_FILE_PATH }}
+        msbuild /t:PackageForAndroid /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:UseSharedCompilation=false ${{ env.CSPROJ_FILE_PATH }}
+
     - uses: actions/upload-artifact@v2
       with:
         name: android-apk
-        path: "**/bin/Debug/${{ env.ANDROID_BUILD_APK }}"
+        if-no-files-found: error
+        path: "**/bin/${{ env.BUILD_CONFIGURATION }}/${{ env.ANDROID_BUILD_APK }}"
 
   distribute:
     runs-on: ubuntu-latest
@@ -53,6 +59,6 @@ jobs:
         token: ${{ secrets.APP_CENTER_TOKEN }}
         group: Internal
         # Artefact to upload (.apk or .ipa)
-        file: Inspector/Inspector.Android/bin/Debug/${{ env.ANDROID_BUILD_APK }}
+        file: Inspector/${{ env.APP_NAME }}/bin/${{ env.BUILD_CONFIGURATION }}/${{ env.ANDROID_BUILD_APK }}
         # Release notes visible on release page
         releaseNotes: "demo test"
