@@ -6,12 +6,21 @@ jobs:
   build:
 
     runs-on: macos-latest
+    strategy:
+      fail-fast: false
 
     steps:
     - uses: actions/checkout@v2
       with:
         submodules: 'recursive'
         token: ${{ secrets.OGTIC_PAT }}
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v1
+      # Override language selection by uncommenting this and choosing your languages
+      with:
+        languages: csharp
+
     - name: Set default Xamarin SDK versions
       run: |
         $VM_ASSETS/select-xamarin-sdk-v2.sh --mono=6.10 --android=11.1
@@ -26,12 +35,6 @@ jobs:
 
     - name: Build
       run: msbuild ./src/Inspector.Android/Inspector.Android.csproj /t:PackageForAndroid /p:Configuration=Debug-Agent
-
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
-      # Override language selection by uncommenting this and choosing your languages
-      with:
-        languages: csharp
 
     # Initializes the CodeQL tools for scanning.
     - name: Perform CodeQL Analysis
