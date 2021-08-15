@@ -28,9 +28,10 @@ jobs:
       with:
         dotnet-version: '3.1.x'
 
-    - run: |
+    - name: NuGet restore and Build
+      run: |
         nuget restore ${{ env.SLN_FILE_PATH }}
-        msbuild /p:Platform=iPhoneSimulator /t:Rebuild /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:UseSharedCompilation=false ${{ env.CSPROJ_FILE_PATH }}
+        msbuild /t:PackageForAndroid /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:UseSharedCompilation=false ${{ env.CSPROJ_FILE_PATH }}
 
     - uses: actions/upload-artifact@v2
       with:
@@ -69,10 +70,9 @@ jobs:
       with:
         dotnet-version: '3.1.x'
 
-    - name: NuGet restore and Build
-      run: |
+    - run: |
         nuget restore ${{ env.SLN_FILE_PATH }}
-        msbuild /t:PackageForAndroid /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:UseSharedCompilation=false ${{ env.CSPROJ_FILE_PATH }}
+        msbuild /p:Platform=iPhoneSimulator /t:Rebuild /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:UseSharedCompilation=false ${{ env.CSPROJ_FILE_PATH }}
 
   distribute:
     runs-on: ubuntu-latest
