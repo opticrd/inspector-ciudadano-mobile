@@ -5,9 +5,19 @@ on: [push]
 jobs:
   build:
 
-    runs-on: macos-latest
+    runs-on: windows-latest
+    env: 
+      # Path to the solution file relative to the root of the project.
+      SLN_FILE_PATH: 'PartsUnlimited-aspnet45'
+      CSPROJ_FILE_PATH: './src/Inspector.Android/Inspector.Android.csproj'
+      SOLUTION: 'PartsUnlimited-aspnet45/PartsUnlimited.sln'
+      BUILD_PLATFORM: 'anycpu'
+      BUILD_CONFIGURATION: Debug-Agent
+
     strategy:
       fail-fast: false
+    matrix:
+      language: [ 'csharp' ] # For Dave Burnison's demos we will just scan 'csharp' code
 
     steps:
     - uses: actions/checkout@v2
@@ -30,11 +40,11 @@ jobs:
       with:
         dotnet-version: '5.0.x'
 
-    - name: Install dependencies
-      run: nuget restore ./src/Inspector.sln
-
-    - name: Build
-      run: msbuild ./src/Inspector.Android/Inspector.Android.csproj /t:PackageForAndroid /p:Configuration=Debug-Agent
+    - name: Add msbuild to PATH and build
+      uses: microsoft/setup-msbuild@v1
+    - run: |
+        nuget restore ${{ env.SLN_FILE_PATH }}
+        msbuild /t:PackageForAndroid /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:UseSharedCompilation=false ${{ env.CSPROJ_FILE_PATH }}
 
     # Initializes the CodeQL tools for scanning.
     - name: Perform CodeQL Analysis
