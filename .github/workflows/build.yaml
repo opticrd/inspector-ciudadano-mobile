@@ -28,20 +28,51 @@ jobs:
       with:
         dotnet-version: '3.1.x'
 
-    - name: NuGet restore and Build
-      run: |
-        nuget restore ${{ env.SLN_FILE_PATH }}
-        msbuild /t:PackageForAndroid /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:UseSharedCompilation=false ${{ env.CSPROJ_FILE_PATH }}
-
     - run: |
         nuget restore ${{ env.SLN_FILE_PATH }}
-        msbuild /t:PackageForAndroid /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:UseSharedCompilation=false ${{ env.CSPROJ_FILE_PATH }}
+        msbuild /p:Platform=iPhoneSimulator /t:Rebuild /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:UseSharedCompilation=false ${{ env.CSPROJ_FILE_PATH }}
 
     - uses: actions/upload-artifact@v2
       with:
         name: android-apk
         if-no-files-found: error
         path: "**/bin/${{ env.BUILD_CONFIGURATION }}/${{ env.ANDROID_BUILD_APK }}"
+
+  build-ios:
+    runs-on: macos-latest
+    env:
+      APP_NAME: Inspector.iOS
+      SLN_FILE_PATH: './src/Inspector.sln'
+      CSPROJ_FILE_PATH: './src/Inspector.iOS/Inspector.iOS.csproj'
+      BUILD_CONFIGURATION: Debug-Agent
+      IOS_BUILD_APK: do.gob.ogtic.Inspector.ipa
+      MONO_VERSION: '6.10'
+      IOS_VERSION: '14.10'
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+        token: ${{ secrets.OGTIC_PAT }}
+
+    - name: Set default Xamarin SDK versions
+      run: |
+        $VM_ASSETS/select-xamarin-sdk-v2.sh --mono=${{ env.MONO_VERSION }} --android=${{ env.IOS_VERSION }}
+
+    - name: Set default Xcode 12.3
+      run: |
+        XCODE_ROOT=/Applications/Xcode_12.3.0.app
+        echo "MD_APPLE_SDK_ROOT=$XCODE_ROOT" >> $GITHUB_ENV
+        sudo xcode-select -s $XCODE_ROOT
+
+    - uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.x'
+
+    - name: NuGet restore and Build
+      run: |
+        nuget restore ${{ env.SLN_FILE_PATH }}
+        msbuild /t:PackageForAndroid /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:UseSharedCompilation=false ${{ env.CSPROJ_FILE_PATH }}
 
   distribute:
     runs-on: ubuntu-latest
@@ -51,6 +82,7 @@ jobs:
     - uses: actions/download-artifact@v2
       with:
         name: android-apk
+        path: ./${{ env.ANDROID_BUILD_APK }}
 
     - name: Display structure of downloaded files
       run: ls -R
