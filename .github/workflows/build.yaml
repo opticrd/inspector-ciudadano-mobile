@@ -24,33 +24,15 @@ jobs:
     - name: Install dependencies
       run: nuget restore ./src/Inspector.sln
 
-    - name: Build
-      run: msbuild ./src/Inspector.Android/Inspector.Android.csproj /t:PackageForAndroid /p:Configuration=Debug-Agent
-
-  CodeQL-Build:
-
-    strategy:
-      fail-fast: false
-
-    # CodeQL runs on ubuntu-latest, windows-latest, and macos-latest
-    runs-on: windows-latest
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      with:
-        submodules: 'recursive'
-        token: ${{ secrets.OGTIC_PAT }}
-
-    # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v1
       # Override language selection by uncommenting this and choosing your languages
       with:
         languages: csharp
 
-    # - name: Autobuild
-    #   uses: github/codeql-action/autobuild@v1
+    - name: Build
+      run: msbuild ./src/Inspector.Android/Inspector.Android.csproj /t:PackageForAndroid /p:Configuration=Debug-Agent
 
+    # Initializes the CodeQL tools for scanning.
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
