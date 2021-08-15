@@ -24,5 +24,7 @@ jobs:
     - name: Install dependencies
       run: nuget restore ./src/Inspector.sln
 
+    - name: Restore
+      run: msbuild ./src/Inspector.Android/Inspector.Android.csproj /t:restore /p:Configuration=Debug
     - name: Build
-      run: msbuild ./src/Inspector.Android/Inspector.Android.csproj /t:PackageForAndroid /p:Configuration=Debug_Agent
+      run: msbuild ./src/Inspector.Android/Inspector.Android.csproj /t:PackageForAndroid /p:Configuration=Debug
