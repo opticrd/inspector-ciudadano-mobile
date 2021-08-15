@@ -3,8 +3,7 @@ name: Build Xamarin.Android app
 on: [push]
 
 jobs:
-  build:
-
+  build-android:
     runs-on: macos-latest
     env: 
       MONO_VERSION: '6.10'
@@ -12,9 +11,6 @@ jobs:
       SLN_FILE_PATH: './src/Inspector.sln'
       CSPROJ_FILE_PATH: './src/Inspector.Android/Inspector.Android.csproj'
       BUILD_CONFIGURATION: Debug-Agent
-
-    strategy:
-      fail-fast: false
 
     steps:
     - uses: actions/checkout@v2
@@ -34,3 +30,28 @@ jobs:
       run: |
         nuget restore ${{ env.SLN_FILE_PATH }}
         msbuild /t:PackageForAndroid /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:UseSharedCompilation=false ${{ env.CSPROJ_FILE_PATH }}
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: android-apk
+        path: "**/bin/Debug/do.gob.ogtic.inspector.apk"
+
+  distribute:
+    runs-on: ubuntu-latest
+    needs: [ build-android ]
+
+    steps:
+    - uses: actions/download-artifact@v2
+      with:
+        name: android-apk
+
+    - name: App Center
+      uses: wzieba/AppCenter-Github-Action@v1.0.0
+      with:
+        appName: gobdo/Reportero Ciudadano - Droid
+        token: ${{ secrets.APP_CENTER_TOKEN }}
+        group: Internal
+        # Artefact to upload (.apk or .ipa)
+        file: Inspector/Inspector.Android/bin/Debug/do.gob.ogtic.inspector.apk
+        # Release notes visible on release page
+        releaseNotes: "demo test"
