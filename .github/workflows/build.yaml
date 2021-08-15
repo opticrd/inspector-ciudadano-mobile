@@ -16,8 +16,6 @@ jobs:
 
     strategy:
       fail-fast: false
-    matrix:
-      language: [ 'csharp' ] # For Dave Burnison's demos we will just scan 'csharp' code
 
     steps:
     - uses: actions/checkout@v2
