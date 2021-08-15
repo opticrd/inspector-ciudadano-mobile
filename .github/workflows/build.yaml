@@ -4,12 +4,12 @@ on: [push]
 
 jobs:
   env: 
-  ANDROID_NAME: Inspector.Android
-  ANDROID_BUILD_APK: x_do.gob.ogtic.inspector.apk
-  IOS_NAME: Inspector.iOS
-  IOS_BUILD_APK: do.gob.ogtic.Inspector.ipa
-  BUILD_CONFIGURATION: Debug-Agent
-  MONO_VERSION: '6.10'
+    ANDROID_NAME: Inspector.Android
+    ANDROID_BUILD_APK: x_do.gob.ogtic.inspector.apk
+    IOS_NAME: Inspector.iOS
+    IOS_BUILD_APK: do.gob.ogtic.Inspector.ipa
+    BUILD_CONFIGURATION: Debug-Agent
+    MONO_VERSION: '6.10'
 
   build-android:
     runs-on: macos-latest
