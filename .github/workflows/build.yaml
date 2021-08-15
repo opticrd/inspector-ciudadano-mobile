@@ -11,6 +11,7 @@ jobs:
       SLN_FILE_PATH: './src/Inspector.sln'
       CSPROJ_FILE_PATH: './src/Inspector.Android/Inspector.Android.csproj'
       BUILD_CONFIGURATION: Debug-Agent
+      ANDROID_BUILD_APK: x_do.gob.ogtic.inspector.apk
 
     steps:
     - uses: actions/checkout@v2
@@ -34,7 +35,7 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: android-apk
-        path: "**/bin/Debug/do.gob.ogtic.inspector.apk"
+        path: "**/bin/Debug/${{ env.ANDROID_BUILD_APK }}"
 
   distribute:
     runs-on: ubuntu-latest
@@ -52,6 +53,6 @@ jobs:
         token: ${{ secrets.APP_CENTER_TOKEN }}
         group: Internal
         # Artefact to upload (.apk or .ipa)
-        file: Inspector/Inspector.Android/bin/Debug/do.gob.ogtic.inspector.apk
+        file: Inspector/Inspector.Android/bin/Debug/${{ env.ANDROID_BUILD_APK }}
         # Release notes visible on release page
         releaseNotes: "demo test"
