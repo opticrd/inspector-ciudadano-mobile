@@ -3,15 +3,19 @@ name: Build Xamarin.Android app
 on: [push]
 
 jobs:
+  env: 
+  ANDROID_NAME: Inspector.Android
+  ANDROID_BUILD_APK: x_do.gob.ogtic.inspector.apk
+  IOS_NAME: Inspector.iOS
+  IOS_BUILD_APK: do.gob.ogtic.Inspector.ipa
+  BUILD_CONFIGURATION: Debug-Agent
+  MONO_VERSION: '6.10'
+
   build-android:
     runs-on: macos-latest
     env: 
-      APP_NAME: Inspector.Android
       SLN_FILE_PATH: './src/Inspector.sln'
       CSPROJ_FILE_PATH: './src/Inspector.Android/Inspector.Android.csproj'
-      BUILD_CONFIGURATION: Debug-Agent
-      ANDROID_BUILD_APK: x_do.gob.ogtic.inspector.apk
-      MONO_VERSION: '6.10'
       ANDROID_VERSION: '11.1'
 
     steps:
@@ -42,12 +46,8 @@ jobs:
   build-ios:
     runs-on: macos-latest
     env:
-      APP_NAME: Inspector.iOS
       SLN_FILE_PATH: './src/Inspector.sln'
       CSPROJ_FILE_PATH: './src/Inspector.iOS/Inspector.iOS.csproj'
-      BUILD_CONFIGURATION: Debug-Agent
-      IOS_BUILD_APK: do.gob.ogtic.Inspector.ipa
-      MONO_VERSION: '6.10'
       IOS_VERSION: '14.10'
 
     steps:
@@ -94,6 +94,6 @@ jobs:
         token: ${{ secrets.APP_CENTER_TOKEN }}
         group: Internal
         # Artifact to upload (.apk or .ipa)
-        file: ./src/Inspector.Android/bin/Debug-Agent/x_do.gob.ogtic.inspector.apk
+        file: ./src/${{ env.ANDROID_NAME }}/bin/${{ env.BUILD_CONFIGURATION }}/${{ env.ANDROID_BUILD_APK }}
         # Release notes visible on release page
         releaseNotes: "github action test"
