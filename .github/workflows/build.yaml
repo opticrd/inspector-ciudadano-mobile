@@ -57,7 +57,7 @@ jobs:
 
     - name: Set default Xamarin SDK versions
       run: |
-        $VM_ASSETS/select-xamarin-sdk-v2.sh --mono=${{ env.MONO_VERSION }} --android=${{ env.IOS_VERSION }}
+        $VM_ASSETS/select-xamarin-sdk-v2.sh --mono=${{ env.MONO_VERSION }} --ios=${{ env.IOS_VERSION }}
 
     - name: Set default Xcode 12.3
       run: |
