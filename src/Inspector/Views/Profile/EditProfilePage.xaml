@@ -18,7 +18,7 @@
                         Placeholder="Dirección"
                         ReturnType="Next" />
 
-                    <mtrl:MaterialTextField Placeholder="Telefono" ReturnType="Done" />
+                    <mtrl:MaterialTextField Placeholder="Teléfono" ReturnType="Done" />
                 </StackLayout>
             </Frame>
 

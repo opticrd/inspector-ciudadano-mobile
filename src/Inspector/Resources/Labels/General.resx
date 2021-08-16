@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Address" xml:space="preserve">
-    <value>Calle, número, cuidad</value>
+    <value>Calle, número, residencial</value>
   </data>
   <data name="Attach" xml:space="preserve">
     <value>Adjuntar</value>
   </data>
   <data name="CitizenDetails" xml:space="preserve">
-    <value>Detalles del cuidadano</value>
+    <value>Detalles del beneficiario</value>
   </data>
   <data name="Comment" xml:space="preserve">
     <value>Comentario</value>
@@ -139,25 +139,25 @@
     <value>Correo electrónico</value>
   </data>
   <data name="EmailHelper" xml:space="preserve">
-    <value>Digita tu correo electrónico</value>
+    <value>Digite su correo electrónico</value>
   </data>
   <data name="EnterAddress" xml:space="preserve">
     <value>Digite la dirección del incidente</value>
   </data>
   <data name="EnterComment" xml:space="preserve">
-    <value>Digite su comentario</value>
+    <value>Digite información relevante para el reporte</value>
   </data>
   <data name="EnterId" xml:space="preserve">
     <value>Digite la cédula</value>
   </data>
   <data name="EnterPhone" xml:space="preserve">
-    <value>Digite su teléfono</value>
+    <value>Digite el teléfono del beneficiario</value>
   </data>
   <data name="EnterTitleReport" xml:space="preserve">
     <value>Digite el título del reporte</value>
   </data>
   <data name="Evidences" xml:space="preserve">
-    <value>Pruebas</value>
+    <value>Evidencias</value>
   </data>
   <data name="ForgetPassword" xml:space="preserve">
     <value>¿Olvidaste tu contraseña?</value>
@@ -172,7 +172,7 @@
     <value>Cargar más</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Iniciar Sesión</value>
+    <value>¡Inicia Sesión!</value>
   </data>
   <data name="ValidateDocument" xml:space="preserve">
     <value>Validar Cédula</value>
@@ -181,10 +181,10 @@
     <value>Registrate</value>
   </data>
   <data name="LoginSubtitle" xml:space="preserve">
-    <value>Digita tus credenciales para iniciar sesión</value>
+    <value>Selecciona tu cuenta para iniciar sesión</value>
   </data>
   <data name="LoginTitle" xml:space="preserve">
-    <value>Inicio de Sesión</value>
+    <value>Inicia Sesión</value>
   </data>
   <data name="Municipality" xml:space="preserve">
     <value>Municipio</value>
@@ -196,10 +196,10 @@
     <value>Contraseña</value>
   </data>
   <data name="PasswordHelper" xml:space="preserve">
-    <value>Digita tu contraseña</value>
+    <value>Digite su contraseña</value>
   </data>
   <data name="Phone" xml:space="preserve">
-    <value>Telefono</value>
+    <value>Teléfono</value>
   </data>
   <data name="Province" xml:space="preserve">
     <value>Provincia</value>
@@ -238,13 +238,13 @@
     <value>Seleccione la zona</value>
   </data>
   <data name="TitleReport" xml:space="preserve">
-    <value>Titulo</value>
+    <value>Título</value>
   </data>
   <data name="Zone" xml:space="preserve">
     <value>Zona/Sector/Barrio</value>
   </data>
   <data name="Category" xml:space="preserve">
-    <value>Categoria</value>
+    <value>Categoría</value>
   </data>
   <data name="Incident" xml:space="preserve">
     <value>Incidente</value>
@@ -253,13 +253,13 @@
     <value>Tipo de incidencia</value>
   </data>
   <data name="SelectCategory" xml:space="preserve">
-    <value>Selecciona la categoria</value>
+    <value>Seleccione la categoría</value>
   </data>
   <data name="SelectIncident" xml:space="preserve">
-    <value>Selecciona el tipo de incidente</value>
+    <value>Seleccione el tipo de incidente</value>
   </data>
   <data name="SelectSubCategory" xml:space="preserve">
-    <value>Selecciona la subcategoria</value>
+    <value>Seleccione la subcategoria</value>
   </data>
   <data name="SubCategory" xml:space="preserve">
     <value>Subcategoria</value>

@@ -11,6 +11,7 @@
     prism:ViewModelLocator.AutowireViewModel="True">
 
     <RefreshView IsRefreshing="{Binding IsBusy, Mode=OneWay}" RefreshColor="{StaticResource PrimaryColor}">
+        <ScrollView>
         <StackLayout
             Padding="16,36,16,16"
             Spacing="20"
@@ -37,43 +38,43 @@
                 Padding="16"
                 BackgroundColor="White">
                 
-                <Label Text="{Binding Citizen.Id}"
-                HorizontalTextAlignment="Center"
-                Style="{StaticResource Body2}" />
                 
-                <Label Text="{Binding Citizen.Names}"
-                HorizontalTextAlignment="Center"
-                Style="{StaticResource Body2}" />
-                
-                <Label Text="{Binding Citizen.FirstSurname}"
-                HorizontalTextAlignment="Center"
-                Style="{StaticResource Body2}" />
+                <Label 
+                    Text="{Binding FullName}"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource Body2}" />
+                <Label 
+                    Text="{Binding Citizen.Id}"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource Body2}" />
 
-                <Label Text="{Binding Citizen.SecondSurname}"
-                HorizontalTextAlignment="Center"
-                Style="{StaticResource Body2}" />
+                <Label 
+                    Text="{Binding Location}"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource Body2}" />
 
-                <mtrl:MaterialButton
+                    <mtrl:MaterialButton
                         Command="{Binding GoogleCommand}"
-                        Style="{StaticResource ButtonGoogle}"
-                        ImageSource="icon.png"
-                        Text="Inicia con Google" />
+                        Style="{StaticResource ButtonOutlined}"
+                        ImageSource="{img:ImageResource Inspector.Resources.Images.google.png}"
+                        Text="Registrame con Google" />
 
-                <mtrl:MaterialButton
+                    <mtrl:MaterialButton
                         Command="{Binding MicrosoftCommand}"
-                        ImageSource="icon.png"
-                        Style="{StaticResource ButtonMicrosoft}"
-                        Text="Inicia con Microsoft" />
+                        ImageSource="{img:ImageResource Inspector.Resources.Images.microsoft.png}"
+                        Style="{StaticResource ButtonOutlined}"
+                        Text="Registrame con Microsoft" />
 
-                <mtrl:MaterialButton
+                    <mtrl:MaterialButton
                         Command="{Binding FacebookCommand}"
-                        ImageSource="icon.png"
-                        Style="{StaticResource ButtonFacebook}"
-                        Text="Inicia con Facebook" />
+                        ImageSource="{img:ImageResource Inspector.Resources.Images.facebook.png}"
+                        Style="{StaticResource ButtonOutlined}"
+                        Text="Registrame con Facebook" />
+
+                </StackLayout>
 
             </StackLayout>
-
-        </StackLayout>
+        </ScrollView>
     </RefreshView>
 
 </ContentPage>

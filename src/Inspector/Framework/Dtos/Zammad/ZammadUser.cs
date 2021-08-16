@@ -8,7 +8,7 @@ namespace Inspector.Framework.Dtos.Zammad
     public partial class ZammadUser
     {
         [JsonProperty("id")]
-        public long Id { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty("organization_id")]
         public string OrganizationId { get; set; }

@@ -70,6 +70,11 @@ namespace Inspector.ViewModels
             {
                 var userAccount = await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount);
 
+                if (userAccount == null)
+                {
+                    valid = true;
+                    return;
+                }
                 if (userAccount?.CustomAttributes["zone"] == null)
                     return;
 
@@ -130,7 +135,10 @@ namespace Inspector.ViewModels
 
                 valid = true;
             }
-            catch { }
+            catch (Exception ex)
+            {
+
+            }
             finally
             {
                 if (!valid)
@@ -141,7 +149,7 @@ namespace Inspector.ViewModels
             }
         }
 
-        private async Task LoadRegions()
+        protected async Task LoadRegions()
         {
             var result = await _territorialDivisionClient.GetRegions();
 

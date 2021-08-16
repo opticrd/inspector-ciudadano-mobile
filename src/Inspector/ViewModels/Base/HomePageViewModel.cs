@@ -43,7 +43,7 @@ namespace Inspector.ViewModels
                 await _cacheService.RemoveSecureObject(CacheKeys.ZammadAccount);
                 await _cacheService.RemoveSecureObject(CacheKeys.UserAccount);
 
-                await _navigationService.NavigateAsync("/" + NavigationKeys.LoginPage);
+                await _navigationService.NavigateAsync("/WelcomePage");
             });
         }
 
