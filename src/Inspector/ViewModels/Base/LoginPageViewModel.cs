@@ -109,6 +109,16 @@ namespace Inspector.ViewModels
                     var keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", email);
                     if (keycloakUserCollection != null && keycloakUserCollection.Count == 1)
                     {
+                        var pwdList = keycloakUserCollection[0]?.Attributes?.Pwd;
+                        if (pwdList == null)
+                        {
+                            var doSignUp = await _dialogService.DisplayAlertAsync("","Debes registrar tu cuenta para iniciar sesión.", "Registrarme", "Ok");
+                            if (doSignUp)
+                            {
+                                await _navigationService.NavigateAsync("/WelcomePage/SignupDocumentPage");
+                            }
+                            return;
+                        }
                         var pwd = keycloakUserCollection[0]?.Attributes?.Pwd[0] ?? string.Empty;
                         await DoLogin(email, pwd.Base64Decode());
                         IsBusy = false;
