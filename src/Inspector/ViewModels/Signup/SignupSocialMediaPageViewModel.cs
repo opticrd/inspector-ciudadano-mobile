@@ -141,21 +141,6 @@ namespace Inspector.ViewModels
                         _password.Base64Encode()
                     });
 
-                    //If the user already exists, do a login
-                    var keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", _email);
-                    if(keycloakUserCollection != null && keycloakUserCollection.Count == 1)
-                    {
-                        //Resets the password because we are doing a "registration"
-                        await _keycloakApi.ResetPassword($"Bearer {keycloakToken.AccessToken}", keycloakUserCollection[0].Id, new CredentialRepresentation
-                        {
-                            Password = _password
-                        });
-
-                        await Login(_email, _password);
-                        IsBusy = false;
-                        return;
-                    }
-
                     // Create user with email and Password
                     var newKeycloakUser = new UserRepresentation
                     {
@@ -167,6 +152,24 @@ namespace Inspector.ViewModels
                         Email = _email,
                         Attributes = attributes
                     };
+
+                    //If the user already exists, do a login
+                    var keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", _email);
+                    if(keycloakUserCollection != null && keycloakUserCollection.Count == 1)
+                    {
+                        //Resets the password because we are doing a "registration"
+                        await _keycloakApi.ResetPassword($"Bearer {keycloakToken.AccessToken}", keycloakUserCollection[0].Id, new CredentialRepresentation
+                        {
+                            Password = _password
+                        });
+
+                        await _keycloakApi.UpdateUser($"Bearer {keycloakToken.AccessToken}", keycloakUserCollection[0].Id, newKeycloakUser);
+
+                        await Login(_email, _password);
+                        IsBusy = false;
+                        return;
+                    }
+
                     await _keycloakApi.CreateUser($"Bearer {keycloakToken.AccessToken}", newKeycloakUser);
                     var createdUser = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", _email);
 
@@ -250,7 +253,7 @@ namespace Inspector.ViewModels
                 {
                     var zammadUser = zammadUserSearch[0];
                     zammadUser.Password = password;
-                    await _zammadLiteApi.UpdateUser($"Bearer {AppKeys.ZammadToken}", zammadUser);
+                    await _zammadLiteApi.UpdateUser($"Bearer {AppKeys.ZammadToken}", zammadUser.Id, zammadUser);
                     //Update Password to document
                 }
                 // TODO
