@@ -115,6 +115,7 @@ namespace Inspector.ViewModels
                             var doSignUp = await _dialogService.DisplayAlertAsync("","Debes registrar tu cuenta para iniciar sesión.", "Registrarme", "Ok");
                             if (doSignUp)
                             {
+                                IsBusy = false;
                                 await _navigationService.NavigateAsync("/WelcomePage/SignupDocumentPage");
                             }
                             return;
