@@ -1,13 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Newtonsoft.Json;
 
 namespace Inspector.Framework.Dtos
 {
     public class Zone
     {
-        public int Id { get; set; }
+        [JsonProperty("identifier")]
+        public string Id { get; set; }
+
+        [JsonProperty("code")]
         public string Code { get; set; }
+
+        [JsonProperty("name")]
         public string Name { get; set; }
+
+        [JsonProperty("regionCode")]
+        public string RegionCode { get; set; }
+
+        [JsonProperty("provinceCode")]
+        public string ProvinceCode { get; set; }
+
+        [JsonProperty("municipalityCode")]
+        public string MunicipalityCode { get; set; }
     }
 }
