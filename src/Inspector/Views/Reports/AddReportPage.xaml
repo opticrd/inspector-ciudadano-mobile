@@ -193,8 +193,8 @@
 
                         <!--<ctrls:TextFieldLayout>
                         <mtrl:MaterialTextField
-                            HelperText="Seleccione la categoria"
-                            Placeholder="Categoria"
+                            HelperText="Seleccione la categoría"
+                            Placeholder="Categoría"
                             ReturnType="Next"
                             Style="{StaticResource TextFieldChoiceStyle}">
                             <mtrl:MaterialTextField.Choices>

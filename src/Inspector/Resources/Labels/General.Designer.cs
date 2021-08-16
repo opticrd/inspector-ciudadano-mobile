@@ -61,7 +61,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Calle, número, cuidad.
+        ///   Looks up a localized string similar to Calle, número, residencial.
         /// </summary>
         internal static string Address {
             get {
@@ -79,7 +79,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Categoria.
+        ///   Looks up a localized string similar to Categoría.
         /// </summary>
         internal static string Category {
             get {
@@ -88,7 +88,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Detalles del cuidadano.
+        ///   Looks up a localized string similar to Detalles del beneficiario.
         /// </summary>
         internal static string CitizenDetails {
             get {
@@ -133,7 +133,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Digita tu correo electrónico.
+        ///   Looks up a localized string similar to Digite su correo electrónico.
         /// </summary>
         internal static string EmailHelper {
             get {
@@ -160,7 +160,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Digite su comentario.
+        ///   Looks up a localized string similar to Digite información relevante para el reporte.
         /// </summary>
         internal static string EnterComment {
             get {
@@ -178,7 +178,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Digite su teléfono.
+        ///   Looks up a localized string similar to Digite el teléfono del beneficiario.
         /// </summary>
         internal static string EnterPhone {
             get {
@@ -196,7 +196,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pruebas.
+        ///   Looks up a localized string similar to Evidencias.
         /// </summary>
         internal static string Evidences {
             get {
@@ -313,7 +313,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Digita tu contraseña.
+        ///   Looks up a localized string similar to Digite su contraseña.
         /// </summary>
         internal static string PasswordHelper {
             get {
@@ -322,7 +322,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Telefono.
+        ///   Looks up a localized string similar to Teléfono.
         /// </summary>
         internal static string Phone {
             get {
@@ -385,7 +385,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Selecciona la categoria.
+        ///   Looks up a localized string similar to Seleccione la categoría.
         /// </summary>
         internal static string SelectCategory {
             get {
@@ -403,7 +403,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Selecciona el tipo de incidente.
+        ///   Looks up a localized string similar to Seleccione el tipo de incidente.
         /// </summary>
         internal static string SelectIncident {
             get {
@@ -439,7 +439,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Selecciona la subcategoria.
+        ///   Looks up a localized string similar to Seleccione la subcategoria.
         /// </summary>
         internal static string SelectSubCategory {
             get {
@@ -484,7 +484,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Titulo.
+        ///   Looks up a localized string similar to Título.
         /// </summary>
         internal static string TitleReport {
             get {
