@@ -1,17 +1,18 @@
 name: Build Xamarin app
 
-push:
-  branches:
-    - "*"
-    - "!staging"
-    - "!main"
-pull_request:
-  branches:
-    - "staging"
-    - "main"
-  paths:
-    - "**/workflows/**"
-    - "**/src/**"
+on:
+  push:
+    branches:
+      - "*"
+      - "!staging"
+      - "!main"
+  pull_request:
+    branches:
+      - "staging"
+      - "main"
+    paths:
+      - "**/workflows/**"
+      - "**/src/**"
 
 env: 
   ANDROID_NAME: Inspector.Android
