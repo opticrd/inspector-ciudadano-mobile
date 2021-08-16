@@ -46,7 +46,7 @@
                             <mtrl:MaterialTextField
                                 ErrorText="{Binding ID.Error}"
                                 HasError="{Binding ID.HasErrors}"
-                                HelperText="{l18n:Translate EnterId}"
+                                HelperText="{l18n:Translate EnterCitizenId}"
                                 MaxLength="13"
                                 Placeholder="{l18n:Translate Id}"
                                 ReturnType="Next"

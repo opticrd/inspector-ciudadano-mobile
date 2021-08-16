@@ -11,6 +11,7 @@
     prism:ViewModelLocator.AutowireViewModel="True">
 
     <RefreshView IsRefreshing="{Binding IsBusy, Mode=OneWay}" RefreshColor="{StaticResource PrimaryColor}">
+        <ScrollView>
         <StackLayout
             Padding="16,36,16,16"
             Spacing="20"
@@ -37,23 +38,22 @@
                 Padding="16"
                 BackgroundColor="White">
                 
-                <Label Text="{Binding Citizen.Id}"
-                HorizontalTextAlignment="Center"
-                Style="{StaticResource Body2}" />
+                <Label 
+                    Text="{Binding Citizen.Id}"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource Body2}" />
                 
-                <Label Text="{Binding Citizen.Names}"
-                HorizontalTextAlignment="Center"
-                Style="{StaticResource Body2}" />
+                <Label 
+                    Text="{Binding FullName}"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource Body2}" />
                 
-                <Label Text="{Binding Citizen.FirstSurname}"
-                HorizontalTextAlignment="Center"
-                Style="{StaticResource Body2}" />
+                <Label 
+                    Text="{Binding Location}"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource Body2}" />
 
-                <Label Text="{Binding Citizen.SecondSurname}"
-                HorizontalTextAlignment="Center"
-                Style="{StaticResource Body2}" />
-
-                <mtrl:MaterialButton
+                    <mtrl:MaterialButton
                         Command="{Binding GoogleCommand}"
                         Style="{StaticResource ButtonGoogle}"
                         ImageSource="icon.png"
@@ -73,7 +73,8 @@
 
             </StackLayout>
 
-        </StackLayout>
+            </StackLayout>
+        </ScrollView>
     </RefreshView>
 
 </ContentPage>

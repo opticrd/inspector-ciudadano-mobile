@@ -98,11 +98,14 @@ jobs:
         name: android-apk
         path: ./${{ env.ANDROID_BUILD_APK }}
 
+    - name: Display structure of downloaded files
+      run: ls -R
+
     - name: App Center
       uses: wzieba/AppCenter-Github-Action@v1.0.0
       with:
         appName: gobdo/Reportero-Ciudadano-Droid
         token: ${{ secrets.APP_CENTER_TOKEN }}
         group: Internal
-        file: ./${{ env.ANDROID_BUILD_APK }}
+        file: ./src/${{ env.ANDROID_NAME }}/bin/${{ env.BUILD_CONFIGURATION }}/${{ env.ANDROID_BUILD_APK }}
         releaseNotes: "github action test"
