@@ -58,6 +58,7 @@ jobs:
 
   build-ios:
     runs-on: macos-latest
+    continue-on-error: true
     env:
       SLN_FILE_PATH: './src/Inspector.sln'
       CSPROJ_FILE_PATH: './src/Inspector.iOS/Inspector.iOS.csproj'
