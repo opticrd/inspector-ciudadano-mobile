@@ -1,0 +1,111 @@
+name: Build Xamarin app
+
+on:
+  push:
+    branches:
+      - "*"
+      - "!staging"
+      - "!main"
+  pull_request:
+    branches:
+      - "staging"
+      - "main"
+    paths:
+      - "**/workflows/**"
+      - "**/src/**"
+
+env: 
+  ANDROID_NAME: Inspector.Android
+  ANDROID_BUILD_APK: x_do.gob.ogtic.inspector.apk
+  IOS_NAME: Inspector.iOS
+  IOS_BUILD_APK: do.gob.ogtic.Inspector.ipa
+  BUILD_CONFIGURATION: Debug-Agent
+  MONO_VERSION: '6.10'
+
+jobs:
+  build-android:
+    runs-on: macos-latest
+    env: 
+      SLN_FILE_PATH: './src/Inspector.sln'
+      CSPROJ_FILE_PATH: './src/Inspector.Android/Inspector.Android.csproj'
+      ANDROID_VERSION: '11.1'
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+        token: ${{ secrets.OGTIC_PAT }}
+
+    - name: Set default Xamarin SDK versions
+      run: |
+        $VM_ASSETS/select-xamarin-sdk-v2.sh --mono=${{ env.MONO_VERSION }} --android=${{ env.ANDROID_VERSION }}
+
+    - uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.x'
+
+    - name: NuGet restore and Build
+      run: |
+        nuget restore ${{ env.SLN_FILE_PATH }}
+        msbuild /t:PackageForAndroid /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:UseSharedCompilation=false ${{ env.CSPROJ_FILE_PATH }}
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: android-apk
+        path: "**/bin/${{ env.BUILD_CONFIGURATION }}/${{ env.ANDROID_BUILD_APK }}"
+        if-no-files-found: error
+        retention-days: 1
+
+  build-ios:
+    runs-on: macos-latest
+    env:
+      SLN_FILE_PATH: './src/Inspector.sln'
+      CSPROJ_FILE_PATH: './src/Inspector.iOS/Inspector.iOS.csproj'
+      IOS_VERSION: '14.10'
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+        token: ${{ secrets.OGTIC_PAT }}
+
+    - name: Set default Xamarin SDK versions
+      run: |
+        $VM_ASSETS/select-xamarin-sdk-v2.sh --mono=${{ env.MONO_VERSION }} --ios=${{ env.IOS_VERSION }}
+
+    - name: Set default Xcode 12.3
+      run: |
+        XCODE_ROOT=/Applications/Xcode_12.3.0.app
+        echo "MD_APPLE_SDK_ROOT=$XCODE_ROOT" >> $GITHUB_ENV
+        sudo xcode-select -s $XCODE_ROOT
+
+    - uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.x'
+
+    - run: |
+        nuget restore ${{ env.SLN_FILE_PATH }}
+        msbuild /p:Platform=iPhoneSimulator /t:Rebuild /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:UseSharedCompilation=false ${{ env.CSPROJ_FILE_PATH }}
+
+  distribute-android:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    needs: [ build-android ]
+
+    steps:
+    - uses: actions/download-artifact@v2
+      with:
+        name: android-apk
+        path: ./${{ env.ANDROID_BUILD_APK }}
+
+    - name: Display structure of downloaded files
+      run: ls -R
+
+    - name: App Center
+      uses: wzieba/AppCenter-Github-Action@v1.0.0
+      with:
+        appName: gobdo/Reportero-Ciudadano-Droid
+        token: ${{ secrets.APP_CENTER_TOKEN }}
+        group: Internal
+        file: ./src/${{ env.ANDROID_NAME }}/bin/${{ env.BUILD_CONFIGURATION }}/${{ env.ANDROID_BUILD_APK }}
+        releaseNotes: "github action test"
