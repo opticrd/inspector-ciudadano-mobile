@@ -28,16 +28,17 @@
                     Style="{StaticResource Body2}"
                     Text="Nuestra App ha sido creada para ayudar al país y dar seguimiento a obras y servicios."
                     TranslationY="-16" />
-
-            <mtrl:MaterialButton
-                Command="{prism:NavigateTo 'SignupDocumentPage'}"
-                Style="{StaticResource ButtonPrimary}"
-                Text="Registrarme" />
             
             <mtrl:MaterialButton
                 Command="{prism:NavigateTo 'LoginPage'}"
                 Style="{StaticResource ButtonPrimary}"
                 Text="Iniciar Sesión" />
+
+            <mtrl:MaterialButton
+                Command="{prism:NavigateTo 'SignupDocumentPage'}"
+                Style="{StaticResource ButtonOutlined}"
+                Text="Registrarme" />
+            
             <Label
                 Text="{Binding VersionNumber}" 
                 HorizontalOptions="CenterAndExpand"

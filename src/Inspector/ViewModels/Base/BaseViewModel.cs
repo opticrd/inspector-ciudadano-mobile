@@ -45,7 +45,7 @@ namespace Inspector.ViewModels
         {
             get
             {
-                return VersionTracking.CurrentVersion;
+                return $"Versión ${VersionTracking.CurrentVersion}";
             }
         }
         public virtual void OnNavigatedFrom(INavigationParameters parameters)
