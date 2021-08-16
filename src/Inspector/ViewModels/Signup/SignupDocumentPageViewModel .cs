@@ -90,7 +90,7 @@ namespace Inspector.ViewModels
                 {
                     var parameters = new NavigationParameters();
                     parameters.Add("Citizen", info.Payload);
-                    parameters.Add("Pasword", Password.Value);
+                    parameters.Add("Password", Password.Value);
                     parameters.Add("Region", Region.Value.Name);
                     parameters.Add("Province", Province.Value.Name);
                     parameters.Add("Municipality", Municipality.Value.Name);

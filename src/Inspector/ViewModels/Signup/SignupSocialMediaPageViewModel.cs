@@ -2,6 +2,7 @@
 using Inspector.Framework.Dtos.Keycloak;
 using Inspector.Framework.Dtos.Keycloak.Keycloak;
 using Inspector.Framework.Dtos.Zammad;
+using Inspector.Framework.Helpers.Extensions;
 using Inspector.Framework.Interfaces;
 using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
@@ -104,9 +105,12 @@ namespace Inspector.ViewModels
                 {
                     var authUrl = new Uri(AuthenticationUrl + scheme);
                     var callbackUrl = new Uri("ogticapp://");
-
-
-                    result = await WebAuthenticator.AuthenticateAsync(authUrl, callbackUrl);
+                    result = await WebAuthenticator.AuthenticateAsync(new WebAuthenticatorOptions
+                    {
+                        PrefersEphemeralWebBrowserSession = true,
+                        Url = authUrl,
+                        CallbackUrl = callbackUrl
+                    });
                 }
 
                 if (result.Properties.TryGetValue("email", out var email) && !string.IsNullOrEmpty(email))
@@ -132,21 +136,10 @@ namespace Inspector.ViewModels
                     {
                         Citizen.Id
                     });
-
-                    //If the user already exists, do a login
-                    var keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", _email);
-                    if(keycloakUserCollection != null && keycloakUserCollection.Count == 1)
+                    attributes.Add("pwd", new List<string>
                     {
-                        //Resets the password because we are doing a "registration"
-                        await _keycloakApi.ResetPassword($"Bearer {keycloakToken.AccessToken}", keycloakUserCollection[0].Id, new CredentialRepresentation
-                        {
-                            Password = _password
-                        });
-
-                        await Login(_email, _password);
-                        IsBusy = false;
-                        return;
-                    }
+                        _password.Base64Encode()
+                    });
 
                     // Create user with email and Password
                     var newKeycloakUser = new UserRepresentation
@@ -159,6 +152,24 @@ namespace Inspector.ViewModels
                         Email = _email,
                         Attributes = attributes
                     };
+
+                    //If the user already exists, do a login
+                    var keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", _email);
+                    if(keycloakUserCollection != null && keycloakUserCollection.Count == 1)
+                    {
+                        //Resets the password because we are doing a "registration"
+                        await _keycloakApi.ResetPassword($"Bearer {keycloakToken.AccessToken}", keycloakUserCollection[0].Id, new CredentialRepresentation
+                        {
+                            Password = _password
+                        });
+
+                        await _keycloakApi.UpdateUser($"Bearer {keycloakToken.AccessToken}", keycloakUserCollection[0].Id, newKeycloakUser);
+
+                        await Login(_email, _password);
+                        IsBusy = false;
+                        return;
+                    }
+
                     await _keycloakApi.CreateUser($"Bearer {keycloakToken.AccessToken}", newKeycloakUser);
                     var createdUser = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", _email);
 
@@ -174,15 +185,15 @@ namespace Inspector.ViewModels
             }
             catch (OperationCanceledException)
             {
-                Console.WriteLine("Login canceled.");
+                Console.WriteLine("Autenticación canceledada.");
 
-                await _dialogService.DisplayAlertAsync("", "Login canceled.", "Ok");
+                await _dialogService.DisplayAlertAsync("", "Autenticación canceledada.", "Ok");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Failed: {ex.Message}");
 
-                await _dialogService.DisplayAlertAsync("", $"Failed: {ex.Message}", "Ok");
+                await _dialogService.DisplayAlertAsync("", $"Ocurrió un error: {ex.Message}", "Ok");
             }
             IsBusy = false;
         }
@@ -242,7 +253,7 @@ namespace Inspector.ViewModels
                 {
                     var zammadUser = zammadUserSearch[0];
                     zammadUser.Password = password;
-                    await _zammadLiteApi.UpdateUser($"Bearer {AppKeys.ZammadToken}", zammadUser);
+                    await _zammadLiteApi.UpdateUser($"Bearer {AppKeys.ZammadToken}", zammadUser.Id, zammadUser);
                     //Update Password to document
                 }
                 // TODO

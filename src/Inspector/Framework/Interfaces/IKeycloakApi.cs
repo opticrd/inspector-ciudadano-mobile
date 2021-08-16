@@ -20,6 +20,9 @@ namespace Inspector.Framework.Interfaces
         [Post("/auth/admin/realms/master/users")]
         Task<string> CreateUser([Header("Authorization")] string token, [Body(BodySerializationMethod.Serialized)] UserRepresentation user);
 
+        [Put("/auth/admin/realms/master/users/{id}")]
+        Task<string> UpdateUser([Header("Authorization")] string token, string id, [Body(BodySerializationMethod.Serialized)] UserRepresentation user);
+
         [Put("/auth/admin/realms/master/users/{id}/reset-password")]
         Task ResetPassword([Header("Authorization")] string token, string id, [Body(BodySerializationMethod.Serialized)] CredentialRepresentation credentialRepresentation);
     }
