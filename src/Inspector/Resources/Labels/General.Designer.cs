@@ -259,7 +259,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Iniciar Sesión.
+        ///   Looks up a localized string similar to ¡Inicia Sesión!.
         /// </summary>
         internal static string Login {
             get {
@@ -268,7 +268,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Digita tus credenciales para iniciar sesión.
+        ///   Looks up a localized string similar to Selecciona tu cuenta para iniciar sesión.
         /// </summary>
         internal static string LoginSubtitle {
             get {
@@ -277,7 +277,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Inicio de Sesión.
+        ///   Looks up a localized string similar to Inicia Sesión.
         /// </summary>
         internal static string LoginTitle {
             get {

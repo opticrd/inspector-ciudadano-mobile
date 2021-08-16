@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:ctrls="clr-namespace:UIModule.Controls;assembly=UIModule"
+            xmlns:img="clr-namespace:Inspector.Framework.Helpers.Extensions;assembly=Inspector"
+            xmlns:l18n="clr-namespace:Inspector.Framework.Helpers.Extensions"
+            xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
+            xmlns:prism="http://prismlibrary.com"
+            prism:ViewModelLocator.AutowireViewModel="True"
+                    BackgroundColor="White"
+             x:Class="Inspector.Views.WelcomePage">
+    <ContentPage.Content>
+        <StackLayout 
+                Padding="16,36,16,16"
+                Spacing="20"
+                VerticalOptions="CenterAndExpand">
+            <Image
+                    HeightRequest="80"
+                    Source="{img:ImageResource Inspector.Resources.Images.logo.png}"
+                    WidthRequest="80" />
+            <Label
+                    FontAttributes="Bold"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource H2}"
+                    Text="¡Bienvenido!" />
+            <Label
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource Body2}"
+                    Text="Nuestra App ha sido creada para ayudar al país y dar seguimiento a obras y servicios."
+                    TranslationY="-16" />
+
+            <mtrl:MaterialButton
+                Command="{prism:NavigateTo 'SignupDocumentPage'}"
+                Style="{StaticResource ButtonPrimary}"
+                Text="Registrarme" />
+            
+            <mtrl:MaterialButton
+                Command="{prism:NavigateTo 'LoginPage'}"
+                Style="{StaticResource ButtonOutlined}"
+                Text="{l18n:Translate Login}" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

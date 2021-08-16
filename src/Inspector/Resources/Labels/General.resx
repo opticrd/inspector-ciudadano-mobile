@@ -172,7 +172,7 @@
     <value>Cargar más</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Iniciar Sesión</value>
+    <value>¡Inicia Sesión!</value>
   </data>
   <data name="ValidateDocument" xml:space="preserve">
     <value>Validar Cédula</value>
@@ -181,10 +181,10 @@
     <value>Registrate</value>
   </data>
   <data name="LoginSubtitle" xml:space="preserve">
-    <value>Digita tus credenciales para iniciar sesión</value>
+    <value>Selecciona tu cuenta para iniciar sesión</value>
   </data>
   <data name="LoginTitle" xml:space="preserve">
-    <value>Inicio de Sesión</value>
+    <value>Inicia Sesión</value>
   </data>
   <data name="Municipality" xml:space="preserve">
     <value>Municipio</value>

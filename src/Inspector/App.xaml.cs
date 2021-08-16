@@ -44,11 +44,11 @@ namespace Inspector
             if (!result.Success)            
                 System.Diagnostics.Debugger.Break();            
 #elif DEBUG_AGENT
-            var result = await NavigationService.NavigateAsync("LoginPage");
+            var result = await NavigationService.NavigateAsync("WelcomePage");
             if (!result.Success)            
                 System.Diagnostics.Debugger.Break();
 #elif RELEASE_AGENT
-            await NavigationService.NavigateAsync("LoginPage");
+            await NavigationService.NavigateAsync("WelcomePage");
 #else
             await NavigationService.NavigateAsync("WelcomePage");
 #endif
@@ -81,6 +81,7 @@ namespace Inspector
             //containerRegistry.RegisterForNavigation<ProfilePage, ProfilePageViewModel>();
             //containerRegistry.RegisterForNavigation<ReportHistoryPage, ReportHistoryPageViewModel>();
             //containerRegistry.RegisterForNavigation<FeedReportsPage, FeedReportsPageViewModel>();
+            containerRegistry.RegisterForNavigation<WelcomePage>();
             containerRegistry.RegisterForNavigation<AddReportPage, AddReportPageViewModel>();
             containerRegistry.RegisterForNavigation<EditProfilePage, EditProfilePageViewModel>();
             containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
