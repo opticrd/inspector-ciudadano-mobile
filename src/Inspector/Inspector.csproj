@@ -48,20 +48,32 @@
 
   <ItemGroup>
     <None Remove="appsettings.json" />
+    <None Remove="Resources\Images\apple.png" />
     <None Remove="Resources\Images\bullhorn.png" />
     <None Remove="Resources\Images\carnet.png" />
+    <None Remove="Resources\Images\citizens.png" />
+    <None Remove="Resources\Images\facebook.png" />
+    <None Remove="Resources\Images\google.png" />
+    <None Remove="Resources\Images\ic_user.png" />
     <None Remove="Resources\Images\logo.png" />
     <None Remove="Resources\Images\looking_notes.png" />
+    <None Remove="Resources\Images\microsoft.png" />
     <None Remove="Resources\Images\phone.png" />
     <None Remove="Resources\Images\send.png" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="appsettings.json" />
+    <EmbeddedResource Include="Resources\Images\apple.png" />
     <EmbeddedResource Include="Resources\Images\bullhorn.png" />
     <EmbeddedResource Include="Resources\Images\carnet.png" />
+    <EmbeddedResource Include="Resources\Images\citizens.png" />
+    <EmbeddedResource Include="Resources\Images\facebook.png" />
+    <EmbeddedResource Include="Resources\Images\google.png" />
+    <EmbeddedResource Include="Resources\Images\ic_user.png" />
     <EmbeddedResource Include="Resources\Images\logo.png" />
     <EmbeddedResource Include="Resources\Images\looking_notes.png" />
+    <EmbeddedResource Include="Resources\Images\microsoft.png" />
     <EmbeddedResource Include="Resources\Images\phone.png" />
     <EmbeddedResource Include="Resources\Images\send.png" />
   </ItemGroup>
@@ -113,6 +125,12 @@
     <Compile Update="Views\Signup\SignupDocumentPage.xaml.cs">
       <DependentUpon>SignupDocumentPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Signup\SignupLocationPage.xaml.cs">
+      <DependentUpon>SignupLocationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\WelcomePage.xaml.cs">
+      <DependentUpon>WelcomePage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resources\Labels\General.resx">
@@ -153,7 +171,13 @@
     <EmbeddedResource Update="Views\Signup\SignupDocumentPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Signup\SignupLocationPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Signup\SignupSocialMediaPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\WelcomePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

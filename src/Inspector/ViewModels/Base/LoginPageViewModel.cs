@@ -37,21 +37,22 @@ namespace Inspector.ViewModels
             _keycloakApi = keycloakApi;
             _zammadLiteApi = zammadLiteApi;
 
-            Email = Validator.Build<string>()
+           /* Email = Validator.Build<string>()
                 .IsRequired(Message.FieldRequired)
                 .IsEmail(Message.InvalidEmail);
 
             Password = Validator.Build<string>()
                 .IsRequired(Message.FieldRequired)
-                .Must(x => x.Length > 4, Message.MaxMinInvalidField);
-            SignupCommand = new DelegateCommand(OnSignupCommandExecute);
-            LoginCommand = new DelegateCommand(OnLoginCommandExecute);
+                .Must(x => x.Length > 4, Message.MaxMinInvalidField);*/
+
+           // SignupCommand = new DelegateCommand(OnSignupCommandExecute);
+            //LoginCommand = new DelegateCommand(OnLoginCommandExecute);
 
             GoogleCommand = new DelegateCommand(async () => await OnAuthenticate("Google"));
             FacebookCommand = new DelegateCommand(async () => await OnAuthenticate("Facebook"));
             MicrosoftCommand = new DelegateCommand(async () => await OnAuthenticate("Microsoft"));
 
-            ForgetPasswordCommand = new DelegateCommand(()=> dialogService.DisplayAlertAsync(General.ForgetPassword, "Contacte su supervisor para más información.", "Ok"));
+            // ForgetPasswordCommand = new DelegateCommand(()=> dialogService.DisplayAlertAsync(General.ForgetPassword, "Contacte su supervisor para más información.", "Ok"));
         }
 
         private void OnSignupCommandExecute()
@@ -59,19 +60,12 @@ namespace Inspector.ViewModels
             _navigationService.NavigateAsync("SignupDocumentPage");
         }
 
-        public string VersionNumber
-        {
-            get
-            {
-                return VersionTracking.CurrentVersion;
-            }
-        }
-        public Validatable<string> Password { get; set; }
-        public Validatable<string> Email { get; set; }
+        //public Validatable<string> Password { get; set; }
+        //public Validatable<string> Email { get; set; }
 
-        public ICommand LoginCommand { get; set; }
-        public ICommand ForgetPasswordCommand { get; set; }
-        public ICommand SignupCommand { get; set; }
+       // public ICommand LoginCommand { get; set; }
+        //public ICommand ForgetPasswordCommand { get; set; }
+        //public ICommand SignupCommand { get; set; }
         private async Task OnAuthenticate(string scheme)
         {
             try
@@ -138,6 +132,7 @@ namespace Inspector.ViewModels
             }
             IsBusy = false;
         }
+        /*
         async void OnLoginCommandExecute()
         {
             if (IsBusy)
@@ -148,7 +143,7 @@ namespace Inspector.ViewModels
                 return;
             }
             await DoLogin(Email.Value, Password.Value);
-        }
+        }*/
         async Task DoLogin(string email, string password) 
         { 
             IsBusy = true;
