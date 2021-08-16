@@ -7,6 +7,7 @@ using Android.OS;
 
 using Prism;
 using Prism.Ioc;
+using AndroidX.AppCompat.App;
 
 namespace Inspector.Droid
 {
@@ -16,7 +17,8 @@ namespace Inspector.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            NativeMedia.Platform.Init(this, savedInstanceState);
+            NativeMedia.Platform.Init(this, savedInstanceState); 
+            AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);

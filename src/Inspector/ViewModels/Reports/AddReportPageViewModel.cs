@@ -4,7 +4,6 @@ using Inspector.Framework.Helpers.Extensions;
 using Inspector.Framework.Interfaces;
 using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
-using Inspector.Models;
 using Inspector.Resources.Labels;
 using NativeMedia;
 using Plugin.ValidationRules;
@@ -16,8 +15,6 @@ using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -64,11 +61,11 @@ namespace Inspector.ViewModels
 
             Title = Validator.Build<string>()
                             .IsRequired(Message.FieldRequired)
-                            .Must(x => x?.Length >= 10, Message.MinLengthField10);
+                            .Must(x => x?.Length >= 6, Message.MinLengthField6);
 
             Address = Validator.Build<string>()
                             .IsRequired(Message.FieldRequired)
-                            .Must(x => x.Length >= 10, Message.MinLengthField10);
+                            .Must(x => x.Length >= 6, Message.MinLengthField6);
 
             GroupSelected = Validator.Build<int>()
                             .Must(x => x > 0, Message.FieldRequired);

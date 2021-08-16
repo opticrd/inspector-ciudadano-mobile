@@ -159,4 +159,7 @@
   <data name="MinLengthField12" xml:space="preserve">
     <value>Minimo de caracteres es 12.</value>
   </data>
+  <data name="MinLengthField6" xml:space="preserve">
+    <value>Minimo de caracteres es 6.</value>
+  </data>
 </root>

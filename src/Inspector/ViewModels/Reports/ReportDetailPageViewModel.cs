@@ -91,6 +91,7 @@ namespace Inspector.ViewModels
                 }
                 Comments = new ObservableCollection<Comment>(comments);
             }
+            catch  { }
             finally
             {
                 IsBusy = false;

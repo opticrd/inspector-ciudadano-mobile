@@ -160,6 +160,15 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Digite el teléfono del beneficiario.
+        /// </summary>
+        internal static string EnterCitizenPhone {
+            get {
+                return ResourceManager.GetString("EnterCitizenPhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Digite información relevante para el reporte.
         /// </summary>
         internal static string EnterComment {
