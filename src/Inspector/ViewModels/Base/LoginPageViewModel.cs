@@ -1,5 +1,6 @@
 ﻿using Inspector.Framework.Dtos.Keycloak;
 using Inspector.Framework.Dtos.Zammad;
+using Inspector.Framework.Helpers.Extensions;
 using Inspector.Framework.Interfaces;
 using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
@@ -26,6 +27,7 @@ namespace Inspector.ViewModels
         IZammadLiteApi _zammadLiteApi;
         public ICommand GoogleCommand { get; set; }
         public ICommand FacebookCommand { get; set; }
+        public ICommand MicrosoftCommand { get; set; }
 
         const string AuthenticationUrl = "https://citizens-auth-api-dev-i42qq4zxeq-ue.a.run.app/mobileauth/";
         public LoginPageViewModel(INavigationService navigationService, IPageDialogService dialogService, 
@@ -47,6 +49,7 @@ namespace Inspector.ViewModels
 
             GoogleCommand = new DelegateCommand(async () => await OnAuthenticate("Google"));
             FacebookCommand = new DelegateCommand(async () => await OnAuthenticate("Facebook"));
+            MicrosoftCommand = new DelegateCommand(async () => await OnAuthenticate("Microsoft"));
 
             ForgetPasswordCommand = new DelegateCommand(()=> dialogService.DisplayAlertAsync(General.ForgetPassword, "Contacte su supervisor para más información.", "Ok"));
         }
@@ -112,8 +115,8 @@ namespace Inspector.ViewModels
                     var keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", email);
                     if (keycloakUserCollection != null && keycloakUserCollection.Count == 1)
                     {
-                        var cedula = keycloakUserCollection[0]?.Attributes?.Cedula[0] ?? string.Empty;
-                        await DoLogin(email, cedula);
+                        var pwd = keycloakUserCollection[0]?.Attributes?.Pwd[0] ?? string.Empty;
+                        await DoLogin(email, pwd.Base64Decode());
                         IsBusy = false;
                         return;
                     }
@@ -153,7 +156,7 @@ namespace Inspector.ViewModels
             try
             {
                 //TODO Refactor this, pass these parameters with the appsettings file
-                var keycloakToken = await _keycloakApi.Authenticate(new Framework.Dtos.Keycloak.TokenRequestBody
+               /* var keycloakToken = await _keycloakApi.Authenticate(new Framework.Dtos.Keycloak.TokenRequestBody
                 {
                     ClientId = "admin-cli",
                     GrantType = "password",
@@ -172,7 +175,7 @@ namespace Inspector.ViewModels
                 var keycloakUser = keycloakUserCollection[0];
 
                 // Get the cedula
-                var cedula = keycloakUser.Attributes?.Cedula[0]??string.Empty;
+                /*var cedula = keycloakUser.Attributes?.Cedula[0]??string.Empty;
                 if (string.IsNullOrWhiteSpace(cedula))
                     throw new System.Exception($"Tu usuario {email} en keycloak no tiene cédula. Contacta a un administrador.");
 
@@ -188,7 +191,7 @@ namespace Inspector.ViewModels
                         Firstname = keycloakUser.FirstName,
                         Lastname = keycloakUser.LastName,
                         Cedula = cedula,
-                        Password = cedula,
+                        Password = password,
                         Organization = "Ogtic",
                         Note = "Created from mobile",
                         Verified = true,
@@ -196,7 +199,7 @@ namespace Inspector.ViewModels
                         RoleIds = new List<int>() { 2 }, //1: Admin, 2: Agent, 3: Customer
                         Active = true
                     });
-                }
+                }*/
                 // TODO
                 // If the user exists check if the user has the cedula field
                 // If the cedula field is set, see if the password match the cedula
