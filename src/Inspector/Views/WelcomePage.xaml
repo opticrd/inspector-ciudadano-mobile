@@ -31,13 +31,13 @@
 
             <mtrl:MaterialButton
                 Command="{prism:NavigateTo 'SignupDocumentPage'}"
-                Style="{StaticResource ButtonPrimary}"
+                Style="{StaticResource ButtonOutlined}"
                 Text="Registrarme" />
             
             <mtrl:MaterialButton
                 Command="{prism:NavigateTo 'LoginPage'}"
                 Style="{StaticResource ButtonOutlined}"
-                Text="{l18n:Translate Login}" />
+                Text="Iniciar Sesión" />
             <Label
                 Text="{Binding VersionNumber}" 
                 HorizontalOptions="CenterAndExpand"
