@@ -151,6 +151,15 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Minimo de caracteres es 6..
+        /// </summary>
+        internal static string MinLengthField6 {
+            get {
+                return ResourceManager.GetString("MinLengthField6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No puedes digitar tu propia cedula..
         /// </summary>
         internal static string SameId {
