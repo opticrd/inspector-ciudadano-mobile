@@ -68,7 +68,7 @@
                             <mtrl:MaterialTextField
                                 ErrorText="{Binding PhoneNumber.Error}"
                                 HasError="{Binding PhoneNumber.HasErrors}"
-                                HelperText="{l18n:Translate EnterPhone}"
+                                HelperText="{l18n:Translate EnterCitizenPhone}"
                                 InputType="Numeric"
                                 MaxLength="12"
                                 Placeholder="{l18n:Translate Phone}"

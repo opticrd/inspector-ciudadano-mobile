@@ -267,4 +267,7 @@
   <data name="EnterCitizenId" xml:space="preserve">
     <value>Digite la cédula del beneficiario</value>
   </data>
+  <data name="EnterCitizenPhone" xml:space="preserve">
+    <value>Digite el teléfono del beneficiario</value>
+  </data>
 </root>
