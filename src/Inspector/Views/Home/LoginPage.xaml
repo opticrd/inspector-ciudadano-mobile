@@ -16,7 +16,7 @@
             <StackLayout
                 Padding="16,36,16,16"
                 Spacing="20"
-                VerticalOptions="FillAndExpand"
+                VerticalOptions="CenterAndExpand"
                     BackgroundColor="White">
 
                 <Image
