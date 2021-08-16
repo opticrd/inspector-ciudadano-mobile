@@ -9,5 +9,8 @@ namespace Inspector.Framework.Dtos.Keycloak
     {
         [JsonProperty("cedula")]
         public List<string> Cedula { get; set; }
+
+        [JsonProperty("pwd")]
+        public List<string> Pwd { get; set; }
     }
 }

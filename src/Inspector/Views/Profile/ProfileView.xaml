@@ -72,9 +72,9 @@
 
                     <Label Style="{StaticResource ItemLabel}" Text="Ayuda" />
                     <Label Style="{StaticResource ItemLabel}" Text="Términos y condiciones" />
-                    <Label Style="{StaticResource ItemLabel}" Text="Politicas y privacidad" />
+                    <Label Style="{StaticResource ItemLabel}" Text="Políticas de privacidad" />
                     <Label Style="{StaticResource ItemLabel}" Text="Términos y condiciones" />
-                    <Label Style="{StaticResource ItemLabel}" Text="Info. de la aplicación">
+                    <Label Style="{StaticResource ItemLabel}" Text="Detalles de la aplicación">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{prism:NavigateTo 'AppInfoPage'}" />
                         </Label.GestureRecognizers>

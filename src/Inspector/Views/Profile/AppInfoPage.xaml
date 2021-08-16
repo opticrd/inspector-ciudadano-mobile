@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:img="clr-namespace:Inspector.Framework.Helpers.Extensions;assembly=Inspector"
     xmlns:prism="http://prismlibrary.com"
-    Title="Info. de la aplicación"
+    Title="Detalles de la aplicación"
     prism:ViewModelLocator.AutowireViewModel="True">
 
     <StackLayout HorizontalOptions="Center" VerticalOptions="Center">

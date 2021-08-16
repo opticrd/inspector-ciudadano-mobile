@@ -6,6 +6,7 @@ using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
 using PropertyChanged;
+using Xamarin.Essentials;
 
 namespace Inspector.ViewModels
 {
@@ -40,6 +41,13 @@ namespace Inspector.ViewModels
             }
         }
 
+        public string VersionNumber
+        {
+            get
+            {
+                return $"Versión {VersionTracking.CurrentVersion}";
+            }
+        }
         public virtual void OnNavigatedFrom(INavigationParameters parameters)
         {
         }

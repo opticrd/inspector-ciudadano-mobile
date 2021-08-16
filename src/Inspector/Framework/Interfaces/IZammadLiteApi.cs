@@ -15,7 +15,7 @@ namespace Inspector.Framework.Interfaces
         [Post("/api/v1/users")]
         Task<ZammadUser> CreateUser([Header("Authorization")] string token, [Body(BodySerializationMethod.Serialized)] ZammadUser user);
         
-        [Put("/api/v1/users")]
-        Task<ZammadUser> UpdateUser([Header("Authorization")] string token, [Body(BodySerializationMethod.Serialized)] ZammadUser user);
+        [Put("/api/v1/users/{id}")]
+        Task<ZammadUser> UpdateUser([Header("Authorization")] string token, string id, [Body(BodySerializationMethod.Serialized)] ZammadUser user);
     }
 }
