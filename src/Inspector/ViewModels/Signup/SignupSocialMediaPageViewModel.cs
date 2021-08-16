@@ -37,8 +37,20 @@ namespace Inspector.ViewModels
 
         private string _email;
         private string _document;
+        private string _password;
+        private string _zone;
+
+        public string FullName 
+        {
+            get
+            {
+                if (Citizen == null) return string.Empty;
+                return $"{Citizen?.Names} {Citizen?.FirstSurname} {Citizen?.SecondSurname}";
+            }
+        }
+        public string Location { get; set;  }
         public Citizen Citizen { get; set; }
-        public string AuthToken { get; set; }
+
         public SignupSocialMediaPageViewModel(INavigationService navigationService, IPageDialogService dialogService,
             ICacheService cacheService, IKeycloakApi keycloakApi, IZammadLiteApi zammadLiteApi)
             : base(navigationService, dialogService, cacheService)
@@ -57,6 +69,16 @@ namespace Inspector.ViewModels
             {
                 Citizen = parameters.GetValue<Citizen>("Citizen");
                 _document = Citizen.Id;
+                _password = parameters.GetValue<string>("Password");
+                _zone = parameters.GetValue<string>("ZoneCode");
+                var locationParts = new string[]
+                {
+                    parameters.GetValue<string>("Region"),
+                    parameters.GetValue<string>("Province"),
+                    parameters.GetValue<string>("Municipality"),
+                    parameters.GetValue<string>("District"),
+                };
+                Location = string.Join(", ", locationParts);
             }
         }
 
@@ -87,13 +109,8 @@ namespace Inspector.ViewModels
                     result = await WebAuthenticator.AuthenticateAsync(authUrl, callbackUrl);
                 }
 
-                AuthToken = string.Empty;
-
-                if (result.Properties.TryGetValue("name", out var name) && !string.IsNullOrEmpty(name))
-                    AuthToken += $"Name: {name}{Environment.NewLine}";
                 if (result.Properties.TryGetValue("email", out var email) && !string.IsNullOrEmpty(email))
                 {
-                    AuthToken += $"Email: {email}{Environment.NewLine}";
                     _email = email.Replace("%40", "@");
 
                     // Go to keycloak
@@ -120,8 +137,13 @@ namespace Inspector.ViewModels
                     var keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", _email);
                     if(keycloakUserCollection != null && keycloakUserCollection.Count == 1)
                     {
+                        //Resets the password because we are doing a "registration"
+                        await _keycloakApi.ResetPassword($"Bearer {keycloakToken.AccessToken}", keycloakUserCollection[0].Id, new CredentialRepresentation
+                        {
+                            Password = _password
+                        });
 
-                        await Login(_email, _document);
+                        await Login(_email, _password);
                         IsBusy = false;
                         return;
                     }
@@ -143,26 +165,23 @@ namespace Inspector.ViewModels
                     // Login
                     await _keycloakApi.ResetPassword($"Bearer {keycloakToken.AccessToken}", createdUser[0].Id, new CredentialRepresentation
                     {
-                        Password = Citizen.Id
+                        Password = _password
                     });
 
-                    await Login(_email, _document);
+                    await Login(_email, _password);
                 }
-                AuthToken += result?.AccessToken ?? result?.IdToken;
 
             }
             catch (OperationCanceledException)
             {
                 Console.WriteLine("Login canceled.");
 
-                AuthToken = string.Empty;
                 await _dialogService.DisplayAlertAsync("", "Login canceled.", "Ok");
             }
             catch (Exception ex)
             {
-                    Console.WriteLine($"Failed: {ex.Message}");
+                Console.WriteLine($"Failed: {ex.Message}");
 
-                AuthToken = string.Empty;
                 await _dialogService.DisplayAlertAsync("", $"Failed: {ex.Message}", "Ok");
             }
             IsBusy = false;
@@ -209,10 +228,10 @@ namespace Inspector.ViewModels
                         Firstname = keycloakUser.FirstName,
                         Lastname = keycloakUser.LastName,
                         Cedula = cedula,
-                        Password = cedula,
+                        Password = _password,
                         Organization = "Ogtic",
                         Note = "Created from mobile",
-                        Zone = "1",
+                        Zone = _zone,
                         Verified = true,
                         //TODO: Revaluate this assignment
                         RoleIds = new List<int>() { 2 }, //1: Admin, 2: Agent, 3: Customer
@@ -221,6 +240,9 @@ namespace Inspector.ViewModels
                 }
                 else
                 {
+                    var zammadUser = zammadUserSearch[0];
+                    zammadUser.Password = password;
+                    await _zammadLiteApi.UpdateUser($"Bearer {AppKeys.ZammadToken}", zammadUser);
                     //Update Password to document
                 }
                 // TODO
