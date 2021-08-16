@@ -2,6 +2,7 @@
 using Inspector.Framework.Dtos.Keycloak;
 using Inspector.Framework.Dtos.Keycloak.Keycloak;
 using Inspector.Framework.Dtos.Zammad;
+using Inspector.Framework.Helpers.Extensions;
 using Inspector.Framework.Interfaces;
 using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
@@ -104,9 +105,12 @@ namespace Inspector.ViewModels
                 {
                     var authUrl = new Uri(AuthenticationUrl + scheme);
                     var callbackUrl = new Uri("ogticapp://");
-
-
-                    result = await WebAuthenticator.AuthenticateAsync(authUrl, callbackUrl);
+                    result = await WebAuthenticator.AuthenticateAsync(new WebAuthenticatorOptions
+                    {
+                        PrefersEphemeralWebBrowserSession = true,
+                        Url = authUrl,
+                        CallbackUrl = callbackUrl
+                    });
                 }
 
                 if (result.Properties.TryGetValue("email", out var email) && !string.IsNullOrEmpty(email))
@@ -131,6 +135,10 @@ namespace Inspector.ViewModels
                     attributes.Add("cedula", new List<string>
                     {
                         Citizen.Id
+                    });
+                    attributes.Add("pwd", new List<string>
+                    {
+                        _password.Base64Encode()
                     });
 
                     //If the user already exists, do a login
@@ -174,15 +182,15 @@ namespace Inspector.ViewModels
             }
             catch (OperationCanceledException)
             {
-                Console.WriteLine("Login canceled.");
+                Console.WriteLine("Autenticación canceledada.");
 
-                await _dialogService.DisplayAlertAsync("", "Login canceled.", "Ok");
+                await _dialogService.DisplayAlertAsync("", "Autenticación canceledada.", "Ok");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Failed: {ex.Message}");
 
-                await _dialogService.DisplayAlertAsync("", $"Failed: {ex.Message}", "Ok");
+                await _dialogService.DisplayAlertAsync("", $"Ocurrió un error: {ex.Message}", "Ok");
             }
             IsBusy = false;
         }
