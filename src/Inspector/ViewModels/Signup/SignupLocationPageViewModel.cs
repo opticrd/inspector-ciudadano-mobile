@@ -59,7 +59,7 @@ namespace Inspector.ViewModels.Signup
 
                 await _navigationService.NavigateAsync("SignupSocialMediaPage", parameters);
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
                 await _dialogService.DisplayAlertAsync("", Message.AccountInvalid, "Ok");
             }

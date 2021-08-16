@@ -286,7 +286,7 @@ namespace Inspector.ViewModels
                     await _dialogService.DisplayAlertAsync("", Message.AccountNotActivated, "Ok");
                 }
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
                 await _dialogService.DisplayAlertAsync("", Message.AccountInvalid, "Ok");
             }

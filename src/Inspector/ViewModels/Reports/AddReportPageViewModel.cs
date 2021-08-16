@@ -171,7 +171,7 @@ namespace Inspector.ViewModels
                     _clientCreated = false;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 
             }
