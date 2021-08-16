@@ -96,7 +96,7 @@ jobs:
     - uses: actions/download-artifact@v2
       with:
         name: android-apk
-        path: ./${{ env.ANDROID_BUILD_APK }}
+        path: ./
 
     - name: Display structure of downloaded files
       run: ls -R
