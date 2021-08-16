@@ -60,13 +60,6 @@ namespace Inspector.ViewModels
             _navigationService.NavigateAsync("SignupDocumentPage");
         }
 
-        public string VersionNumber
-        {
-            get
-            {
-                return VersionTracking.CurrentVersion;
-            }
-        }
         //public Validatable<string> Password { get; set; }
         //public Validatable<string> Email { get; set; }
 

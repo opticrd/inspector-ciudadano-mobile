@@ -7,7 +7,9 @@ using Inspector.Framework.Interfaces;
 using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
 using Inspector.ViewModels;
+using Inspector.ViewModels.Signup;
 using Inspector.Views;
+using Inspector.Views.Signup;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
@@ -81,7 +83,7 @@ namespace Inspector
             //containerRegistry.RegisterForNavigation<ProfilePage, ProfilePageViewModel>();
             //containerRegistry.RegisterForNavigation<ReportHistoryPage, ReportHistoryPageViewModel>();
             //containerRegistry.RegisterForNavigation<FeedReportsPage, FeedReportsPageViewModel>();
-            containerRegistry.RegisterForNavigation<WelcomePage>();
+            containerRegistry.RegisterForNavigation<WelcomePage, WelcomePageViewModel>();
             containerRegistry.RegisterForNavigation<AddReportPage, AddReportPageViewModel>();
             containerRegistry.RegisterForNavigation<EditProfilePage, EditProfilePageViewModel>();
             containerRegistry.RegisterForNavigation<HomePage, HomePageViewModel>();
@@ -92,6 +94,7 @@ namespace Inspector
 #if RELEASE_AGENT || DEBUG_AGENT
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
             containerRegistry.RegisterForNavigation<SignupDocumentPage, SignupDocumentPageViewModel>();
+            containerRegistry.RegisterForNavigation<SignupLocationPage, SignupLocationPageViewModel>();
             containerRegistry.RegisterForNavigation<SignupSocialMediaPage, SignupSocialMediaPageViewModel>();
 #endif
 

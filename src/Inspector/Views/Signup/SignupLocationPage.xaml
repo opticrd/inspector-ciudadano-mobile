@@ -12,7 +12,30 @@
     prism:ViewModelLocator.AutowireViewModel="True">
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout>
+            <StackLayout
+                Padding="16,36,16,16"
+                Spacing="10"
+                VerticalOptions="CenterAndExpand">
+                <Label
+                    FontAttributes="Bold"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource H2}"
+                    Text="¡Registrate ahora!" />
+                <Label
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource Body2}"
+                    Text="Completa para validar tu localidad"
+                    TranslationY="-16" />
+
+                <StackLayout>
+                <Label 
+                    Text="{Binding FullName}"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource Body2}" />
+                <Label 
+                    Text="{Binding Citizen.Id}"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource Body2}" />
                 <ctrls:TextFieldLayout IsVisible="{Binding RegionIsEnabled}">
                     <mtrl:MaterialTextField
                             ChoiceSelectedCommand="{Binding SelectRegionCommand}"
@@ -68,6 +91,11 @@
                             ReturnType="Next"
                             Style="{StaticResource TextFieldChoiceStyle}" />
                 </ctrls:TextFieldLayout>
+                <mtrl:MaterialButton
+                    Command="{Binding ValidateLocationCommand}"
+                    Style="{StaticResource ButtonPrimary}"
+                    Text="Validar localidad" />
+                </StackLayout>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

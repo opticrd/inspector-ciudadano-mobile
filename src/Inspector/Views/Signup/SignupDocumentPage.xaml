@@ -16,7 +16,7 @@
             <StackLayout
                 Padding="16,36,16,16"
                 Spacing="20"
-                VerticalOptions="FillAndExpand">
+                VerticalOptions="CenterAndExpand">
                 <Label
                     FontAttributes="Bold"
                     HorizontalTextAlignment="Center"
@@ -126,7 +126,7 @@
                 <mtrl:MaterialButton
                     Command="{Binding ValidateDocumentCommand}"
                     Style="{StaticResource ButtonPrimary}"
-                    Text="Registrarme" />
+                    Text="Validar Documento" />
             </StackLayout>
         </ScrollView>
     </RefreshView>

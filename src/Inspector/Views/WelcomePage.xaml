@@ -38,6 +38,10 @@
                 Command="{prism:NavigateTo 'LoginPage'}"
                 Style="{StaticResource ButtonOutlined}"
                 Text="{l18n:Translate Login}" />
+            <Label
+                Text="{Binding VersionNumber}" 
+                HorizontalOptions="CenterAndExpand"
+                HorizontalTextAlignment="Center" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

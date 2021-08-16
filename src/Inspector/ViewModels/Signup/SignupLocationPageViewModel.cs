@@ -16,7 +16,9 @@ namespace Inspector.ViewModels.Signup
     {
         public ICommand ValidateLocationCommand { get; set; }
 
-        Citizen _citizen;
+        public Citizen Citizen { get; set; }
+        public string FullName { get; set; }
+
         ICitizenAPI _citizenClient;
         public SignupLocationPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ICacheService cacheService, ITerritorialDivisionAPI territorialDivisionClient, ICitizenAPI citizenClient) :
             base(navigationService, dialogService, cacheService, territorialDivisionClient)
@@ -27,7 +29,8 @@ namespace Inspector.ViewModels.Signup
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
-            _citizen = parameters.GetValue<Citizen>("Citizen");
+            Citizen = parameters.GetValue<Citizen>("Citizen");
+            FullName = $"{Citizen.Names} {Citizen.FirstSurname} {Citizen.SecondSurname}";
             await LoadRegions();
         }
 
@@ -46,12 +49,13 @@ namespace Inspector.ViewModels.Signup
             {
 
                 var parameters = new NavigationParameters();
-                parameters.Add("Citizen", _citizen);
+                parameters.Add("Citizen", Citizen);
                 parameters.Add("Region", Region.Value.Name);
                 parameters.Add("Province", Province.Value.Name);
                 parameters.Add("Municipality", Municipality.Value.Name);
                 parameters.Add("District", District.Value.Name);
                 parameters.Add("ZoneCode", District.Value.Code);
+                parameters.Add("Password", Citizen.Id);
 
                 await _navigationService.NavigateAsync("SignupSocialMediaPage", parameters);
             }

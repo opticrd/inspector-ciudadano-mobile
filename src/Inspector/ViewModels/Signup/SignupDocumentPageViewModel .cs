@@ -101,7 +101,8 @@ namespace Inspector.ViewModels
                     parameters.Add("District", District.Value.Name);
                     parameters.Add("ZoneCode", District.Value.Code);
                    */
-                    await _navigationService.NavigateAsync("SignupSocialMediaPage", parameters);
+                    //await _navigationService.NavigateAsync("SignupSocialMediaPage", parameters);
+                    await _navigationService.NavigateAsync("SignupLocationPage", parameters);
                 }
             }
             catch (System.Exception ex)

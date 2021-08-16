@@ -9,6 +9,7 @@
     xmlns:l18n="clr-namespace:Inspector.Framework.Helpers.Extensions"
     xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
     xmlns:prism="http://prismlibrary.com"
+                    BackgroundColor="White"
     prism:ViewModelLocator.AutowireViewModel="True">
 
     <RefreshView IsRefreshing="{Binding IsBusy, Mode=OneWay}" RefreshColor="{StaticResource PrimaryColor}">
@@ -16,8 +17,7 @@
             <StackLayout
                 Padding="16,36,16,16"
                 Spacing="20"
-                VerticalOptions="CenterAndExpand"
-                    BackgroundColor="White">
+                VerticalOptions="CenterAndExpand">
 
                 <Image
                     HeightRequest="80"
@@ -94,10 +94,6 @@
                         ImageSource="{img:ImageResource Inspector.Resources.Images.facebook.png}"
                         Style="{StaticResource ButtonOutlined}"
                         Text="Inicia con Facebook" />
-                    <Label
-                        Text="{Binding VersionNumber}" 
-                        HorizontalOptions="CenterAndExpand"
-                        HorizontalTextAlignment="Center" />
 
                 </StackLayout>
 
