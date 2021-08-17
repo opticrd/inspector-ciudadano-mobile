@@ -157,25 +157,25 @@ namespace Inspector.ViewModels
                 Regions = new ObservableCollection<Zone>(result.Data);
         }
 
-        private async Task SearchProvince(string id)
+        private async Task SearchProvince(string regionId)
         {
-            var result = await _territorialDivisionClient.GetProvinces(new Zone { RegionCode = id });
+            var result = await _territorialDivisionClient.GetProvinces(new Zone { RegionCode = regionId });
 
             if (result.Valid)
                 Provinces = new ObservableCollection<Zone>(result.Data);
         }
 
-        private async Task SearchMunicipality(string provinceId)
+        private async Task SearchMunicipality(string regionId, string provinceId)
         {
-            var result = await _territorialDivisionClient.GetMunicipalities(new Zone { ProvinceCode = provinceId });
+            var result = await _territorialDivisionClient.GetMunicipalities(new Zone { RegionCode = regionId, ProvinceCode = provinceId });
 
             if (result.Valid)
                 Municipalities = new ObservableCollection<Zone>(result.Data);
         }
 
-        private async Task SearchDistrict(string municipalityId)
+        private async Task SearchDistrict(string regionId, string provinceId, string municipalityId)
         {
-            var result = await _territorialDivisionClient.GetDistricts(new Zone { MunicipalityCode = municipalityId });
+            var result = await _territorialDivisionClient.GetDistricts(new Zone { RegionCode = regionId, ProvinceCode = provinceId, MunicipalityCode = municipalityId });
 
             if (result.Valid)
                 Districts = new ObservableCollection<Zone>(result.Data);
@@ -185,24 +185,24 @@ namespace Inspector.ViewModels
         {
             Region.Value = zone;
             Provinces = Municipalities = Districts = null;
-            await SearchProvince(zone.Code);
+            await SearchProvince(Region.Value.Code);
         }
 
         private async Task SelectProvinceCommandExecute(Zone zone)
         {
             Province.Value = zone;
             Municipalities = Districts = null;
-            await SearchMunicipality(zone.Code);
+            await SearchMunicipality(Region.Value.Code, Province.Value.Code);
         }
 
         private async Task SelectMunicipalityCommandExecute(Zone zone)
         {
             Municipality.Value = zone;
             Districts = null;
-            await SearchDistrict(zone.Code);
+            await SearchDistrict(Region.Value.Code, Province.Value.Code, Municipality.Value.Code);
         }
 
-        
+
 
     }
 }
