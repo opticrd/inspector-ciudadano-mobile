@@ -439,7 +439,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Seleccione la region.
+        ///   Looks up a localized string similar to Seleccione la región.
         /// </summary>
         internal static string SelectRegion {
             get {

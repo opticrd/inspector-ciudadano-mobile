@@ -79,7 +79,7 @@ namespace Inspector.ViewModels
                     parameters.GetValue<string>("Municipality"),
                     parameters.GetValue<string>("District"),
                 };
-                Location = string.Join(", ", locationParts);
+                Location = string.Join(", ", locationParts.Where(x=>!string.IsNullOrEmpty(x)));
             }
         }
 
@@ -241,7 +241,7 @@ namespace Inspector.ViewModels
                         Cedula = cedula,
                         Password = _password,
                         Organization = "Ogtic",
-                        Note = "Created from mobile",
+                        Note = "User created from mobile",
                         Zone = _zone,
                         Verified = true,
                         //TODO: Revaluate this assignment
@@ -253,6 +253,8 @@ namespace Inspector.ViewModels
                 {
                     var zammadUser = zammadUserSearch[0];
                     zammadUser.Password = password;
+                    zammadUser.Zone = _zone;
+                    zammadUser.Verified = true;
                     await _zammadLiteApi.UpdateUser($"Bearer {AppKeys.ZammadToken}", zammadUser.Id, zammadUser);
                     //Update Password to document
                 }
