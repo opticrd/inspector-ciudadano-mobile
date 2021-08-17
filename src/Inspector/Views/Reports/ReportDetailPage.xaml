@@ -10,6 +10,7 @@
     xmlns:views="clr-namespace:Inspector.Views.Shared"
     xmlns:vm="clr-namespace:Inspector.ViewModels"
     x:Name="this"
+    BackgroundColor="White"
     Title="Detalles">
     <!--  x:DataType="vm:ReportDetailPageViewModel"  -->
 
@@ -205,7 +206,7 @@
 
                             <Frame Padding="16,8" BackgroundColor="#E3E3E3">
                                 <Grid RowSpacing="0">
-                                    <Label Text="Cuidadano" />
+                                    <Label Text="Ciudadano" />
                                     <Label Grid.Row="1" FontAttributes="Bold">
                                         <Label.Text>
                                             <MultiBinding StringFormat="{}{0} {1}">
