@@ -270,4 +270,22 @@
   <data name="EnterCitizenPhone" xml:space="preserve">
     <value>Digite el teléfono del beneficiario</value>
   </data>
+  <data name="Neighhborhood" xml:space="preserve">
+    <value>Barrio</value>
+  </data>
+  <data name="Section" xml:space="preserve">
+    <value>Sección</value>
+  </data>
+  <data name="SelectNeighhborhood" xml:space="preserve">
+    <value>Seleccione el barrio</value>
+  </data>
+  <data name="SelectSection" xml:space="preserve">
+    <value>Seleccione la sección</value>
+  </data>
+  <data name="SelectSubNeighhborhood" xml:space="preserve">
+    <value>Seleccione el sub barrio</value>
+  </data>
+  <data name="SubNeighhborhood" xml:space="preserve">
+    <value>Sub barrio</value>
+  </data>
 </root>

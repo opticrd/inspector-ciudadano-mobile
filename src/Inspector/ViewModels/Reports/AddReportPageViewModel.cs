@@ -74,7 +74,7 @@ namespace Inspector.ViewModels
                             .When(x => !string.IsNullOrEmpty(x))
                             .Must(x => x.Length >= 10, Message.MinLengthField10);
 
-            _validationUnit = new ValidationUnit(/*StateSelected,*/ ID, /*PhoneNumber,*/ Title, Address, /*GroupSelected,*/ District, SubCategory, Comments);
+            _validationUnit = new ValidationUnit(/*StateSelected,*/ ID, /*PhoneNumber,*/ Title, Address, /*GroupSelected,*/ Neighhborhoods, SubCategory, Comments);
 
             //States = new List<StateTicket>(StateTicket.GetStatesForNewTicket());
 

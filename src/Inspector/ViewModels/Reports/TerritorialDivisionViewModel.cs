@@ -33,21 +33,33 @@ namespace Inspector.ViewModels
         public ObservableCollection<Zone> Provinces { get; set; }
         public ObservableCollection<Zone> Municipalities { get; set; }
         public ObservableCollection<Zone> Districts { get; set; }
+        public ObservableCollection<Zone> Sections { get; set; }
+        public ObservableCollection<Zone> Neighhborhoods { get; set; }
+        public ObservableCollection<Zone> SubNeighhborhoods { get; set; }
 
         public Validatable<Zone> Region { get; set; }
         public Validatable<Zone> Province { get; set; }
         public Validatable<Zone> Municipality { get; set; }
         public Validatable<Zone> District { get; set; }
+        public Validatable<Zone> Section { get; set; }
+        public Validatable<Zone> Neighhborhood { get; set; }
+        public Validatable<Zone> SubNeighhborhood { get; set; }
 
         public bool RegionIsEnabled { get; set; } = true;
         public bool ProvinceIsEnabled { get; set; } = true;
         public bool MunicipalityIsEnabled { get; set; } = true;
         public bool DistrictIsEnabled { get; set; } = true;
+        public bool SectionIsEnabled { get; set; } = true;
+        public bool NeighhborhoodIsEnabled { get; set; } = true;
+        public bool SubNeighhborhoodIsEnabled { get; set; } = true;
 
         public ICommand SelectRegionCommand { get; set; }
         public ICommand SelectProvinceCommand { get; set; }
         public ICommand SelectMunicipalityCommand { get; set; }
         public ICommand SelectDistrictCommand { get; set; }
+        public ICommand SelectSectionCommand { get; set; }
+        public ICommand SelectNeighhborhoodCommand { get; set; }
+        public ICommand SelectSubNeighhborhoodCommand { get; set; }
 
         private async void Init()
         {
@@ -55,14 +67,18 @@ namespace Inspector.ViewModels
             Province = Validator.Build<Zone>().IsRequired(Message.FieldRequired);
             Municipality = Validator.Build<Zone>().IsRequired(Message.FieldRequired);
             District = Validator.Build<Zone>().IsRequired(Message.FieldRequired);
+            Section = Validator.Build<Zone>().IsRequired(Message.FieldRequired);
+            Neighhborhood = Validator.Build<Zone>().IsRequired(Message.FieldRequired);
+            SubNeighhborhood = Validator.Build<Zone>().IsRequired(Message.FieldRequired);
 
             SelectRegionCommand = new DelegateCommand<Zone>(async zone => await SelectRegionCommandExecute(zone));
-
             SelectProvinceCommand = new DelegateCommand<Zone>(async zone => await SelectProvinceCommandExecute(zone));
-
             SelectMunicipalityCommand = new DelegateCommand<Zone>(async zone => await SelectMunicipalityCommandExecute(zone));
+            SelectDistrictCommand = new DelegateCommand<Zone>(async zone => await SelectDistrictCommandExecute(zone));
+            SelectSectionCommand = new DelegateCommand<Zone>(async zone => await SelectSectionCommandExecute(zone));
+            SelectNeighhborhoodCommand = new DelegateCommand<Zone>(async zone => await SelectNeighborhoodsCommandExecute(zone));
 
-            SelectDistrictCommand = new DelegateCommand<Zone>(zone => District.Value = zone);
+            SelectSubNeighhborhoodCommand = new DelegateCommand<Zone>(zone => SubNeighhborhood.Value = zone);
 
             bool valid = false;
 
@@ -149,6 +165,7 @@ namespace Inspector.ViewModels
             }
         }
 
+        #region Searchs
         protected async Task LoadRegions()
         {
             var result = await _territorialDivisionClient.GetRegions();
@@ -157,52 +174,125 @@ namespace Inspector.ViewModels
                 Regions = new ObservableCollection<Zone>(result.Data);
         }
 
-        private async Task SearchProvince(string id)
+        private async Task SearchProvince(string regionId)
         {
-            var result = await _territorialDivisionClient.GetProvinces(new Zone { RegionCode = id });
+            var result = await _territorialDivisionClient.GetProvinces(new QueryZone { RegionCode = regionId });
 
             if (result.Valid)
                 Provinces = new ObservableCollection<Zone>(result.Data);
         }
 
-        private async Task SearchMunicipality(string provinceId)
+        private async Task SearchMunicipality(string regionId, string provinceId)
         {
-            var result = await _territorialDivisionClient.GetMunicipalities(new Zone { ProvinceCode = provinceId });
+            var result = await _territorialDivisionClient.GetMunicipalities(new QueryZone { RegionCode = regionId, ProvinceCode = provinceId });
 
             if (result.Valid)
                 Municipalities = new ObservableCollection<Zone>(result.Data);
         }
 
-        private async Task SearchDistrict(string municipalityId)
+        private async Task SearchDistrict(string regionId, string provinceId, string municipalityId)
         {
-            var result = await _territorialDivisionClient.GetDistricts(new Zone { MunicipalityCode = municipalityId });
+            var result = await _territorialDivisionClient.GetDistricts(new QueryZone { RegionCode = regionId, ProvinceCode = provinceId, MunicipalityCode = municipalityId });
 
             if (result.Valid)
                 Districts = new ObservableCollection<Zone>(result.Data);
         }
 
+        private async Task SearchSection(string regionId, string provinceId, string municipalityId, string districId)
+        {
+            var result = await _territorialDivisionClient.GetSections(new QueryZone
+            {
+                RegionCode = regionId,
+                ProvinceCode = provinceId,
+                MunicipalityCode = municipalityId,
+                DistrictCode = districId,
+            });
+
+            if (result.Valid)
+                Sections = new ObservableCollection<Zone>(result.Data);
+        }
+
+        private async Task SearchNeighborhood(string regionId, string provinceId, string municipalityId, string districId, string sectionId)
+        {
+            var result = await _territorialDivisionClient.GetNeighborhoods(new QueryZone
+            {
+                RegionCode = regionId,
+                ProvinceCode = provinceId,
+                MunicipalityCode = municipalityId,
+                SectionCode = sectionId,
+                DistrictCode = districId
+            });
+
+            if (result.Valid)
+                Neighhborhoods = new ObservableCollection<Zone>(result.Data);
+        }
+
+        private async Task SearchSubNeighborhood(string regionId, string provinceId, string municipalityId, string districId, string sectionId, string neighborhoodId)
+        {
+            var result = await _territorialDivisionClient.GetSubNeighborhoods(new QueryZone
+            { 
+                RegionCode = regionId, 
+                ProvinceCode = provinceId, 
+                MunicipalityCode = municipalityId,
+                SectionCode = sectionId,
+                NeighhborhoodCode = neighborhoodId,
+                DistrictCode = districId
+            });
+
+            if (result.Valid)
+                SubNeighhborhoods = new ObservableCollection<Zone>(result.Data);
+        }
+        #endregion
+
+        #region CommandExecute
         private async Task SelectRegionCommandExecute(Zone zone)
         {
             Region.Value = zone;
-            Provinces = Municipalities = Districts = null;
-            await SearchProvince(zone.Code);
+            Provinces = Municipalities = Districts = Sections = Neighhborhoods = SubNeighhborhoods = null;
+            Province.Value = Municipality.Value = District.Value = Section.Value = Neighhborhood.Value = SubNeighhborhood.Value = null;
+            await SearchProvince(Region.Value.Code);
         }
 
         private async Task SelectProvinceCommandExecute(Zone zone)
         {
             Province.Value = zone;
-            Municipalities = Districts = null;
-            await SearchMunicipality(zone.Code);
+            Municipalities = Districts = Sections = Neighhborhoods = SubNeighhborhoods = null;
+            Municipality.Value = District.Value = Section.Value = Neighhborhood.Value = SubNeighhborhood.Value = null;
+            await SearchMunicipality(Region.Value.Code, Province.Value.Code);
         }
 
         private async Task SelectMunicipalityCommandExecute(Zone zone)
         {
             Municipality.Value = zone;
-            Districts = null;
-            await SearchDistrict(zone.Code);
+            Districts = Sections = Neighhborhoods = SubNeighhborhoods = null;
+            District.Value = Section.Value = Neighhborhood.Value = SubNeighhborhood.Value = null;
+            await SearchDistrict(Region.Value.Code, Province.Value.Code, Municipality.Value.Code);
         }
 
-        
+        private async Task SelectDistrictCommandExecute(Zone zone)
+        {
+            District.Value = zone;
+            Sections = Neighhborhoods = SubNeighhborhoods = null;
+            Section.Value = Neighhborhood.Value = SubNeighhborhood.Value = null;
+            await SearchSection(Region.Value.Code, Province.Value.Code, Municipality.Value.Code, District.Value.Code);
+        }
 
+        private async Task SelectSectionCommandExecute(Zone zone)
+        {
+            Section.Value = zone;
+            Neighhborhoods = SubNeighhborhoods = null;
+            Neighhborhood.Value = SubNeighhborhood.Value = null;
+            await SearchNeighborhood(Region.Value.Code, Province.Value.Code, Municipality.Value.Code, District.Value.Code, Section.Value.Code);
+        }
+
+        private async Task SelectNeighborhoodsCommandExecute(Zone zone)
+        {
+            Neighhborhood.Value = zone;
+            SubNeighhborhoods = null;
+            SubNeighhborhood.Value = null;
+            await SearchSubNeighborhood(Region.Value.Code, Province.Value.Code, Municipality.Value.Code, District.Value.Code, Section.Value.Code, Neighhborhood.Value.Code);
+        }
+
+        #endregion
     }
 }
