@@ -242,9 +242,8 @@ namespace Inspector.ViewModels
                     zammadGroupsMap.Add(group.Id, new List<string> { "read" });
                 }
 
-                zammadGroupsMap[_group.Id].Add("create");
-                zammadGroupsMap[_group.Id].Add("change");
-                zammadGroupsMap[_group.Id].Add("overview");
+                zammadGroupsMap[_group.Id].Clear();
+                zammadGroupsMap[_group.Id].Add("full");
 
                 // If the user doesn't exist in zammad, create it
                 if (zammadUserSearch != null && zammadUserSearch.Where(x=>x.Email == email).Count() == 0)
