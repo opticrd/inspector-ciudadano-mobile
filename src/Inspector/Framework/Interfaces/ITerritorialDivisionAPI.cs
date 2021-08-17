@@ -10,16 +10,25 @@ namespace Inspector.Framework.Interfaces
     public interface ITerritorialDivisionAPI
     {
         [Get("/territories/regions")]
-        Task<Response<List<Zone>>> GetRegions();
+        Task<ResponseZone> GetRegions();
 
         [Get("/territories/provinces")]
-        Task<Response<List<Zone>>> GetProvinces(Zone parameters);
+        Task<ResponseZone> GetProvinces(QueryZone parameters);
 
         [Get("/territories/municipalities")]
-        Task<Response<List<Zone>>> GetMunicipalities(Zone parameters);
+        Task<ResponseZone> GetMunicipalities(QueryZone parameters);
 
         [Get("/territories/districts")]
-        Task<Response<List<Zone>>> GetDistricts(Zone parameters);
+        Task<ResponseZone> GetDistricts(QueryZone parameters);
+
+        [Get("/territories/sections")]
+        Task<ResponseZone> GetSections(QueryZone parameters);
+
+        [Get("/territories/neighborhoods")]
+        Task<ResponseZone> GetNeighborhoods(QueryZone parameters);
+
+        [Get("/territories/sub-neighborhoods")]
+        Task<ResponseZone> GetSubNeighborhoods(QueryZone parameters);
 
         [Get("/territories/hierarchy/{code}")]
         Task<Response<ZoneHierarchy>> GetHierarchy(string code);

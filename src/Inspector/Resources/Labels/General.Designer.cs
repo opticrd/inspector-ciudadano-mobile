@@ -304,6 +304,15 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Barrio.
+        /// </summary>
+        internal static string Neighhborhood {
+            get {
+                return ResourceManager.GetString("Neighhborhood", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Observaciones.
         /// </summary>
         internal static string Observations {
@@ -394,6 +403,15 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sección.
+        /// </summary>
+        internal static string Section {
+            get {
+                return ResourceManager.GetString("Section", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Seleccione la categoría.
         /// </summary>
         internal static string SelectCategory {
@@ -430,6 +448,15 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Seleccione el barrio.
+        /// </summary>
+        internal static string SelectNeighhborhood {
+            get {
+                return ResourceManager.GetString("SelectNeighhborhood", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Seleccione la provincia.
         /// </summary>
         internal static string SelectProvince {
@@ -448,11 +475,29 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Seleccione la sección.
+        /// </summary>
+        internal static string SelectSection {
+            get {
+                return ResourceManager.GetString("SelectSection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Seleccione la subcategoria.
         /// </summary>
         internal static string SelectSubCategory {
             get {
                 return ResourceManager.GetString("SelectSubCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Seleccione el sub barrio.
+        /// </summary>
+        internal static string SelectSubNeighhborhood {
+            get {
+                return ResourceManager.GetString("SelectSubNeighhborhood", resourceCulture);
             }
         }
         
@@ -489,6 +534,15 @@ namespace Inspector.Resources.Labels {
         internal static string SubCategory {
             get {
                 return ResourceManager.GetString("SubCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sub barrio.
+        /// </summary>
+        internal static string SubNeighhborhood {
+            get {
+                return ResourceManager.GetString("SubNeighhborhood", resourceCulture);
             }
         }
         
