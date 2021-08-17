@@ -17,5 +17,8 @@ namespace Inspector.Framework.Interfaces
         
         [Put("/api/v1/users/{id}")]
         Task<ZammadUser> UpdateUser([Header("Authorization")] string token, string id, [Body(BodySerializationMethod.Serialized)] ZammadUser user);
+
+        [Get("/api/v1/groups")]
+        Task<List<ZammadGroup>> GetGroups([Header("Authorization")] string token);
     }
 }

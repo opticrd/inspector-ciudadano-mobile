@@ -36,6 +36,21 @@
                     Text="{Binding Citizen.Id}"
                     HorizontalTextAlignment="Center"
                     Style="{StaticResource Body2}" />
+
+
+                <ctrls:TextFieldLayout>
+                    <mtrl:MaterialTextField
+                        ChoiceSelectedCommand="{Binding SelectGroupCommand}"
+                        Choices="{Binding Groups}"
+                        ChoicesBindingName="Name"
+                        ChoicesResultBindingName="Name"
+                        ErrorText="{Binding Group.Error}"
+                        HasError="{Binding Group.HasErrors}"
+                        HelperText="Selecciona tu grupo"
+                        Placeholder="Grupo de usuarios"
+                        ReturnType="Next"
+                        Style="{StaticResource TextFieldChoiceStyle}" />
+                </ctrls:TextFieldLayout>
                 <ctrls:TextFieldLayout IsVisible="{Binding RegionIsEnabled}">
                     <mtrl:MaterialTextField
                             ChoiceSelectedCommand="{Binding SelectRegionCommand}"
