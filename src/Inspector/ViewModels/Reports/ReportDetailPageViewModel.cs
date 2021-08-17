@@ -27,7 +27,6 @@ namespace Inspector.ViewModels
     {
         TicketClient _ticketClient;
         User _userAccount;
-        User _clientAccount;
         UserClient _userClient;
 
         public ReportDetailPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ICacheService cacheService) : base(navigationService, dialogService, cacheService)
@@ -207,7 +206,7 @@ namespace Inspector.ViewModels
             {
                 await CreateComment(NewComment);                    
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 await _dialogService.DisplayAlertAsync("Ups :(", Message.SomethingHappen, "Ok");
             }
@@ -255,7 +254,7 @@ namespace Inspector.ViewModels
                 if (ticket != null)
                     TicketSelected = ticket;
             }
-            catch(Zammad.Client.Core.ZammadException e)
+            catch(Zammad.Client.Core.ZammadException)
             {
 
             }

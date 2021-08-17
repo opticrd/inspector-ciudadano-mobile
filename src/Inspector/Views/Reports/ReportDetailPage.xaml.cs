@@ -18,7 +18,7 @@ namespace Inspector.Views
             {
                 InitializeComponent();
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
                 
