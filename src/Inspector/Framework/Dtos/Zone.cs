@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Refit;
 
 namespace Inspector.Framework.Dtos
 {
@@ -13,12 +14,15 @@ namespace Inspector.Framework.Dtos
         [JsonProperty("name")]
         public string Name { get; set; }
 
+        [AliasAs("regionCode")]
         [JsonProperty("regionCode")]
         public string RegionCode { get; set; }
 
+        [AliasAs("provinceCode")]
         [JsonProperty("provinceCode")]
         public string ProvinceCode { get; set; }
 
+        [AliasAs("municipalityCode")]
         [JsonProperty("municipalityCode")]
         public string MunicipalityCode { get; set; }
     }
