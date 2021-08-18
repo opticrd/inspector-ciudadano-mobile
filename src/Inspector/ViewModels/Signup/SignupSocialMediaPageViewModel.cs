@@ -114,7 +114,7 @@ namespace Inspector.ViewModels
                     {
                         PrefersEphemeralWebBrowserSession = true,
                         Url = authUrl,
-                        CallbackUrl = callbackUrl
+                        CallbackUrl = callbackUrl,
                     });
                 }
 

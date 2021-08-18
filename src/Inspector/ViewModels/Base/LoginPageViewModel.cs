@@ -89,7 +89,12 @@ namespace Inspector.ViewModels
                     var authUrl = new Uri(AuthenticationUrl + scheme);
                     var callbackUrl = new Uri("ogticapp://");
 
-                    result = await WebAuthenticator.AuthenticateAsync(authUrl, callbackUrl);
+                    result = await WebAuthenticator.AuthenticateAsync(new WebAuthenticatorOptions
+                    {
+                        PrefersEphemeralWebBrowserSession = true,
+                        Url = authUrl,
+                        CallbackUrl = callbackUrl,
+                    });
                 }
 
                 if (result.Properties.TryGetValue("email", out var email) && !string.IsNullOrEmpty(email))
