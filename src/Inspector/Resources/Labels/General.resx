@@ -270,11 +270,17 @@
   <data name="EnterCitizenPhone" xml:space="preserve">
     <value>Digite el teléfono del beneficiario</value>
   </data>
+  <data name="Institution" xml:space="preserve">
+    <value>Institución</value>
+  </data>
   <data name="Neighhborhood" xml:space="preserve">
     <value>Barrio</value>
   </data>
   <data name="Section" xml:space="preserve">
     <value>Sección</value>
+  </data>
+  <data name="SelectInstitution" xml:space="preserve">
+    <value>Seleccione la institución</value>
   </data>
   <data name="SelectNeighhborhood" xml:space="preserve">
     <value>Seleccione el barrio</value>

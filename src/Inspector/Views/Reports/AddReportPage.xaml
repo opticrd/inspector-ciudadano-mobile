@@ -93,6 +93,20 @@
                                 Text="{Binding Title.Value}" />
                         </ctrls:TextFieldLayout>
 
+                        <ctrls:TextFieldLayout>
+                            <mtrl:MaterialTextField
+                                ChoiceSelectedCommand="{Binding SelectGroupCommand}"
+                                Choices="{Binding Groups}"
+                                ChoicesBindingName="Name"
+                                ChoicesResultBindingName="Name"
+                                ErrorText="{Binding GroupSelected.Error}"
+                                HasError="{Binding GroupSelected.HasErrors}"
+                                HelperText="{l18n:Translate SelectInstitution}"
+                                Placeholder="{l18n:Translate Institution}"
+                                ReturnType="Next"
+                                Style="{StaticResource TextFieldChoiceStyle}" />
+                        </ctrls:TextFieldLayout>
+
                         <ctrls:TextFieldLayout IsVisible="{Binding RegionIsEnabled}">
                             <mtrl:MaterialTextField
                                 ChoiceSelectedCommand="{Binding SelectRegionCommand}"
@@ -200,20 +214,6 @@
                                 ReturnType="Next"
                                 Text="{Binding Address.Value}" />
                         </ctrls:TextFieldLayout>
-
-                        <!--<ctrls:TextFieldLayout>
-                            <mtrl:MaterialTextField
-                                ChoiceSelectedCommand="{Binding SelectGroupCommand}"
-                                Choices="{Binding Groups}"
-                                ChoicesBindingName="Name"
-                                ChoicesResultBindingName="Name"
-                                ErrorText="{Binding GroupSelected.Error}"
-                                HasError="{Binding GroupSelected.HasErrors}"
-                                HelperText="{l18n:Translate SelectZone}"
-                                Placeholder="{l18n:Translate Zone}"
-                                ReturnType="Next"
-                                Style="{StaticResource TextFieldChoiceStyle}" />
-                        </ctrls:TextFieldLayout>-->
 
                         <!--<Label Style="{StaticResource Subtitle2}" Text="Tipo de incidencia" />
 

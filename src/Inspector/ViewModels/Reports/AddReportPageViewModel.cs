@@ -74,7 +74,7 @@ namespace Inspector.ViewModels
                             .When(x => !string.IsNullOrEmpty(x))
                             .Must(x => x.Length >= 10, Message.MinLengthField10);
 
-            _validationUnit = new ValidationUnit(/*StateSelected,*/ ID, /*PhoneNumber,*/ Title, Address, /*GroupSelected,*/ Neighhborhood, SubCategory, Comments);
+            _validationUnit = new ValidationUnit(/*StateSelected,*/ ID, /*PhoneNumber,*/ Title, Address, GroupSelected, Neighhborhood, SubCategory, Comments);
 
             //States = new List<StateTicket>(StateTicket.GetStatesForNewTicket());
 
@@ -136,9 +136,11 @@ namespace Inspector.ViewModels
             _ticketClient = account.CreateTicketClient();
             _userClient = account.CreateUserClient();
             _tagClient = account.CreateTagClient();
+            var groupClient = account.CreateGroupClient();
 
             _userAccount = await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount);
-            Groups = await _cacheService.GetLocalObject<List<Group>>(CacheKeys.Groups);
+
+            Groups = (List<Group>)await groupClient.GetGroupListAsync();
         }
 
         private async void OnValidateIDCommandExecute()
@@ -249,7 +251,7 @@ namespace Inspector.ViewModels
                 var formTicket = new Ticket
                 {
                     Title = Title.Value,
-                    GroupId = 1, //GroupSelected.Value,
+                    GroupId = GroupSelected.Value,
                     CustomerId = customerId,
                     OwnerId = _userAccount.Id,
                     StateId = (int)Framework.Dtos.TicketState.New,
