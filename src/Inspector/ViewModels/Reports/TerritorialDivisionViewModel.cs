@@ -168,79 +168,128 @@ namespace Inspector.ViewModels
         #region Searchs
         protected async Task LoadRegions()
         {
-            var result = await _territorialDivisionClient.GetRegions();
+            try
+            {
+                var result = await _territorialDivisionClient.GetRegions();
 
-            if (result.Valid)
-                Regions = new ObservableCollection<Zone>(result.Data);
+                if (result.Valid)
+                    Regions = new ObservableCollection<Zone>(result.Data);
+            }
+            catch (Exception)
+            {
+                await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
+            }
         }
 
         private async Task SearchProvince(string regionId)
         {
-            var result = await _territorialDivisionClient.GetProvinces(new QueryZone { RegionCode = regionId });
+            try
+            {
+                var result = await _territorialDivisionClient.GetProvinces(new QueryZone { RegionCode = regionId });
 
-            if (result.Valid)
-                Provinces = new ObservableCollection<Zone>(result.Data);
+                if (result.Valid)
+                    Provinces = new ObservableCollection<Zone>(result.Data);
+            }
+            catch (Exception)
+            {
+                await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
+            }
         }
 
         private async Task SearchMunicipality(string regionId, string provinceId)
         {
-            var result = await _territorialDivisionClient.GetMunicipalities(new QueryZone { RegionCode = regionId, ProvinceCode = provinceId });
+            try
+            {
+                var result = await _territorialDivisionClient.GetMunicipalities(new QueryZone { RegionCode = regionId, ProvinceCode = provinceId });
 
-            if (result.Valid)
-                Municipalities = new ObservableCollection<Zone>(result.Data);
+                if (result.Valid)
+                    Municipalities = new ObservableCollection<Zone>(result.Data);
+            }
+            catch (Exception)
+            {
+                await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
+            }
         }
 
         private async Task SearchDistrict(string regionId, string provinceId, string municipalityId)
         {
-            var result = await _territorialDivisionClient.GetDistricts(new QueryZone { RegionCode = regionId, ProvinceCode = provinceId, MunicipalityCode = municipalityId });
+            try
+            {
+                var result = await _territorialDivisionClient.GetDistricts(new QueryZone { RegionCode = regionId, ProvinceCode = provinceId, MunicipalityCode = municipalityId });
 
-            if (result.Valid)
-                Districts = new ObservableCollection<Zone>(result.Data);
+                if (result.Valid)
+                    Districts = new ObservableCollection<Zone>(result.Data);
+            }
+            catch (Exception)
+            {
+                await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
+            }
         }
 
         private async Task SearchSection(string regionId, string provinceId, string municipalityId, string districId)
         {
-            var result = await _territorialDivisionClient.GetSections(new QueryZone
+            try
             {
-                RegionCode = regionId,
-                ProvinceCode = provinceId,
-                MunicipalityCode = municipalityId,
-                DistrictCode = districId,
-            });
+                var result = await _territorialDivisionClient.GetSections(new QueryZone
+                {
+                    RegionCode = regionId,
+                    ProvinceCode = provinceId,
+                    MunicipalityCode = municipalityId,
+                    DistrictCode = districId,
+                });
 
-            if (result.Valid)
-                Sections = new ObservableCollection<Zone>(result.Data);
+                if (result.Valid)
+                    Sections = new ObservableCollection<Zone>(result.Data);
+            }
+            catch (Exception)
+            {
+                await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
+            }
         }
 
         private async Task SearchNeighborhood(string regionId, string provinceId, string municipalityId, string districId, string sectionId)
         {
-            var result = await _territorialDivisionClient.GetNeighborhoods(new QueryZone
+            try
             {
-                RegionCode = regionId,
-                ProvinceCode = provinceId,
-                MunicipalityCode = municipalityId,
-                SectionCode = sectionId,
-                DistrictCode = districId
-            });
+                var result = await _territorialDivisionClient.GetNeighborhoods(new QueryZone
+                {
+                    RegionCode = regionId,
+                    ProvinceCode = provinceId,
+                    MunicipalityCode = municipalityId,
+                    DistrictCode = districId,
+                    SectionCode = sectionId
+                });
 
-            if (result.Valid)
-                Neighhborhoods = new ObservableCollection<Zone>(result.Data);
+                if (result.Valid)
+                    Neighhborhoods = new ObservableCollection<Zone>(result.Data);
+            }
+            catch (Exception)
+            {
+                await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
+            }
         }
 
         private async Task SearchSubNeighborhood(string regionId, string provinceId, string municipalityId, string districId, string sectionId, string neighborhoodId)
         {
-            var result = await _territorialDivisionClient.GetSubNeighborhoods(new QueryZone
-            { 
-                RegionCode = regionId, 
-                ProvinceCode = provinceId, 
-                MunicipalityCode = municipalityId,
-                SectionCode = sectionId,
-                NeighhborhoodCode = neighborhoodId,
-                DistrictCode = districId
-            });
+            try
+            {
+                var result = await _territorialDivisionClient.GetSubNeighborhoods(new QueryZone
+                {
+                    RegionCode = regionId,
+                    ProvinceCode = provinceId,
+                    MunicipalityCode = municipalityId,
+                    DistrictCode = districId,
+                    SectionCode = sectionId,
+                    NeighhborhoodCode = neighborhoodId,
+                });
 
-            if (result.Valid)
-                SubNeighhborhoods = new ObservableCollection<Zone>(result.Data);
+                if (result.Valid)
+                    SubNeighhborhoods = new ObservableCollection<Zone>(result.Data);
+            }
+            catch (Exception)
+            {
+                await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
+            }
         }
         #endregion
 
