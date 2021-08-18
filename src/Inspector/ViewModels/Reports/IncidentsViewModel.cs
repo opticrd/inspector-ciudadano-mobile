@@ -70,7 +70,7 @@ namespace Inspector.ViewModels
             var result = await _incidentsClient.GetIncidentTypes();
 
             if (result.Valid)
-                Incidents = new ObservableCollection<Incident>(result.Data.OrderBy(x=>x.Name));
+                Incidents = new ObservableCollection<Incident>(result.Data.OrderBy(x=>x.Name).ToList());
         }
 
         private async void SearchCategories(int incidentId)
@@ -78,7 +78,7 @@ namespace Inspector.ViewModels
             var result = await _incidentsClient.GetCategories(incidentId);
 
             if (result.Valid)
-                Categories = new ObservableCollection<Incident>(result.Data.OrderBy(x => x.Name));
+                Categories = new ObservableCollection<Incident>(result.Data.OrderBy(x => x.Name).ToList());
         }
 
         private async void SearchSubCategories(int incidentId, int categoryId)
@@ -86,7 +86,7 @@ namespace Inspector.ViewModels
             var result = await _incidentsClient.GetSubCategories(incidentId, categoryId);
 
             if (result.Valid)
-                SubCategories = new ObservableCollection<Incident>(result.Data.OrderBy(x => x.Name));
+                SubCategories = new ObservableCollection<Incident>(result.Data.OrderBy(x => x.Name).ToList());
         }
     }
 }
