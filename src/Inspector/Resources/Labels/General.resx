@@ -229,7 +229,7 @@
     <value>Seleccione la provincia</value>
   </data>
   <data name="SelectRegion" xml:space="preserve">
-    <value>Seleccione la region</value>
+    <value>Seleccione la región</value>
   </data>
   <data name="SelectTicketState" xml:space="preserve">
     <value>Seleccione el estado del ticket</value>

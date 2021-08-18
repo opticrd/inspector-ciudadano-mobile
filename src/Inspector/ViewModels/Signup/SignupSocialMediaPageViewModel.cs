@@ -40,6 +40,8 @@ namespace Inspector.ViewModels
         private string _document;
         private string _password;
         private string _zone;
+        private ZammadGroup _group;
+        private List<ZammadGroup> _groups;
 
         public string FullName 
         {
@@ -72,6 +74,9 @@ namespace Inspector.ViewModels
                 _document = Citizen.Id;
                 _password = parameters.GetValue<string>("Password");
                 _zone = parameters.GetValue<string>("ZoneCode");
+                _group = parameters.GetValue<ZammadGroup>("Group");
+                _groups = parameters.GetValue<List<ZammadGroup>>("Groups");
+
                 var locationParts = new string[]
                 {
                     parameters.GetValue<string>("Region"),
@@ -79,7 +84,7 @@ namespace Inspector.ViewModels
                     parameters.GetValue<string>("Municipality"),
                     parameters.GetValue<string>("District"),
                 };
-                Location = string.Join(", ", locationParts);
+                Location = string.Join(", ", locationParts.Where(x=>!string.IsNullOrEmpty(x)));
             }
         }
 
@@ -230,6 +235,16 @@ namespace Inspector.ViewModels
                 // Search for the user email in zammad
                 var zammadUserSearch = await _zammadLiteApi.SearchUser($"Bearer {AppKeys.ZammadToken}", email);
 
+                var zammadGroupsMap = new Dictionary<string, List<string>>();
+                
+                foreach(var group in _groups)
+                {
+                    zammadGroupsMap.Add(group.Id, new List<string> { "read" });
+                }
+
+                zammadGroupsMap[_group.Id].Clear();
+                zammadGroupsMap[_group.Id].Add("full");
+
                 // If the user doesn't exist in zammad, create it
                 if (zammadUserSearch != null && zammadUserSearch.Where(x=>x.Email == email).Count() == 0)
                 {
@@ -241,11 +256,12 @@ namespace Inspector.ViewModels
                         Cedula = cedula,
                         Password = _password,
                         Organization = "Ogtic",
-                        Note = "Created from mobile",
+                        Note = "User created from mobile",
                         Zone = _zone,
                         Verified = true,
                         //TODO: Revaluate this assignment
                         RoleIds = new List<int>() { 2 }, //1: Admin, 2: Agent, 3: Customer
+                        GroupIds = zammadGroupsMap,
                         Active = true
                     });
                 }
@@ -253,6 +269,9 @@ namespace Inspector.ViewModels
                 {
                     var zammadUser = zammadUserSearch[0];
                     zammadUser.Password = password;
+                    zammadUser.Zone = _zone;
+                    zammadUser.Verified = true;
+                    zammadUser.GroupIds = zammadGroupsMap;
                     await _zammadLiteApi.UpdateUser($"Bearer {AppKeys.ZammadToken}", zammadUser.Id, zammadUser);
                     //Update Password to document
                 }

@@ -105,7 +105,7 @@ namespace Inspector.ViewModels
                     await _navigationService.NavigateAsync("SignupLocationPage", parameters);
                 }
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
                 await _dialogService.DisplayAlertAsync("", Message.AccountInvalid, "Ok");
             }

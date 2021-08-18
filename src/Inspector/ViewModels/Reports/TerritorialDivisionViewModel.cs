@@ -151,7 +151,7 @@ namespace Inspector.ViewModels
 
                 valid = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

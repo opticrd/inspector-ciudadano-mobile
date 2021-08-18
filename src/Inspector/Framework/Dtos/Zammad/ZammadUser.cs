@@ -127,5 +127,18 @@ namespace Inspector.Framework.Dtos.Zammad
         [JsonProperty("karma_user_ids")]
         public List<object> KarmaUserIds { get; set; }
 
+        /*
+         
+        "group_ids": {
+            "15": [
+                "read"
+            ],
+            "16": [
+                "create"
+            ]
+        }
+         */
+        [JsonProperty("group_ids")]
+        public Dictionary<string, List<string>> GroupIds { get; set; }
     }
 }
