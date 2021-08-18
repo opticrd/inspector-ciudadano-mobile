@@ -74,7 +74,7 @@ namespace Inspector.ViewModels
                             .When(x => !string.IsNullOrEmpty(x))
                             .Must(x => x.Length >= 10, Message.MinLengthField10);
 
-            _validationUnit = new ValidationUnit(/*StateSelected,*/ ID, /*PhoneNumber,*/ Title, Address, /*GroupSelected,*/ Neighhborhoods, SubCategory, Comments);
+            _validationUnit = new ValidationUnit(/*StateSelected,*/ ID, /*PhoneNumber,*/ Title, Address, /*GroupSelected,*/ Neighhborhood, SubCategory, Comments);
 
             //States = new List<StateTicket>(StateTicket.GetStatesForNewTicket());
 
@@ -199,6 +199,7 @@ namespace Inspector.ViewModels
 
             Ticket ticket = null;
             var ticketCreated = false;
+            string zoneCode = GetZoneCode();
 
             try
             {
@@ -212,7 +213,7 @@ namespace Inspector.ViewModels
                         CustomAttributes = new Dictionary<string, object>()
                         {
                             { "cedula",  ID.Value.Replace("-", "") },
-                            { "zone",  District.Value.Code },
+                            { "zone",  zoneCode },
                         }
                     });
 
@@ -256,7 +257,7 @@ namespace Inspector.ViewModels
                     CustomAttributes = new Dictionary<string, object>()
                     {
                         { "address",  Address.Value },
-                        { "zone",  District.Value.Code },
+                        { "zone",  zoneCode },
                     }
                 };                
 
@@ -308,6 +309,14 @@ namespace Inspector.ViewModels
                 IsBusy = false;
             }
 
+        }
+
+        private string GetZoneCode()
+        {
+            if (SubNeighhborhood.IsValid)
+                return SubNeighhborhood.Value.Code;
+
+            return Neighhborhood.Value.Code;
         }
 
         private async Task AddTagsToTicket(int id)
