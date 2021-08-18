@@ -79,7 +79,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Zona asignada no procesada. Por favor instentelo de nuevo mas tarde. Si el problema persiste, contacte su supervisor..
+        ///   Looks up a localized string similar to Zona asignada no procesada. Por favor intentelo de nuevo mas tarde. Si el problema persiste, contacte su supervisor..
         /// </summary>
         internal static string AssignedZoneNotProcessed {
             get {
@@ -115,7 +115,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Numero de telefono incorrecto o incompleto..
+        ///   Looks up a localized string similar to Numero de teléfono incorrecto o incompleto..
         /// </summary>
         internal static string InvalidPhoneNumber {
             get {
@@ -124,7 +124,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Máximo o minimo de caracteres incorrectos..
+        ///   Looks up a localized string similar to Máximo o mínimo de caracteres incorrectos..
         /// </summary>
         internal static string MaxMinInvalidField {
             get {
@@ -133,7 +133,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Minimo de caracteres es 10..
+        ///   Looks up a localized string similar to Mínimo de caracteres es 10..
         /// </summary>
         internal static string MinLengthField10 {
             get {
@@ -142,7 +142,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Minimo de caracteres es 12..
+        ///   Looks up a localized string similar to Mínimo de caracteres es 12..
         /// </summary>
         internal static string MinLengthField12 {
             get {
@@ -151,7 +151,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Minimo de caracteres es 6..
+        ///   Looks up a localized string similar to Mínimo de caracteres es 6..
         /// </summary>
         internal static string MinLengthField6 {
             get {
@@ -160,7 +160,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No puedes digitar tu propia cedula..
+        ///   Looks up a localized string similar to No puedes digitar tu propia cédula..
         /// </summary>
         internal static string SameId {
             get {

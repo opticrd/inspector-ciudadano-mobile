@@ -124,7 +124,7 @@
     <value>Esta cuenta no esta activa.</value>
   </data>
   <data name="AssignedZoneNotProcessed" xml:space="preserve">
-    <value>Zona asignada no procesada. Por favor instentelo de nuevo mas tarde. Si el problema persiste, contacte su supervisor.</value>
+    <value>Zona asignada no procesada. Por favor intentelo de nuevo mas tarde. Si el problema persiste, contacte su supervisor.</value>
   </data>
   <data name="FieldRequired" xml:space="preserve">
     <value>Este campo es requerido.</value>
@@ -136,13 +136,13 @@
     <value>Campo incorrecto o incompleto.</value>
   </data>
   <data name="InvalidPhoneNumber" xml:space="preserve">
-    <value>Numero de telefono incorrecto o incompleto.</value>
+    <value>Numero de teléfono incorrecto o incompleto.</value>
   </data>
   <data name="MaxMinInvalidField" xml:space="preserve">
-    <value>Máximo o minimo de caracteres incorrectos.</value>
+    <value>Máximo o mínimo de caracteres incorrectos.</value>
   </data>
   <data name="SameId" xml:space="preserve">
-    <value>No puedes digitar tu propia cedula.</value>
+    <value>No puedes digitar tu propia cédula.</value>
   </data>
   <data name="SomethingHappen" xml:space="preserve">
     <value>Algo ha pasado. Intentelo de nuevo mas tarde.</value>
@@ -154,12 +154,12 @@
     <value>El ticket no ha sido creado, intentelo de nuevo mas tarde.</value>
   </data>
   <data name="MinLengthField10" xml:space="preserve">
-    <value>Minimo de caracteres es 10.</value>
+    <value>Mínimo de caracteres es 10.</value>
   </data>
   <data name="MinLengthField12" xml:space="preserve">
-    <value>Minimo de caracteres es 12.</value>
+    <value>Mínimo de caracteres es 12.</value>
   </data>
   <data name="MinLengthField6" xml:space="preserve">
-    <value>Minimo de caracteres es 6.</value>
+    <value>Mínimo de caracteres es 6.</value>
   </data>
 </root>

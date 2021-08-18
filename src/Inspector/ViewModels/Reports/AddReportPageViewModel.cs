@@ -315,10 +315,11 @@ namespace Inspector.ViewModels
 
         private string GetZoneCode()
         {
+            if (SubNeighhborhood == null) return string.Empty;
             if (SubNeighhborhood.IsValid)
-                return SubNeighhborhood.Value.Code;
+                return SubNeighhborhood.Value?.Code ?? string.Empty;
 
-            return Neighhborhood.Value.Code;
+            return Neighhborhood.Value?.Code ?? string.Empty;
         }
 
         private async Task AddTagsToTicket(int id)
