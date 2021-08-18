@@ -316,11 +316,35 @@ namespace Inspector.ViewModels
 
         private string GetZoneCode()
         {
-            if (SubNeighhborhood == null) return string.Empty;
-            if (SubNeighhborhood.IsValid)
-                return SubNeighhborhood.Value?.Code ?? string.Empty;
+            if(SubNeighhborhood.Value != null)
+            {
+                return SubNeighhborhood.Value.Id;
+            }
 
-            return Neighhborhood.Value?.Code ?? string.Empty;
+            if (Neighhborhood.Value != null)
+            {
+                return Neighhborhood.Value.Id;
+            }
+            if (Section.Value != null)
+            {
+                return Section.Value.Id;
+            }
+            if (District.Value != null)
+            {
+                return District.Value.Id;
+            }
+
+
+            if (Municipality.Value != null)
+            {
+                return Municipality.Value.Id;
+            }
+            if (Province.Value != null)
+            {
+                return Province.Value.Id;
+            }
+
+            return string.Empty;
         }
 
         private async Task AddTagsToTicket(int id)
