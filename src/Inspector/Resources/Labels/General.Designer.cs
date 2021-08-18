@@ -322,15 +322,6 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Barrio.
-        /// </summary>
-        internal static string Neighhborhood {
-            get {
-                return ResourceManager.GetString("Neighhborhood", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Observaciones.
         /// </summary>
         internal static string Observations {
