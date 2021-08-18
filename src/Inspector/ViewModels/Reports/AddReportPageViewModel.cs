@@ -141,7 +141,7 @@ namespace Inspector.ViewModels
 
             _userAccount = await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount);
 
-            Groups = ((List<Group>)await groupClient.GetGroupListAsync()).OrderBy(x=>x.Name);
+            Groups = (List<Group>)((List<Group>)await groupClient.GetGroupListAsync()).OrderBy(x=>x.Name);
         }
 
         private async void OnValidateIDCommandExecute()
