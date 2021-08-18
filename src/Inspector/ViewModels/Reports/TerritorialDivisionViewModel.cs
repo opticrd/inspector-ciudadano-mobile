@@ -173,7 +173,7 @@ namespace Inspector.ViewModels
                 var result = await _territorialDivisionClient.GetRegions();
 
                 if (result.Valid)
-                    Regions = new ObservableCollection<Zone>(result.Data);
+                    Regions = new ObservableCollection<Zone>(result.Data.OrderBy(x => x.Name));
             }
             catch (Exception)
             {
@@ -188,7 +188,7 @@ namespace Inspector.ViewModels
                 var result = await _territorialDivisionClient.GetProvinces(new QueryZone { RegionCode = regionId });
 
                 if (result.Valid)
-                    Provinces = new ObservableCollection<Zone>(result.Data);
+                    Provinces = new ObservableCollection<Zone>(result.Data.OrderBy(x => x.Name));
             }
             catch (Exception)
             {
@@ -203,7 +203,7 @@ namespace Inspector.ViewModels
                 var result = await _territorialDivisionClient.GetMunicipalities(new QueryZone { RegionCode = regionId, ProvinceCode = provinceId });
 
                 if (result.Valid)
-                    Municipalities = new ObservableCollection<Zone>(result.Data);
+                    Municipalities = new ObservableCollection<Zone>(result.Data.OrderBy(x => x.Name));
             }
             catch (Exception)
             {
@@ -218,7 +218,7 @@ namespace Inspector.ViewModels
                 var result = await _territorialDivisionClient.GetDistricts(new QueryZone { RegionCode = regionId, ProvinceCode = provinceId, MunicipalityCode = municipalityId });
 
                 if (result.Valid)
-                    Districts = new ObservableCollection<Zone>(result.Data);
+                    Districts = new ObservableCollection<Zone>(result.Data.OrderBy(x => x.Name));
             }
             catch (Exception)
             {
@@ -239,7 +239,7 @@ namespace Inspector.ViewModels
                 });
 
                 if (result.Valid)
-                    Sections = new ObservableCollection<Zone>(result.Data);
+                    Sections = new ObservableCollection<Zone>(result.Data.OrderBy(x => x.Name));
             }
             catch (Exception)
             {
@@ -261,7 +261,7 @@ namespace Inspector.ViewModels
                 });
 
                 if (result.Valid)
-                    Neighhborhoods = new ObservableCollection<Zone>(result.Data);
+                    Neighhborhoods = new ObservableCollection<Zone>(result.Data.OrderBy(x => x.Name));
             }
             catch (Exception)
             {
@@ -284,7 +284,7 @@ namespace Inspector.ViewModels
                 });
 
                 if (result.Valid)
-                    SubNeighhborhoods = new ObservableCollection<Zone>(result.Data);
+                    SubNeighhborhoods = new ObservableCollection<Zone>(result.Data.OrderBy(x => x.Name));
             }
             catch (Exception)
             {

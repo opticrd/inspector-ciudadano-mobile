@@ -15,6 +15,7 @@ using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -55,7 +56,7 @@ namespace Inspector.ViewModels
 
             PhoneNumber = Validator.Build<string>()
                             .When(x => !string.IsNullOrEmpty(x))
-                            .Must(x => x.Length == 12, Message.MinLengthField12);
+                            .Must(x => x?.Length == 12, Message.MinLengthField12);
 
             PhoneNumber.ValueFormatter = new MaskFormatter("XXX-XXX-XXXX");
 
@@ -65,14 +66,14 @@ namespace Inspector.ViewModels
 
             Address = Validator.Build<string>()
                             .IsRequired(Message.FieldRequired)
-                            .Must(x => x.Length >= 6, Message.MinLengthField6);
+                            .Must(x => x?.Length >= 6, Message.MinLengthField6);
 
             GroupSelected = Validator.Build<int>()
                             .Must(x => x > 0, Message.FieldRequired);
 
             Comments = Validator.Build<string>()
                             .When(x => !string.IsNullOrEmpty(x))
-                            .Must(x => x.Length >= 10, Message.MinLengthField10);
+                            .Must(x => x?.Length >= 10, Message.MinLengthField10);
 
             _validationUnit = new ValidationUnit(/*StateSelected,*/ ID, /*PhoneNumber,*/ Title, Address, GroupSelected, Neighhborhood, SubCategory, Comments);
 
@@ -140,7 +141,7 @@ namespace Inspector.ViewModels
 
             _userAccount = await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount);
 
-            Groups = (List<Group>)await groupClient.GetGroupListAsync();
+            Groups = ((List<Group>)await groupClient.GetGroupListAsync()).OrderBy(x=>x.Name);
         }
 
         private async void OnValidateIDCommandExecute()
