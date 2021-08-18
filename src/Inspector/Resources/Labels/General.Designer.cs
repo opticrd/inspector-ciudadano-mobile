@@ -169,7 +169,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Digite su comentario.
+        ///   Looks up a localized string similar to Digite información relevante para el reporte.
         /// </summary>
         internal static string EnterComment {
             get {
@@ -309,6 +309,15 @@ namespace Inspector.Resources.Labels {
         internal static string Municipality {
             get {
                 return ResourceManager.GetString("Municipality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Barrio.
+        /// </summary>
+        internal static string Neighhborhood {
+            get {
+                return ResourceManager.GetString("Neighhborhood", resourceCulture);
             }
         }
         
