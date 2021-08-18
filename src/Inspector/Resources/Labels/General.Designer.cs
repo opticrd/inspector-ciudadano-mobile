@@ -259,6 +259,15 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Institución.
+        /// </summary>
+        internal static string Institution {
+            get {
+                return ResourceManager.GetString("Institution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cargar más.
         /// </summary>
         internal static string LoadMore {
@@ -435,6 +444,15 @@ namespace Inspector.Resources.Labels {
         internal static string SelectIncident {
             get {
                 return ResourceManager.GetString("SelectIncident", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Seleccione la institución.
+        /// </summary>
+        internal static string SelectInstitution {
+            get {
+                return ResourceManager.GetString("SelectInstitution", resourceCulture);
             }
         }
         

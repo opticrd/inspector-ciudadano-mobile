@@ -47,6 +47,7 @@
                                 ErrorText="{Binding ID.Error}"
                                 HasError="{Binding ID.HasErrors}"
                                 HelperText="{l18n:Translate EnterCitizenId}"
+                                InputType="Numeric"
                                 MaxLength="13"
                                 Placeholder="{l18n:Translate Id}"
                                 ReturnType="Next"
@@ -54,13 +55,13 @@
                                 Unfocused="MaterialTextField_Unfocused" />
                         </ctrls:TextFieldLayout>
 
-                        <ctrls:TextFieldLayout IsTabStop="False">
+                        <ctrls:TextFieldLayout>
                             <mtrl:MaterialTextField
                                 HelperText="Nombre completo del cuidadano"
                                 IsEnabled="False"
-                                IsTabStop="False"
                                 Placeholder="{l18n:Translate FullName}"
                                 ReturnType="Next"
+                                TabIndex="100"
                                 Text="{Binding CitizenName}" />
                         </ctrls:TextFieldLayout>
 
@@ -91,6 +92,20 @@
                                 Placeholder="{l18n:Translate TitleReport}"
                                 ReturnType="Next"
                                 Text="{Binding Title.Value}" />
+                        </ctrls:TextFieldLayout>
+
+                        <ctrls:TextFieldLayout>
+                            <mtrl:MaterialTextField
+                                ChoiceSelectedCommand="{Binding SelectGroupCommand}"
+                                Choices="{Binding Groups}"
+                                ChoicesBindingName="Name"
+                                ChoicesResultBindingName="Name"
+                                ErrorText="{Binding GroupSelected.Error}"
+                                HasError="{Binding GroupSelected.HasErrors}"
+                                HelperText="{l18n:Translate SelectInstitution}"
+                                Placeholder="{l18n:Translate Institution}"
+                                ReturnType="Next"
+                                Style="{StaticResource TextFieldChoiceStyle}" />
                         </ctrls:TextFieldLayout>
 
                         <ctrls:TextFieldLayout IsVisible="{Binding RegionIsEnabled}">
@@ -200,20 +215,6 @@
                                 ReturnType="Next"
                                 Text="{Binding Address.Value}" />
                         </ctrls:TextFieldLayout>
-
-                        <!--<ctrls:TextFieldLayout>
-                            <mtrl:MaterialTextField
-                                ChoiceSelectedCommand="{Binding SelectGroupCommand}"
-                                Choices="{Binding Groups}"
-                                ChoicesBindingName="Name"
-                                ChoicesResultBindingName="Name"
-                                ErrorText="{Binding GroupSelected.Error}"
-                                HasError="{Binding GroupSelected.HasErrors}"
-                                HelperText="{l18n:Translate SelectZone}"
-                                Placeholder="{l18n:Translate Zone}"
-                                ReturnType="Next"
-                                Style="{StaticResource TextFieldChoiceStyle}" />
-                        </ctrls:TextFieldLayout>-->
 
                         <!--<Label Style="{StaticResource Subtitle2}" Text="Tipo de incidencia" />
 
