@@ -1,4 +1,5 @@
 ﻿using Inspector.Framework.Dtos;
+using Inspector.Framework.Helpers;
 using Inspector.Framework.Interfaces;
 using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
@@ -6,6 +7,7 @@ using Inspector.Resources.Labels;
 using Plugin.ValidationRules;
 using Plugin.ValidationRules.Extensions;
 using Prism.Commands;
+using Prism.Logging;
 using Prism.Navigation;
 using Prism.Services;
 using System;
@@ -22,10 +24,13 @@ namespace Inspector.ViewModels
     public class TerritorialDivisionViewModel : BaseViewModel
     {
         ITerritorialDivisionAPI _territorialDivisionClient;
-        public TerritorialDivisionViewModel(INavigationService navigationService, IPageDialogService dialogService,
+        ILogger _logger;
+
+        public TerritorialDivisionViewModel(INavigationService navigationService, IPageDialogService dialogService, ILogger logger,
             ICacheService cacheService, ITerritorialDivisionAPI territorialDivisionClient) : base(navigationService, dialogService, cacheService)
         {
             _territorialDivisionClient = territorialDivisionClient;
+            _logger = logger;
             Init();
         }
 
@@ -151,9 +156,9 @@ namespace Inspector.ViewModels
 
                 valid = true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                _logger.Report(e, LoggerExtension.InitDictionary(nameof(TerritorialDivisionViewModel), nameof(TerritorialDivisionViewModel.Init)));
             }
             finally
             {
@@ -175,8 +180,9 @@ namespace Inspector.ViewModels
                 if (result.Valid)
                     Regions = new ObservableCollection<Zone>(result.Data.OrderBy(x => x.Name).ToList());
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.Report(e, LoggerExtension.InitDictionary(nameof(TerritorialDivisionViewModel), nameof(TerritorialDivisionViewModel.LoadRegions)));
                 await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
             }
         }
@@ -190,8 +196,9 @@ namespace Inspector.ViewModels
                 if (result.Valid)
                     Provinces = new ObservableCollection<Zone>(result.Data.OrderBy(x => x.Name).ToList());
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.Report(e, LoggerExtension.InitDictionary(nameof(TerritorialDivisionViewModel), nameof(TerritorialDivisionViewModel.SearchProvince)));
                 await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
             }
         }
@@ -205,8 +212,9 @@ namespace Inspector.ViewModels
                 if (result.Valid)
                     Municipalities = new ObservableCollection<Zone>(result.Data.OrderBy(x => x.Name).ToList());
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.Report(e, LoggerExtension.InitDictionary(nameof(TerritorialDivisionViewModel), nameof(TerritorialDivisionViewModel.SearchMunicipality)));
                 await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
             }
         }
@@ -220,8 +228,9 @@ namespace Inspector.ViewModels
                 if (result.Valid)
                     Districts = new ObservableCollection<Zone>(result.Data.OrderBy(x => x.Name).ToList());
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.Report(e, LoggerExtension.InitDictionary(nameof(TerritorialDivisionViewModel), nameof(TerritorialDivisionViewModel.SearchDistrict)));
                 await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
             }
         }
@@ -241,8 +250,9 @@ namespace Inspector.ViewModels
                 if (result.Valid)
                     Sections = new ObservableCollection<Zone>(result.Data.OrderBy(x => x.Name).ToList());
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.Report(e, LoggerExtension.InitDictionary(nameof(TerritorialDivisionViewModel), nameof(TerritorialDivisionViewModel.SearchSection)));
                 await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
             }
         }
@@ -263,8 +273,9 @@ namespace Inspector.ViewModels
                 if (result.Valid)
                     Neighhborhoods = new ObservableCollection<Zone>(result.Data.OrderBy(x => x.Name).ToList());
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.Report(e, LoggerExtension.InitDictionary(nameof(TerritorialDivisionViewModel), nameof(TerritorialDivisionViewModel.SearchNeighborhood)));
                 await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
             }
         }
@@ -286,9 +297,10 @@ namespace Inspector.ViewModels
                 if (result.Valid && result.Data != null)
                     SubNeighhborhoods = new ObservableCollection<Zone>(result.Data.OrderBy(x => x.Name).ToList());
             }
-            catch (Exception)
+            catch (Exception e)
             {
-               // await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
+                _logger.Report(e, LoggerExtension.InitDictionary(nameof(TerritorialDivisionViewModel), nameof(TerritorialDivisionViewModel.SearchSubNeighborhood)));
+                // await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
             }
         }
         #endregion

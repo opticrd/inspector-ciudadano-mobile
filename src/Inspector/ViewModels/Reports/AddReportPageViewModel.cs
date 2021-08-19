@@ -1,5 +1,6 @@
 ﻿
 using Inspector.Framework.Dtos;
+using Inspector.Framework.Helpers;
 using Inspector.Framework.Helpers.Extensions;
 using Inspector.Framework.Interfaces;
 using Inspector.Framework.Services;
@@ -10,6 +11,7 @@ using Plugin.ValidationRules;
 using Plugin.ValidationRules.Extensions;
 using Plugin.ValidationRules.Formatters;
 using Prism.Commands;
+using Prism.Logging;
 using Prism.Navigation;
 using Prism.Services;
 using System;
@@ -37,13 +39,14 @@ namespace Inspector.ViewModels
         ICitizenAPI _citizenClient;
         Citizen _citizen;
         bool _documentValidated, _clientCreated;
+        ILogger _logger;
 
-        public AddReportPageViewModel(INavigationService navigationService, IPageDialogService dialogService, 
+        public AddReportPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ILogger logger,
             ICacheService cacheService, ITerritorialDivisionAPI territorialDivisionClient, ICitizenAPI citizenClient, IIncidentsAPI incidentsClient) 
-            : base(navigationService, dialogService, cacheService, incidentsClient, territorialDivisionClient)
+            : base(navigationService, dialogService, logger, cacheService, incidentsClient, territorialDivisionClient)
         {
             _citizenClient = citizenClient;
-
+            _logger = logger;
             //StateSelected = Validator.Build<int>()
             //                .Must(x => x > 0, Message.FieldRequired);
 
@@ -174,9 +177,9 @@ namespace Inspector.ViewModels
                     _clientCreated = false;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                
+                _logger.Report(e, LoggerExtension.InitDictionary(nameof(AddReportPageViewModel), nameof(AddReportPageViewModel.OnValidateIDCommandExecute)));
             }
             finally
             {
@@ -295,7 +298,10 @@ namespace Inspector.ViewModels
 #endif
                 await _dialogService.DisplayAlertAsync("Ups :(", Message.SomethingHappen, "Ok");
             }
-            catch { }
+            catch (Exception e)
+            {
+                _logger.Report(e, LoggerExtension.InitDictionary(nameof(AddReportPageViewModel), nameof(AddReportPageViewModel.ReportCommandExecute)));
+            }
             finally
             {
                 if (ticketCreated)
@@ -385,8 +391,9 @@ namespace Inspector.ViewModels
             //{
             //    // handling a cancellation request
             //}
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.Report(e, LoggerExtension.InitDictionary(nameof(AddReportPageViewModel), nameof(AddReportPageViewModel.OnAttachFileCommandExecute)));
                 await _dialogService.DisplayAlertAsync("Ups :(", Message.SomethingHappen, "Ok");
             }
             finally
