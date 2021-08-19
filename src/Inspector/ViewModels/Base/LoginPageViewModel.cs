@@ -132,6 +132,10 @@ namespace Inspector.ViewModels
                     }
 
                 }
+                else
+                {
+                    await _dialogService.DisplayAlertAsync("", "No pudimos tomar tu correo del proveedor de identidad. Asegúrate de que tu correo sea público.", "Ok");
+                }
 
             }
             catch (OperationCanceledException)
