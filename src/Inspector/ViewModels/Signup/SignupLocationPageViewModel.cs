@@ -7,6 +7,7 @@ using Inspector.Resources.Labels;
 using Plugin.ValidationRules;
 using Plugin.ValidationRules.Extensions;
 using Prism.Commands;
+using Prism.Logging;
 using Prism.Navigation;
 using Prism.Services;
 using System;
@@ -31,9 +32,9 @@ namespace Inspector.ViewModels.Signup
         IZammadLiteApi _zammadLiteApi;
         ICitizenAPI _citizenClient;
         public SignupLocationPageViewModel(INavigationService navigationService, IPageDialogService dialogService,
-            ICacheService cacheService, ITerritorialDivisionAPI territorialDivisionClient,
+            ICacheService cacheService, ITerritorialDivisionAPI territorialDivisionClient, ILogger logger,
             ICitizenAPI citizenClient, IZammadLiteApi zammadLiteApi) :
-            base(navigationService, dialogService, cacheService, territorialDivisionClient)
+            base(navigationService, dialogService, logger, cacheService, territorialDivisionClient)
         {
             _citizenClient = citizenClient;
             _zammadLiteApi = zammadLiteApi;
