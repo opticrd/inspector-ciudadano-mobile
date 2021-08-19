@@ -5,6 +5,7 @@ using Inspector.Resources.Labels;
 using Plugin.ValidationRules;
 using Plugin.ValidationRules.Extensions;
 using Prism.Commands;
+using Prism.Logging;
 using Prism.Navigation;
 using Prism.Services;
 using System;
@@ -20,9 +21,9 @@ namespace Inspector.ViewModels
     public class IncidentsViewModel : TerritorialDivisionViewModel
     {
         IIncidentsAPI _incidentsClient;
-        public IncidentsViewModel(INavigationService navigationService, IPageDialogService dialogService,
+        public IncidentsViewModel(INavigationService navigationService, IPageDialogService dialogService, ILogger logger,
             ICacheService cacheService, IIncidentsAPI incidentsClient, ITerritorialDivisionAPI territorialDivisionClient)
-            : base(navigationService, dialogService, cacheService, territorialDivisionClient)
+            : base(navigationService, dialogService, logger, cacheService, territorialDivisionClient)
         {
             _incidentsClient = incidentsClient;
             Init();
