@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
+using DryIoc;
 using Inspector.Framework.Helpers;
 using Inspector.Framework.Interfaces;
 using Inspector.Framework.Services;
@@ -19,10 +19,10 @@ using Newtonsoft.Json.Serialization;
 using Prism;
 using Prism.DryIoc;
 using Prism.Ioc;
+using Prism.Logging.AppCenter;
 using Prism.Modularity;
 using Refit;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Inspector
 {
@@ -74,6 +74,10 @@ namespace Inspector
             AppCenter.Start("android=8b508ed0-50f1-4836-a73d-76a7665351bd;" +
                 "ios=4afbe2f3-1f31-4fc7-8d10-21e62cea0fc9;", typeof(Analytics), typeof(Crashes), typeof(Distribute));
 #endif
+            var container = Container.GetContainer();
+            container.RegisterMany<AppCenterLogger>(Reuse.Singleton,
+                        ifAlreadyRegistered: IfAlreadyRegistered.Replace,
+                        serviceTypeCondition: t => typeof(AppCenterLogger).ImplementsServiceType(t));
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
