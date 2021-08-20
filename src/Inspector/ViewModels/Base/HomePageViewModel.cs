@@ -23,7 +23,7 @@ namespace Inspector.ViewModels
         public HomePageViewModel(INavigationService navigationService, IPageDialogService dialogService, ICacheService cacheService) : base(navigationService, dialogService, cacheService)
         {
             Init();
-            RefreshCommand = new DelegateCommand(OnRefreshCommandExecute);
+            RefreshCommand = new DelegateCommand(async () => await OnRefreshCommandExecute());
             LoadMoreItemsCommand = new DelegateCommand(OnLoadMoreItemsCommandsExecute);
             AllTicketsCommand = new DelegateCommand(() => OnChangeHistoryTicketsFilter(0));
             OpenTicketsCommand = new DelegateCommand(() => OnChangeHistoryTicketsFilter(1));
@@ -69,10 +69,10 @@ namespace Inspector.ViewModels
 
             UserAccount = await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount);
 
-            await Task.Run(OnRefreshCommandExecute);
+            await OnRefreshCommandExecute();
         }
 
-        private async void OnRefreshCommandExecute()
+        private async Task OnRefreshCommandExecute()
         {
             if (IsBusy)
                 return;
@@ -155,15 +155,11 @@ namespace Inspector.ViewModels
             }
         }
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             if (parameters.GetNavigationMode() == NavigationMode.Back && parameters.ContainsKey(NavigationKeys.NewTicket))
             {
-                var ticket = parameters.GetValues<Ticket>(NavigationKeys.NewTicket);
-                _allTickets = _allTickets.Concat(ticket).ToList();
-
-                HistoryIndexSelected = 0;
-                OnChangeHistoryTicketsFilter(0);
+                await OnRefreshCommandExecute();
             }
         }
     }

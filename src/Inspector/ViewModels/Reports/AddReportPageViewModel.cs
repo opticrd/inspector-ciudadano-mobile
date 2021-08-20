@@ -310,7 +310,7 @@ namespace Inspector.ViewModels
 
                     var parameters = new NavigationParameters()
                     {
-                        { NavigationKeys.NewTicket, ticket }
+                        { NavigationKeys.NewTicket, true }
                     };
                     await _navigationService.GoBackAsync(parameters);
                 }
