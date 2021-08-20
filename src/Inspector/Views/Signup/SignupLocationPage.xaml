@@ -46,8 +46,8 @@
                         ChoicesResultBindingName="Name"
                         ErrorText="{Binding Group.Error}"
                         HasError="{Binding Group.HasErrors}"
-                        HelperText="Selecciona tu grupo"
-                        Placeholder="Grupo de usuarios"
+                        HelperText="Selecciona tu institución"
+                        Placeholder="Institución"
                         ReturnType="Next"
                         Style="{StaticResource TextFieldChoiceStyle}" />
                 </ctrls:TextFieldLayout>
