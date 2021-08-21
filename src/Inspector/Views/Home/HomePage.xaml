@@ -80,6 +80,29 @@
                 </Grid>
             </ControlTemplate>
 
+            <ControlTemplate x:Key="TabItemTemplate">
+                <Grid
+                    Padding="12"
+                    HeightRequest="42"
+                    RowDefinitions="24,20"
+                    RowSpacing="0"
+                    VerticalOptions="End">
+                    <Image
+                        xct:IconTintColorEffect.TintColor="{TemplateBinding CurrentTextColor}"
+                        HeightRequest="24"
+                        HorizontalOptions="Center"
+                        Source="{TemplateBinding CurrentIcon}"
+                        VerticalOptions="FillAndExpand"
+                        WidthRequest="24" />
+                    <Label
+                        Grid.Row="1"
+                        HorizontalOptions="Center"
+                        Text="{TemplateBinding Text}"
+                        TextColor="{TemplateBinding CurrentTextColor}"
+                        VerticalOptions="Center" />
+                </Grid>
+            </ControlTemplate>
+
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -94,12 +117,18 @@
                 <views:FeedReportsView />
             </xct:TabViewItem>-->
 
-            <xct:TabViewItem Icon="history.png" Text="Historial">
+            <xct:TabViewItem
+                ControlTemplate="{StaticResource TabItemTemplate}"
+                Icon="history.png"
+                Text="Historial">
                 <views:ReportHistoryView />
             </xct:TabViewItem>
 
 
-            <xct:TabViewItem Icon="user.png" Text="Perfil">
+            <xct:TabViewItem
+                ControlTemplate="{StaticResource TabItemTemplate}"
+                Icon="user.png"
+                Text="Perfil">
                 <views:ProfileView />
             </xct:TabViewItem>
 

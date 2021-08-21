@@ -1,6 +1,8 @@
-﻿using Inspector.Framework.Services;
+﻿using Inspector.Framework.Helpers;
+using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
 using Prism.Commands;
+using Prism.Logging;
 using Prism.Navigation;
 using Prism.Services;
 using System;
@@ -20,10 +22,12 @@ namespace Inspector.ViewModels
         TicketClient _ticketClient;
         List<Ticket> _allTickets;
         int _page = 1;
-        public HomePageViewModel(INavigationService navigationService, IPageDialogService dialogService, ICacheService cacheService) : base(navigationService, dialogService, cacheService)
+        ILogger _logger;
+        public HomePageViewModel(INavigationService navigationService, IPageDialogService dialogService, ICacheService cacheService, ILogger logger) : base(navigationService, dialogService, cacheService)
         {
+            _logger = logger;
             Init();
-            RefreshCommand = new DelegateCommand(OnRefreshCommandExecute);
+            RefreshCommand = new DelegateCommand(async () => await OnRefreshCommandExecute());
             LoadMoreItemsCommand = new DelegateCommand(OnLoadMoreItemsCommandsExecute);
             AllTicketsCommand = new DelegateCommand(() => OnChangeHistoryTicketsFilter(0));
             OpenTicketsCommand = new DelegateCommand(() => OnChangeHistoryTicketsFilter(1));
@@ -69,10 +73,10 @@ namespace Inspector.ViewModels
 
             UserAccount = await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount);
 
-            await Task.Run(OnRefreshCommandExecute);
+            await OnRefreshCommandExecute();
         }
 
-        private async void OnRefreshCommandExecute()
+        private async Task OnRefreshCommandExecute()
         {
             if (IsBusy)
                 return;
@@ -91,7 +95,10 @@ namespace Inspector.ViewModels
 
                 Tickets = new ObservableCollection<Ticket>(_allTickets);
             }
-            catch { }
+            catch (Exception e)
+            {
+                _logger.Report(e, LoggerExtension.InitDictionary(nameof(HomePageViewModel), nameof(HomePageViewModel.OnRefreshCommandExecute)));
+            }
             finally
             {
                 HistoryIndexSelected = 0;
@@ -132,7 +139,10 @@ namespace Inspector.ViewModels
                         break;
                 }
             }
-            catch { }
+            catch (Exception e)
+            {
+                _logger.Report(e, LoggerExtension.InitDictionary(nameof(HomePageViewModel), nameof(HomePageViewModel.OnLoadMoreItemsCommandsExecute)));
+            }
             finally
             {
                 IsBusy = false;
@@ -155,15 +165,11 @@ namespace Inspector.ViewModels
             }
         }
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             if (parameters.GetNavigationMode() == NavigationMode.Back && parameters.ContainsKey(NavigationKeys.NewTicket))
             {
-                var ticket = parameters.GetValues<Ticket>(NavigationKeys.NewTicket);
-                _allTickets = _allTickets.Concat(ticket).ToList();
-
-                HistoryIndexSelected = 0;
-                OnChangeHistoryTicketsFilter(0);
+                await OnRefreshCommandExecute();
             }
         }
     }

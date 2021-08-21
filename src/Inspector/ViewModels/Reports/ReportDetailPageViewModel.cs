@@ -1,10 +1,12 @@
-﻿using Inspector.Framework.Helpers.Extensions;
+﻿using Inspector.Framework.Helpers;
+using Inspector.Framework.Helpers.Extensions;
 using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
 using Inspector.Models;
 using Inspector.Resources.Labels;
 using NativeMedia;
 using Prism.Commands;
+using Prism.Logging;
 using Prism.Navigation;
 using Prism.Services;
 using System;
@@ -28,9 +30,11 @@ namespace Inspector.ViewModels
         TicketClient _ticketClient;
         User _userAccount;
         UserClient _userClient;
+        ILogger _logger;
 
-        public ReportDetailPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ICacheService cacheService) : base(navigationService, dialogService, cacheService)
+        public ReportDetailPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ICacheService cacheService, ILogger logger) : base(navigationService, dialogService, cacheService)
         {
+            _logger = logger;
             ShowFilesCommand = new DelegateCommand<Comment>(OnShowFilesCommandExecute);
             SendCommentCommand = new DelegateCommand(OnSendCommentCommandExecute);
             AttachFileCommand = new DelegateCommand(OnAttachFileCommandExecute);
@@ -90,7 +94,10 @@ namespace Inspector.ViewModels
                 }
                 Comments = new ObservableCollection<Comment>(comments);
             }
-            catch  { }
+            catch (Exception e)
+            {
+                _logger.Report(e, LoggerExtension.InitDictionary(nameof(ReportDetailPageViewModel), nameof(ReportDetailPageViewModel.InitComments)));
+            }
             finally
             {
                 IsBusy = false;
@@ -184,8 +191,15 @@ namespace Inspector.ViewModels
                     }                    
                 }                   
             }
-            catch (Exception)
+            catch (Zammad.Client.Core.ZammadException e)
             {
+                var dictionary = LoggerExtension.InitDictionary(nameof(ReportDetailPageViewModel), nameof(ReportDetailPageViewModel.OnAttachFileCommandExecute));
+                _logger.Report(e, dictionary);
+                await _dialogService.DisplayAlertAsync("Ups :(", Message.SomethingHappen, "Ok");
+            }
+            catch (Exception e)
+            {
+                _logger.Report(e, LoggerExtension.InitDictionary(nameof(ReportDetailPageViewModel), nameof(ReportDetailPageViewModel.OnAttachFileCommandExecute)));
                 await _dialogService.DisplayAlertAsync("Ups :(", Message.SomethingHappen, "Ok");
             }
             finally
@@ -206,8 +220,9 @@ namespace Inspector.ViewModels
             {
                 await CreateComment(NewComment);                    
             }
-            catch(Exception)
+            catch(Exception e)
             {
+                _logger.Report(e, LoggerExtension.InitDictionary(nameof(ReportDetailPageViewModel), nameof(ReportDetailPageViewModel.OnSendCommentCommandExecute)));
                 await _dialogService.DisplayAlertAsync("Ups :(", Message.SomethingHappen, "Ok");
             }
             finally
@@ -254,9 +269,13 @@ namespace Inspector.ViewModels
                 if (ticket != null)
                     TicketSelected = ticket;
             }
-            catch(Zammad.Client.Core.ZammadException)
+            catch(Zammad.Client.Core.ZammadException e)
             {
-
+                _logger.Report(e, LoggerExtension.InitDictionary(nameof(ReportDetailPageViewModel), nameof(ReportDetailPageViewModel.OnChangeStatusTicketCommandExecute)));
+            }
+            catch (Exception e)
+            {
+                _logger.Report(e, LoggerExtension.InitDictionary(nameof(ReportDetailPageViewModel), nameof(ReportDetailPageViewModel.OnChangeStatusTicketCommandExecute)));
             }
             finally
             {
