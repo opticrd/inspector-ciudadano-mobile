@@ -194,9 +194,6 @@ namespace Inspector.ViewModels
             catch (Zammad.Client.Core.ZammadException e)
             {
                 var dictionary = LoggerExtension.InitDictionary(nameof(ReportDetailPageViewModel), nameof(ReportDetailPageViewModel.OnAttachFileCommandExecute));
-                var content = await e.Response.Content.ReadAsStringAsync();
-                dictionary.Add("zammad response", content);
-
                 _logger.Report(e, dictionary);
                 await _dialogService.DisplayAlertAsync("Ups :(", Message.SomethingHappen, "Ok");
             }
