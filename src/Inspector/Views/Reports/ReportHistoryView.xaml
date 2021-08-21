@@ -113,6 +113,12 @@
                                         Grid.Column="1"
                                         State="{Binding StateId}" />
 
+                                    <Label
+                                        Grid.Row="2"
+                                        Grid.Column="1"
+                                        HorizontalOptions="End"
+                                        Text="{Binding CreatedAt, StringFormat='{}{0:d/MM/yyyy h:mm tt}'}" TranslationY="6" />
+
                                     <!--<Grid
                         Grid.Row="2"
                         Grid.Column="1"
