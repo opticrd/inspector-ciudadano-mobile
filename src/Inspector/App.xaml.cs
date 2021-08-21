@@ -74,14 +74,15 @@ namespace Inspector
             AppCenter.Start("android=8b508ed0-50f1-4836-a73d-76a7665351bd;" +
                 "ios=4afbe2f3-1f31-4fc7-8d10-21e62cea0fc9;", typeof(Analytics), typeof(Crashes), typeof(Distribute));
 #endif
-            var container = Container.GetContainer();
-            container.RegisterMany<AppCenterLogger>(Reuse.Singleton,
-                        ifAlreadyRegistered: IfAlreadyRegistered.Replace,
-                        serviceTypeCondition: t => typeof(AppCenterLogger).ImplementsServiceType(t));
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            var container = Container.GetContainer();
+            container.RegisterMany<AppCenterLogger>(Reuse.Singleton,
+                        ifAlreadyRegistered: IfAlreadyRegistered.Replace,
+                        serviceTypeCondition: t => typeof(AppCenterLogger).ImplementsServiceType(t));
+
             containerRegistry.RegisterForNavigation<NavigationPage>();
             //containerRegistry.RegisterForNavigation<MainTabbedPage, MainTabbedPageViewModel>();
             //containerRegistry.RegisterForNavigation<ProfilePage, ProfilePageViewModel>();
