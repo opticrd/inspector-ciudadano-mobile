@@ -59,19 +59,22 @@
                         Command="{Binding GoogleCommand}"
                         Style="{StaticResource ButtonOutlined}"
                         ImageSource="{img:ImageResource Inspector.Resources.Images.google.png}"
-                        Text="Registrame con Google" />
+                        Text="Registrame con Google" 
+                        Padding="8"/>
 
                     <mtrl:MaterialButton
                         Command="{Binding MicrosoftCommand}"
                         ImageSource="{img:ImageResource Inspector.Resources.Images.microsoft.png}"
                         Style="{StaticResource ButtonOutlined}"
-                        Text="Registrame con Microsoft" />
+                        Text="Registrame con Microsoft"
+                        Padding="8" />
 
                     <mtrl:MaterialButton
                         Command="{Binding FacebookCommand}"
                         ImageSource="{img:ImageResource Inspector.Resources.Images.facebook.png}"
                         Style="{StaticResource ButtonOutlined}"
-                        Text="Registrame con Facebook" />
+                        Text="Registrame con Facebook"
+                        Padding="8" />
 
                 </StackLayout>
 

@@ -81,19 +81,23 @@
                         Command="{Binding GoogleCommand}"
                         Style="{StaticResource ButtonOutlined}"
                         ImageSource="{img:ImageResource Inspector.Resources.Images.google.png}"
-                        Text="Inicia con Google" />
+                        Text="Inicia con Google"
+                        Padding="8"
+                        />
 
                     <mtrl:MaterialButton
                         Command="{Binding MicrosoftCommand}"
                         ImageSource="{img:ImageResource Inspector.Resources.Images.microsoft.png}"
                         Style="{StaticResource ButtonOutlined}"
-                        Text="Inicia con Microsoft" />
+                        Text="Inicia con Microsoft" 
+                        Padding="8"/>
                     
                     <mtrl:MaterialButton
                         Command="{Binding FacebookCommand}"
                         ImageSource="{img:ImageResource Inspector.Resources.Images.facebook.png}"
                         Style="{StaticResource ButtonOutlined}"
-                        Text="Inicia con Facebook" />
+                        Text="Inicia con Facebook" 
+                        Padding="8"/>
 
                 </StackLayout>
 
