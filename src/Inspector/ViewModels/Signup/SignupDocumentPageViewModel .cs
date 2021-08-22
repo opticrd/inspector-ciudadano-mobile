@@ -16,6 +16,7 @@ using System.Windows.Input;
 using UIModule.Helpers.Rules;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using XF.Material.Forms.UI.Dialogs;
 using Zammad.Client;
 
 namespace Inspector.ViewModels
@@ -62,10 +63,7 @@ namespace Inspector.ViewModels
         }
         async void OnValidateDocumentCommandExecute()
         {
-            if (IsBusy)
-                return;
-
-//            _validationUnit.Validate();
+            //            _validationUnit.Validate();
 
             if (!Document.Validate())
             {
@@ -83,34 +81,34 @@ namespace Inspector.ViewModels
                 return;
             }*/
 
-            IsBusy = true;
 
             try
             {
-                var info = await _citizenClient.GetCitizenBasicInfo(Document.Value);
-
-                if (info != null && info.Valid)
+                using (await MaterialDialog.Instance.LoadingDialogAsync(message: "Por favor, espere..."))
                 {
-                    var parameters = new NavigationParameters();
-                    parameters.Add("Citizen", info.Payload);
-                    /*
-                    parameters.Add("Password", Password.Value);
-                    parameters.Add("Region", Region.Value.Name);
-                    parameters.Add("Province", Province.Value.Name);
-                    parameters.Add("Municipality", Municipality.Value.Name);
-                    parameters.Add("District", District.Value.Name);
-                    parameters.Add("ZoneCode", District.Value.Code);
-                   */
-                    //await _navigationService.NavigateAsync("SignupSocialMediaPage", parameters);
-                    await _navigationService.NavigateAsync("SignupLocationPage", parameters);
+                    var info = await _citizenClient.GetCitizenBasicInfo(Document.Value);
+
+                    if (info != null && info.Valid)
+                    {
+                        var parameters = new NavigationParameters();
+                        parameters.Add("Citizen", info.Payload);
+                        /*
+                        parameters.Add("Password", Password.Value);
+                        parameters.Add("Region", Region.Value.Name);
+                        parameters.Add("Province", Province.Value.Name);
+                        parameters.Add("Municipality", Municipality.Value.Name);
+                        parameters.Add("District", District.Value.Name);
+                        parameters.Add("ZoneCode", District.Value.Code);
+                        */
+                        //await _navigationService.NavigateAsync("SignupSocialMediaPage", parameters);
+                        await _navigationService.NavigateAsync("SignupLocationPage", parameters);
+                    }
                 }
             }
             catch (System.Exception)
             {
                 await _dialogService.DisplayAlertAsync("", Message.AccountInvalid, "Ok");
             }
-
-            IsBusy = false;
         }
         public ICommand ValidateDocumentCommand { get; set; }
     }

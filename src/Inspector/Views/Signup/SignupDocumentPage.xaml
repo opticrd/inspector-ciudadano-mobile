@@ -13,29 +13,28 @@
     BackgroundColor="White"
     prism:ViewModelLocator.AutowireViewModel="True">
 
-    <RefreshView IsRefreshing="{Binding IsBusy, Mode=OneWay}" RefreshColor="{StaticResource PrimaryColor}">
-        <ScrollView>
-            <StackLayout
+    <ScrollView>
+        <StackLayout
                 Padding="16,36,16,16"
                 Spacing="20"
                 VerticalOptions="CenterAndExpand">
-                <Label
+            <Label
                     FontAttributes="Bold"
                     HorizontalTextAlignment="Center"
                     Style="{StaticResource H2}"
                     Text="¡Registrate ahora!" />
-                <Label
+            <Label
                     HorizontalTextAlignment="Center"
                     Style="{StaticResource Body2}"
                     Text="Completa para validar tu identidad"
                     TranslationY="-16" />
 
-                <StackLayout
+            <StackLayout
                     Margin="-16,0"
                     Padding="16">
 
-                    <ctrls:TextFieldLayout>
-                        <mtrl:MaterialTextField
+                <ctrls:TextFieldLayout>
+                    <mtrl:MaterialTextField
                             ErrorText="{Binding Document.Error}"
                             HasError="{Binding Document.HasErrors}"
                             HelperText="Digita tu cédula"
@@ -43,8 +42,8 @@
                             InputType="Numeric"
                             ReturnType="Next"
                             Text="{Binding Document.Value}" />
-                    </ctrls:TextFieldLayout>
-<!--
+                </ctrls:TextFieldLayout>
+                <!--
                     <ctrls:TextFieldLayout>
                         <mtrl:MaterialTextField
                             ErrorText="{Binding Password.Error}"
@@ -124,12 +123,11 @@
                             ReturnType="Next"
                             Style="{StaticResource TextFieldChoiceStyle}" />
                     </ctrls:TextFieldLayout>-->
-                </StackLayout>
-                <mtrl:MaterialButton
+            </StackLayout>
+            <mtrl:MaterialButton
                     Command="{Binding ValidateDocumentCommand}"
                     Style="{StaticResource ButtonPrimary}"
                     Text="Validar Documento" />
-            </StackLayout>
-        </ScrollView>
-    </RefreshView>
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

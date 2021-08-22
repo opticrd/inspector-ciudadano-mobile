@@ -64,9 +64,6 @@ namespace Inspector.ViewModels.Signup
 
         async void OnValidateLocationCommandExecute()
         {
-            if (IsBusy)
-                return;
-
             if (!Region.Validate())
             {
                 return;

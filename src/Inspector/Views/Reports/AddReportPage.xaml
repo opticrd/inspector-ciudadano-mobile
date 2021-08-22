@@ -15,10 +15,9 @@
     x:DataType="views:AddReportPageViewModel">
 
     <ScrollView>
-        <RefreshView IsRefreshing="{Binding IsBusy}">
-            <StackLayout Padding="16" Spacing="16">
+        <StackLayout Padding="16" Spacing="16">
 
-                <!--<Frame>
+            <!--<Frame>
                     <StackLayout>
                         <Label Style="{StaticResource Subtitle2}" Text="{l18n:Translate ReportState}" />
 
@@ -39,13 +38,13 @@
                     </StackLayout>
                 </Frame>-->
 
-                <Frame>
-                    <StackLayout>
-                        <ActivityIndicator IsRunning="True" IsVisible="{Binding IsValidatingDocument}" />
-                        <Label Style="{StaticResource Subtitle2}" Text="{l18n:Translate CitizenDetails}" />
+            <Frame>
+                <StackLayout>
+                    <ActivityIndicator IsRunning="True" IsVisible="{Binding IsValidatingDocument}" />
+                    <Label Style="{StaticResource Subtitle2}" Text="{l18n:Translate CitizenDetails}" />
 
-                        <ctrls:TextFieldLayout>
-                            <mtrl:MaterialTextField
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
                                 ErrorText="{Binding ID.Error}"
                                 HasError="{Binding ID.HasErrors}"
                                 HelperText="{l18n:Translate EnterCitizenId}"
@@ -55,20 +54,20 @@
                                 ReturnType="Next"
                                 Text="{Binding ID.Value}"
                                 Unfocused="MaterialTextField_Unfocused" />
-                        </ctrls:TextFieldLayout>
+                    </ctrls:TextFieldLayout>
 
-                        <ctrls:TextFieldLayout>
-                            <mtrl:MaterialTextField
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
                                 HelperText="Nombre completo del cuidadano"
                                 IsEnabled="False"
                                 Placeholder="{l18n:Translate FullName}"
                                 ReturnType="Next"
                                 TabIndex="100"
                                 Text="{Binding CitizenName}" />
-                        </ctrls:TextFieldLayout>
+                    </ctrls:TextFieldLayout>
 
-                        <ctrls:TextFieldLayout>
-                            <mtrl:MaterialTextField
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
                                 ErrorText="{Binding PhoneNumber.Error}"
                                 HasError="{Binding PhoneNumber.HasErrors}"
                                 HelperText="{l18n:Translate EnterCitizenPhone}"
@@ -77,27 +76,27 @@
                                 Placeholder="{l18n:Translate Phone}"
                                 ReturnType="Next"
                                 Text="{Binding PhoneNumber.Value}" />
-                        </ctrls:TextFieldLayout>
+                    </ctrls:TextFieldLayout>
 
-                    </StackLayout>
-                </Frame>
+                </StackLayout>
+            </Frame>
 
-                <Frame>
-                    <StackLayout>
-                        <Label Style="{StaticResource Subtitle2}" Text="{l18n:Translate ReportDetails}" />
+            <Frame>
+                <StackLayout>
+                    <Label Style="{StaticResource Subtitle2}" Text="{l18n:Translate ReportDetails}" />
 
-                        <ctrls:TextFieldLayout>
-                            <mtrl:MaterialTextField
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
                                 ErrorText="{Binding Title.Error}"
                                 HasError="{Binding Title.HasErrors}"
                                 HelperText="{l18n:Translate EnterTitleReport}"
                                 Placeholder="{l18n:Translate TitleReport}"
                                 ReturnType="Next"
                                 Text="{Binding Title.Value}" />
-                        </ctrls:TextFieldLayout>
+                    </ctrls:TextFieldLayout>
 
-                        <ctrls:TextFieldLayout>
-                            <mtrl:MaterialTextField
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
                                 ChoiceSelectedCommand="{Binding SelectGroupCommand}"
                                 Choices="{Binding Groups}"
                                 ChoicesBindingName="Name"
@@ -108,10 +107,10 @@
                                 Placeholder="{l18n:Translate Institution}"
                                 ReturnType="Next"
                                 Style="{StaticResource TextFieldChoiceStyle}" />
-                        </ctrls:TextFieldLayout>
+                    </ctrls:TextFieldLayout>
 
-                        <ctrls:TextFieldLayout IsVisible="{Binding RegionIsEnabled}">
-                            <mtrl:MaterialTextField
+                    <ctrls:TextFieldLayout IsVisible="{Binding RegionIsEnabled}">
+                        <mtrl:MaterialTextField
                                 ChoiceSelectedCommand="{Binding SelectRegionCommand}"
                                 Choices="{Binding Regions}"
                                 ChoicesBindingName="Name"
@@ -122,10 +121,10 @@
                                 Placeholder="{l18n:Translate Region}"
                                 ReturnType="Next"
                                 Style="{StaticResource TextFieldChoiceStyle}" />
-                        </ctrls:TextFieldLayout>
+                    </ctrls:TextFieldLayout>
 
-                        <ctrls:TextFieldLayout IsVisible="{Binding ProvinceIsEnabled}">
-                            <mtrl:MaterialTextField
+                    <ctrls:TextFieldLayout IsVisible="{Binding ProvinceIsEnabled}">
+                        <mtrl:MaterialTextField
                                 ChoiceSelectedCommand="{Binding SelectProvinceCommand}"
                                 Choices="{Binding Provinces}"
                                 ChoicesBindingName="Name"
@@ -136,10 +135,10 @@
                                 Placeholder="{l18n:Translate Province}"
                                 ReturnType="Next"
                                 Style="{StaticResource TextFieldChoiceStyle}" />
-                        </ctrls:TextFieldLayout>
+                    </ctrls:TextFieldLayout>
 
-                        <ctrls:TextFieldLayout IsVisible="{Binding MunicipalityIsEnabled}">
-                            <mtrl:MaterialTextField
+                    <ctrls:TextFieldLayout IsVisible="{Binding MunicipalityIsEnabled}">
+                        <mtrl:MaterialTextField
                                 ChoiceSelectedCommand="{Binding SelectMunicipalityCommand}"
                                 Choices="{Binding Municipalities}"
                                 ChoicesBindingName="Name"
@@ -150,10 +149,10 @@
                                 Placeholder="{l18n:Translate Municipality}"
                                 ReturnType="Next"
                                 Style="{StaticResource TextFieldChoiceStyle}" />
-                        </ctrls:TextFieldLayout>
+                    </ctrls:TextFieldLayout>
 
-                        <ctrls:TextFieldLayout IsVisible="{Binding DistrictIsEnabled}">
-                            <mtrl:MaterialTextField
+                    <ctrls:TextFieldLayout IsVisible="{Binding DistrictIsEnabled}">
+                        <mtrl:MaterialTextField
                                 ChoiceSelectedCommand="{Binding SelectDistrictCommand}"
                                 Choices="{Binding Districts}"
                                 ChoicesBindingName="Name"
@@ -164,10 +163,10 @@
                                 Placeholder="{l18n:Translate District}"
                                 ReturnType="Next"
                                 Style="{StaticResource TextFieldChoiceStyle}" />
-                        </ctrls:TextFieldLayout>
+                    </ctrls:TextFieldLayout>
 
-                        <ctrls:TextFieldLayout IsVisible="{Binding SectionIsEnabled}">
-                            <mtrl:MaterialTextField
+                    <ctrls:TextFieldLayout IsVisible="{Binding SectionIsEnabled}">
+                        <mtrl:MaterialTextField
                                 ChoiceSelectedCommand="{Binding SelectSectionCommand}"
                                 Choices="{Binding Sections}"
                                 ChoicesBindingName="Name"
@@ -178,10 +177,10 @@
                                 Placeholder="{l18n:Translate Section}"
                                 ReturnType="Next"
                                 Style="{StaticResource TextFieldChoiceStyle}" />
-                        </ctrls:TextFieldLayout>
+                    </ctrls:TextFieldLayout>
 
-                        <ctrls:TextFieldLayout IsVisible="{Binding NeighhborhoodIsEnabled}">
-                            <mtrl:MaterialTextField
+                    <ctrls:TextFieldLayout IsVisible="{Binding NeighhborhoodIsEnabled}">
+                        <mtrl:MaterialTextField
                                 ChoiceSelectedCommand="{Binding SelectNeighhborhoodCommand}"
                                 Choices="{Binding Neighhborhoods}"
                                 ChoicesBindingName="Name"
@@ -192,10 +191,10 @@
                                 Placeholder="{l18n:Translate Neighhborhood}"
                                 ReturnType="Next"
                                 Style="{StaticResource TextFieldChoiceStyle}" />
-                        </ctrls:TextFieldLayout>
+                    </ctrls:TextFieldLayout>
 
-                        <ctrls:TextFieldLayout IsVisible="{Binding SubNeighhborhoodIsEnabled}">
-                            <mtrl:MaterialTextField
+                    <ctrls:TextFieldLayout IsVisible="{Binding SubNeighhborhoodIsEnabled}">
+                        <mtrl:MaterialTextField
                                 ChoiceSelectedCommand="{Binding SelectSubNeighhborhoodCommand}"
                                 Choices="{Binding SubNeighhborhoods}"
                                 ChoicesBindingName="Name"
@@ -206,19 +205,19 @@
                                 Placeholder="{l18n:Translate SubNeighhborhood}"
                                 ReturnType="Next"
                                 Style="{StaticResource TextFieldChoiceStyle}" />
-                        </ctrls:TextFieldLayout>
+                    </ctrls:TextFieldLayout>
 
-                        <ctrls:TextFieldLayout>
-                            <mtrl:MaterialTextField
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
                                 ErrorText="{Binding Address.Error}"
                                 HasError="{Binding Address.HasErrors}"
                                 HelperText="{l18n:Translate EnterAddress}"
                                 Placeholder="{l18n:Translate Address}"
                                 ReturnType="Next"
                                 Text="{Binding Address.Value}" />
-                        </ctrls:TextFieldLayout>
+                    </ctrls:TextFieldLayout>
 
-                        <!--<Label Style="{StaticResource Subtitle2}" Text="Tipo de incidencia" />
+                    <!--<Label Style="{StaticResource Subtitle2}" Text="Tipo de incidencia" />
 
                     <ctrls:TextFieldLayout>
                         <mtrl:MaterialTextField
@@ -236,7 +235,7 @@
                         </mtrl:MaterialTextField>
                     </ctrls:TextFieldLayout>-->
 
-                        <!--<ctrls:TextFieldLayout>
+                    <!--<ctrls:TextFieldLayout>
                         <mtrl:MaterialTextField
                             HelperText="Seleccione la categoría"
                             Placeholder="Categoría"
@@ -268,15 +267,15 @@
                         </mtrl:MaterialTextField>
                     </ctrls:TextFieldLayout>-->
 
-                    </StackLayout>
-                </Frame>
+                </StackLayout>
+            </Frame>
 
-                <Frame>
-                    <StackLayout>
-                        <Label Style="{StaticResource Subtitle2}" Text="{l18n:Translate IncidentType}" />
+            <Frame>
+                <StackLayout>
+                    <Label Style="{StaticResource Subtitle2}" Text="{l18n:Translate IncidentType}" />
 
-                        <ctrls:TextFieldLayout>
-                            <mtrl:MaterialTextField
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
                                 ChoiceSelectedCommand="{Binding SelectIncidentCommand}"
                                 Choices="{Binding Incidents}"
                                 ChoicesBindingName="Name"
@@ -287,10 +286,10 @@
                                 Placeholder="{l18n:Translate Incident}"
                                 ReturnType="Next"
                                 Style="{StaticResource TextFieldChoiceStyle}" />
-                        </ctrls:TextFieldLayout>
+                    </ctrls:TextFieldLayout>
 
-                        <ctrls:TextFieldLayout>
-                            <mtrl:MaterialTextField
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
                                 ChoiceSelectedCommand="{Binding SelectCategoryCommand}"
                                 Choices="{Binding Categories}"
                                 ChoicesBindingName="Name"
@@ -301,10 +300,10 @@
                                 Placeholder="{l18n:Translate Category}"
                                 ReturnType="Next"
                                 Style="{StaticResource TextFieldChoiceStyle}" />
-                        </ctrls:TextFieldLayout>
+                    </ctrls:TextFieldLayout>
 
-                        <ctrls:TextFieldLayout>
-                            <mtrl:MaterialTextField
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
                                 ChoiceSelectedCommand="{Binding SelectSubCategoryCommand}"
                                 Choices="{Binding SubCategories}"
                                 ChoicesBindingName="Name"
@@ -315,42 +314,42 @@
                                 Placeholder="{l18n:Translate SubCategory}"
                                 ReturnType="Next"
                                 Style="{StaticResource TextFieldChoiceStyle}" />
-                        </ctrls:TextFieldLayout>
+                    </ctrls:TextFieldLayout>
 
-                    </StackLayout>
-                </Frame>
+                </StackLayout>
+            </Frame>
 
-                <Frame>
-                    <StackLayout>
-                        <Label Style="{StaticResource Subtitle2}" Text="{l18n:Translate Evidences}" />
-                        <StackLayout Orientation="Horizontal">
-                            <mtrl:MaterialButton
+            <Frame>
+                <StackLayout>
+                    <Label Style="{StaticResource Subtitle2}" Text="{l18n:Translate Evidences}" />
+                    <StackLayout Orientation="Horizontal">
+                        <mtrl:MaterialButton
                                 Command="{Binding AttachFileCommand}"
                                 Style="{StaticResource ButtonOutlined}"
                                 Text="{l18n:Translate Attach}" />
-                            <mtrl:MaterialButton
+                        <mtrl:MaterialButton
                                 Command="{Binding ShowFilesCommand}"
                                 Style="{StaticResource ButtonPrimary}"
                                 Text="{Binding Attachements.Count, StringFormat='Ver ({0})'}">
-                                <mtrl:MaterialButton.Triggers>
-                                    <DataTrigger
+                            <mtrl:MaterialButton.Triggers>
+                                <DataTrigger
                                         Binding="{Binding Attachements.Count}"
                                         TargetType="mtrl:MaterialButton"
                                         Value="0">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                    </DataTrigger>
-                                </mtrl:MaterialButton.Triggers>
-                            </mtrl:MaterialButton>
-                        </StackLayout>
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </mtrl:MaterialButton.Triggers>
+                        </mtrl:MaterialButton>
                     </StackLayout>
-                </Frame>
+                </StackLayout>
+            </Frame>
 
-                <Frame>
-                    <StackLayout>
-                        <Label Style="{StaticResource Subtitle2}" Text="{l18n:Translate Observations}" />
+            <Frame>
+                <StackLayout>
+                    <Label Style="{StaticResource Subtitle2}" Text="{l18n:Translate Observations}" />
 
-                        <ctrls:TextFieldLayout>
-                            <mtrl:MaterialTextField
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
                                 ErrorText="{Binding Comments.Error}"
                                 HasError="{Binding Comments.HasErrors}"
                                 HelperText="{l18n:Translate EnterComment}"
@@ -358,23 +357,22 @@
                                 ReturnCommand="{Binding ReportCommand}"
                                 ReturnType="Done"
                                 Text="{Binding Comments.Value}" />
-                        </ctrls:TextFieldLayout>
-                    </StackLayout>
-                </Frame>
+                    </ctrls:TextFieldLayout>
+                </StackLayout>
+            </Frame>
 
 
-                <Frame
+            <Frame
                     Margin="-16,0,-16,-16"
                     Style="{StaticResource ButtonFrame}"
                     VerticalOptions="EndAndExpand">
-                    <mtrl:MaterialButton
+                <mtrl:MaterialButton
                         Command="{Binding ReportCommand}"
                         Style="{StaticResource ButtonPrimary}"
                         Text="{Binding PageTitle}" />
-                </Frame>
+            </Frame>
 
-            </StackLayout>
-        </RefreshView>
+        </StackLayout>
     </ScrollView>
 
 </ContentPage>

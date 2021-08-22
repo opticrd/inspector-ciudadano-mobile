@@ -17,6 +17,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
+using XF.Material.Forms.UI.Dialogs;
 using Zammad.Client;
 
 namespace Inspector.ViewModels
@@ -70,73 +71,74 @@ namespace Inspector.ViewModels
         {
             try
             {
-                IsBusy = true;
-                WebAuthenticatorResult result = null;
-
-                if (scheme.Equals("Apple") && DeviceInfo.Platform == DevicePlatform.iOS && DeviceInfo.Version.Major >= 13)
+                using (await MaterialDialog.Instance.LoadingDialogAsync(message: "Por favor, espere..."))
                 {
-                    // Make sure to enable Apple Sign In in both the
-                    // entitlements and the provisioning profile.
-                    var options = new AppleSignInAuthenticator.Options
-                    {
-                        IncludeEmailScope = true,
-                        IncludeFullNameScope = true,
-                    };
-                    result = await AppleSignInAuthenticator.AuthenticateAsync(options);
-                }
-                else
-                {
-                    var authUrl = new Uri(AuthenticationUrl + scheme);
-                    var callbackUrl = new Uri("ogticapp://");
+                    WebAuthenticatorResult result = null;
 
-                    result = await WebAuthenticator.AuthenticateAsync(new WebAuthenticatorOptions
+                    if (scheme.Equals("Apple") && DeviceInfo.Platform == DevicePlatform.iOS && DeviceInfo.Version.Major >= 13)
                     {
-                        PrefersEphemeralWebBrowserSession = true,
-                        Url = authUrl,
-                        CallbackUrl = callbackUrl,
-                    });
-                }
-
-                if (result.Properties.TryGetValue("email", out var email) && !string.IsNullOrEmpty(email))
-                {
-                    email = email.Replace("%40", "@");
-
-                    // Go to keycloak
-                    var keycloakToken = await _keycloakApi.Authenticate(new TokenRequestBody
-                    {
-                        ClientId = "admin-cli",
-                        GrantType = "password",
-                        Password = "1234",
-                        Username = "toribioea@gmail.com"
-                    });
-
-                    //If the user already exists, do a login
-                    var keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", email);
-                    if (keycloakUserCollection != null && keycloakUserCollection.Count == 1)
-                    {
-                        var pwdList = keycloakUserCollection[0]?.Attributes?.Pwd;
-                        if (pwdList == null)
+                        // Make sure to enable Apple Sign In in both the
+                        // entitlements and the provisioning profile.
+                        var options = new AppleSignInAuthenticator.Options
                         {
-                            var doSignUp = await _dialogService.DisplayAlertAsync("","Debes registrar tu cuenta para iniciar sesión.", "Registrarme", "Ok");
-                            if (doSignUp)
-                            {
-                                IsBusy = false;
-                                await _navigationService.NavigateAsync("/WelcomePage/SignupDocumentPage");
-                            }
-                            return;
-                        }
-                        var pwd = keycloakUserCollection[0]?.Attributes?.Pwd[0] ?? string.Empty;
-                        await DoLogin(email, pwd.Base64Decode());
-                        IsBusy = false;
-                        return;
+                            IncludeEmailScope = true,
+                            IncludeFullNameScope = true,
+                        };
+                        result = await AppleSignInAuthenticator.AuthenticateAsync(options);
+                    }
+                    else
+                    {
+                        var authUrl = new Uri(AuthenticationUrl + scheme);
+                        var callbackUrl = new Uri("ogticapp://");
+
+                        result = await WebAuthenticator.AuthenticateAsync(new WebAuthenticatorOptions
+                        {
+                            PrefersEphemeralWebBrowserSession = true,
+                            Url = authUrl,
+                            CallbackUrl = callbackUrl,
+                        });
                     }
 
-                }
-                else
-                {
-                    await _dialogService.DisplayAlertAsync("", "No pudimos tomar tu correo del proveedor de identidad. Asegúrate de que tu correo sea público.", "Ok");
-                }
+                    if (result.Properties.TryGetValue("email", out var email) && !string.IsNullOrEmpty(email))
+                    {
+                        email = email.Replace("%40", "@");
 
+                        // Go to keycloak
+                        var keycloakToken = await _keycloakApi.Authenticate(new TokenRequestBody
+                        {
+                            ClientId = "admin-cli",
+                            GrantType = "password",
+                            Password = "1234",
+                            Username = "toribioea@gmail.com"
+                        });
+
+                        //If the user already exists, do a login
+                        var keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", email);
+                        if (keycloakUserCollection != null && keycloakUserCollection.Count == 1)
+                        {
+                            var pwdList = keycloakUserCollection[0]?.Attributes?.Pwd;
+                            if (pwdList == null)
+                            {
+                                var doSignUp = await _dialogService.DisplayAlertAsync("", "Debes registrar tu cuenta para iniciar sesión.", "Registrarme", "Ok");
+                                if (doSignUp)
+                                {
+                                    IsBusy = false;
+                                    await _navigationService.NavigateAsync("/WelcomePage/SignupDocumentPage");
+                                }
+                                return;
+                            }
+                            var pwd = keycloakUserCollection[0]?.Attributes?.Pwd[0] ?? string.Empty;
+                            await DoLogin(email, pwd.Base64Decode());
+                            IsBusy = false;
+                            return;
+                        }
+
+                    }
+                    else
+                    {
+                        await _dialogService.DisplayAlertAsync("", "No pudimos tomar tu correo del proveedor de identidad. Asegúrate de que tu correo sea público.", "Ok");
+                    }
+                }
             }
             catch (OperationCanceledException)
             {

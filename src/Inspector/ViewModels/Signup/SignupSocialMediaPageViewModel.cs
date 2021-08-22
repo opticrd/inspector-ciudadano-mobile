@@ -92,105 +92,106 @@ namespace Inspector.ViewModels
         {
             try
             {
-                IsBusy = true;
-                WebAuthenticatorResult result = null;
-
-                if (scheme.Equals("Apple") && DeviceInfo.Platform == DevicePlatform.iOS && DeviceInfo.Version.Major >= 13)
+                using (await MaterialDialog.Instance.LoadingDialogAsync(message: "Por favor, espere..."))
                 {
-                    // Make sure to enable Apple Sign In in both the
-                    // entitlements and the provisioning profile.
-                    var options = new AppleSignInAuthenticator.Options
-                    {
-                        IncludeEmailScope = true,
-                        IncludeFullNameScope = true,
-                    };
-                    result = await AppleSignInAuthenticator.AuthenticateAsync(options);
-                }
-                else
-                {
-                    var authUrl = new Uri(AuthenticationUrl + scheme);
-                    var callbackUrl = new Uri("ogticapp://");
-                    result = await WebAuthenticator.AuthenticateAsync(new WebAuthenticatorOptions
-                    {
-                        PrefersEphemeralWebBrowserSession = true,
-                        Url = authUrl,
-                        CallbackUrl = callbackUrl,
-                    });
-                }
+                    WebAuthenticatorResult result = null;
 
-                if (result.Properties.TryGetValue("email", out var email) && !string.IsNullOrEmpty(email))
-                {
-                    _email = email.Replace("%40", "@");
-
-                    // Go to keycloak
-                    var keycloakToken = await _keycloakApi.Authenticate(new TokenRequestBody
+                    if (scheme.Equals("Apple") && DeviceInfo.Platform == DevicePlatform.iOS && DeviceInfo.Version.Major >= 13)
                     {
-                        ClientId = "admin-cli",
-                        GrantType = "password",
-                        Password = "1234",
-                        Username = "toribioea@gmail.com"
-                    });
-                    
-                    var lastName = Citizen.FirstSurname ?? string.Empty;
-                    if (!string.IsNullOrWhiteSpace(Citizen.SecondSurname))
-                    {
-                        lastName += " " + Citizen.SecondSurname;
+                        // Make sure to enable Apple Sign In in both the
+                        // entitlements and the provisioning profile.
+                        var options = new AppleSignInAuthenticator.Options
+                        {
+                            IncludeEmailScope = true,
+                            IncludeFullNameScope = true,
+                        };
+                        result = await AppleSignInAuthenticator.AuthenticateAsync(options);
                     }
-                    var attributes = new Dictionary<string, List<string>>();
-                    attributes.Add("cedula", new List<string>
+                    else
+                    {
+                        var authUrl = new Uri(AuthenticationUrl + scheme);
+                        var callbackUrl = new Uri("ogticapp://");
+                        result = await WebAuthenticator.AuthenticateAsync(new WebAuthenticatorOptions
+                        {
+                            PrefersEphemeralWebBrowserSession = true,
+                            Url = authUrl,
+                            CallbackUrl = callbackUrl,
+                        });
+                    }
+
+                    if (result.Properties.TryGetValue("email", out var email) && !string.IsNullOrEmpty(email))
+                    {
+                        _email = email.Replace("%40", "@");
+
+                        // Go to keycloak
+                        var keycloakToken = await _keycloakApi.Authenticate(new TokenRequestBody
+                        {
+                            ClientId = "admin-cli",
+                            GrantType = "password",
+                            Password = "1234",
+                            Username = "toribioea@gmail.com"
+                        });
+
+                        var lastName = Citizen.FirstSurname ?? string.Empty;
+                        if (!string.IsNullOrWhiteSpace(Citizen.SecondSurname))
+                        {
+                            lastName += " " + Citizen.SecondSurname;
+                        }
+                        var attributes = new Dictionary<string, List<string>>();
+                        attributes.Add("cedula", new List<string>
                     {
                         Citizen.Id
                     });
-                    attributes.Add("pwd", new List<string>
+                        attributes.Add("pwd", new List<string>
                     {
                         _password.Base64Encode()
                     });
 
-                    // Create user with email and Password
-                    var newKeycloakUser = new UserRepresentation
-                    {
-                        FirstName = Citizen.Names,
-                        LastName = lastName,
-                        EmailVerified = true,
-                        Enabled = true,
-                        Username = _email,
-                        Email = _email,
-                        Attributes = attributes
-                    };
+                        // Create user with email and Password
+                        var newKeycloakUser = new UserRepresentation
+                        {
+                            FirstName = Citizen.Names,
+                            LastName = lastName,
+                            EmailVerified = true,
+                            Enabled = true,
+                            Username = _email,
+                            Email = _email,
+                            Attributes = attributes
+                        };
 
-                    //If the user already exists, do a login
-                    var keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", _email);
-                    if(keycloakUserCollection != null && keycloakUserCollection.Count == 1)
-                    {
-                        //Resets the password because we are doing a "registration"
-                        await _keycloakApi.ResetPassword($"Bearer {keycloakToken.AccessToken}", keycloakUserCollection[0].Id, new CredentialRepresentation
+                        //If the user already exists, do a login
+                        var keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", _email);
+                        if (keycloakUserCollection != null && keycloakUserCollection.Count == 1)
+                        {
+                            //Resets the password because we are doing a "registration"
+                            await _keycloakApi.ResetPassword($"Bearer {keycloakToken.AccessToken}", keycloakUserCollection[0].Id, new CredentialRepresentation
+                            {
+                                Password = _password
+                            });
+
+                            await _keycloakApi.UpdateUser($"Bearer {keycloakToken.AccessToken}", keycloakUserCollection[0].Id, newKeycloakUser);
+
+                            await Login(_email, _password);
+                            IsBusy = false;
+                            return;
+                        }
+
+                        await _keycloakApi.CreateUser($"Bearer {keycloakToken.AccessToken}", newKeycloakUser);
+                        var createdUser = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", _email);
+
+                        // Login
+                        await _keycloakApi.ResetPassword($"Bearer {keycloakToken.AccessToken}", createdUser[0].Id, new CredentialRepresentation
                         {
                             Password = _password
                         });
 
-                        await _keycloakApi.UpdateUser($"Bearer {keycloakToken.AccessToken}", keycloakUserCollection[0].Id, newKeycloakUser);
-
                         await Login(_email, _password);
-                        IsBusy = false;
-                        return;
                     }
-
-                    await _keycloakApi.CreateUser($"Bearer {keycloakToken.AccessToken}", newKeycloakUser);
-                    var createdUser = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", _email);
-
-                    // Login
-                    await _keycloakApi.ResetPassword($"Bearer {keycloakToken.AccessToken}", createdUser[0].Id, new CredentialRepresentation
+                    else
                     {
-                        Password = _password
-                    });
-
-                    await Login(_email, _password);
+                        await _dialogService.DisplayAlertAsync("", "No pudimos tomar tu correo del proveedor de identidad. Asegúrate de que tu correo sea público.", "Ok");
+                    }
                 }
-                else
-                {
-                    await _dialogService.DisplayAlertAsync("", "No pudimos tomar tu correo del proveedor de identidad. Asegúrate de que tu correo sea público.", "Ok");
-                }
-
             }
             catch (OperationCanceledException)
             {
@@ -204,7 +205,6 @@ namespace Inspector.ViewModels
 
                 await _dialogService.DisplayAlertAsync("", $"Ocurrió un error: {ex.Message}", "Ok");
             }
-            IsBusy = false;
         }
 
 
