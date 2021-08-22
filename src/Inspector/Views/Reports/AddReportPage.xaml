@@ -8,6 +8,8 @@
     xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
     xmlns:prism="http://prismlibrary.com"
     xmlns:views="clr-namespace:Inspector.ViewModels"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true"
     Title="{Binding PageTitle}"
     prism:ViewModelLocator.AutowireViewModel="True"
     x:DataType="views:AddReportPageViewModel">

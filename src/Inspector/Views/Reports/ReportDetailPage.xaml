@@ -9,6 +9,8 @@
     xmlns:tmp="clr-namespace:Inspector.Framework.Helpers"
     xmlns:views="clr-namespace:Inspector.Views.Shared"
     xmlns:vm="clr-namespace:Inspector.ViewModels"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true" 
     x:Name="this"
     BackgroundColor="White"
     Title="Detalles">

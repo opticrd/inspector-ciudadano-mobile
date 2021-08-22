@@ -8,6 +8,8 @@
     xmlns:l18n="clr-namespace:Inspector.Framework.Helpers.Extensions"
     xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
     xmlns:prism="http://prismlibrary.com"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true" 
     BackgroundColor="White"
     prism:ViewModelLocator.AutowireViewModel="True">
 

@@ -37,8 +37,9 @@ namespace Inspector
             InitializeComponent();
             XF.Material.Forms.Material.Init(this); // WORKAROUND: Solving some reference issues
             XF.Material.Forms.Material.Use("Material.Configuration");
-            Application.Current.UserAppTheme = OSAppTheme.Light;
+            Xamarin.Forms.Application.Current.UserAppTheme = OSAppTheme.Light;
 
+            
             if (!Settings.IsLoggedIn)
             {
 #if DEBUG
@@ -60,6 +61,7 @@ namespace Inspector
                 await NavigationService.NavigateAsync(NavigationKeys.HomePage);
             }
         }
+
 
         protected override void OnStart()
         {

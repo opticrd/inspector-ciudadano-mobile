@@ -9,7 +9,9 @@
     xmlns:prism="http://prismlibrary.com"
     xmlns:views="clr-namespace:Inspector.Views.Shared"
     xmlns:vm="clr-namespace:Inspector.ViewModels"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true" >
     <!--  x:DataType="vm:HomePageViewModel"  -->
 
     <ScrollView>
