@@ -243,7 +243,7 @@ namespace Inspector.ViewModels
                 
                 foreach(var group in _groups)
                 {
-                    zammadGroupsMap.Add(group.Id, new List<string> { "read" });
+                    zammadGroupsMap.Add(group.Id, new List<string> { "read", "create", "change" });
                 }
 
                 zammadGroupsMap[_group.Id].Clear();
