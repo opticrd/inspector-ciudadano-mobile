@@ -22,6 +22,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using UIModule.Helpers.Rules;
+using XF.Material.Forms.UI.Dialogs;
 using Zammad.Client;
 using Zammad.Client.Resources;
 
@@ -42,7 +43,7 @@ namespace Inspector.ViewModels
         ILogger _logger;
 
         public AddReportPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ILogger logger,
-            ICacheService cacheService, ITerritorialDivisionAPI territorialDivisionClient, ICitizenAPI citizenClient, IIncidentsAPI incidentsClient) 
+            ICacheService cacheService, ITerritorialDivisionAPI territorialDivisionClient, ICitizenAPI citizenClient, IIncidentsAPI incidentsClient)
             : base(navigationService, dialogService, logger, cacheService, incidentsClient, territorialDivisionClient)
         {
             _citizenClient = citizenClient;
@@ -78,11 +79,17 @@ namespace Inspector.ViewModels
                             .When(x => !string.IsNullOrEmpty(x))
                             .Must(x => x?.Length >= 10, Message.MinLengthField10);
 
-            _validationUnit = new ValidationUnit(/*StateSelected,*/ ID, /*PhoneNumber,*/ Title, Address, GroupSelected, Neighhborhood, SubCategory, Comments);
+            _validationUnit = new ValidationUnit(/*StateSelected,*/ ID, PhoneNumber, Title, Address, GroupSelected, Neighhborhood, SubCategory, Comments);
 
             //States = new List<StateTicket>(StateTicket.GetStatesForNewTicket());
 
-            ReportCommand = new DelegateCommand(ReportCommandExecute);
+            ReportCommand = new DelegateCommand(async () => 
+            {
+                using (await MaterialDialog.Instance.LoadingDialogAsync(message: "Por favor, espere..."))
+                {
+                    await ReportCommandExecute();
+                }                
+            });
             //SelectStateCommand = new DelegateCommand<StateTicket>(state => StateSelected.Value = state.State);
             SelectGroupCommand = new DelegateCommand<Group>(group => GroupSelected.Value = group.Id);
             AttachFileCommand = new DelegateCommand(OnAttachFileCommandExecute);
@@ -188,7 +195,7 @@ namespace Inspector.ViewModels
             }
         }
 
-        private async void ReportCommandExecute()
+        private async Task ReportCommandExecute()
         {
             if (IsBusy)
                 return;
@@ -199,13 +206,13 @@ namespace Inspector.ViewModels
                 return;
             }
 
-            PhoneNumber.Validate(); // when condition is returning false even if there is not errors. Validations occurs here for now
             IsBusy = true;
             var customerId = _userAccount.Id;
 
             Ticket ticket = null;
             var ticketCreated = false;
             string zoneCode = GetZoneCode();
+            var phoneNumber = PhoneNumber.Value.Replace("-", "");
 
             try
             {
@@ -215,7 +222,7 @@ namespace Inspector.ViewModels
                     {
                         FirstName = _citizen.Names,
                         LastName = _citizen.FirstSurname + " " + _citizen.SecondSurname,
-                        Phone = PhoneNumber.Value.Replace("-", ""),
+                        Phone = phoneNumber,
                         CustomAttributes = new Dictionary<string, object>()
                         {
                             { "cedula",  ID.Value.Replace("-", "") },
@@ -228,6 +235,11 @@ namespace Inspector.ViewModels
 
                     _clientAccount = newUser;
                     _clientCreated = true;
+                }
+                else if(PhoneNumber.IsValid && _clientAccount.Phone != PhoneNumber.Value)
+                {
+                    await _userClient.UpdateUserAsync(_clientAccount.Id, new User { Phone = phoneNumber });
+                    _clientAccount.Phone = phoneNumber;
                 }
 
                 customerId = _clientAccount.Id;
@@ -310,7 +322,7 @@ namespace Inspector.ViewModels
 
                     var parameters = new NavigationParameters()
                     {
-                        { NavigationKeys.NewTicket, ticket }
+                        { NavigationKeys.NewTicket, true }
                     };
                     await _navigationService.GoBackAsync(parameters);
                 }
