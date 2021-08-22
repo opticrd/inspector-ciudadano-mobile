@@ -53,5 +53,7 @@
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>es</string>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 </dict>
 </plist>
