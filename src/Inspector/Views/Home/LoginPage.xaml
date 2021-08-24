@@ -11,35 +11,33 @@
     xmlns:prism="http://prismlibrary.com"
                     BackgroundColor="White"
     prism:ViewModelLocator.AutowireViewModel="True">
-
-    <RefreshView IsRefreshing="{Binding IsBusy, Mode=OneWay}" RefreshColor="{StaticResource PrimaryColor}">
-        <ScrollView>
-            <StackLayout
+    <ScrollView>
+        <StackLayout
                 Padding="16,36,16,16"
                 Spacing="20"
                 VerticalOptions="CenterAndExpand">
 
-                <Image
+            <Image
                     HeightRequest="80"
                     Source="{img:ImageResource Inspector.Resources.Images.citizens.png}"
                     WidthRequest="80" />
-                <Label
+            <Label
                     FontAttributes="Bold"
                     HorizontalTextAlignment="Center"
                     Style="{StaticResource H2}"
                     Text="{l18n:Translate LoginTitle}" />
-                <Label
+            <Label
                     HorizontalTextAlignment="Center"
                     Style="{StaticResource Body2}"
                     Text="{l18n:Translate LoginSubtitle}"
                     TranslationY="-16" />
 
 
-                <StackLayout
+            <StackLayout
                     Margin="-16,0"
                     Padding="16"
                     Spacing="4">
-<!--
+                <!--
                     <ctrls:TextFieldLayout>
                         <mtrl:MaterialTextField
                             ErrorText="{Binding Email.Error}"
@@ -76,30 +74,32 @@
                         </Label.GestureRecognizers>
                     </Label>
 
--->                    
-                    <mtrl:MaterialButton
+-->
+                <mtrl:MaterialButton
                         Command="{Binding GoogleCommand}"
                         Style="{StaticResource ButtonOutlined}"
                         ImageSource="{img:ImageResource Inspector.Resources.Images.google.png}"
-                        Text="Inicia con Google" />
+                        Text="Inicia con Google"
+                        Padding="8"
+                        />
 
-                    <mtrl:MaterialButton
+                <mtrl:MaterialButton
                         Command="{Binding MicrosoftCommand}"
                         ImageSource="{img:ImageResource Inspector.Resources.Images.microsoft.png}"
                         Style="{StaticResource ButtonOutlined}"
-                        Text="Inicia con Microsoft" />
-                    
-                    <mtrl:MaterialButton
+                        Text="Inicia con Microsoft" 
+                        Padding="8"/>
+
+                <mtrl:MaterialButton
                         Command="{Binding FacebookCommand}"
                         ImageSource="{img:ImageResource Inspector.Resources.Images.facebook.png}"
                         Style="{StaticResource ButtonOutlined}"
-                        Text="Inicia con Facebook" />
-
-                </StackLayout>
-
+                        Text="Inicia con Facebook" 
+                        Padding="8"/>
 
             </StackLayout>
-        </ScrollView>
-    </RefreshView>
 
+
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

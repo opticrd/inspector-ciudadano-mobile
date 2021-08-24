@@ -8,6 +8,8 @@
     xmlns:l18n="clr-namespace:Inspector.Framework.Helpers.Extensions"
     xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
     xmlns:prism="http://prismlibrary.com"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true" 
     prism:ViewModelLocator.AutowireViewModel="True">
 
     <RefreshView IsRefreshing="{Binding IsBusy, Mode=OneWay}" RefreshColor="{StaticResource PrimaryColor}">
@@ -57,19 +59,22 @@
                         Command="{Binding GoogleCommand}"
                         Style="{StaticResource ButtonOutlined}"
                         ImageSource="{img:ImageResource Inspector.Resources.Images.google.png}"
-                        Text="Registrame con Google" />
+                        Text="Registrame con Google" 
+                        Padding="8"/>
 
                     <mtrl:MaterialButton
                         Command="{Binding MicrosoftCommand}"
                         ImageSource="{img:ImageResource Inspector.Resources.Images.microsoft.png}"
                         Style="{StaticResource ButtonOutlined}"
-                        Text="Registrame con Microsoft" />
+                        Text="Registrame con Microsoft"
+                        Padding="8" />
 
                     <mtrl:MaterialButton
                         Command="{Binding FacebookCommand}"
                         ImageSource="{img:ImageResource Inspector.Resources.Images.facebook.png}"
                         Style="{StaticResource ButtonOutlined}"
-                        Text="Registrame con Facebook" />
+                        Text="Registrame con Facebook"
+                        Padding="8" />
 
                 </StackLayout>
 

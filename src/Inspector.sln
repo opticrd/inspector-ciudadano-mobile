@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{330F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIModule", "xamarin-ui-module\UIModule\UIModule.csproj", "{8661F96D-151E-4BC4-9521-2B193B720686}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zammad.Client", "Zammad.Client\src\Zammad.Client\Zammad.Client.csproj", "{F7C18AA0-7C04-470A-B97A-A094E4E04DC4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zammad.Client", "Zammad.Client\src\Zammad.Client\Zammad.Client.csproj", "{F7C18AA0-7C04-470A-B97A-A094E4E04DC4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

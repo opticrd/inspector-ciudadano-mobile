@@ -53,7 +53,7 @@ namespace Inspector.ViewModels.Signup
                 await LoadRegions();
 
                 var groups = await _zammadLiteApi.GetGroups($"Bearer {AppKeys.ZammadToken}");
-                Groups = new ObservableCollection<ZammadGroup>(groups.OrderBy(x => x.Name));
+                Groups = new ObservableCollection<ZammadGroup>(groups.Where(x=>x.Active).OrderBy(x => x.Name));
             }
         }
 
@@ -64,9 +64,6 @@ namespace Inspector.ViewModels.Signup
 
         async void OnValidateLocationCommandExecute()
         {
-            if (IsBusy)
-                return;
-
             if (!Region.Validate())
             {
                 return;
