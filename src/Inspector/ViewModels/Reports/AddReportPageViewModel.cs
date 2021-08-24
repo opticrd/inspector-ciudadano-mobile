@@ -236,7 +236,7 @@ namespace Inspector.ViewModels
                     _clientAccount = newUser;
                     _clientCreated = true;
                 }
-                else if(PhoneNumber.IsValid && _clientAccount.Phone != PhoneNumber.Value)
+                else if(PhoneNumber.IsValid && _clientAccount.Phone != phoneNumber)
                 {
                     await _userClient.UpdateUserAsync(_clientAccount.Id, new User { Phone = phoneNumber });
                     _clientAccount.Phone = phoneNumber;
