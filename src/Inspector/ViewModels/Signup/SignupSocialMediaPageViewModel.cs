@@ -265,7 +265,7 @@ namespace Inspector.ViewModels
                         Zone = _zone,
                         Verified = true,
                         //TODO: Revaluate this assignment
-                        RoleIds = new List<int>() { 2 }, //1: Admin, 2: Agent, 3: Customer
+                        RoleIds = new List<int>() { 2, 3 }, //1: Admin, 2: Agent, 3: Customer
                         GroupIds = zammadGroupsMap,
                         Active = true
                     });
@@ -277,6 +277,7 @@ namespace Inspector.ViewModels
                     zammadUser.Zone = _zone;
                     zammadUser.Verified = true;
                     zammadUser.GroupIds = zammadGroupsMap;
+                    zammadUser.RoleIds = new List<int>() { 2, 3 };
                     await _zammadLiteApi.UpdateUser($"Bearer {AppKeys.ZammadToken}", zammadUser.Id, zammadUser);
                     //Update Password to document
                 }
