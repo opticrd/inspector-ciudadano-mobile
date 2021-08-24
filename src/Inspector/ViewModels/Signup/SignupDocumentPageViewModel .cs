@@ -5,6 +5,7 @@ using Inspector.Framework.Utils;
 using Inspector.Resources.Labels;
 using Plugin.ValidationRules;
 using Plugin.ValidationRules.Extensions;
+using Plugin.ValidationRules.Formatters;
 using Plugin.ValidationRules.Rules;
 using Prism.Commands;
 using Prism.Navigation;
@@ -43,6 +44,7 @@ namespace Inspector.ViewModels
             Document = Validator.Build<string>()
                 .IsRequired(Message.FieldRequired)
                 .WithRule(new CedulaRule());
+            Document.ValueFormatter = new MaskFormatter("XXX-XXXXXXX-X");
             /*
             Password = Validator.Build<string>()
                 .IsRequired(Message.FieldRequired);
@@ -86,7 +88,7 @@ namespace Inspector.ViewModels
             {
                 using (await MaterialDialog.Instance.LoadingDialogAsync(message: "Por favor, espere..."))
                 {
-                    var info = await _citizenClient.GetCitizenBasicInfo(Document.Value);
+                    var info = await _citizenClient.GetCitizenBasicInfo(Document.Value.Replace("-", ""));
 
                     if (info != null && info.Valid)
                     {
@@ -105,7 +107,7 @@ namespace Inspector.ViewModels
                     }
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 await _dialogService.DisplayAlertAsync("", Message.AccountInvalid, "Ok");
             }

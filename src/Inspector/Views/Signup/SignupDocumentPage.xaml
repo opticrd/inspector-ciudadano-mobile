@@ -40,6 +40,7 @@
                             HelperText="Digita tu cédula"
                             Placeholder="{l18n:Translate Id}"
                             InputType="Numeric"
+                            MaxLength="13"
                             ReturnType="Next"
                             Text="{Binding Document.Value}" />
                 </ctrls:TextFieldLayout>
