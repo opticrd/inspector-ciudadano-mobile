@@ -6,6 +6,18 @@ namespace Inspector.Framework.Helpers
 {
     public static class LoggerExtension
     {
+        public static IDictionary<string, string> InitDictionary(params string[] properties)
+        {
+            var dictionary = new Dictionary<string, string>();
+
+            for (int i = 0; i < properties.Length; i++)
+            {
+                dictionary.Add($"Property {i}", properties[i]);
+            }
+
+            return dictionary;
+        }
+
         public static IDictionary<string, string> InitDictionary(string location, string method, params string[] properties)
         {
             var dictionary = new Dictionary<string, string>();
