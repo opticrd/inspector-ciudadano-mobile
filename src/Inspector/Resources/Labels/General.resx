@@ -208,7 +208,7 @@
     <value>Recuperar contraseña</value>
   </data>
   <data name="Region" xml:space="preserve">
-    <value>Region</value>
+    <value>Región</value>
   </data>
   <data name="ReportDetails" xml:space="preserve">
     <value>Detalles del reporte</value>
@@ -259,10 +259,10 @@
     <value>Seleccione el tipo de incidente</value>
   </data>
   <data name="SelectSubCategory" xml:space="preserve">
-    <value>Seleccione la subcategoria</value>
+    <value>Seleccione la sub categoría</value>
   </data>
   <data name="SubCategory" xml:space="preserve">
-    <value>Subcategoria</value>
+    <value>Sub categoria</value>
   </data>
   <data name="EnterCitizenId" xml:space="preserve">
     <value>Digite la cédula del beneficiario</value>

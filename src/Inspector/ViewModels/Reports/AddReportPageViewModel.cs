@@ -202,7 +202,7 @@ namespace Inspector.ViewModels
 
             if (!_validationUnit.Validate() || !_documentValidated)
             {
-                await _dialogService.DisplayAlertAsync("Ups :(", "Verifique que todas las propiedades estan correctas.", "Ok");
+                await _dialogService.DisplayAlertAsync("Ups :(", Message.AllFieldsInvalid, "Ok");
                 return;
             }
 

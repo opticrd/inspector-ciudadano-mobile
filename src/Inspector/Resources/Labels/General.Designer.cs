@@ -376,7 +376,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Region.
+        ///   Looks up a localized string similar to Región.
         /// </summary>
         internal static string Region {
             get {
@@ -502,7 +502,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Seleccione la subcategoria.
+        ///   Looks up a localized string similar to Seleccione la sub categoría.
         /// </summary>
         internal static string SelectSubCategory {
             get {
@@ -547,7 +547,7 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Subcategoria.
+        ///   Looks up a localized string similar to Sub categoria.
         /// </summary>
         internal static string SubCategory {
             get {
