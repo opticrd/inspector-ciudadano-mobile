@@ -79,6 +79,15 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Verifique que todas las propiedades están correctas..
+        /// </summary>
+        internal static string AllFieldsInvalid {
+            get {
+                return ResourceManager.GetString("AllFieldsInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Zona asignada no procesada. Por favor intentelo de nuevo mas tarde. Si el problema persiste, contacte su supervisor..
         /// </summary>
         internal static string AssignedZoneNotProcessed {

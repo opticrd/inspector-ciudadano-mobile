@@ -5,10 +5,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ctrls="clr-namespace:Inspector.Framework.Controls"
     xmlns:vm="clr-namespace:Inspector.ViewModels"
-    Title="Galeria">
+    Title="Galería">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Borrar todo" Command="{Binding DeleteAllItemsCommand}" />
+        <ToolbarItem Command="{Binding DeleteAllItemsCommand}" Text="Borrar todo" />
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>

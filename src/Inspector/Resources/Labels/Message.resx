@@ -162,4 +162,7 @@
   <data name="MinLengthField6" xml:space="preserve">
     <value>Mínimo de caracteres es 6.</value>
   </data>
+  <data name="AllFieldsInvalid" xml:space="preserve">
+    <value>Verifique que todas las propiedades están correctas.</value>
+  </data>
 </root>

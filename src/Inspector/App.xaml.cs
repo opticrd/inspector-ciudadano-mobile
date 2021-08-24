@@ -19,6 +19,7 @@ using Newtonsoft.Json.Serialization;
 using Prism;
 using Prism.DryIoc;
 using Prism.Ioc;
+using Prism.Logging;
 using Prism.Logging.AppCenter;
 using Prism.Modularity;
 using Refit;
@@ -79,11 +80,14 @@ namespace Inspector
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+#if DEBUG || DEBUG_AGENT
+            containerRegistry.RegisterSingleton<ILogger, ConsoleLoggingService>();
+#else
             var container = Container.GetContainer();
             container.RegisterMany<AppCenterLogger>(Reuse.Singleton,
                         ifAlreadyRegistered: IfAlreadyRegistered.Replace,
                         serviceTypeCondition: t => typeof(AppCenterLogger).ImplementsServiceType(t));
-
+#endif
             containerRegistry.RegisterForNavigation<NavigationPage>();
             //containerRegistry.RegisterForNavigation<MainTabbedPage, MainTabbedPageViewModel>();
             //containerRegistry.RegisterForNavigation<ProfilePage, ProfilePageViewModel>();
