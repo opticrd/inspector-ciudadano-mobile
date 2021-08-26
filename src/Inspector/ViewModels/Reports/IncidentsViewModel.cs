@@ -15,16 +15,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using XF.Material.Forms.UI.Dialogs;
 
 namespace Inspector.ViewModels
 {
     public class IncidentsViewModel : TerritorialDivisionViewModel
     {
         IIncidentsAPI _incidentsClient;
+        ILogger _logger;
         public IncidentsViewModel(INavigationService navigationService, IPageDialogService dialogService, ILogger logger,
             ICacheService cacheService, IIncidentsAPI incidentsClient, ITerritorialDivisionAPI territorialDivisionClient)
             : base(navigationService, dialogService, logger, cacheService, territorialDivisionClient)
         {
+            _logger = logger;
             _incidentsClient = incidentsClient;
             Init();
         }
@@ -68,26 +71,50 @@ namespace Inspector.ViewModels
 
         private async Task SearchIncidentType()
         {
-            var result = await _incidentsClient.GetIncidentTypes();
+            try
+            {
+                var result = await _incidentsClient.GetIncidentTypes();
 
-            if (result.Valid)
-                Incidents = new ObservableCollection<Incident>(result.Data.OrderBy(x=>x.Name).ToList());
+                if (result.Valid)
+                    Incidents = new ObservableCollection<Incident>(result.Data.OrderBy(x => x.Name).ToList());
+            }
+            catch (Exception e)
+            {
+                _logger.Report(e);
+                await MaterialDialog.Instance.SnackbarAsync(Message.IncidentNotLoaded, MaterialSnackbar.DurationLong);
+            }
         }
 
         private async void SearchCategories(int incidentId)
         {
-            var result = await _incidentsClient.GetCategories(incidentId);
+            try
+            {
+                var result = await _incidentsClient.GetCategories(incidentId);
 
-            if (result.Valid)
-                Categories = new ObservableCollection<Incident>(result.Data.OrderBy(x => x.Name).ToList());
+                if (result.Valid)
+                    Categories = new ObservableCollection<Incident>(result.Data.OrderBy(x => x.Name).ToList());
+            }
+            catch (Exception e)
+            {
+                _logger.Report(e);
+                await MaterialDialog.Instance.SnackbarAsync(Message.IncidentNotLoaded, MaterialSnackbar.DurationLong);
+            }
         }
 
         private async void SearchSubCategories(int incidentId, int categoryId)
         {
-            var result = await _incidentsClient.GetSubCategories(incidentId, categoryId);
+            try
+            {
+                var result = await _incidentsClient.GetSubCategories(incidentId, categoryId);
 
-            if (result.Valid)
-                SubCategories = new ObservableCollection<Incident>(result.Data.OrderBy(x => x.Name).ToList());
+                if (result.Valid)
+                    SubCategories = new ObservableCollection<Incident>(result.Data.OrderBy(x => x.Name).ToList());
+            }
+            catch (Exception e)
+            {
+                _logger.Report(e);
+                await MaterialDialog.Instance.SnackbarAsync(Message.IncidentNotLoaded, MaterialSnackbar.DurationLong);
+            }
         }
     }
 }

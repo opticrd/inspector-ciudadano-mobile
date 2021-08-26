@@ -165,4 +165,13 @@
   <data name="AllFieldsInvalid" xml:space="preserve">
     <value>Verifique que todas las propiedades están correctas.</value>
   </data>
+  <data name="GroupNotLoaded" xml:space="preserve">
+    <value>Las instituciones no han cargado correctamente, intentelo de nuevo mas tarde.</value>
+  </data>
+  <data name="IncidentNotLoaded" xml:space="preserve">
+    <value>No pudimos cargar las incidencias.</value>
+  </data>
+  <data name="ListNotUpdated" xml:space="preserve">
+    <value>No pudimos actualizar la lista.</value>
+  </data>
 </root>
