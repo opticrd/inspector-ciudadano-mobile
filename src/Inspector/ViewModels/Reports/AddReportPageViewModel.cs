@@ -143,15 +143,24 @@ namespace Inspector.ViewModels
 
         private async void Init()
         {
-            var account = await _cacheService.GetSecureObject<ZammadAccount>(CacheKeys.ZammadAccount);
-            _ticketClient = account.CreateTicketClient();
-            _userClient = account.CreateUserClient();
-            _tagClient = account.CreateTagClient();
-            var groupClient = account.CreateGroupClient();
+            try
+            {
+                var account = await _cacheService.GetSecureObject<ZammadAccount>(CacheKeys.ZammadAccount);
+                _ticketClient = account.CreateTicketClient();
+                _userClient = account.CreateUserClient();
+                _tagClient = account.CreateTagClient();
+                var groupClient = account.CreateGroupClient();
 
-            _userAccount = await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount);
+                _userAccount = await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount);
 
-            Groups = ((List<Group>)await groupClient.GetGroupListAsync()).OrderBy(x=>x.Name).ToList();
+                Groups = ((List<Group>)await groupClient.GetGroupListAsync()).OrderBy(x => x.Name).ToList();
+            }
+            catch (Exception e)
+            {
+                _logger.Report(e);
+                await _dialogService.DisplayAlertAsync("Ups :(", Message.GroupNotLoaded, "Ok");
+                await _navigationService.GoBackAsync();
+            }
         }
 
         private async void OnValidateIDCommandExecute()
@@ -186,7 +195,7 @@ namespace Inspector.ViewModels
             }
             catch (Exception e)
             {
-                _logger.Report(e, LoggerExtension.InitDictionary(nameof(AddReportPageViewModel), nameof(AddReportPageViewModel.OnValidateIDCommandExecute)));
+                _logger.Report(e);
             }
             finally
             {
@@ -308,11 +317,12 @@ namespace Inspector.ViewModels
                 var content = await e.Response.Content.ReadAsStringAsync();
                 Console.WriteLine(content);
 #endif
+                _logger.Report(e);
                 await _dialogService.DisplayAlertAsync("Ups :(", Message.SomethingHappen, "Ok");
             }
             catch (Exception e)
             {
-                _logger.Report(e, LoggerExtension.InitDictionary(nameof(AddReportPageViewModel), nameof(AddReportPageViewModel.ReportCommandExecute)));
+                _logger.Report(e);
             }
             finally
             {
@@ -367,14 +377,21 @@ namespace Inspector.ViewModels
 
         private async Task AddTagsToTicket(int id)
         {
-            if(Incident.Validate())
-                await _tagClient.AddTagAsync("Ticket", id, Incident.Value.Name);
+            try
+            {
+                if (Incident.Validate())
+                    await _tagClient.AddTagAsync("Ticket", id, Incident.Value.Name);
 
-            if (Category.Validate())
-                await _tagClient.AddTagAsync("Ticket", id, Category.Value.Name);
+                if (Category.Validate())
+                    await _tagClient.AddTagAsync("Ticket", id, Category.Value.Name);
 
-            if (SubCategory.Validate())
-                await _tagClient.AddTagAsync("Ticket", id, SubCategory.Value.Name);
+                if (SubCategory.Validate())
+                    await _tagClient.AddTagAsync("Ticket", id, SubCategory.Value.Name);
+            }
+            catch (Exception e)
+            {
+                _logger.Report(e);
+            }
         }
 
         private async void OnAttachFileCommandExecute()
@@ -405,7 +422,7 @@ namespace Inspector.ViewModels
             //}
             catch (Exception e)
             {
-                _logger.Report(e, LoggerExtension.InitDictionary(nameof(AddReportPageViewModel), nameof(AddReportPageViewModel.OnAttachFileCommandExecute)));
+                _logger.Report(e);
                 await _dialogService.DisplayAlertAsync("Ups :(", Message.SomethingHappen, "Ok");
             }
             finally

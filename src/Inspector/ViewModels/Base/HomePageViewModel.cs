@@ -1,6 +1,7 @@
 ﻿using Inspector.Framework.Helpers;
 using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
+using Inspector.Resources.Labels;
 using Prism.Commands;
 using Prism.Logging;
 using Prism.Navigation;
@@ -11,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using XF.Material.Forms.UI.Dialogs;
 using Zammad.Client;
 using Zammad.Client.Resources;
 using TicketState = Inspector.Framework.Dtos.TicketState;
@@ -97,7 +99,7 @@ namespace Inspector.ViewModels
             }
             catch (Exception e)
             {
-                _logger.Report(e, LoggerExtension.InitDictionary(nameof(HomePageViewModel), nameof(HomePageViewModel.OnRefreshCommandExecute)));
+                _logger.Report(e);
             }
             finally
             {
@@ -141,7 +143,7 @@ namespace Inspector.ViewModels
             }
             catch (Exception e)
             {
-                _logger.Report(e, LoggerExtension.InitDictionary(nameof(HomePageViewModel), nameof(HomePageViewModel.OnLoadMoreItemsCommandsExecute)));
+                _logger.Report(e);
             }
             finally
             {
@@ -149,19 +151,27 @@ namespace Inspector.ViewModels
             }            
         }
 
-        private void OnChangeHistoryTicketsFilter(int index)
+        private async void OnChangeHistoryTicketsFilter(int index)
         {
-            switch (index)
+            try
             {
-                case 1:
-                    Tickets = new ObservableCollection<Ticket>(_allTickets.Where(x => x.StateId == (int)TicketState.Open));
-                    break;
-                case 2:
-                    Tickets = new ObservableCollection<Ticket>(_allTickets.Where(x => x.StateId == (int)TicketState.Closed));
-                    break;
-                default:
-                    Tickets = new ObservableCollection<Ticket>(_allTickets);
-                    break;
+                switch (index)
+                {
+                    case 1:
+                        Tickets = new ObservableCollection<Ticket>(_allTickets.Where(x => x.StateId == (int)TicketState.Open));
+                        break;
+                    case 2:
+                        Tickets = new ObservableCollection<Ticket>(_allTickets.Where(x => x.StateId == (int)TicketState.Closed));
+                        break;
+                    default:
+                        Tickets = new ObservableCollection<Ticket>(_allTickets);
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Report(e);
+                await MaterialDialog.Instance.SnackbarAsync(Message.ListNotUpdated, MaterialSnackbar.DurationLong);
             }
         }
 
