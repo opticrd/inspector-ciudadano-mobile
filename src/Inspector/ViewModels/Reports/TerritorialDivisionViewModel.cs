@@ -158,7 +158,7 @@ namespace Inspector.ViewModels
             }
             catch (Exception e)
             {
-                _logger.Report(e, LoggerExtension.InitDictionary(nameof(TerritorialDivisionViewModel), nameof(TerritorialDivisionViewModel.Init)));
+                _logger.Report(e);
             }
             finally
             {
@@ -182,7 +182,7 @@ namespace Inspector.ViewModels
             }
             catch (Exception e)
             {
-                _logger.Report(e, LoggerExtension.InitDictionary(nameof(TerritorialDivisionViewModel), nameof(TerritorialDivisionViewModel.LoadRegions)));
+                _logger.Report(e);
                 await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
             }
         }
@@ -198,7 +198,7 @@ namespace Inspector.ViewModels
             }
             catch (Exception e)
             {
-                _logger.Report(e, LoggerExtension.InitDictionary(nameof(TerritorialDivisionViewModel), nameof(TerritorialDivisionViewModel.SearchProvince)));
+                _logger.Report(e);
                 await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
             }
         }
@@ -214,7 +214,7 @@ namespace Inspector.ViewModels
             }
             catch (Exception e)
             {
-                _logger.Report(e, LoggerExtension.InitDictionary(nameof(TerritorialDivisionViewModel), nameof(TerritorialDivisionViewModel.SearchMunicipality)));
+                _logger.Report(e);
                 await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
             }
         }
@@ -230,7 +230,7 @@ namespace Inspector.ViewModels
             }
             catch (Exception e)
             {
-                _logger.Report(e, LoggerExtension.InitDictionary(nameof(TerritorialDivisionViewModel), nameof(TerritorialDivisionViewModel.SearchDistrict)));
+                _logger.Report(e);
                 await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
             }
         }
@@ -252,7 +252,7 @@ namespace Inspector.ViewModels
             }
             catch (Exception e)
             {
-                _logger.Report(e, LoggerExtension.InitDictionary(nameof(TerritorialDivisionViewModel), nameof(TerritorialDivisionViewModel.SearchSection)));
+                _logger.Report(e);
                 await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
             }
         }
@@ -275,7 +275,7 @@ namespace Inspector.ViewModels
             }
             catch (Exception e)
             {
-                _logger.Report(e, LoggerExtension.InitDictionary(nameof(TerritorialDivisionViewModel), nameof(TerritorialDivisionViewModel.SearchNeighborhood)));
+                _logger.Report(e);
                 await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
             }
         }
@@ -299,7 +299,7 @@ namespace Inspector.ViewModels
             }
             catch (Exception e)
             {
-                _logger.Report(e, LoggerExtension.InitDictionary(nameof(TerritorialDivisionViewModel), nameof(TerritorialDivisionViewModel.SearchSubNeighborhood)));
+                _logger.Report(e);
                 // await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
             }
         }
