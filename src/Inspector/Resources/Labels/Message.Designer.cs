@@ -106,6 +106,24 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Las instituciones no han cargado correctamente, intentelo de nuevo mas tarde..
+        /// </summary>
+        internal static string GroupNotLoaded {
+            get {
+                return ResourceManager.GetString("GroupNotLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No pudimos cargar las incidencias..
+        /// </summary>
+        internal static string IncidentNotLoaded {
+            get {
+                return ResourceManager.GetString("IncidentNotLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Correo no valido. .
         /// </summary>
         internal static string InvalidEmail {
@@ -129,6 +147,15 @@ namespace Inspector.Resources.Labels {
         internal static string InvalidPhoneNumber {
             get {
                 return ResourceManager.GetString("InvalidPhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No pudimos actualizar la lista..
+        /// </summary>
+        internal static string ListNotUpdated {
+            get {
+                return ResourceManager.GetString("ListNotUpdated", resourceCulture);
             }
         }
         
