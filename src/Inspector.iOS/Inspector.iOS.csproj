@@ -79,6 +79,7 @@
     <ErrorReport>prompt</ErrorReport>
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchArch>i386, x86_64</MtouchArch>
+    <MtouchDebug>true</MtouchDebug>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug-Agent|iPhone'">
     <DebugSymbols>true</DebugSymbols>
