@@ -44,6 +44,11 @@ namespace Inspector.ViewModels
             });
             LogoutCommand = new DelegateCommand(async () =>
             {
+                var logout = await _dialogService.DisplayAlertAsync("", Message.RequetLogout, Message.ActionYes, Message.ActionNo);
+
+                if (!logout)                
+                    return;
+                
                 Settings.RemoveAllSettings();
 
                 await _cacheService.RemoveSecureObject(CacheKeys.ZammadAccount);
