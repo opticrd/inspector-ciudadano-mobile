@@ -108,6 +108,7 @@
 
     <Grid>
         <xct:TabView
+            IsSwipeEnabled="False"
             TabContentBackgroundColor="{StaticResource BackgroundColor}"
             TabStripBackgroundColor="White"
             TabStripHeight="60"
