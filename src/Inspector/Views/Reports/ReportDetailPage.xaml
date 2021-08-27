@@ -4,16 +4,16 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:img="clr-namespace:Inspector.Framework.Helpers.Extensions;assembly=Inspector"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
     xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
     xmlns:prism="http://prismlibrary.com"
     xmlns:tmp="clr-namespace:Inspector.Framework.Helpers"
     xmlns:views="clr-namespace:Inspector.Views.Shared"
     xmlns:vm="clr-namespace:Inspector.ViewModels"
-    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-    ios:Page.UseSafeArea="true" 
     x:Name="this"
-    BackgroundColor="White"
-    Title="Detalles">
+    Title="Detalles"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="White">
     <!--  x:DataType="vm:ReportDetailPageViewModel"  -->
 
     <ContentPage.ToolbarItems>
@@ -39,7 +39,7 @@
                         CornerRadius="10"
                         HasShadow="False">
                         <StackLayout>
-                            <Label Text="{Binding Body}" />
+                            <Label Text="{Binding Body}" TextType="Html" />
                             <Label HorizontalOptions="End" Text="{Binding CreatedAt, StringFormat='{0:g}'}" />
                             <Line
                                 Margin="-16,0,-16,0"
