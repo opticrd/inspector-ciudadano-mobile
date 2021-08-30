@@ -274,7 +274,7 @@ namespace Inspector.ViewModels
                     }          
                 }
 
-                var title = SubCategory.Value + " en " + GetZone()?.Name;
+                var title = SubCategory.Value.Name + " en " + GetZone()?.Name;
                 var formTicket = new Ticket
                 {
                     Title = title, //Title.Value,
