@@ -64,9 +64,9 @@ namespace Inspector.ViewModels
 
             PhoneNumber.ValueFormatter = new MaskFormatter("XXX-XXX-XXXX");
 
-            Title = Validator.Build<string>()
-                            .IsRequired(Message.FieldRequired)
-                            .Must(x => x?.Length >= 6, Message.MinLengthField6);
+            //Title = Validator.Build<string>()
+            //                .IsRequired(Message.FieldRequired)
+            //                .Must(x => x?.Length >= 6, Message.MinLengthField6);
 
             Address = Validator.Build<string>()
                             .IsRequired(Message.FieldRequired)
@@ -79,7 +79,7 @@ namespace Inspector.ViewModels
                             .When(x => !string.IsNullOrEmpty(x))
                             .Must(x => x?.Length >= 10, Message.MinLengthField10);
 
-            _validationUnit = new ValidationUnit(/*StateSelected,*/ ID, PhoneNumber, Title, Address, GroupSelected, Neighhborhood, SubCategory, Comments);
+            _validationUnit = new ValidationUnit(/*StateSelected,*/ ID, PhoneNumber, /*Title,*/ Address, GroupSelected, Neighhborhood, SubCategory, Comments);
 
             //States = new List<StateTicket>(StateTicket.GetStatesForNewTicket());
 
@@ -216,15 +216,16 @@ namespace Inspector.ViewModels
             }
 
             IsBusy = true;
-            var customerId = _userAccount.Id;
 
             Ticket ticket = null;
             var ticketCreated = false;
-            string zoneCode = GetZoneCode();
-            var phoneNumber = PhoneNumber.Value.Replace("-", "");
 
             try
             {
+                var customerId = _userAccount.Id;
+                string zoneCode = GetZone()?.Id;
+                string phoneNumber = PhoneNumber?.Value?.Replace("-", "");
+
                 if (!_clientCreated)
                 {
                     var newUser = await _userClient.CreateUserAsync(new User
@@ -273,9 +274,10 @@ namespace Inspector.ViewModels
                     }          
                 }
 
+                var title = SubCategory.Value + " en " + GetZone()?.Name;
                 var formTicket = new Ticket
                 {
-                    Title = Title.Value,
+                    Title = title, //Title.Value,
                     GroupId = GroupSelected.Value,
                     CustomerId = customerId,
                     OwnerId = _userAccount.Id,
@@ -294,7 +296,7 @@ namespace Inspector.ViewModels
                 {
                     var formTicketArticle = new TicketArticle
                     {
-                        Subject = Title.Value,
+                        Subject = title, //Title.Value,
                         Body = Comments.Value,
                         Type = "note",
                         Attachments = attachements
@@ -342,39 +344,6 @@ namespace Inspector.ViewModels
 
         }
 
-        private string GetZoneCode()
-        {
-            if(SubNeighhborhood.Value != null)
-            {
-                return SubNeighhborhood.Value.Id;
-            }
-
-            if (Neighhborhood.Value != null)
-            {
-                return Neighhborhood.Value.Id;
-            }
-            if (Section.Value != null)
-            {
-                return Section.Value.Id;
-            }
-            if (District.Value != null)
-            {
-                return District.Value.Id;
-            }
-
-
-            if (Municipality.Value != null)
-            {
-                return Municipality.Value.Id;
-            }
-            if (Province.Value != null)
-            {
-                return Province.Value.Id;
-            }
-
-            return string.Empty;
-        }
-
         private async Task AddTagsToTicket(int id)
         {
             try
@@ -406,7 +375,7 @@ namespace Inspector.ViewModels
                 var request = new MediaPickRequest(5, MediaFileType.Image, MediaFileType.Video)
                 {
                     PresentationSourceBounds = System.Drawing.Rectangle.Empty,
-                    Title = "Select"
+                    Title = "Selecciona"
                 };
 
                 cts.CancelAfter(TimeSpan.FromMinutes(3));
