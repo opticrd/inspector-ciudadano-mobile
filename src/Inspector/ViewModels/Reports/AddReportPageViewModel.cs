@@ -76,7 +76,6 @@ namespace Inspector.ViewModels
                             .Must(x => x > 0, Message.FieldRequired);
 
             Comments = Validator.Build<string>()
-                            .When(x => !string.IsNullOrEmpty(x))
                             .Must(x => x?.Length >= 10, Message.MinLengthField10);
 
             _validationUnit = new ValidationUnit(/*StateSelected,*/ ID, PhoneNumber, /*Title,*/ Address, GroupSelected, Neighhborhood, SubCategory, Comments);
@@ -315,11 +314,9 @@ namespace Inspector.ViewModels
             }
             catch (Zammad.Client.Core.ZammadException e)
             {
-#if DEBUG || DEBUG_AGENT
                 var content = await e.Response.Content.ReadAsStringAsync();
-                Console.WriteLine(content);
-#endif
-                _logger.Report(e);
+                _logger.Report(e, LoggerExtension.InitDictionary(content));
+
                 await _dialogService.DisplayAlertAsync("Ups :(", Message.SomethingHappen, "Ok");
             }
             catch (Exception e)
@@ -334,7 +331,7 @@ namespace Inspector.ViewModels
 
                     var parameters = new NavigationParameters()
                     {
-                        { NavigationKeys.NewTicket, true }
+                        { NavigationKeys.NewTicket, ticket }
                     };
                     await _navigationService.GoBackAsync(parameters);
                 }
