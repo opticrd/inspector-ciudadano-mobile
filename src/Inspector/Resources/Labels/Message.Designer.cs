@@ -79,6 +79,42 @@ namespace Inspector.Resources.Labels {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancelar.
+        /// </summary>
+        internal static string ActionCancel {
+            get {
+                return ResourceManager.GetString("ActionCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        internal static string ActionNo {
+            get {
+                return ResourceManager.GetString("ActionNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
+        internal static string ActionOk {
+            get {
+                return ResourceManager.GetString("ActionOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Si.
+        /// </summary>
+        internal static string ActionYes {
+            get {
+                return ResourceManager.GetString("ActionYes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Verifique que todas las propiedades están correctas..
         /// </summary>
         internal static string AllFieldsInvalid {
@@ -192,6 +228,15 @@ namespace Inspector.Resources.Labels {
         internal static string MinLengthField6 {
             get {
                 return ResourceManager.GetString("MinLengthField6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ¿Seguro que deseas cerrar sesión?.
+        /// </summary>
+        internal static string RequetLogout {
+            get {
+                return ResourceManager.GetString("RequetLogout", resourceCulture);
             }
         }
         

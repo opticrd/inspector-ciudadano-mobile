@@ -174,4 +174,19 @@
   <data name="ListNotUpdated" xml:space="preserve">
     <value>No pudimos actualizar la lista.</value>
   </data>
+  <data name="ActionCancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="ActionNo" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="ActionOk" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="ActionYes" xml:space="preserve">
+    <value>Si</value>
+  </data>
+  <data name="RequetLogout" xml:space="preserve">
+    <value>¿Seguro que deseas cerrar sesión?</value>
+  </data>
 </root>
