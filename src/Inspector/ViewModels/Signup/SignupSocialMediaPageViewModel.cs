@@ -11,6 +11,7 @@ using Plugin.ValidationRules;
 using Plugin.ValidationRules.Extensions;
 using Plugin.ValidationRules.Rules;
 using Prism.Commands;
+using Prism.Logging;
 using Prism.Navigation;
 using Prism.Services;
 using System;
@@ -43,6 +44,7 @@ namespace Inspector.ViewModels
         private string _zone;
         private ZammadGroup _group;
         private List<ZammadGroup> _groups;
+        ILogger _logger;
 
         public string FullName 
         {
@@ -55,12 +57,13 @@ namespace Inspector.ViewModels
         public string Location { get; set;  }
         public Citizen Citizen { get; set; }
 
-        public SignupSocialMediaPageViewModel(INavigationService navigationService, IPageDialogService dialogService,
+        public SignupSocialMediaPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ILogger logger,
             ICacheService cacheService, IKeycloakApi keycloakApi, IZammadLiteApi zammadLiteApi)
             : base(navigationService, dialogService, cacheService)
         {
             _keycloakApi = keycloakApi;
             _zammadLiteApi = zammadLiteApi;
+            _logger = logger;
 
             GoogleCommand = new Command(async () => await OnAuthenticate("Google"));
             FacebookCommand = new Command(async () => await OnAuthenticate("Facebook"));
@@ -202,7 +205,7 @@ namespace Inspector.ViewModels
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed: {ex.Message}");
+                _logger.Report(ex);
 
                 await _dialogService.DisplayAlertAsync("", $"Ocurrió un error: {ex.Message}", "Ok");
             }
@@ -312,6 +315,7 @@ namespace Inspector.ViewModels
             }
             catch (System.Exception ex)
             {
+                _logger.Report(ex);
                 await _dialogService.DisplayAlertAsync("", Message.AccountInvalid, "Ok");
             }
         }

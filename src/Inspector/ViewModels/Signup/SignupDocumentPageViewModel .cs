@@ -8,6 +8,7 @@ using Plugin.ValidationRules.Extensions;
 using Plugin.ValidationRules.Formatters;
 using Plugin.ValidationRules.Rules;
 using Prism.Commands;
+using Prism.Logging;
 using Prism.Navigation;
 using Prism.Services;
 using System;
@@ -24,7 +25,7 @@ namespace Inspector.ViewModels
 {
     public class SignupDocumentPageViewModel : BaseViewModel
     {
-
+        ILogger _logger;
         public Validatable<string> Document { get; set; }
 
         /*
@@ -34,12 +35,13 @@ namespace Inspector.ViewModels
 
         ICitizenAPI _citizenClient;
         //ValidationUnit _validationUnit;
-        public SignupDocumentPageViewModel(INavigationService navigationService, IPageDialogService dialogService,
+        public SignupDocumentPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ILogger logger,
             ICacheService cacheService, IKeycloakApi keycloakApi, IZammadLiteApi zammadLiteApi, ICitizenAPI citizenClient,
             ITerritorialDivisionAPI territorialDivisionClient)
             : base(navigationService, dialogService, cacheService)
         {
             _citizenClient = citizenClient;
+            _logger = logger;
 
             Document = Validator.Build<string>()
                 .IsRequired(Message.FieldRequired)
@@ -109,6 +111,7 @@ namespace Inspector.ViewModels
             }
             catch (System.Exception ex)
             {
+                _logger.Report(ex);
                 await _dialogService.DisplayAlertAsync("", Message.AccountInvalid, "Ok");
             }
         }
