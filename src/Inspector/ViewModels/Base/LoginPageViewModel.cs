@@ -9,6 +9,7 @@ using Plugin.ValidationRules;
 using Plugin.ValidationRules.Extensions;
 using Plugin.ValidationRules.Rules;
 using Prism.Commands;
+using Prism.Logging;
 using Prism.Navigation;
 using Prism.Services;
 using System;
@@ -26,27 +27,29 @@ namespace Inspector.ViewModels
     {
         IKeycloakApi _keycloakApi;
         IZammadLiteApi _zammadLiteApi;
+        ILogger _logger;
         public ICommand GoogleCommand { get; set; }
         public ICommand FacebookCommand { get; set; }
         public ICommand MicrosoftCommand { get; set; }
 
         const string AuthenticationUrl = "https://citizens-auth-api-dev-i42qq4zxeq-ue.a.run.app/mobileauth/";
-        public LoginPageViewModel(INavigationService navigationService, IPageDialogService dialogService, 
+        public LoginPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ILogger logger,
             ICacheService cacheService, IKeycloakApi keycloakApi, IZammadLiteApi zammadLiteApi) 
             : base(navigationService, dialogService, cacheService)
         {
             _keycloakApi = keycloakApi;
             _zammadLiteApi = zammadLiteApi;
+            _logger = logger;
 
-           /* Email = Validator.Build<string>()
-                .IsRequired(Message.FieldRequired)
-                .IsEmail(Message.InvalidEmail);
+            /* Email = Validator.Build<string>()
+                 .IsRequired(Message.FieldRequired)
+                 .IsEmail(Message.InvalidEmail);
 
-            Password = Validator.Build<string>()
-                .IsRequired(Message.FieldRequired)
-                .Must(x => x.Length > 4, Message.MaxMinInvalidField);*/
+             Password = Validator.Build<string>()
+                 .IsRequired(Message.FieldRequired)
+                 .Must(x => x.Length > 4, Message.MaxMinInvalidField);*/
 
-           // SignupCommand = new DelegateCommand(OnSignupCommandExecute);
+            // SignupCommand = new DelegateCommand(OnSignupCommandExecute);
             //LoginCommand = new DelegateCommand(OnLoginCommandExecute);
 
             GoogleCommand = new DelegateCommand(async () => await OnAuthenticate("Google"));
@@ -142,13 +145,13 @@ namespace Inspector.ViewModels
             }
             catch (OperationCanceledException)
             {
-                Console.WriteLine("Login canceled.");
+                Console.WriteLine("Autenticación canceledada.");
 
                 await _dialogService.DisplayAlertAsync("", "Login cancelado.", "Ok");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed: {ex.Message}");
+                _logger.Report(ex);
 
                 await _dialogService.DisplayAlertAsync("", $"Failed: {ex.Message}", "Ok");
             }
@@ -247,8 +250,9 @@ namespace Inspector.ViewModels
                     await _dialogService.DisplayAlertAsync("", Message.AccountNotActivated, "Ok");
                 }                    
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
+                _logger.Report(e);
                 await _dialogService.DisplayAlertAsync("", Message.AccountInvalid, "Ok");
             }
             

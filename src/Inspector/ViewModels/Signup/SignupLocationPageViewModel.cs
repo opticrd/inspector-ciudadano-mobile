@@ -31,6 +31,7 @@ namespace Inspector.ViewModels.Signup
 
         IZammadLiteApi _zammadLiteApi;
         ICitizenAPI _citizenClient;
+        ILogger _logger;
         public SignupLocationPageViewModel(INavigationService navigationService, IPageDialogService dialogService,
             ICacheService cacheService, ITerritorialDivisionAPI territorialDivisionClient, ILogger logger,
             ICitizenAPI citizenClient, IZammadLiteApi zammadLiteApi) :
@@ -38,6 +39,7 @@ namespace Inspector.ViewModels.Signup
         {
             _citizenClient = citizenClient;
             _zammadLiteApi = zammadLiteApi;
+            _logger = logger;
             Group = Validator.Build<ZammadGroup>().IsRequired(Message.FieldRequired);
 
             SelectGroupCommand = new DelegateCommand<ZammadGroup>(group => SelectGroupCommandExecute(group));
@@ -106,8 +108,9 @@ namespace Inspector.ViewModels.Signup
 
                 await _navigationService.NavigateAsync("SignupSocialMediaPage", parameters);
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
+                _logger.Report(e);
                 await _dialogService.DisplayAlertAsync("", Message.AccountInvalid, "Ok");
             }
 
