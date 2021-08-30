@@ -169,6 +169,28 @@ namespace Inspector.ViewModels
                 }
             }
         }
+        protected Zone GetZone()
+        {
+            if (SubNeighhborhood.Value != null)
+                return SubNeighhborhood.Value;
+
+            if (Neighhborhood.Value != null)
+                return Neighhborhood.Value;
+
+            if (Section.Value != null)
+                return Section.Value;
+
+            if (District.Value != null)
+                return District.Value;
+
+            if (Municipality.Value != null)
+                return Municipality.Value;
+
+            if (Province.Value != null)
+                return Province.Value;
+
+            return null;
+        }
 
         #region Searchs
         protected async Task LoadRegions()
