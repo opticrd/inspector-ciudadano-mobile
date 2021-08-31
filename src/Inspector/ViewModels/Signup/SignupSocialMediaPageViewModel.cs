@@ -32,6 +32,7 @@ namespace Inspector.ViewModels
     {
         IKeycloakApi _keycloakApi;
         IZammadLiteApi _zammadLiteApi;
+        IAuthService _loginService;
         public ICommand GoogleCommand { get; set; }
         public ICommand FacebookCommand { get; set; }
         public ICommand MicrosoftCommand { get; set; }
@@ -57,13 +58,14 @@ namespace Inspector.ViewModels
         public string Location { get; set;  }
         public Citizen Citizen { get; set; }
 
-        public SignupSocialMediaPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ILogger logger,
+        public SignupSocialMediaPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ILogger logger, IAuthService loginService,
             ICacheService cacheService, IKeycloakApi keycloakApi, IZammadLiteApi zammadLiteApi)
             : base(navigationService, dialogService, cacheService)
         {
+            _logger = logger;
+            _loginService = loginService;
             _keycloakApi = keycloakApi;
             _zammadLiteApi = zammadLiteApi;
-            _logger = logger;
 
             GoogleCommand = new Command(async () => await OnAuthenticate("Google"));
             FacebookCommand = new Command(async () => await OnAuthenticate("Facebook"));
@@ -143,13 +145,13 @@ namespace Inspector.ViewModels
                         }
                         var attributes = new Dictionary<string, List<string>>();
                         attributes.Add("cedula", new List<string>
-                    {
-                        Citizen.Id
-                    });
+                        {
+                            Citizen.Id
+                        });
                         attributes.Add("pwd", new List<string>
-                    {
-                        _password.Base64Encode()
-                    });
+                        {
+                            _password.Base64Encode()
+                        });
 
                         // Create user with email and Password
                         var newKeycloakUser = new UserRepresentation
