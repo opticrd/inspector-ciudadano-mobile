@@ -157,10 +157,13 @@ namespace Inspector.Framework.Services
             }
         }
 
-        private async Task<bool> SignUpZammad(KeycloakUser keycloakUser, UserRepresentation user)
+        private async Task<bool> SignUpZammad(KeycloakUser keycloakUser, UserRepresentation user, string password)
         {
             try
             {
+                var account = ZammadAccount.CreateBasicAccount(AppKeys.ZammadApiBaseUrl, email, password);
+                var client = account.CreateUserClient();
+
                 // Search for the user email in zammad
                 var zammadUserSearch = await _zammadLiteApi.SearchUser($"Bearer {AppKeys.ZammadToken}", email);
 
