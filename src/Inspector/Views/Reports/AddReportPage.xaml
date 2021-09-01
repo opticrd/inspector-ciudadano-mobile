@@ -119,7 +119,7 @@
                             Unfocused="MaterialTextField_Unfocused" />
                     </ctrls:TextFieldLayout>
 
-                    <ctrls:TextFieldLayout BackgroundColor="Gray">
+                    <ctrls:TextFieldLayout>
                         <!--<mtrl:MaterialTextField
                             HelperText="Nombre completo del cuidadano"
                             IsEnabled="False"
@@ -152,6 +152,7 @@
 
             <Frame>
                 <StackLayout>
+                    <ActivityIndicator IsRunning="True" IsVisible="{Binding IsSearchingZones}" />
                     <Label Style="{StaticResource Subtitle2}" Text="{l18n:Translate ReportDetails}" />
 
                     <!--<ctrls:TextFieldLayout>
