@@ -116,7 +116,7 @@ namespace Inspector.ViewModels
         //public List<StateTicket> States { get; set; }
         //public Validatable<int> StateSelected { get; set; }
         public Validatable<string> ID { get; set; }
-        public string CitizenName { get; set; }
+        public string CitizenName { get; set; } = "Nombre del cuidadano";
         public Validatable<string> PhoneNumber { get; set; }
         public Validatable<string> Title { get; set; }
         public Validatable<string> Address { get; set; }
