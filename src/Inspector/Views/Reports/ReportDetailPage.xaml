@@ -209,7 +209,10 @@
                             <Frame Padding="16,8" BackgroundColor="#E3E3E3">
                                 <Grid RowSpacing="0">
                                     <Label Text="Ciudadano" />
-                                    <Label Grid.Row="1" FontAttributes="Bold">
+                                    <Label
+                                        Grid.Row="1"
+                                        FontAttributes="Bold"
+                                        FontSize="16">
                                         <Label.Text>
                                             <MultiBinding StringFormat="{}{0} {1}">
                                                 <Binding Path="Customer.FirstName" />
