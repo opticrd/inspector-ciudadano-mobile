@@ -29,6 +29,7 @@
             <Label
                 x:Name="shipStateText"
                 Grid.Column="1"
+                FontSize="14"
                 Text="EN PROCESO" />
 
         </Grid>

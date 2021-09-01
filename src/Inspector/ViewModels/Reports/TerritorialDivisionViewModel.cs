@@ -57,6 +57,7 @@ namespace Inspector.ViewModels
         public bool SectionIsEnabled { get; set; } = true;
         public bool NeighhborhoodIsEnabled { get; set; } = true;
         public bool SubNeighhborhoodIsEnabled { get; set; } = true;
+        public bool IsSearchingZones { get; set; }
 
         public ICommand SelectRegionCommand { get; set; }
         public ICommand SelectProvinceCommand { get; set; }
@@ -197,6 +198,8 @@ namespace Inspector.ViewModels
         {
             try
             {
+                IsSearchingZones = true;
+
                 var result = await _territorialDivisionClient.GetRegions();
 
                 if (result.Valid)
@@ -207,12 +210,18 @@ namespace Inspector.ViewModels
                 _logger.Report(e);
                 await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
             }
+            finally
+            {
+                IsSearchingZones = false;
+            }
         }
 
         private async Task SearchProvince(string regionId)
         {
             try
             {
+                IsSearchingZones = true;
+
                 var result = await _territorialDivisionClient.GetProvinces(new QueryZone { RegionCode = regionId });
 
                 if (result.Valid)
@@ -223,12 +232,18 @@ namespace Inspector.ViewModels
                 _logger.Report(e);
                 await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
             }
+            finally
+            {
+                IsSearchingZones = false;
+            }
         }
 
         private async Task SearchMunicipality(string regionId, string provinceId)
         {
             try
             {
+                IsSearchingZones = true;
+
                 var result = await _territorialDivisionClient.GetMunicipalities(new QueryZone { RegionCode = regionId, ProvinceCode = provinceId });
 
                 if (result.Valid)
@@ -239,12 +254,18 @@ namespace Inspector.ViewModels
                 _logger.Report(e);
                 await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
             }
+            finally
+            {
+                IsSearchingZones = false;
+            }
         }
 
         private async Task SearchDistrict(string regionId, string provinceId, string municipalityId)
         {
             try
             {
+                IsSearchingZones = true;
+
                 var result = await _territorialDivisionClient.GetDistricts(new QueryZone { RegionCode = regionId, ProvinceCode = provinceId, MunicipalityCode = municipalityId });
 
                 if (result.Valid)
@@ -255,12 +276,18 @@ namespace Inspector.ViewModels
                 _logger.Report(e);
                 await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
             }
+            finally
+            {
+                IsSearchingZones = false;
+            }
         }
 
         private async Task SearchSection(string regionId, string provinceId, string municipalityId, string districId)
         {
             try
             {
+                IsSearchingZones = true;
+
                 var result = await _territorialDivisionClient.GetSections(new QueryZone
                 {
                     RegionCode = regionId,
@@ -277,12 +304,18 @@ namespace Inspector.ViewModels
                 _logger.Report(e);
                 await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
             }
+            finally
+            {
+                IsSearchingZones = false;
+            }
         }
 
         private async Task SearchNeighborhood(string regionId, string provinceId, string municipalityId, string districId, string sectionId)
         {
             try
             {
+                IsSearchingZones = true;
+
                 var result = await _territorialDivisionClient.GetNeighborhoods(new QueryZone
                 {
                     RegionCode = regionId,
@@ -300,12 +333,18 @@ namespace Inspector.ViewModels
                 _logger.Report(e);
                 await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
             }
+            finally
+            {
+                IsSearchingZones = false;
+            }
         }
 
         private async Task SearchSubNeighborhood(string regionId, string provinceId, string municipalityId, string districId, string sectionId, string neighborhoodId)
         {
             try
             {
+                IsSearchingZones = true;
+
                 var result = await _territorialDivisionClient.GetSubNeighborhoods(new QueryZone
                 {
                     RegionCode = regionId,
@@ -323,6 +362,10 @@ namespace Inspector.ViewModels
             {
                 _logger.Report(e);
                 // await _dialogService.DisplayAlertAsync(":(", Message.AssignedZoneNotProcessed, "Ok");
+            }
+            finally
+            {
+                IsSearchingZones = false;
             }
         }
         #endregion
