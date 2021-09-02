@@ -10,9 +10,11 @@ using Prism.Navigation;
 using Prism.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Zammad.Client;
+using Zammad.Client.Resources;
 
 namespace Inspector.Framework.Services
 {
@@ -23,6 +25,8 @@ namespace Inspector.Framework.Services
         protected ICacheService _cacheService;
         ILogger _logger;
         OAuthToken _keycloakToken;
+        UserClient _userClient;
+        GroupClient _groupClient;
 
         public AuthService(IPageDialogService dialogService, ILogger logger, ICacheService cacheService, IKeycloakApi keycloakApi)
         {
@@ -45,6 +49,11 @@ namespace Inspector.Framework.Services
                     Password = AppKeys.KeycloakPassword,
                     Username = AppKeys.KeycloakUsername
                 });
+
+                var account = ZammadAccount.CreateTokenAccount(AppKeys.ZammadApiBaseUrl, AppKeys.ZammadToken);
+                _userClient = account.CreateUserClient();
+                _groupClient = account.CreateGroupClient();
+                //var organizationClient = account.CreateOrganizationClient();
             }
             catch (Exception e)
             {
@@ -74,47 +83,20 @@ namespace Inspector.Framework.Services
             return (false, false);
         }
 
-        private async Task<(bool exist, List<KeycloakUser> keycloakUserCollection)> UserExist(string email)
+        private async Task<(bool exist, List<KeycloakUser> keycloakUserCollection, User user)> UserExist(string email)
         {
             var keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {_keycloakToken.AccessToken}", email);
-            if (keycloakUserCollection != null && keycloakUserCollection.Count == 1)
-                return (true, keycloakUserCollection);
 
-            return (false, keycloakUserCollection);
+            if (keycloakUserCollection == null || keycloakUserCollection.Count == 0)
+                return (false, null, null);
+
+            var userZammad = await UserExistInZammad(email);
+
+            if (userZammad.exist)
+                return (true, keycloakUserCollection, userZammad.user);
+
+            return (false, null, null);
         }
-
-        public async Task<bool> SignUp(UserRepresentation user, string pass)
-        {
-            var response = await UserExist(user.Email);
-
-            if (response.exist)
-            {
-                //Resets the password because we are doing a "registration"
-                await _keycloakApi.ResetPassword($"Bearer {_keycloakToken.AccessToken}", response.keycloakUserCollection[0].Id, new CredentialRepresentation
-                {
-                    Password = pass
-                });
-
-                await _keycloakApi.UpdateUser($"Bearer {_keycloakToken.AccessToken}", response.keycloakUserCollection[0].Id, user);
-
-                var pwd = response.keycloakUserCollection[0]?.Attributes?.Pwd[0] ?? string.Empty;
-                var result = await LoginZammad(user.Email, pwd.Base64Decode());
-
-                return result;
-            }
-
-            await _keycloakApi.CreateUser($"Bearer {_keycloakToken.AccessToken}", user);
-            var createdUser = await _keycloakApi.GetUser($"Bearer {_keycloakToken.AccessToken}", user.Email);
-
-            await _keycloakApi.ResetPassword($"Bearer {_keycloakToken.AccessToken}", createdUser[0].Id, new CredentialRepresentation
-            {
-                Password = pass
-            });
-
-            var result2 = await LoginZammad(user.Email, pass);
-            return result2;
-        }
-
 
         private async Task<bool> LoginZammad(string email, string password)
         {
@@ -127,14 +109,14 @@ namespace Inspector.Framework.Services
 
                 var account = ZammadAccount.CreateBasicAccount(AppKeys.ZammadApiBaseUrl, email, password);
                 var client = account.CreateUserClient();
-                var userAccount = await client.GetUserMeAsync();
+                var userAccount = await _userClient.GetUserMeAsync();
 
                 if (userAccount.Active)
                 {
-                    var groupClient = account.CreateGroupClient();
-                    var groups = await groupClient.GetGroupListAsync();
+                    //var groupClient = account.CreateGroupClient();
+                    //var groups = await groupClient.GetGroupListAsync();
 
-                    await _cacheService.InsertLocalObject(CacheKeys.Groups, groups);
+                    //await _cacheService.InsertLocalObject(CacheKeys.Groups, groups);
 
                     Settings.IsLoggedIn = true;
                     await _cacheService.InsertSecureObject(CacheKeys.ZammadAccount, account);
@@ -157,55 +139,57 @@ namespace Inspector.Framework.Services
             }
         }
 
-        private async Task<bool> SignUpZammad(KeycloakUser keycloakUser, UserRepresentation user, string password)
+        private async Task<bool> SignUpZammad(UserRepresentation user, string password)
         {
             try
             {
-                var account = ZammadAccount.CreateBasicAccount(AppKeys.ZammadApiBaseUrl, email, password);
-                var client = account.CreateUserClient();
+                var groups = await _groupClient.GetGroupListAsync();
+                //var orgs = await organizationClient.SearchOrganizationAsync("Ogtic", 1);
 
-                // Search for the user email in zammad
-                var zammadUserSearch = await _zammadLiteApi.SearchUser($"Bearer {AppKeys.ZammadToken}", email);
+                var zammadGroupsMap = new Dictionary<int, List<string>>();
 
-                var zammadGroupsMap = new Dictionary<string, List<string>>();
-
-                foreach (var group in _groups)
-                {
+                foreach (var group in groups)                
                     zammadGroupsMap.Add(group.Id, new List<string> { "read", "create", "change" });
-                }
 
-                zammadGroupsMap[_group.Id].Clear();
-                zammadGroupsMap[_group.Id].Add("full");
+                //zammadGroupsMap[_group.Id].Clear();
+                //zammadGroupsMap[_group.Id].Add("full");
 
-                // If the user doesn't exist in zammad, create it
-                if (zammadUserSearch != null && zammadUserSearch.Where(x => x.Email == email).Count() == 0)
+                var userZammad = await UserExistInZammad(user.Email);
+
+                if (userZammad.exist)
                 {
-                    var zammadUser = await _zammadLiteApi.CreateUser($"Bearer {AppKeys.ZammadToken}", new ZammadUser
+                    var newUser = await _userClient.CreateUserAsync(new User
                     {
-                        Email = email,
-                        Firstname = keycloakUser.FirstName,
-                        Lastname = keycloakUser.LastName,
-                        Cedula = cedula,
-                        Password = _password,
+                        Email = user.Email,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        //OrganizationId = orgs[0].Id,
                         Organization = "Ogtic",
-                        Note = "User created from mobile",
-                        Zone = _zone,
+                        Note = "User created from mobile app",
                         Verified = true,
-                        //TODO: Revaluate this assignment
-                        RoleIds = new List<int>() { 2 }, //1: Admin, 2: Agent, 3: Customer
+                        RoleIds = new List<int>() { 2 }, //1: Admin, 2: Agent, 3: Customer //TODO: Revaluate this assignment
                         GroupIds = zammadGroupsMap,
-                        Active = true
+                        Active = true,
+                        CustomAttributes = new Dictionary<string, object>()
+                        {
+                            //{ "cedula",  cedula },
+                            //{ "zone",  _zone },
+                        }
                     });
                 }
                 else
                 {
-                    var zammadUser = zammadUserSearch[0];
+                    var zammadUser = userZammad.user;
                     zammadUser.Password = password;
-                    zammadUser.Zone = _zone;
                     zammadUser.Verified = true;
                     zammadUser.GroupIds = zammadGroupsMap;
-                    await _zammadLiteApi.UpdateUser($"Bearer {AppKeys.ZammadToken}", zammadUser.Id, zammadUser);
-                    //Update Password to document
+                    zammadUser.CustomAttributes = new Dictionary<string, object>()
+                    {
+                        //{ "zone",  _zone },
+                    };
+
+                    await _userClient.UpdateUserAsync(zammadUser.Id, zammadUser);
+                    // TODO: Update Password to document
                 }
 
                 return false;
@@ -217,12 +201,60 @@ namespace Inspector.Framework.Services
                 return false;
             }
         }
+
+        public async Task<(bool result, bool doLogin)> SignUp(UserRepresentation user, string password)
+        {
+            var response = await UserExist(user.Email);
+
+            if (response.exist)
+            {
+                ////Resets the password because we are doing a "registration"
+                //await _keycloakApi.ResetPassword($"Bearer {_keycloakToken.AccessToken}", response.keycloakUserCollection[0].Id, new CredentialRepresentation
+                //{
+                //    Password = password
+                //});
+
+                //await _keycloakApi.UpdateUser($"Bearer {_keycloakToken.AccessToken}", response.keycloakUserCollection[0].Id, user);
+
+                //var pwd = response.keycloakUserCollection[0]?.Attributes?.Pwd[0] ?? string.Empty;
+                //var result = await LoginZammad(user.Email, pwd.Base64Decode());
+
+                return (false, true);
+            }
+
+            var resp = await _keycloakApi.CreateUser($"Bearer {_keycloakToken.AccessToken}", user);
+            var createdUser = await _keycloakApi.GetUser($"Bearer {_keycloakToken.AccessToken}", user.Email);
+
+            if (createdUser?.Count == 0)
+                return (false, false);
+
+            await _keycloakApi.ResetPassword($"Bearer {_keycloakToken.AccessToken}", createdUser[0].Id, new CredentialRepresentation
+            {
+                Password = password
+            });
+
+            // Update full name
+            user.FirstName = createdUser[0].FirstName;
+            user.LastName = createdUser[0].LastName;
+
+            return (await SignUpZammad(user, password), false);
+        }
+
+        private async Task<(bool exist, User user)> UserExistInZammad(string email)
+        {
+            var zammadUserSearch = await _userClient.SearchUserAsync(email, 1);
+
+            if (zammadUserSearch?.Where(x => x.Email == email).Count() > 0)
+                return (true, zammadUserSearch[0]);
+
+            return (false, null);
+        }
     }
 
     public interface IAuthService
     {
         Task<(bool result, bool doSignUp)> Login(string email, string password);
 
-        Task<bool> SignUp(UserRepresentation user, string pass);
+        Task<(bool result, bool doLogin)> SignUp(UserRepresentation user, string pass);
     }
 }
