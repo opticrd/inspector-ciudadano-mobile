@@ -80,23 +80,47 @@ namespace Inspector.Framework.Services
                 return (result, false);
             }
 
-            return (false, false);
+            return (false, true); // do sign up
         }
 
-        private async Task<(bool exist, List<KeycloakUser> keycloakUserCollection, User user)> UserExist(string email)
+        public async Task<(bool result, bool doLogin)> SignUp(UserRepresentation user, string password)
         {
-            var keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {_keycloakToken.AccessToken}", email);
+            var response = await UserExist(user.Email);
 
-            if (keycloakUserCollection == null || keycloakUserCollection.Count == 0)
-                return (false, null, null);
+            if (response.exist)
+            {
+                ////Resets the password because we are doing a "registration"
+                //await _keycloakApi.ResetPassword($"Bearer {_keycloakToken.AccessToken}", response.keycloakUserCollection[0].Id, new CredentialRepresentation
+                //{
+                //    Password = password
+                //});
 
-            var userZammad = await UserExistInZammad(email);
+                //await _keycloakApi.UpdateUser($"Bearer {_keycloakToken.AccessToken}", response.keycloakUserCollection[0].Id, user);
 
-            if (userZammad.exist)
-                return (true, keycloakUserCollection, userZammad.user);
+                //var pwd = response.keycloakUserCollection[0]?.Attributes?.Pwd[0] ?? string.Empty;
+                //var result = await LoginZammad(user.Email, pwd.Base64Decode());
 
-            return (false, null, null);
+                return (false, true); // do login
+            }
+
+            var resp = await _keycloakApi.CreateUser($"Bearer {_keycloakToken.AccessToken}", user);
+            var createdUser = await _keycloakApi.GetUser($"Bearer {_keycloakToken.AccessToken}", user.Email);
+
+            if (createdUser?.Count == 0)
+                return (false, false);
+
+            await _keycloakApi.ResetPassword($"Bearer {_keycloakToken.AccessToken}", createdUser[0].Id, new CredentialRepresentation
+            {
+                Password = password
+            });
+
+            // Update full name
+            user.FirstName = createdUser[0].FirstName;
+            user.LastName = createdUser[0].LastName;
+
+            return (await SignUpZammad(user, password), false);
         }
+
 
         private async Task<bool> LoginZammad(string email, string password)
         {
@@ -202,53 +226,41 @@ namespace Inspector.Framework.Services
             }
         }
 
-        public async Task<(bool result, bool doLogin)> SignUp(UserRepresentation user, string password)
+        public async Task<(bool exist, List<KeycloakUser> keycloakUserCollection, User user)> UserExist(string parameter, SearchParameter type = SearchParameter.Email)
         {
-            var response = await UserExist(user.Email);
+            List<KeycloakUser> keycloakUserCollection = null;
 
-            if (response.exist)
+            if (type == SearchParameter.Email)
             {
-                ////Resets the password because we are doing a "registration"
-                //await _keycloakApi.ResetPassword($"Bearer {_keycloakToken.AccessToken}", response.keycloakUserCollection[0].Id, new CredentialRepresentation
-                //{
-                //    Password = password
-                //});
+                keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {_keycloakToken.AccessToken}", parameter);
 
-                //await _keycloakApi.UpdateUser($"Bearer {_keycloakToken.AccessToken}", response.keycloakUserCollection[0].Id, user);
-
-                //var pwd = response.keycloakUserCollection[0]?.Attributes?.Pwd[0] ?? string.Empty;
-                //var result = await LoginZammad(user.Email, pwd.Base64Decode());
-
-                return (false, true);
+                if (keycloakUserCollection == null || keycloakUserCollection.Count == 0)
+                    return (false, null, null);
             }
 
-            var resp = await _keycloakApi.CreateUser($"Bearer {_keycloakToken.AccessToken}", user);
-            var createdUser = await _keycloakApi.GetUser($"Bearer {_keycloakToken.AccessToken}", user.Email);
+            var userZammad = await UserExistInZammad(parameter);
 
-            if (createdUser?.Count == 0)
-                return (false, false);
+            if (userZammad.exist)
+                return (true, keycloakUserCollection, userZammad.user);
 
-            await _keycloakApi.ResetPassword($"Bearer {_keycloakToken.AccessToken}", createdUser[0].Id, new CredentialRepresentation
-            {
-                Password = password
-            });
-
-            // Update full name
-            user.FirstName = createdUser[0].FirstName;
-            user.LastName = createdUser[0].LastName;
-
-            return (await SignUpZammad(user, password), false);
+            return (false, null, null);
         }
 
-        private async Task<(bool exist, User user)> UserExistInZammad(string email)
+        private async Task<(bool exist, User user)> UserExistInZammad(string parameter)
         {
-            var zammadUserSearch = await _userClient.SearchUserAsync(email, 1);
+            var zammadUserSearch = await _userClient.SearchUserAsync(parameter, 1);
 
-            if (zammadUserSearch?.Where(x => x.Email == email).Count() > 0)
+            if (zammadUserSearch?.Count() > 0)
                 return (true, zammadUserSearch[0]);
 
             return (false, null);
         }
+    }
+
+    public enum SearchParameter
+    {
+        Id,
+        Email
     }
 
     public interface IAuthService
@@ -256,5 +268,7 @@ namespace Inspector.Framework.Services
         Task<(bool result, bool doSignUp)> Login(string email, string password);
 
         Task<(bool result, bool doLogin)> SignUp(UserRepresentation user, string pass);
+
+        Task<(bool exist, List<KeycloakUser> keycloakUserCollection, User user)> UserExist(string parameter, SearchParameter type = SearchParameter.Email);
     }
 }
