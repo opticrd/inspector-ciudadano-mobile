@@ -26,35 +26,24 @@ namespace Inspector.ViewModels
     public class LoginPageViewModel : BaseViewModel
     {
         ILogger _logger;
-        IAuthService _loginService;
+        IAuthService _authService;
         public ICommand GoogleCommand { get; set; }
         public ICommand FacebookCommand { get; set; }
         public ICommand MicrosoftCommand { get; set; }
 
         const string AuthenticationUrl = "https://citizens-auth-api-dev-i42qq4zxeq-ue.a.run.app/mobileauth/";
-        public LoginPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ILogger logger, IAuthService loginService,
+        public LoginPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ILogger logger, IAuthService authService,
             ICacheService cacheService, IKeycloakApi keycloakApi, IZammadLiteApi zammadLiteApi) 
             : base(navigationService, dialogService, cacheService)
         {
             _logger = logger;
-            _loginService = loginService;
+            _authService = authService;
 
-            /* Email = Validator.Build<string>()
-                 .IsRequired(Message.FieldRequired)
-                 .IsEmail(Message.InvalidEmail);
-
-             Password = Validator.Build<string>()
-                 .IsRequired(Message.FieldRequired)
-                 .Must(x => x.Length > 4, Message.MaxMinInvalidField);*/
-
-            // SignupCommand = new DelegateCommand(OnSignupCommandExecute);
-            //LoginCommand = new DelegateCommand(OnLoginCommandExecute);
 
             GoogleCommand = new DelegateCommand(async () => await OnAuthenticate("Google"));
             FacebookCommand = new DelegateCommand(async () => await OnAuthenticate("Facebook"));
             MicrosoftCommand = new DelegateCommand(async () => await OnAuthenticate("Microsoft"));
 
-            // ForgetPasswordCommand = new DelegateCommand(()=> dialogService.DisplayAlertAsync(General.ForgetPassword, "Contacte su supervisor para más información.", "Ok"));
         }
 
         private void OnSignupCommandExecute()
@@ -62,12 +51,6 @@ namespace Inspector.ViewModels
             _navigationService.NavigateAsync("SignupDocumentPage");
         }
 
-        //public Validatable<string> Password { get; set; }
-        //public Validatable<string> Email { get; set; }
-
-       // public ICommand LoginCommand { get; set; }
-        //public ICommand ForgetPasswordCommand { get; set; }
-        //public ICommand SignupCommand { get; set; }
         private async Task OnAuthenticate(string scheme)
         {
             try
@@ -104,7 +87,7 @@ namespace Inspector.ViewModels
                     {
                         email = email.Replace("%40", "@");
 
-                        var response = await _loginService.Login(email, "");
+                        var response = await _authService.Login(email, "");
 
                         if (response.doSignUp)
                         {
