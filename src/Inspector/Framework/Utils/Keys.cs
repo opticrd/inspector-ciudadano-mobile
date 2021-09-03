@@ -17,6 +17,8 @@ namespace Inspector.Framework.Utils
         public const string PreviewGalleryPage = nameof(PreviewGalleryPage);
         public const string ReportDetailPage = nameof(ReportDetailPage);
         public const string LoginPage = nameof(LoginPage);
+
+        public const string SignupLocationPage = nameof(SignupLocationPage);
     }
 
     public static class CacheKeys
