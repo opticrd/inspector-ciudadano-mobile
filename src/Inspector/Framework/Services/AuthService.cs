@@ -24,7 +24,7 @@ namespace Inspector.Framework.Services
         protected IPageDialogService _dialogService;
         protected ICacheService _cacheService;
         ILogger _logger;
-        OAuthToken _keycloakToken;
+        //OAuthToken _keycloakToken;
         UserClient _userClient;
         GroupClient _groupClient;
 
@@ -42,13 +42,13 @@ namespace Inspector.Framework.Services
         {
             try
             {
-                _keycloakToken = await _keycloakApi.Authenticate(new TokenRequestBody
-                {
-                    ClientId = AppKeys.KeycloakClientId,
-                    GrantType = AppKeys.KeycloakGrantType,
-                    Password = AppKeys.KeycloakPassword,
-                    Username = AppKeys.KeycloakUsername
-                });
+                //_keycloakToken = await _keycloakApi.Authenticate(new TokenRequestBody
+                //{
+                //    ClientId = AppKeys.KeycloakClientId,
+                //    GrantType = AppKeys.KeycloakGrantType,
+                //    Password = AppKeys.KeycloakPassword,
+                //    Username = AppKeys.KeycloakUsername
+                //});
 
                 var account = ZammadAccount.CreateTokenAccount(AppKeys.ZammadApiBaseUrl, AppKeys.ZammadToken);
                 _userClient = account.CreateUserClient();
@@ -103,13 +103,14 @@ namespace Inspector.Framework.Services
                 return (false, true); // do login
             }
 
-            var resp = await _keycloakApi.CreateUser($"Bearer {_keycloakToken.AccessToken}", user);
-            var createdUser = await _keycloakApi.GetUser($"Bearer {_keycloakToken.AccessToken}", user.Email);
+            var token = await GetKeyCloakToken();
+            var resp = await _keycloakApi.CreateUser(token, user);
+            var createdUser = await _keycloakApi.GetUser(token, user.Email);
 
             if (createdUser?.Count == 0)
                 return (false, false);
 
-            await _keycloakApi.ResetPassword($"Bearer {_keycloakToken.AccessToken}", createdUser[0].Id, new CredentialRepresentation
+            await _keycloakApi.ResetPassword(token, createdUser[0].Id, new CredentialRepresentation
             {
                 Password = password
             });
@@ -133,7 +134,7 @@ namespace Inspector.Framework.Services
 
                 var account = ZammadAccount.CreateBasicAccount(AppKeys.ZammadApiBaseUrl, email, password);
                 var client = account.CreateUserClient();
-                var userAccount = await _userClient.GetUserMeAsync();
+                var userAccount = await client.GetUserMeAsync();
 
                 if (userAccount.Active)
                 {
@@ -232,7 +233,7 @@ namespace Inspector.Framework.Services
 
             if (type == SearchParameter.Email)
             {
-                keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {_keycloakToken.AccessToken}", parameter);
+                keycloakUserCollection = await _keycloakApi.GetUser(await GetKeyCloakToken(), parameter);
 
                 if (keycloakUserCollection == null || keycloakUserCollection.Count == 0)
                     return (false, null, null);
@@ -245,7 +246,6 @@ namespace Inspector.Framework.Services
 
             return (false, null, null);
         }
-
         private async Task<(bool exist, User user)> UserExistInZammad(string parameter)
         {
             var zammadUserSearch = await _userClient.SearchUserAsync(parameter, 1);
@@ -255,6 +255,29 @@ namespace Inspector.Framework.Services
 
             return (false, null);
         }
+
+        private async Task<OAuthToken> AuthKeyCloak()
+        {
+            var auth = await _keycloakApi.Authenticate(new TokenRequestBody
+            {
+                ClientId = AppKeys.KeycloakClientId,
+                GrantType = AppKeys.KeycloakGrantType,
+                Password = AppKeys.KeycloakPassword,
+                Username = AppKeys.KeycloakUsername
+            });
+
+            auth.AccessToken = $"Bearer {auth.AccessToken}";
+
+            return auth;
+        }
+
+        private async Task<string> GetKeyCloakToken()
+        {
+            var auth = await AuthKeyCloak();
+
+            return auth.AccessToken;
+        }
+
     }
 
     public enum SearchParameter
