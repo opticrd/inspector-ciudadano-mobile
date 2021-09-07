@@ -1,0 +1,297 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Address" xml:space="preserve">
+    <value>Calle, número, residencial</value>
+  </data>
+  <data name="Attach" xml:space="preserve">
+    <value>Adjuntar</value>
+  </data>
+  <data name="CitizenDetails" xml:space="preserve">
+    <value>Detalles del beneficiario</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Comentario</value>
+  </data>
+  <data name="CreateReport" xml:space="preserve">
+    <value>Crear Reporte</value>
+  </data>
+  <data name="District" xml:space="preserve">
+    <value>Distrito</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Correo electrónico</value>
+  </data>
+  <data name="EmailHelper" xml:space="preserve">
+    <value>Digite su correo electrónico</value>
+  </data>
+  <data name="EnterAddress" xml:space="preserve">
+    <value>Digite la dirección del incidente</value>
+  </data>
+  <data name="EnterComment" xml:space="preserve">
+    <value>Digite información relevante para el reporte</value>
+  </data>
+  <data name="EnterId" xml:space="preserve">
+    <value>Digite la cédula</value>
+  </data>
+  <data name="EnterPhone" xml:space="preserve">
+    <value>Digite el teléfono del beneficiario</value>
+  </data>
+  <data name="EnterTitleReport" xml:space="preserve">
+    <value>Digite el título del reporte</value>
+  </data>
+  <data name="Evidences" xml:space="preserve">
+    <value>Evidencias</value>
+  </data>
+  <data name="ForgetPassword" xml:space="preserve">
+    <value>¿Olvidaste tu contraseña?</value>
+  </data>
+  <data name="FullName" xml:space="preserve">
+    <value>Nombre completo</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>Cédula</value>
+  </data>
+  <data name="LoadMore" xml:space="preserve">
+    <value>Cargar más</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>¡Inicia Sesión!</value>
+  </data>
+  <data name="ValidateDocument" xml:space="preserve">
+    <value>Validar Cédula</value>
+  </data>
+  <data name="Signup" xml:space="preserve">
+    <value>Registrate</value>
+  </data>
+  <data name="LoginSubtitle" xml:space="preserve">
+    <value>Selecciona tu cuenta para iniciar sesión</value>
+  </data>
+  <data name="LoginTitle" xml:space="preserve">
+    <value>Inicia Sesión</value>
+  </data>
+  <data name="Municipality" xml:space="preserve">
+    <value>Municipio</value>
+  </data>
+  <data name="Observations" xml:space="preserve">
+    <value>Observaciones</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="PasswordHelper" xml:space="preserve">
+    <value>Digite su contraseña</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Teléfono</value>
+  </data>
+  <data name="Province" xml:space="preserve">
+    <value>Provincia</value>
+  </data>
+  <data name="RecoverPassword" xml:space="preserve">
+    <value>Recuperar contraseña</value>
+  </data>
+  <data name="Region" xml:space="preserve">
+    <value>Región</value>
+  </data>
+  <data name="ReportDetails" xml:space="preserve">
+    <value>Detalles del reporte</value>
+  </data>
+  <data name="ReportSelection" xml:space="preserve">
+    <value>Seleccione el estado</value>
+  </data>
+  <data name="ReportState" xml:space="preserve">
+    <value>Estado del reporte</value>
+  </data>
+  <data name="SelectDistrict" xml:space="preserve">
+    <value>Seleccione el distrito</value>
+  </data>
+  <data name="SelectMunicipality" xml:space="preserve">
+    <value>Seleccione el municipio</value>
+  </data>
+  <data name="SelectProvince" xml:space="preserve">
+    <value>Seleccione la provincia</value>
+  </data>
+  <data name="SelectRegion" xml:space="preserve">
+    <value>Seleccione la región</value>
+  </data>
+  <data name="SelectTicketState" xml:space="preserve">
+    <value>Seleccione el estado del ticket</value>
+  </data>
+  <data name="SelectZone" xml:space="preserve">
+    <value>Seleccione la zona</value>
+  </data>
+  <data name="TitleReport" xml:space="preserve">
+    <value>Título</value>
+  </data>
+  <data name="Zone" xml:space="preserve">
+    <value>Zona/Sector/Barrio</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Categoría</value>
+  </data>
+  <data name="Incident" xml:space="preserve">
+    <value>Incidente</value>
+  </data>
+  <data name="IncidentType" xml:space="preserve">
+    <value>Tipo de incidencia</value>
+  </data>
+  <data name="SelectCategory" xml:space="preserve">
+    <value>Seleccione la categoría</value>
+  </data>
+  <data name="SelectIncident" xml:space="preserve">
+    <value>Seleccione el tipo de incidente</value>
+  </data>
+  <data name="SelectSubCategory" xml:space="preserve">
+    <value>Seleccione la sub categoría</value>
+  </data>
+  <data name="SubCategory" xml:space="preserve">
+    <value>Sub categoria</value>
+  </data>
+  <data name="EnterCitizenId" xml:space="preserve">
+    <value>Digite la cédula del beneficiario</value>
+  </data>
+  <data name="EnterCitizenPhone" xml:space="preserve">
+    <value>Digite el teléfono del beneficiario</value>
+  </data>
+  <data name="Institution" xml:space="preserve">
+    <value>Institución</value>
+  </data>
+  <data name="Neighhborhood" xml:space="preserve">
+    <value>Barrio</value>
+  </data>
+  <data name="Section" xml:space="preserve">
+    <value>Sección</value>
+  </data>
+  <data name="SelectInstitution" xml:space="preserve">
+    <value>Seleccione la institución</value>
+  </data>
+  <data name="SelectNeighhborhood" xml:space="preserve">
+    <value>Seleccione el barrio</value>
+  </data>
+  <data name="SelectSection" xml:space="preserve">
+    <value>Seleccione la sección</value>
+  </data>
+  <data name="SelectSubNeighhborhood" xml:space="preserve">
+    <value>Seleccione el sub barrio</value>
+  </data>
+  <data name="SubNeighhborhood" xml:space="preserve">
+    <value>Sub barrio</value>
+  </data>
+</root>

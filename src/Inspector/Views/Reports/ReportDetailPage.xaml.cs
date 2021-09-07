@@ -14,7 +14,16 @@ namespace Inspector.Views
     {
         public ReportDetailPage()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception)
+            {
+
+                
+            }
         }
+
     }
 }

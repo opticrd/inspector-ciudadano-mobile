@@ -3,6 +3,7 @@
     x:Class="Inspector.App"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
     xmlns:prism="http://prismlibrary.com"
     xmlns:stl="clr-namespace:UIModule.Resources.Styles;assembly=UIModule">
 
@@ -12,6 +13,49 @@
             <ResourceDictionary.MergedDictionaries>
                 <stl:Main />
             </ResourceDictionary.MergedDictionaries>
+
+            <!--<Style x:Key="stateChipStyle" TargetType="mtrl:MaterialChip">
+                <Style.Triggers>
+                    <DataTrigger
+                        Binding="{Binding TicketSelected.StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="1">
+                        <Setter Property="Text" Value="Abierto" />
+                        <Setter Property="BackgroundColor" Value="#EBF4FF" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding TicketSelected.StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="2">
+                        <Setter Property="Text" Value="Abierto" />
+                        <Setter Property="BackgroundColor" Value="#EFFAE6" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding TicketSelected.StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="6">
+                        <Setter Property="Text" Value="En progreso" />
+                        <Setter Property="BackgroundColor" Value="#FEFCE7" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding TicketSelected.StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="4">
+                        <Setter Property="Text" Value="Cerrado" />
+                        <Setter Property="BackgroundColor" Value="#FEE7E7" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>-->
+
+            <Style TargetType="Line" x:Key="lineStyle">
+                <Setter Property="Margin" Value="-16,0,-16,0" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="Opacity" Value="0.3" />
+                <Setter Property="Stroke" Value="Gray" />
+                <Setter Property="StrokeLineCap" Value="Round" />
+                <Setter Property="StrokeThickness" Value="2" />
+                <Setter Property="X2" Value="3000" />
+            </Style>
 
 
         </ResourceDictionary>

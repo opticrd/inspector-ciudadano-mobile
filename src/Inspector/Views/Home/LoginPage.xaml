@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Inspector.Views.LoginPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ctrls="clr-namespace:UIModule.Controls;assembly=UIModule"
+    
+    xmlns:img="clr-namespace:Inspector.Framework.Helpers.Extensions;assembly=Inspector"
+    xmlns:l18n="clr-namespace:Inspector.Framework.Helpers.Extensions"
+    xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
+    xmlns:prism="http://prismlibrary.com"
+                    BackgroundColor="White"
+    prism:ViewModelLocator.AutowireViewModel="True">
+    <ScrollView>
+        <StackLayout
+                Padding="16,36,16,16"
+                Spacing="20"
+                VerticalOptions="CenterAndExpand">
+
+            <Image
+                    HeightRequest="80"
+                    Source="{img:ImageResource Inspector.Resources.Images.citizens.png}"
+                    WidthRequest="80" />
+            <Label
+                    FontAttributes="Bold"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource H2}"
+                    Text="{l18n:Translate LoginTitle}" />
+            <Label
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource Body2}"
+                    Text="{l18n:Translate LoginSubtitle}"
+                    TranslationY="-16" />
+
+
+            <StackLayout
+                    Margin="-16,0"
+                    Padding="16"
+                    Spacing="4">
+                <!--
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
+                            ErrorText="{Binding Email.Error}"
+                            HasError="{Binding Email.HasErrors}"
+                            HelperText="{l18n:Translate EmailHelper}"
+                            Placeholder="{l18n:Translate Email}"
+                            ReturnType="Next"
+                            Text="{Binding Email.Value}" />
+                    </ctrls:TextFieldLayout>
+
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
+                            ErrorText="{Binding Password.Error}"
+                            HasError="{Binding Password.HasErrors}"
+                            HelperText="{l18n:Translate PasswordHelper}"
+                            InputType="Password"
+                            Placeholder="{l18n:Translate Password}"
+                            ReturnType="Go"
+                            Text="{Binding Password.Value}" />
+                    </ctrls:TextFieldLayout>
+                    <Label HorizontalTextAlignment="Center" VerticalOptions="EndAndExpand">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="¿Olvidaste la contraseña? " TextColor="{StaticResource OnSurfaceColor}" />
+                                <Span
+                                    FontAttributes="Bold"
+                                    Text="Recuperar contraseña."
+                                    TextColor="{StaticResource LinkColor}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ForgetPasswordCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+-->
+                <mtrl:MaterialButton
+                        Command="{Binding GoogleCommand}"
+                        Style="{StaticResource ButtonOutlined}"
+                        ImageSource="{img:ImageResource Inspector.Resources.Images.google.png}"
+                        Text="Inicia con Google"
+                        Padding="8"
+                        />
+
+                <mtrl:MaterialButton
+                        Command="{Binding MicrosoftCommand}"
+                        ImageSource="{img:ImageResource Inspector.Resources.Images.microsoft.png}"
+                        Style="{StaticResource ButtonOutlined}"
+                        Text="Inicia con Microsoft" 
+                        Padding="8"/>
+
+                <mtrl:MaterialButton
+                        Command="{Binding FacebookCommand}"
+                        ImageSource="{img:ImageResource Inspector.Resources.Images.facebook.png}"
+                        Style="{StaticResource ButtonOutlined}"
+                        Text="Inicia con Facebook" 
+                        Padding="8"/>
+
+            </StackLayout>
+
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

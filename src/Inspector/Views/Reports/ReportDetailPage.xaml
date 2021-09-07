@@ -3,83 +3,309 @@
     x:Class="Inspector.Views.ReportDetailPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:img="clr-namespace:Inspector.Framework.Helpers.Extensions;assembly=Inspector"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
     xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
-    Title="Detalles">
+    xmlns:prism="http://prismlibrary.com"
+    xmlns:tmp="clr-namespace:Inspector.Framework.Helpers"
+    xmlns:views="clr-namespace:Inspector.Views.Shared"
+    xmlns:vm="clr-namespace:Inspector.ViewModels"
+    x:Name="this"
+    Title="Detalles"
+    ios:Page.UseSafeArea="true"
+    BackgroundColor="White">
+    <!--  x:DataType="vm:ReportDetailPageViewModel"  -->
+
+    <ContentPage.ToolbarItems>
+        <!--<ToolbarItem Order="Secondary" Text="Compartir" />
+        <ToolbarItem Order="Secondary" Text="Llamar al encargado" />
+        <ToolbarItem Order="Secondary" Text="Whatsapp del encargado" />
+        <ToolbarItem Order="Secondary" Text="Reportar" />-->
+        <ToolbarItem
+            Command="{Binding AttachFileCommand}"
+            Order="Secondary"
+            Text="Adjuntar archivos" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <DataTemplate x:Key="incomingTemplate">
+                <StackLayout Margin="0,16,0,0" Padding="16,0,32,0">
+                    <Label Text="{Binding UserName}" TextColor="Black" />
+                    <Frame
+                        Padding="8,8,8,4"
+                        BackgroundColor="#E3E3E3"
+                        CornerRadius="10"
+                        HasShadow="False">
+                        <StackLayout>
+                            <Label Text="{Binding Body}" TextType="Html" />
+                            <Label HorizontalOptions="End" Text="{Binding CreatedAt, StringFormat='{0:g}'}" />
+                            <Line
+                                Margin="-16,0,-16,0"
+                                HorizontalOptions="FillAndExpand"
+                                IsVisible="{Binding HasAttachments}"
+                                Opacity="0.3"
+                                Stroke="Black"
+                                StrokeLineCap="Round"
+                                StrokeThickness="2"
+                                X1="0"
+                                X2="3000" />
+                            <Button
+                                BackgroundColor="#E3E3E3"
+                                Command="{Binding BindingContext.ShowFilesCommand, Source={x:Reference this}}"
+                                CommandParameter="{Binding .}"
+                                IsVisible="{Binding HasAttachments}"
+                                Text="Ver Adjuntos" />
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+            </DataTemplate>
+
+            <DataTemplate x:Key="outgoingTemplate">
+                <StackLayout Margin="0,16,0,0" Padding="32,0,16,0">
+                    <!--<Label Text="{Binding UserName}" TextColor="Black" />-->
+                    <Frame
+                        Padding="8,8,8,4"
+                        BackgroundColor="{StaticResource PrimaryColor}"
+                        CornerRadius="10"
+                        HasShadow="False">
+                        <StackLayout>
+                            <Label Text="{Binding Body}" TextColor="White" />
+                            <Label
+                                HorizontalOptions="End"
+                                Text="{Binding CreatedAt, StringFormat='{0:g}'}"
+                                TextColor="White" />
+                            <Line
+                                Margin="-16,0,-16,0"
+                                HorizontalOptions="FillAndExpand"
+                                IsVisible="{Binding HasAttachments}"
+                                Opacity="0.6"
+                                Stroke="White"
+                                StrokeLineCap="Round"
+                                StrokeThickness="2"
+                                X1="0"
+                                X2="3000" />
+                            <Button
+                                BackgroundColor="{StaticResource PrimaryColor}"
+                                Command="{Binding BindingContext.ShowFilesCommand, Source={x:Reference this}}"
+                                CommandParameter="{Binding .}"
+                                IsVisible="{Binding HasAttachments}"
+                                Text="Ver Adjuntos"
+                                TextColor="White" />
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+            </DataTemplate>
+
+            <tmp:CommentTemplateSelector
+                x:Key="commentTemplateSelector"
+                IncomingDataTemplate="{StaticResource incomingTemplate}"
+                OutgoingDataTemplate="{StaticResource outgoingTemplate}" />
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <ContentPage.Content>
-        <StackLayout Padding="16">
 
-            <Image
-                Margin="-16,-16,-16,0"
-                Aspect="AspectFill"
-                Source="sample.png" />
+        <Grid ColumnSpacing="0" RowSpacing="0">
 
-            <Label
-                Grid.Row="1"
-                Style="{StaticResource H3}"
-                Text="Reparación Calle" />
-            <Label
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="1" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <RefreshView IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+                <CollectionView
+                    ItemTemplate="{StaticResource commentTemplateSelector}"
+                    ItemsSource="{Binding Comments}"
+                    ItemsUpdatingScrollMode="KeepLastItemInView">
+                    <CollectionView.Header>
+                        <StackLayout Padding="16">
+                            <Label
+                                Grid.Row="1"
+                                Style="{StaticResource H3}"
+                                Text="{Binding TicketSelected.Title}" />
+                            <Label
+                                Grid.Row="2"
+                                Text="{Binding TicketSelected.CustomAttributes[address]}"
+                                TranslationY="-6" />
+
+                            <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                                <views:ShipState State="{Binding TicketSelected.StateId}" />
+                                <!--<mtrl:MaterialChip TextColor="#DE000000">
+                                    <mtrl:MaterialChip.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding TicketSelected.StateId}"
+                                            TargetType="mtrl:MaterialChip"
+                                            Value="1">
+                                            <Setter Property="Text" Value="Nuevo" />
+                                            <Setter Property="BackgroundColor" Value="#EBF4FF" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding TicketSelected.StateId}"
+                                            TargetType="mtrl:MaterialChip"
+                                            Value="2">
+                                            <Setter Property="Text" Value="Abierto" />
+                                            <Setter Property="BackgroundColor" Value="#EFFAE6" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding TicketSelected.StateId}"
+                                            TargetType="mtrl:MaterialChip"
+                                            Value="6">
+                                            <Setter Property="Text" Value="En progreso" />
+                                            <Setter Property="BackgroundColor" Value="#FEFCE7" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding TicketSelected.StateId}"
+                                            TargetType="mtrl:MaterialChip"
+                                            Value="4">
+                                            <Setter Property="Text" Value="Cerrado" />
+                                            <Setter Property="BackgroundColor" Value="#FEE7E7" />
+                                        </DataTrigger>
+                                    </mtrl:MaterialChip.Triggers>
+                                </mtrl:MaterialChip>-->
+                                <mtrl:MaterialChip TextColor="#DE000000">
+                                    <mtrl:MaterialChip.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding TicketSelected.PriorityId}"
+                                            TargetType="mtrl:MaterialChip"
+                                            Value="1">
+                                            <!--<Setter Property="Text" Value="Prioridad Baja" />
+                                            <Setter Property="BackgroundColor" Value="#EFFAE6" />-->
+                                            <Setter Property="IsVisible" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding TicketSelected.PriorityId}"
+                                            TargetType="mtrl:MaterialChip"
+                                            Value="2">
+                                            <Setter Property="Text" Value="Prioridad Normal" />
+                                            <Setter Property="BackgroundColor" Value="#FFFF7F50" />
+                                        </DataTrigger>
+                                        <DataTrigger
+                                            Binding="{Binding TicketSelected.PriorityId}"
+                                            TargetType="mtrl:MaterialChip"
+                                            Value="3">
+                                            <Setter Property="Text" Value="Prioridad Alta" />
+                                            <Setter Property="BackgroundColor" Value="#FFCD5C5C" />
+                                        </DataTrigger>
+                                    </mtrl:MaterialChip.Triggers>
+                                </mtrl:MaterialChip>
+
+                                <mtrl:MaterialChip
+                                    BackgroundColor="#EEEEEE"
+                                    Text="{Binding TicketSelected.CreatedAt, StringFormat='{0:d}'}"
+                                    TextColor="#DE000000" />
+                            </StackLayout>
+
+                            <!--<Line Style="{StaticResource lineStyle}" Y1="8" />
+
+                            <mtrl:MaterialButton
+                                Command="{Binding ChangeStatusTicketCommand}"
+                                Style="{StaticResource ButtonPrimary}"
+                                Text="Editar estado" />-->
+
+                            <Frame Padding="16,8" BackgroundColor="#E3E3E3">
+                                <Grid RowSpacing="0">
+                                    <Label Text="Ciudadano" />
+                                    <Label
+                                        Grid.Row="1"
+                                        FontAttributes="Bold"
+                                        FontSize="16">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}{0} {1}">
+                                                <Binding Path="Customer.FirstName" />
+                                                <Binding Path="Customer.LastName" />
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+
+                                    <StackLayout Grid.Row="2" Orientation="Horizontal">
+                                        <Image
+                                            HeightRequest="14"
+                                            Source="{img:ImageResource Inspector.Resources.Images.carnet.png}"
+                                            WidthRequest="14" />
+                                        <Label
+                                            Grid.Row="2"
+                                            Grid.Column="1"
+                                            Margin="0,0,16,0"
+                                            Text="{Binding Customer.CustomAttributes[cedula]}" />
+
+                                        <Image
+                                            HeightRequest="14"
+                                            Source="{img:ImageResource Inspector.Resources.Images.phone.png}"
+                                            WidthRequest="14" />
+                                        <Label
+                                            Grid.Row="3"
+                                            Grid.Column="1"
+                                            Text="{Binding Customer.Phone}" />
+                                    </StackLayout>
+                                </Grid>
+                            </Frame>
+
+                            <Line Style="{StaticResource lineStyle}" Y1="8" />
+                        </StackLayout>
+                    </CollectionView.Header>
+
+                    <CollectionView.EmptyView>
+                        <Label Text="Sin comentarios" />
+                    </CollectionView.EmptyView>
+                </CollectionView>
+            </RefreshView>
+
+            <Line Grid.Row="1" Style="{StaticResource lineStyle}" />
+
+            <Grid
                 Grid.Row="2"
-                Text="Luis F. Thomen #450, El Millon"
-                TranslationY="-6" />
+                ColumnSpacing="0"
+                RowSpacing="0">
 
-            <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
-                <Grid ColumnDefinitions="20,Auto" VerticalOptions="Start">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-                    <Rectangle
-                        Grid.ColumnSpan="2"
-                        Margin="-4"
-                        Fill="#27AE60"
-                        HorizontalOptions="FillAndExpand"
-                        Opacity="0.2"
-                        RadiusX="5"
-                        RadiusY="5"
-                        VerticalOptions="FillAndExpand" />
+                <!--<Entry
+                    Margin="1"
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="FillAndExpand"
+                    Keyboard="Chat"
+                    Placeholder="Type your message here"
+                    PlaceholderColor="LightGray"
+                    TextColor="Black" />-->
 
-                    <Rectangle
-                        Fill="#27AE60"
-                        HeightRequest="16"
-                        HorizontalOptions="Start"
-                        RadiusX="5"
-                        RadiusY="5"
-                        WidthRequest="20" />
-                    <Label Grid.Column="1" Text="EN PROCESO" />
+                <mtrl:MaterialTextField
+                    Margin="10,10,10,10"
+                    AlwaysShowUnderline="False"
+                    CardBackgroundColor="#F5F5F5"
+                    FloatingPlaceholderEnabled="False"
+                    HorizontalOptions="FillAndExpand"
+                    Placeholder="Escribe aqui"
+                    PlaceholderColor="#626262"
+                    ReturnType="Send"
+                    ShouldAnimateUnderline="False"
+                    Text="{Binding NewComment}"
+                    TextColor="Black"
+                    UnderlineColor="Transparent" />
 
-                </Grid>
+                <Button
+                    Grid.Column="1"
+                    Margin="2,6,2,6"
+                    BackgroundColor="{StaticResource PrimaryColor}"
+                    Command="{Binding SendCommentCommand}"
+                    CornerRadius="50"
+                    HeightRequest="50"
+                    ImageSource="{img:ImageResource Inspector.Resources.Images.send.png}"
+                    WidthRequest="50" />
 
-                <Grid
-                    ColumnDefinitions="Auto"
-                    HorizontalOptions="EndAndExpand"
-                    VerticalOptions="End">
-                    <Rectangle
-                        Margin="-4"
-                        Fill="#000"
-                        HorizontalOptions="FillAndExpand"
-                        Opacity="0.04"
-                        RadiusX="5"
-                        RadiusY="5"
-                        VerticalOptions="FillAndExpand" />
-                    <Label Text="99 Colaboradores" TextTransform="Uppercase" />
-                </Grid>
-            </StackLayout>
+            </Grid>
 
-            <StackLayout
-                Margin="0,8"
-                HeightRequest="48"
-                Orientation="Horizontal"
-                VerticalOptions="Start">
-                <mtrl:MaterialButton Style="{StaticResource ButtonOutlined}" Text="Compartir" />
-                <mtrl:MaterialButton Style="{StaticResource ButtonOutlined}" Text="Guardar" />
-            </StackLayout>
+        </Grid>
 
-            <Label LineHeight="1.6" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi in lacus gravida, dapibus lacus eget, commodo tellus. Integer nec dolor lobortis, tincidunt libero sit amet, sodales arcu. Nam feugiat nibh at erat placerat luctus. " />
-
-            <mtrl:MaterialButton
-                Style="{StaticResource ButtonPrimary}"
-                Text="Unirse como colaborador"
-                VerticalOptions="EndAndExpand" />
-
-        </StackLayout>
     </ContentPage.Content>
 
 </ContentPage>

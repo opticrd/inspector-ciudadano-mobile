@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Inspector.Views.Signup.SignupLocationPage"  
+    xmlns:ctrls="clr-namespace:UIModule.Controls;assembly=UIModule"
+    xmlns:img="clr-namespace:Inspector.Framework.Helpers.Extensions;assembly=Inspector"
+    xmlns:l18n="clr-namespace:Inspector.Framework.Helpers.Extensions"
+    xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
+    xmlns:prism="http://prismlibrary.com"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true" 
+    BackgroundColor="White"
+    prism:ViewModelLocator.AutowireViewModel="True">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout
+                Padding="16,36,16,16"
+                Spacing="10"
+                VerticalOptions="CenterAndExpand">
+                <Label
+                    FontAttributes="Bold"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource H2}"
+                    Text="¡Registrate ahora!" />
+                <Label
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource Body2}"
+                    Text="Completa para validar tu localidad"
+                    TranslationY="-16" />
+
+                <StackLayout>
+                <Label 
+                    Text="{Binding FullName}"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource Body2}" />
+                <Label 
+                    Text="{Binding Citizen.Id}"
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource Body2}" />
+
+
+                <ctrls:TextFieldLayout>
+                    <mtrl:MaterialTextField
+                        ChoiceSelectedCommand="{Binding SelectGroupCommand}"
+                        Choices="{Binding Groups}"
+                        ChoicesBindingName="Name"
+                        ChoicesResultBindingName="Name"
+                        ErrorText="{Binding Group.Error}"
+                        HasError="{Binding Group.HasErrors}"
+                        HelperText="Selecciona tu institución"
+                        Placeholder="Institución"
+                        ReturnType="Next"
+                        Style="{StaticResource TextFieldChoiceStyle}" />
+                </ctrls:TextFieldLayout>
+                <ctrls:TextFieldLayout IsVisible="{Binding RegionIsEnabled}">
+                    <mtrl:MaterialTextField
+                            ChoiceSelectedCommand="{Binding SelectRegionCommand}"
+                            Choices="{Binding Regions}"
+                            ChoicesBindingName="Name"
+                            ChoicesResultBindingName="Name"
+                            ErrorText="{Binding Region.Error}"
+                            HasError="{Binding Region.HasErrors}"
+                            HelperText="{l18n:Translate SelectRegion}"
+                            Placeholder="{l18n:Translate Region}"
+                            ReturnType="Next"
+                            Style="{StaticResource TextFieldChoiceStyle}" />
+                </ctrls:TextFieldLayout>
+
+                <ctrls:TextFieldLayout IsVisible="{Binding ProvinceIsEnabled}">
+                    <mtrl:MaterialTextField
+                            ChoiceSelectedCommand="{Binding SelectProvinceCommand}"
+                            Choices="{Binding Provinces}"
+                            ChoicesBindingName="Name"
+                            ChoicesResultBindingName="Name"
+                            ErrorText="{Binding Province.Error}"
+                            HasError="{Binding Province.HasErrors}"
+                            HelperText="{l18n:Translate SelectProvince}"
+                            Placeholder="{l18n:Translate Province}"
+                            ReturnType="Next"
+                            Style="{StaticResource TextFieldChoiceStyle}" />
+                </ctrls:TextFieldLayout>
+
+                <ctrls:TextFieldLayout IsVisible="{Binding MunicipalityIsEnabled}">
+                    <mtrl:MaterialTextField
+                            ChoiceSelectedCommand="{Binding SelectMunicipalityCommand}"
+                            Choices="{Binding Municipalities}"
+                            ChoicesBindingName="Name"
+                            ChoicesResultBindingName="Name"
+                            ErrorText="{Binding Municipality.Error}"
+                            HasError="{Binding Municipality.HasErrors}"
+                            HelperText="{l18n:Translate SelectMunicipality}"
+                            Placeholder="{l18n:Translate Municipality}"
+                            ReturnType="Next"
+                            Style="{StaticResource TextFieldChoiceStyle}" />
+                </ctrls:TextFieldLayout>
+
+                <ctrls:TextFieldLayout IsVisible="{Binding DistrictIsEnabled}">
+                    <mtrl:MaterialTextField
+                            ChoiceSelectedCommand="{Binding SelectDistrictCommand}"
+                            Choices="{Binding Districts}"
+                            ChoicesBindingName="Name"
+                            ChoicesResultBindingName="Name"
+                            ErrorText="{Binding District.Error}"
+                            HasError="{Binding District.HasErrors}"
+                            HelperText="{l18n:Translate SelectDistrict}"
+                            Placeholder="{l18n:Translate District}"
+                            ReturnType="Next"
+                            Style="{StaticResource TextFieldChoiceStyle}" />
+                </ctrls:TextFieldLayout>
+                <mtrl:MaterialButton
+                    Command="{Binding ValidateLocationCommand}"
+                    Style="{StaticResource ButtonPrimary}"
+                    Text="Validar localidad" />
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

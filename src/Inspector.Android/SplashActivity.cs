@@ -8,10 +8,10 @@ using Android.Content;
 
 namespace Inspector.Droid
 {
-#if RELEASE
-    [Activity(Label="Inspector", Icon = "@mipmap/icon", Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory = true, ScreenOrientation = ScreenOrientation.Portrait)]
+#if RELEASE || DEBUG
+    [Activity(Label="Inspector", Icon = "@mipmap/ic_launcher", Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory = true, ScreenOrientation = ScreenOrientation.Portrait)]
 #else
-    [Activity(Label = "Inspector", Icon = "@mipmap/icon", Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory = true, ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "Reportero", Icon = "@mipmap/ic_launcher", Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory = true, ScreenOrientation = ScreenOrientation.Portrait)]
 #endif
     public class SplashActivity : AppCompatActivity
     {
@@ -30,6 +30,8 @@ namespace Inspector.Droid
             StartActivity(new Intent(Application.Context, typeof(MainActivity)));
             Log.Debug(TAG, "Startup work is finished - starting MainActivity.");
         }
+
+        public override void OnBackPressed() { }
     }
 
 }

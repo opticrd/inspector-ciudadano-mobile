@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Inspector.Views.AppInfoPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:img="clr-namespace:Inspector.Framework.Helpers.Extensions;assembly=Inspector"
+    xmlns:prism="http://prismlibrary.com"
+    Title="Detalles de la aplicación"
+    prism:ViewModelLocator.AutowireViewModel="True">
+
+    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+        <Label
+            x:Name="appName"
+            HorizontalTextAlignment="Center"
+            Style="{StaticResource H3}" />
+        <Label
+            x:Name="appVersion"
+            HorizontalTextAlignment="Center"
+            Style="{StaticResource Body2}" />
+        <Image HeightRequest="100" Source="{img:ImageResource Inspector.Resources.Images.logo.png}" />
+        <Label
+            HorizontalTextAlignment="Center"
+            Style="{StaticResource Body2}"
+            Text="Ⓒ 2021-2024 Ogtic" />
+    </StackLayout>
+
+</ContentPage>

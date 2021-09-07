@@ -24,12 +24,25 @@ namespace Inspector.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            NativeMedia.Platform.Init(GetTopViewController);
             global::Xamarin.Forms.Forms.Init();
             XF.Material.iOS.Material.Init();
 
             LoadApplication(new App(new iOSInitializer()));
 
             return base.FinishedLaunching(app, options);
+        }
+
+        public UIViewController GetTopViewController()
+        {
+            var vc = UIApplication.SharedApplication.Windows
+                ?.FirstOrDefault(w => w.RootViewController != null && !(w.RootViewController is Rg.Plugins.Popup.IOS.Renderers.PopupPageRenderer))
+                ?.RootViewController;
+
+            if (vc is UINavigationController navController)
+                vc = navController.ViewControllers.Last();
+
+            return vc;
         }
 
         public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)

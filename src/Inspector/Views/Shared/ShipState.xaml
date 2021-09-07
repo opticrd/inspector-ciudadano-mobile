@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="Inspector.Views.Shared.ShipState"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <ContentView.Content>
+        <Grid ColumnDefinitions="20,Auto" VerticalOptions="Center">
+
+            <Rectangle
+                x:Name="shipBackgroundColor"
+                Grid.ColumnSpan="2"
+                Margin="-4"
+                Fill="#27AE60"
+                HorizontalOptions="FillAndExpand"
+                Opacity="0.2"
+                RadiusX="5"
+                RadiusY="5"
+                VerticalOptions="FillAndExpand" />
+
+            <Rectangle
+                x:Name="shipState"
+                Fill="#27AE60"
+                HeightRequest="16"
+                HorizontalOptions="Start"
+                RadiusX="5"
+                RadiusY="5"
+                WidthRequest="20" />
+            <Label
+                x:Name="shipStateText"
+                Grid.Column="1"
+                FontSize="14"
+                Text="EN PROCESO" />
+
+        </Grid>
+
+    </ContentView.Content>
+</ContentView>
