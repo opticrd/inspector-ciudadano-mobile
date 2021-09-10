@@ -110,6 +110,7 @@ namespace Inspector
 
             // Registering types
             //containerRegistry.RegisterSingleton<INetworkRepository, NetworkRepository>();
+            containerRegistry.RegisterSingleton<IAuthService, AuthService>();
             containerRegistry.RegisterSingleton<ICacheService, CacheService>();
             containerRegistry.RegisterForNavigation<PreviewGalleryPage, PreviewGalleyPageViewModel>();
 

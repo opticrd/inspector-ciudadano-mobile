@@ -17,6 +17,8 @@ namespace Inspector.Framework.Utils
         public const string PreviewGalleryPage = nameof(PreviewGalleryPage);
         public const string ReportDetailPage = nameof(ReportDetailPage);
         public const string LoginPage = nameof(LoginPage);
+
+        public const string SignupLocationPage = nameof(SignupLocationPage);
     }
 
     public static class CacheKeys
@@ -32,7 +34,13 @@ namespace Inspector.Framework.Utils
     {
         public static string ZammadApiBaseUrl => AppSettingsManager.Settings["ZammadApiBaseUrl"];
         public static string ZammadToken => AppSettingsManager.Settings["ZammadToken"];
+
         public static string KeycloakBaseUrl => AppSettingsManager.Settings["KeycloakBaseUrl"];
+        public static string KeycloakClientId => AppSettingsManager.Settings["KeycloakClientId"];
+        public static string KeycloakGrantType => AppSettingsManager.Settings["KeycloakGrantType"];
+        public static string KeycloakPassword => AppSettingsManager.Settings["KeycloakPassword"];
+        public static string KeycloakUsername => AppSettingsManager.Settings["KeycloakUsername"];
+
         public static string TerritorialDivisionApiBaseUrl => AppSettingsManager.Settings["TerritorialDivisionApiBaseUrl"];
         public static string IncidentsApiBaseUrl => AppSettingsManager.Settings["IncidentsApiBaseUrl"];
         public static string IAmApiBaseUrl => AppSettingsManager.Settings["IAmApiBaseUrl"];

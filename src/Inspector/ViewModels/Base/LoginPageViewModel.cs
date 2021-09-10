@@ -25,38 +25,25 @@ namespace Inspector.ViewModels
 {
     public class LoginPageViewModel : BaseViewModel
     {
-        IKeycloakApi _keycloakApi;
-        IZammadLiteApi _zammadLiteApi;
         ILogger _logger;
+        IAuthService _authService;
         public ICommand GoogleCommand { get; set; }
         public ICommand FacebookCommand { get; set; }
         public ICommand MicrosoftCommand { get; set; }
 
         const string AuthenticationUrl = "https://citizens-auth-api-dev-i42qq4zxeq-ue.a.run.app/mobileauth/";
-        public LoginPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ILogger logger,
+        public LoginPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ILogger logger, IAuthService authService,
             ICacheService cacheService, IKeycloakApi keycloakApi, IZammadLiteApi zammadLiteApi) 
             : base(navigationService, dialogService, cacheService)
         {
-            _keycloakApi = keycloakApi;
-            _zammadLiteApi = zammadLiteApi;
             _logger = logger;
+            _authService = authService;
 
-            /* Email = Validator.Build<string>()
-                 .IsRequired(Message.FieldRequired)
-                 .IsEmail(Message.InvalidEmail);
-
-             Password = Validator.Build<string>()
-                 .IsRequired(Message.FieldRequired)
-                 .Must(x => x.Length > 4, Message.MaxMinInvalidField);*/
-
-            // SignupCommand = new DelegateCommand(OnSignupCommandExecute);
-            //LoginCommand = new DelegateCommand(OnLoginCommandExecute);
 
             GoogleCommand = new DelegateCommand(async () => await OnAuthenticate("Google"));
             FacebookCommand = new DelegateCommand(async () => await OnAuthenticate("Facebook"));
             MicrosoftCommand = new DelegateCommand(async () => await OnAuthenticate("Microsoft"));
 
-            // ForgetPasswordCommand = new DelegateCommand(()=> dialogService.DisplayAlertAsync(General.ForgetPassword, "Contacte su supervisor para más información.", "Ok"));
         }
 
         private void OnSignupCommandExecute()
@@ -64,12 +51,6 @@ namespace Inspector.ViewModels
             _navigationService.NavigateAsync("SignupDocumentPage");
         }
 
-        //public Validatable<string> Password { get; set; }
-        //public Validatable<string> Email { get; set; }
-
-       // public ICommand LoginCommand { get; set; }
-        //public ICommand ForgetPasswordCommand { get; set; }
-        //public ICommand SignupCommand { get; set; }
         private async Task OnAuthenticate(string scheme)
         {
             try
@@ -106,36 +87,22 @@ namespace Inspector.ViewModels
                     {
                         email = email.Replace("%40", "@");
 
-                        // Go to keycloak
-                        var keycloakToken = await _keycloakApi.Authenticate(new TokenRequestBody
-                        {
-                            ClientId = "admin-cli",
-                            GrantType = "password",
-                            Password = "1234",
-                            Username = "toribioea@gmail.com"
-                        });
+                        var response = await _authService.Login(email, "");
 
-                        //If the user already exists, do a login
-                        var keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", email);
-                        if (keycloakUserCollection != null && keycloakUserCollection.Count == 1)
+                        if (response.doSignUp)
                         {
-                            var pwdList = keycloakUserCollection[0]?.Attributes?.Pwd;
-                            if (pwdList == null)
-                            {
-                                var doSignUp = await _dialogService.DisplayAlertAsync("", "Debes registrar tu cuenta para iniciar sesión.", "Registrarme", "Ok");
-                                if (doSignUp)
-                                {
-                                    IsBusy = false;
-                                    await _navigationService.NavigateAsync("/WelcomePage/SignupDocumentPage");
-                                }
-                                return;
-                            }
-                            var pwd = keycloakUserCollection[0]?.Attributes?.Pwd[0] ?? string.Empty;
-                            await DoLogin(email, pwd.Base64Decode());
-                            IsBusy = false;
+                            var doSignUp = await _dialogService.DisplayAlertAsync("", "Debes registrar tu cuenta para iniciar sesión.", "Registrarme", "Ok");
+                            if (doSignUp)                            
+                                await _navigationService.NavigateAsync("/WelcomePage/SignupDocumentPage");
+                            
                             return;
                         }
 
+                        if (response.result)
+                        {
+                            await _navigationService.NavigateAsync($"/{NavigationKeys.HomePage}");
+                            return;
+                        }
                     }
                     else
                     {
@@ -146,16 +113,17 @@ namespace Inspector.ViewModels
             catch (OperationCanceledException)
             {
                 Console.WriteLine("Autenticación canceledada.");
-
                 await _dialogService.DisplayAlertAsync("", "Login cancelado.", "Ok");
             }
             catch (Exception ex)
             {
                 _logger.Report(ex);
-
-                await _dialogService.DisplayAlertAsync("", $"Failed: {ex.Message}", "Ok");
+                await _dialogService.DisplayAlertAsync("", Message.SomethingHappen, "Ok");
             }
-            IsBusy = false;
+            finally
+            {
+                IsBusy = false;
+            }
         }
         /*
         async void OnLoginCommandExecute()
@@ -169,94 +137,5 @@ namespace Inspector.ViewModels
             }
             await DoLogin(Email.Value, Password.Value);
         }*/
-        async Task DoLogin(string email, string password) 
-        { 
-            IsBusy = true;
-
-            try
-            {
-                //TODO Refactor this, pass these parameters with the appsettings file
-               /* var keycloakToken = await _keycloakApi.Authenticate(new Framework.Dtos.Keycloak.TokenRequestBody
-                {
-                    ClientId = "admin-cli",
-                    GrantType = "password",
-                    Password = "1234",
-                    Username = "toribioea@gmail.com"
-                });
-                var keycloakUserCollection = await _keycloakApi.GetUser($"Bearer {keycloakToken.AccessToken}", email);
-
-
-                // Validate I get the user from keycloak
-                if (keycloakUserCollection == null || keycloakUserCollection.Count != 1)
-                {
-                    throw new System.Exception("El usuario no existe");
-                }
-
-                var keycloakUser = keycloakUserCollection[0];
-
-                // Get the cedula
-                /*var cedula = keycloakUser.Attributes?.Cedula[0]??string.Empty;
-                if (string.IsNullOrWhiteSpace(cedula))
-                    throw new System.Exception($"Tu usuario {email} en keycloak no tiene cédula. Contacta a un administrador.");
-
-                // Search for the user email in zammad
-                var zammadUserSearch = await _zammadLiteApi.SearchUser($"Bearer {AppKeys.ZammadToken}", email);
-
-                // If the user doesn't exist in zammad, create it
-                if (zammadUserSearch != null && zammadUserSearch.Where(x => x.Email == email).Count() == 0)
-                {
-                    var zammadUser = await _zammadLiteApi.CreateUser($"Bearer {AppKeys.ZammadToken}", new ZammadUser
-                    {
-                        Email = email,
-                        Firstname = keycloakUser.FirstName,
-                        Lastname = keycloakUser.LastName,
-                        Cedula = cedula,
-                        Password = password,
-                        Organization = "Ogtic",
-                        Note = "Created from mobile",
-                        Verified = true,
-                        //TODO: Revaluate this assignment
-                        RoleIds = new List<int>() { 2 }, //1: Admin, 2: Agent, 3: Customer
-                        Active = true
-                    });
-                }*/
-                // TODO
-                // If the user exists check if the user has the cedula field
-                // If the cedula field is set, see if the password match the cedula
-                // If the cedula field is not set, update the user, set the cedula field, and proceed
-
-
-
-
-                var account = ZammadAccount.CreateBasicAccount(AppKeys.ZammadApiBaseUrl, email, password);
-                var client = account.CreateUserClient();
-                var userAccount = await client.GetUserMeAsync();
-
-                if (userAccount.Active)
-                {
-                    var groupClient = account.CreateGroupClient();
-                    var groups = await groupClient.GetGroupListAsync();
-
-                    await _cacheService.InsertLocalObject(CacheKeys.Groups, groups);
-
-                    Settings.IsLoggedIn = true;
-                    await _cacheService.InsertSecureObject(CacheKeys.ZammadAccount, account);
-                    await _cacheService.InsertSecureObject(CacheKeys.UserAccount, userAccount);
-
-                    await _navigationService.NavigateAsync($"/{NavigationKeys.HomePage}");
-                }
-                else
-                {
-                    await _dialogService.DisplayAlertAsync("", Message.AccountNotActivated, "Ok");
-                }                    
-            }
-            catch (System.Exception e)
-            {
-                _logger.Report(e);
-                await _dialogService.DisplayAlertAsync("", Message.AccountInvalid, "Ok");
-            }
-            
-            IsBusy = false;
-        }
     }
 }
