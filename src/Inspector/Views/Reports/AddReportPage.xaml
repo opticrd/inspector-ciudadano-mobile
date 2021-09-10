@@ -40,6 +40,69 @@
 
             <Frame>
                 <StackLayout>
+                    <Label Style="{StaticResource Subtitle2}" Text="{l18n:Translate IncidentType}" />
+
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
+                            ChoiceSelectedCommand="{Binding SelectIncidentCommand}"
+                            Choices="{Binding Incidents}"
+                            ChoicesBindingName="Name"
+                            ChoicesResultBindingName="Name"
+                            ErrorText="{Binding Incident.Error}"
+                            HasError="{Binding Incident.HasErrors}"
+                            HelperText="{l18n:Translate SelectIncident}"
+                            Placeholder="{l18n:Translate Incident}"
+                            ReturnType="Next"
+                            Style="{StaticResource TextFieldChoiceStyle}" />
+                    </ctrls:TextFieldLayout>
+
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
+                            ChoiceSelectedCommand="{Binding SelectCategoryCommand}"
+                            Choices="{Binding Categories}"
+                            ChoicesBindingName="Name"
+                            ChoicesResultBindingName="Name"
+                            ErrorText="{Binding Category.Error}"
+                            HasError="{Binding Category.HasErrors}"
+                            HelperText="{l18n:Translate SelectCategory}"
+                            Placeholder="{l18n:Translate Category}"
+                            ReturnType="Next"
+                            Style="{StaticResource TextFieldChoiceStyle}" />
+                    </ctrls:TextFieldLayout>
+
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
+                            ChoiceSelectedCommand="{Binding SelectSubCategoryCommand}"
+                            Choices="{Binding SubCategories}"
+                            ChoicesBindingName="Name"
+                            ChoicesResultBindingName="Name"
+                            ErrorText="{Binding SubCategory.Error}"
+                            HasError="{Binding SubCategory.HasErrors}"
+                            HelperText="{l18n:Translate SelectSubCategory}"
+                            Placeholder="{l18n:Translate SubCategory}"
+                            ReturnType="Next"
+                            Style="{StaticResource TextFieldChoiceStyle}" />
+                    </ctrls:TextFieldLayout>
+
+                    <ctrls:TextFieldLayout>
+                        <mtrl:MaterialTextField
+                            ChoiceSelectedCommand="{Binding SelectGroupCommand}"
+                            Choices="{Binding Groups}"
+                            ChoicesBindingName="Name"
+                            ChoicesResultBindingName="Name"
+                            ErrorText="{Binding GroupSelected.Error}"
+                            HasError="{Binding GroupSelected.HasErrors}"
+                            HelperText="{l18n:Translate SelectInstitution}"
+                            Placeholder="{l18n:Translate Institution}"
+                            ReturnType="Next"
+                            Style="{StaticResource TextFieldChoiceStyle}" />
+                    </ctrls:TextFieldLayout>
+
+                </StackLayout>
+            </Frame>
+
+            <Frame>
+                <StackLayout>
                     <ActivityIndicator IsRunning="True" IsVisible="{Binding IsValidatingDocument}" />
                     <Label Style="{StaticResource Subtitle2}" Text="{l18n:Translate CitizenDetails}" />
 
@@ -57,13 +120,19 @@
                     </ctrls:TextFieldLayout>
 
                     <ctrls:TextFieldLayout>
-                        <mtrl:MaterialTextField
+                        <!--<mtrl:MaterialTextField
                             HelperText="Nombre completo del cuidadano"
                             IsEnabled="False"
                             Placeholder="{l18n:Translate FullName}"
                             ReturnType="Next"
                             TabIndex="100"
-                            Text="{Binding CitizenName}" />
+                            Text="{Binding CitizenName}" />-->
+
+                        <Label
+                            FontSize="19"
+                            Text="{Binding CitizenName}"
+                            TranslationX="16"
+                            VerticalOptions="Center" />
                     </ctrls:TextFieldLayout>
 
                     <ctrls:TextFieldLayout>
@@ -83,6 +152,7 @@
 
             <Frame>
                 <StackLayout>
+                    <ActivityIndicator IsRunning="True" IsVisible="{Binding IsSearchingZones}" />
                     <Label Style="{StaticResource Subtitle2}" Text="{l18n:Translate ReportDetails}" />
 
                     <!--<ctrls:TextFieldLayout>
@@ -94,20 +164,6 @@
                                 ReturnType="Next"
                                 Text="{Binding Title.Value}" />
                     </ctrls:TextFieldLayout>-->
-
-                    <ctrls:TextFieldLayout>
-                        <mtrl:MaterialTextField
-                            ChoiceSelectedCommand="{Binding SelectGroupCommand}"
-                            Choices="{Binding Groups}"
-                            ChoicesBindingName="Name"
-                            ChoicesResultBindingName="Name"
-                            ErrorText="{Binding GroupSelected.Error}"
-                            HasError="{Binding GroupSelected.HasErrors}"
-                            HelperText="{l18n:Translate SelectInstitution}"
-                            Placeholder="{l18n:Translate Institution}"
-                            ReturnType="Next"
-                            Style="{StaticResource TextFieldChoiceStyle}" />
-                    </ctrls:TextFieldLayout>
 
                     <ctrls:TextFieldLayout IsVisible="{Binding RegionIsEnabled}">
                         <mtrl:MaterialTextField
@@ -266,55 +322,6 @@
                             </mtrl:MaterialTextField.Choices>
                         </mtrl:MaterialTextField>
                     </ctrls:TextFieldLayout>-->
-
-                </StackLayout>
-            </Frame>
-
-            <Frame>
-                <StackLayout>
-                    <Label Style="{StaticResource Subtitle2}" Text="{l18n:Translate IncidentType}" />
-
-                    <ctrls:TextFieldLayout>
-                        <mtrl:MaterialTextField
-                            ChoiceSelectedCommand="{Binding SelectIncidentCommand}"
-                            Choices="{Binding Incidents}"
-                            ChoicesBindingName="Name"
-                            ChoicesResultBindingName="Name"
-                            ErrorText="{Binding Incident.Error}"
-                            HasError="{Binding Incident.HasErrors}"
-                            HelperText="{l18n:Translate SelectIncident}"
-                            Placeholder="{l18n:Translate Incident}"
-                            ReturnType="Next"
-                            Style="{StaticResource TextFieldChoiceStyle}" />
-                    </ctrls:TextFieldLayout>
-
-                    <ctrls:TextFieldLayout>
-                        <mtrl:MaterialTextField
-                            ChoiceSelectedCommand="{Binding SelectCategoryCommand}"
-                            Choices="{Binding Categories}"
-                            ChoicesBindingName="Name"
-                            ChoicesResultBindingName="Name"
-                            ErrorText="{Binding Category.Error}"
-                            HasError="{Binding Category.HasErrors}"
-                            HelperText="{l18n:Translate SelectCategory}"
-                            Placeholder="{l18n:Translate Category}"
-                            ReturnType="Next"
-                            Style="{StaticResource TextFieldChoiceStyle}" />
-                    </ctrls:TextFieldLayout>
-
-                    <ctrls:TextFieldLayout>
-                        <mtrl:MaterialTextField
-                            ChoiceSelectedCommand="{Binding SelectSubCategoryCommand}"
-                            Choices="{Binding SubCategories}"
-                            ChoicesBindingName="Name"
-                            ChoicesResultBindingName="Name"
-                            ErrorText="{Binding SubCategory.Error}"
-                            HasError="{Binding SubCategory.HasErrors}"
-                            HelperText="{l18n:Translate SelectSubCategory}"
-                            Placeholder="{l18n:Translate SubCategory}"
-                            ReturnType="Next"
-                            Style="{StaticResource TextFieldChoiceStyle}" />
-                    </ctrls:TextFieldLayout>
 
                 </StackLayout>
             </Frame>
