@@ -5,76 +5,89 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ctrls="clr-namespace:UIModule.Controls;assembly=UIModule"
     xmlns:img="clr-namespace:Inspector.Framework.Helpers.Extensions;assembly=Inspector"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
     xmlns:l18n="clr-namespace:Inspector.Framework.Helpers.Extensions"
     xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
     xmlns:prism="http://prismlibrary.com"
-    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-    ios:Page.UseSafeArea="true" 
+    ios:Page.UseSafeArea="true"
     prism:ViewModelLocator.AutowireViewModel="True">
 
     <RefreshView IsRefreshing="{Binding IsBusy, Mode=OneWay}" RefreshColor="{StaticResource PrimaryColor}">
         <ScrollView>
-        <StackLayout
-            Padding="16,36,16,16"
-            Spacing="20"
-            VerticalOptions="FillAndExpand">
-
-            <Image
-                HeightRequest="80"
-                Source="{img:ImageResource Inspector.Resources.Images.logo.png}"
-                WidthRequest="80" />
-            <Label
-                FontAttributes="Bold"
-                HorizontalTextAlignment="Center"
-                Style="{StaticResource H2}"
-                Text="Registrate" />
-            <Label
-                HorizontalTextAlignment="Center"
-                Style="{StaticResource Body2}"
-                Text="Confirma tu perfil con una red social"
-                TranslationY="-16" />
-
-
             <StackLayout
-                Margin="-16,0"
-                Padding="16"
-                BackgroundColor="White">
-                
-                
-                <Label 
-                    Text="{Binding FullName}"
-                    HorizontalTextAlignment="Center"
-                    Style="{StaticResource Body2}" />
-                <Label 
-                    Text="{Binding Citizen.Id}"
-                    HorizontalTextAlignment="Center"
-                    Style="{StaticResource Body2}" />
+                Padding="16,36,16,16"
+                Spacing="20"
+                VerticalOptions="FillAndExpand">
 
-                <Label 
-                    Text="{Binding Location}"
+                <Image
+                    HeightRequest="80"
+                    Source="{img:ImageResource Inspector.Resources.Images.logo.png}"
+                    WidthRequest="80" />
+                <Label
+                    FontAttributes="Bold"
                     HorizontalTextAlignment="Center"
-                    Style="{StaticResource Body2}" />
+                    Style="{StaticResource H2}"
+                    Text="Registrate" />
+                <Label
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource Body2}"
+                    Text="Confirma tu perfil con una red social"
+                    TranslationY="-16" />
+
+
+                <StackLayout
+                    Margin="-16,0"
+                    Padding="16"
+                    BackgroundColor="White">
+
+
+                    <Label
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource Body2}"
+                        Text="{Binding FullName}" />
+                    <Label
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource Body2}"
+                        Text="{Binding Citizen.Id}" />
+
+                    <Label
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource Body2}"
+                        Text="{Binding Location}" />
 
                     <mtrl:MaterialButton
+                        Padding="8"
                         Command="{Binding GoogleCommand}"
-                        Style="{StaticResource ButtonOutlined}"
                         ImageSource="{img:ImageResource Inspector.Resources.Images.google.png}"
-                        Text="Registrame con Google" 
-                        Padding="8"/>
+                        Style="{StaticResource ButtonOutlined}"
+                        Text="Registrame con Google" />
 
                     <mtrl:MaterialButton
+                        Padding="8"
                         Command="{Binding MicrosoftCommand}"
                         ImageSource="{img:ImageResource Inspector.Resources.Images.microsoft.png}"
                         Style="{StaticResource ButtonOutlined}"
-                        Text="Registrame con Microsoft"
-                        Padding="8" />
+                        Text="Registrame con Microsoft" />
 
                     <mtrl:MaterialButton
+                        Padding="8"
                         Command="{Binding FacebookCommand}"
                         ImageSource="{img:ImageResource Inspector.Resources.Images.facebook.png}"
                         Style="{StaticResource ButtonOutlined}"
-                        Text="Registrame con Facebook"
-                        Padding="8" />
+                        Text="Registrame con Facebook" />
+
+                    <Label HorizontalOptions="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="¿Tienes una cuenta? " TextColor="Black" />
+                                <Span Text="Inicia sesión aqui." TextColor="#0056FF" />
+                            </FormattedString>
+                        </Label.FormattedText>
+
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{prism:NavigateTo '/LoginPage'}" />
+                        </Label.GestureRecognizers>
+                    </Label>
 
                 </StackLayout>
 
