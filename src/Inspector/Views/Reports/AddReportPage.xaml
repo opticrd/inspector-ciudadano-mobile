@@ -58,47 +58,53 @@
                         <Label Text="{l18n:Translate SelectIncident}" />
                     </ctrls:PickerLayout>
 
-                    <ctrls:TextFieldLayout>
-                        <mtrl:MaterialTextField
-                            ChoiceSelectedCommand="{Binding SelectCategoryCommand}"
-                            Choices="{Binding Categories}"
-                            ChoicesBindingName="Name"
-                            ChoicesResultBindingName="Name"
-                            ErrorText="{Binding Category.Error}"
-                            HasError="{Binding Category.HasErrors}"
-                            HelperText="{l18n:Translate SelectCategory}"
-                            Placeholder="{l18n:Translate Category}"
-                            ReturnType="Next"
-                            Style="{StaticResource TextFieldChoiceStyle}" />
-                    </ctrls:TextFieldLayout>
+                    <ctrls:PickerLayout>
+                        <Picker
+                            x:Name="categoryPicker"
+                            Title="{l18n:Translate Category}"
+                            ItemDisplayBinding="{Binding Name}"
+                            ItemsSource="{Binding Categories}">
+                            <Picker.Behaviors>
+                                <prism:EventToCommandBehavior
+                                    Command="{Binding SelectCategoryCommand}"
+                                    CommandParameter="{Binding Source={x:Reference categoryPicker}, Path=SelectedItem}"
+                                    EventName="SelectedIndexChanged" />
+                            </Picker.Behaviors>
+                        </Picker>
+                        <Label Text="{l18n:Translate SelectCategory}" />
+                    </ctrls:PickerLayout>
 
-                    <ctrls:TextFieldLayout>
-                        <mtrl:MaterialTextField
-                            ChoiceSelectedCommand="{Binding SelectSubCategoryCommand}"
-                            Choices="{Binding SubCategories}"
-                            ChoicesBindingName="Name"
-                            ChoicesResultBindingName="Name"
-                            ErrorText="{Binding SubCategory.Error}"
-                            HasError="{Binding SubCategory.HasErrors}"
-                            HelperText="{l18n:Translate SelectSubCategory}"
-                            Placeholder="{l18n:Translate SubCategory}"
-                            ReturnType="Next"
-                            Style="{StaticResource TextFieldChoiceStyle}" />
-                    </ctrls:TextFieldLayout>
+                    <ctrls:PickerLayout>
+                        <Picker
+                            x:Name="subCategoryPicker"
+                            Title="{l18n:Translate SubCategory}"
+                            ItemDisplayBinding="{Binding Name}"
+                            ItemsSource="{Binding SubCategories}">
+                            <Picker.Behaviors>
+                                <prism:EventToCommandBehavior
+                                    Command="{Binding SelectSubCategoryCommand}"
+                                    CommandParameter="{Binding Source={x:Reference subCategoryPicker}, Path=SelectedItem}"
+                                    EventName="SelectedIndexChanged" />
+                            </Picker.Behaviors>
+                        </Picker>
+                        <Label Text="{l18n:Translate SelectSubCategory}" />
+                    </ctrls:PickerLayout>
 
-                    <ctrls:TextFieldLayout>
-                        <mtrl:MaterialTextField
-                            ChoiceSelectedCommand="{Binding SelectGroupCommand}"
-                            Choices="{Binding Groups}"
-                            ChoicesBindingName="Name"
-                            ChoicesResultBindingName="Name"
-                            ErrorText="{Binding GroupSelected.Error}"
-                            HasError="{Binding GroupSelected.HasErrors}"
-                            HelperText="{l18n:Translate SelectInstitution}"
-                            Placeholder="{l18n:Translate Institution}"
-                            ReturnType="Next"
-                            Style="{StaticResource TextFieldChoiceStyle}" />
-                    </ctrls:TextFieldLayout>
+                    <ctrls:PickerLayout>
+                        <Picker
+                            x:Name="groupPicker"
+                            Title="{l18n:Translate Institution}"
+                            ItemDisplayBinding="{Binding Name}"
+                            ItemsSource="{Binding Groups}">
+                            <Picker.Behaviors>
+                                <prism:EventToCommandBehavior
+                                    Command="{Binding SelectGroupCommand}"
+                                    CommandParameter="{Binding Source={x:Reference groupPicker}, Path=SelectedItem}"
+                                    EventName="SelectedIndexChanged" />
+                            </Picker.Behaviors>
+                        </Picker>
+                        <Label Text="{l18n:Translate SelectInstitution}" />
+                    </ctrls:PickerLayout>
 
                 </StackLayout>
             </Frame>
