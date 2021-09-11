@@ -120,6 +120,7 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Renderers\CustomPickerRenderer.cs" />
     <Compile Include="Renderers\ShadowNavigationBarRenderer.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' Or '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' Or '$(Configuration)|$(Platform)' == 'Debug|iPhone' Or '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' " />

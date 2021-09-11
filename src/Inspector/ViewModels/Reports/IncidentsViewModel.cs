@@ -52,6 +52,9 @@ namespace Inspector.ViewModels
 
             SelectIncidentCommand = new DelegateCommand<Incident>(tag =>
             {
+                if (tag == null)
+                    return;
+
                 Incident.Value = tag;
                 Categories = SubCategories = null;
                 SearchCategories(tag.Id);
@@ -59,6 +62,9 @@ namespace Inspector.ViewModels
 
             SelectCategoryCommand = new DelegateCommand<Incident>(tag =>
             {
+                if (tag == null)
+                    return;
+
                 Category.Value = tag;
                 SubCategories = null;
                 SearchSubCategories(Incident.Value.Id, tag.Id);
