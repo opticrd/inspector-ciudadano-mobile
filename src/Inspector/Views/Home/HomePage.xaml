@@ -8,6 +8,7 @@
     xmlns:views="clr-namespace:Inspector.Views"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     Title="Reportero"
+    Padding="0"
     prism:ViewModelLocator.AutowireViewModel="True">
 
     <ContentPage.Resources>
@@ -45,6 +46,8 @@
                         Fill="White"
                         HeightRequest="35"
                         HorizontalOptions="Center"
+                        Stroke="Transparent"
+                        StrokeThickness="0"
                         TranslationY="-8"
                         VerticalOptions="Center"
                         WidthRequest="100" />
@@ -106,7 +109,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid>
+    <Grid BackgroundColor="White" RowDefinitions="*,16">
         <xct:TabView
             IsSwipeEnabled="False"
             TabContentBackgroundColor="{StaticResource BackgroundColor}"
