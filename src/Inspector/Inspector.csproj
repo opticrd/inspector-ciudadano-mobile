@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Framework\Controls\CustomNavigationPage.cs" />
     <Compile Remove="Framework\Services\CitizenService.cs" />
     <Compile Remove="ViewModels\Base\MainTabbedPageViewModel.cs" />
     <Compile Remove="ViewModels\Profile\ProfilePageViewModel.cs" />

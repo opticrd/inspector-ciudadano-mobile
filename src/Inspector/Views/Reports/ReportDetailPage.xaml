@@ -8,10 +8,10 @@
     xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
     xmlns:prism="http://prismlibrary.com"
     xmlns:tmp="clr-namespace:Inspector.Framework.Helpers"
-    xmlns:views="clr-namespace:Inspector.Views.Shared"
     xmlns:vm="clr-namespace:Inspector.ViewModels"
     x:Name="this"
     Title="Detalles"
+    Padding="0,20,0,0"
     ios:Page.UseSafeArea="true"
     BackgroundColor="White">
     <!--  x:DataType="vm:ReportDetailPageViewModel"  -->
@@ -22,6 +22,7 @@
         <ToolbarItem Order="Secondary" Text="Whatsapp del encargado" />
         <ToolbarItem Order="Secondary" Text="Reportar" />-->
         <ToolbarItem
+            x:Name="attachFileToolbarItem"
             Command="{Binding AttachFileCommand}"
             Order="Secondary"
             Text="Adjuntar archivos" />
@@ -320,7 +321,8 @@
                     Margin="2,6,2,6"
                     BackgroundColor="{StaticResource PrimaryColor}"
                     Command="{Binding SendCommentCommand}"
-                    CornerRadius="50"
+                    CornerRadius="{OnPlatform Android='50',
+                                              iOS='25'}"
                     HeightRequest="50"
                     ImageSource="{img:ImageResource Inspector.Resources.Images.send.png}"
                     WidthRequest="50" />
