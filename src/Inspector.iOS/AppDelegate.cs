@@ -28,6 +28,7 @@ namespace Inspector.iOS
             global::Xamarin.Forms.Forms.Init();
             XF.Material.iOS.Material.Init();
 
+            Microsoft.AppCenter.Distribute.Distribute.DontCheckForUpdatesInDebug();
             LoadApplication(new App(new iOSInitializer()));
 
             return base.FinishedLaunching(app, options);
