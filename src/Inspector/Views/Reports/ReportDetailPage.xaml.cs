@@ -14,14 +14,11 @@ namespace Inspector.Views
     {
         public ReportDetailPage()
         {
-            try
-            {
-                InitializeComponent();
-            }
-            catch (Exception)
-            {
+            InitializeComponent();
 
-                
+            if (Device.RuntimePlatform == Device.iOS)
+            {
+                attachFileToolbarItem.Order = ToolbarItemOrder.Primary;
             }
         }
 
