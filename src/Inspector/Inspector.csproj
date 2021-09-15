@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Framework\Controls\CustomNavigationPage.cs" />
     <Compile Remove="Framework\Services\CitizenService.cs" />
     <Compile Remove="ViewModels\Base\MainTabbedPageViewModel.cs" />
     <Compile Remove="ViewModels\Profile\ProfilePageViewModel.cs" />
@@ -54,6 +55,7 @@
     <None Remove="Resources\Images\bullhorn.png" />
     <None Remove="Resources\Images\carnet.png" />
     <None Remove="Resources\Images\citizens.png" />
+    <None Remove="Resources\Images\clip.png" />
     <None Remove="Resources\Images\facebook.png" />
     <None Remove="Resources\Images\google.png" />
     <None Remove="Resources\Images\ic_user.png" />
@@ -70,6 +72,7 @@
     <EmbeddedResource Include="Resources\Images\bullhorn.png" />
     <EmbeddedResource Include="Resources\Images\carnet.png" />
     <EmbeddedResource Include="Resources\Images\citizens.png" />
+    <EmbeddedResource Include="Resources\Images\clip.png" />
     <EmbeddedResource Include="Resources\Images\facebook.png" />
     <EmbeddedResource Include="Resources\Images\google.png" />
     <EmbeddedResource Include="Resources\Images\ic_user.png" />

@@ -3,6 +3,7 @@
     x:Class="Inspector.App"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ctrls="clr-namespace:Inspector.Framework.Controls"
     xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
     xmlns:prism="http://prismlibrary.com"
     xmlns:stl="clr-namespace:UIModule.Resources.Styles;assembly=UIModule">
@@ -62,7 +63,7 @@
                 <Setter Property="Text" Value="Indefinido" />
                 <Setter Property="TextColor" Value="#DE000000" />
                 <Setter Property="BackgroundColor" Value="LightGray" />
-                
+
                 <!--<Style.Triggers>
                     <DataTrigger
                         Binding="{Binding TicketSelected.StateId}"
@@ -115,6 +116,12 @@
                     </DataTrigger>
                 </Style.Triggers>-->
             </Style>
+
+
+            <!--<Style TargetType="ctrls:CustomNavigationPage">
+                <Setter Property="BarBackgroundColor" Value="{StaticResource SecondaryColor}" />
+                <Setter Property="BarTextColor" Value="{StaticResource SurfaceColor}" />
+            </Style>-->
 
         </ResourceDictionary>
     </Application.Resources>
