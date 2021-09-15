@@ -122,6 +122,7 @@
 
             <!--<RefreshView IsRefreshing="{Binding IsBusy, Mode=OneWay}">-->
             <CollectionView
+                EmptyView="Sin comentarios"
                 ItemTemplate="{StaticResource commentTemplateSelector}"
                 ItemsSource="{Binding Comments}"
                 ItemsUpdatingScrollMode="KeepLastItemInView">
@@ -269,9 +270,9 @@
                     </StackLayout>
                 </CollectionView.Header>
 
-                <CollectionView.EmptyView>
+                <!--<CollectionView.EmptyView>
                     <Label Text="Sin comentarios" />
-                </CollectionView.EmptyView>
+                </CollectionView.EmptyView>-->
             </CollectionView>
             <!--</RefreshView>-->
 
