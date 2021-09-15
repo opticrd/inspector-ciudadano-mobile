@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="23">
-                                <rect key="frame" x="177" y="418" width="60" height="60"/>
+                                <rect key="frame" x="132" y="373" width="150" height="150"/>
                                 <color key="tintColor" systemColor="systemBackgroundColor"/>
                                 <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
                             </imageView>
@@ -34,7 +34,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XAI-xm-WK6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="349" y="339"/>
+            <point key="canvasLocation" x="347.82608695652175" y="338.83928571428572"/>
         </scene>
     </scenes>
     <resources>
