@@ -218,12 +218,9 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\home.png" />
-    <BundleResource Include="Resources\Default-Portrait%402x.png" />
     <BundleResource Include="Resources\xf_checkbox_selected%403x.png" />
     <BundleResource Include="Resources\xf_checkbox_selected%402x.png" />
     <BundleResource Include="Resources\xf_clear.png" />
-    <BundleResource Include="Resources\Default-Portrait.png" />
-    <BundleResource Include="Resources\Default%402x.png" />
     <BundleResource Include="Resources\xf_error%402x.png" />
     <BundleResource Include="Resources\xf_error%403x.png" />
     <BundleResource Include="Resources\xf_checkbox_selected.png" />
@@ -232,7 +229,6 @@
     <BundleResource Include="Resources\xf_checkbox_unselected.png" />
     <BundleResource Include="Resources\xf_arrow_dropdown.png" />
     <BundleResource Include="Resources\xf_clear%403x.png" />
-    <BundleResource Include="Resources\Default-568h%402x.png" />
     <BundleResource Include="Resources\xf_radio_button_selected.png" />
     <BundleResource Include="Resources\xf_clear%402x.png" />
     <BundleResource Include="Resources\xf_arrow_right%402x.png" />
@@ -241,7 +237,6 @@
     <BundleResource Include="Resources\xf_radio_button_selected%403x.png" />
     <BundleResource Include="Resources\xf_arrow_dropdown%402x.png" />
     <BundleResource Include="Resources\xf_radio_button_unselected.png" />
-    <BundleResource Include="Resources\Default.png" />
     <BundleResource Include="Resources\xf_arrow_dropdown%403x.png" />
     <BundleResource Include="Resources\xf_radio_button_selected%402x.png" />
     <BundleResource Include="Resources\xf_error.png" />
@@ -271,5 +266,8 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\user%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo.png" />
   </ItemGroup>
 </Project>
