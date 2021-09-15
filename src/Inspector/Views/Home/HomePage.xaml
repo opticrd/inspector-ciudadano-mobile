@@ -9,7 +9,8 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     Title="Reportero"
     Padding="0"
-    prism:ViewModelLocator.AutowireViewModel="True">
+    prism:ViewModelLocator.AutowireViewModel="True"
+    NavigationPage.BackButtonTitle="Atrás">
 
     <ContentPage.Resources>
         <ResourceDictionary>
