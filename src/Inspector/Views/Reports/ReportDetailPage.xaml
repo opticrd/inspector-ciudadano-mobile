@@ -14,18 +14,21 @@
     Padding="0,20,0,0"
     ios:Page.UseSafeArea="true"
     BackgroundColor="White">
-    <!--  x:DataType="vm:ReportDetailPageViewModel"  -->
+
+    <!--
+        x:DataType="vm:ReportDetailPageViewModel"
+    -->
 
     <ContentPage.ToolbarItems>
         <!--<ToolbarItem Order="Secondary" Text="Compartir" />
         <ToolbarItem Order="Secondary" Text="Llamar al encargado" />
         <ToolbarItem Order="Secondary" Text="Whatsapp del encargado" />
         <ToolbarItem Order="Secondary" Text="Reportar" />-->
-        <ToolbarItem
+        <!--<ToolbarItem
             x:Name="attachFileToolbarItem"
             Command="{Binding AttachFileCommand}"
             Order="Secondary"
-            Text="Adjuntar archivos" />
+            Text="Adjuntar archivos" />-->
     </ContentPage.ToolbarItems>
 
     <ContentPage.Resources>
@@ -117,166 +120,173 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <RefreshView IsRefreshing="{Binding IsBusy, Mode=OneWay}">
-                <CollectionView
-                    ItemTemplate="{StaticResource commentTemplateSelector}"
-                    ItemsSource="{Binding Comments}"
-                    ItemsUpdatingScrollMode="KeepLastItemInView">
-                    <CollectionView.Header>
-                        <StackLayout Padding="16">
-                            <Label
-                                Grid.Row="1"
-                                Style="{StaticResource H3}"
-                                Text="{Binding TicketSelected.Title}" />
-                            <Label
-                                Grid.Row="2"
-                                Text="{Binding TicketSelected.CustomAttributes[address]}"
-                                TranslationY="-6" />
+            <!--<RefreshView IsRefreshing="{Binding IsBusy, Mode=OneWay}">-->
+            <CollectionView
+                EmptyView="Sin comentarios"
+                ItemTemplate="{StaticResource commentTemplateSelector}"
+                ItemsSource="{Binding Comments}"
+                ItemsUpdatingScrollMode="KeepLastItemInView">
+                <CollectionView.Header>
+                    <StackLayout Padding="16">
+                        <Label Style="{StaticResource H3}" Text="{Binding TicketSelected.Title}" />
+                        <Label Text="{Binding TicketSelected.CustomAttributes[address]}" TranslationY="-6" />
 
-                            <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                        <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
 
-                                <!--<views:ShipState State="{Binding TicketSelected.StateId}" />-->
-                                <mtrl:MaterialChip Style="{StaticResource ChipState}">
-                                    <mtrl:MaterialChip.Triggers>
-                                        <DataTrigger
-                                            Binding="{Binding TicketSelected.StateId}"
-                                            TargetType="mtrl:MaterialChip"
-                                            Value="1">
-                                            <Setter Property="Text" Value="Nuevo" />
-                                            <Setter Property="BackgroundColor" Value="Orange" />
-                                        </DataTrigger>
-                                        <DataTrigger
-                                            Binding="{Binding TicketSelected.StateId}"
-                                            TargetType="mtrl:MaterialChip"
-                                            Value="2">
-                                            <Setter Property="Text" Value="Abierto" />
-                                            <Setter Property="BackgroundColor" Value="LimeGreen" />
-                                        </DataTrigger>
-                                        <DataTrigger
-                                            Binding="{Binding TicketSelected.StateId}"
-                                            TargetType="mtrl:MaterialChip"
-                                            Value="3">
-                                            <Setter Property="Text" Value="Pendienet Recordatorio" />
-                                            <Setter Property="BackgroundColor" Value="Crimson" />
-                                        </DataTrigger>
-                                        <DataTrigger
-                                            Binding="{Binding TicketSelected.StateId}"
-                                            TargetType="mtrl:MaterialChip"
-                                            Value="4">
-                                            <Setter Property="Text" Value="Cerrado" />
-                                            <Setter Property="BackgroundColor" Value="DarkGray" />
-                                        </DataTrigger>
-                                        <DataTrigger
-                                            Binding="{Binding TicketSelected.StateId}"
-                                            TargetType="mtrl:MaterialChip"
-                                            Value="5">
-                                            <Setter Property="Text" Value="Fusionado" />
-                                            <Setter Property="BackgroundColor" Value="DarkOrchid" />
-                                        </DataTrigger>
-                                        <DataTrigger
-                                            Binding="{Binding TicketSelected.StateId}"
-                                            TargetType="mtrl:MaterialChip"
-                                            Value="6">
-                                            <Setter Property="Text" Value="En progreso" />
-                                            <Setter Property="BackgroundColor" Value="DodgerBlue" />
-                                        </DataTrigger>
-                                        <DataTrigger
-                                            Binding="{Binding TicketSelected.StateId}"
-                                            TargetType="mtrl:MaterialChip"
-                                            Value="7">
-                                            <Setter Property="Text" Value="Pendiente Cerrar" />
-                                            <Setter Property="BackgroundColor" Value="Firebrick" />
-                                        </DataTrigger>
-                                    </mtrl:MaterialChip.Triggers>
-                                </mtrl:MaterialChip>
+                            <!--<views:ShipState State="{Binding TicketSelected.StateId}" />-->
+                            <mtrl:MaterialChip Style="{StaticResource ChipState}">
+                                <mtrl:MaterialChip.Triggers>
+                                    <DataTrigger
+                                        Binding="{Binding TicketSelected.StateId}"
+                                        TargetType="mtrl:MaterialChip"
+                                        Value="1">
+                                        <Setter Property="Text" Value="Nuevo" />
+                                        <Setter Property="BackgroundColor" Value="Orange" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding TicketSelected.StateId}"
+                                        TargetType="mtrl:MaterialChip"
+                                        Value="2">
+                                        <Setter Property="Text" Value="Abierto" />
+                                        <Setter Property="BackgroundColor" Value="LimeGreen" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding TicketSelected.StateId}"
+                                        TargetType="mtrl:MaterialChip"
+                                        Value="3">
+                                        <Setter Property="Text" Value="Pendienet Recordatorio" />
+                                        <Setter Property="BackgroundColor" Value="Crimson" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding TicketSelected.StateId}"
+                                        TargetType="mtrl:MaterialChip"
+                                        Value="4">
+                                        <Setter Property="Text" Value="Cerrado" />
+                                        <Setter Property="BackgroundColor" Value="DarkGray" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding TicketSelected.StateId}"
+                                        TargetType="mtrl:MaterialChip"
+                                        Value="5">
+                                        <Setter Property="Text" Value="Fusionado" />
+                                        <Setter Property="BackgroundColor" Value="DarkOrchid" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding TicketSelected.StateId}"
+                                        TargetType="mtrl:MaterialChip"
+                                        Value="6">
+                                        <Setter Property="Text" Value="En progreso" />
+                                        <Setter Property="BackgroundColor" Value="DodgerBlue" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding TicketSelected.StateId}"
+                                        TargetType="mtrl:MaterialChip"
+                                        Value="7">
+                                        <Setter Property="Text" Value="Pendiente Cerrar" />
+                                        <Setter Property="BackgroundColor" Value="Firebrick" />
+                                    </DataTrigger>
+                                </mtrl:MaterialChip.Triggers>
+                            </mtrl:MaterialChip>
 
-                                <mtrl:MaterialChip TextColor="#DE000000">
-                                    <mtrl:MaterialChip.Triggers>
-                                        <DataTrigger
-                                            Binding="{Binding TicketSelected.PriorityId}"
-                                            TargetType="mtrl:MaterialChip"
-                                            Value="1">
-                                            <!--<Setter Property="Text" Value="Prioridad Baja" />
+                            <mtrl:MaterialChip TextColor="#DE000000">
+                                <mtrl:MaterialChip.Triggers>
+                                    <DataTrigger
+                                        Binding="{Binding TicketSelected.PriorityId}"
+                                        TargetType="mtrl:MaterialChip"
+                                        Value="1">
+                                        <!--<Setter Property="Text" Value="Prioridad Baja" />
                                             <Setter Property="BackgroundColor" Value="#EFFAE6" />-->
-                                            <Setter Property="IsVisible" Value="False" />
-                                        </DataTrigger>
-                                        <DataTrigger
-                                            Binding="{Binding TicketSelected.PriorityId}"
-                                            TargetType="mtrl:MaterialChip"
-                                            Value="2">
-                                            <Setter Property="Text" Value="Prioridad Normal" />
-                                            <Setter Property="BackgroundColor" Value="#FFFF7F50" />
-                                        </DataTrigger>
-                                        <DataTrigger
-                                            Binding="{Binding TicketSelected.PriorityId}"
-                                            TargetType="mtrl:MaterialChip"
-                                            Value="3">
-                                            <Setter Property="Text" Value="Prioridad Alta" />
-                                            <Setter Property="BackgroundColor" Value="#FFCD5C5C" />
-                                        </DataTrigger>
-                                    </mtrl:MaterialChip.Triggers>
-                                </mtrl:MaterialChip>
+                                        <Setter Property="IsVisible" Value="False" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding TicketSelected.PriorityId}"
+                                        TargetType="mtrl:MaterialChip"
+                                        Value="2">
+                                        <Setter Property="Text" Value="Prioridad Normal" />
+                                        <Setter Property="BackgroundColor" Value="#FFFF7F50" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding TicketSelected.PriorityId}"
+                                        TargetType="mtrl:MaterialChip"
+                                        Value="3">
+                                        <Setter Property="Text" Value="Prioridad Alta" />
+                                        <Setter Property="BackgroundColor" Value="#FFCD5C5C" />
+                                    </DataTrigger>
+                                </mtrl:MaterialChip.Triggers>
+                            </mtrl:MaterialChip>
 
-                                <mtrl:MaterialChip
-                                    BackgroundColor="#EEEEEE"
-                                    Text="{Binding TicketSelected.CreatedAt, StringFormat='{0:d}'}"
-                                    TextColor="#DE000000" />
-                            </StackLayout>
+                            <mtrl:MaterialChip
+                                BackgroundColor="#EEEEEE"
+                                Text="{Binding TicketSelected.CreatedAt, StringFormat='{0:d}'}"
+                                TextColor="#DE000000" />
+                        </StackLayout>
 
-                            <!--<Line Style="{StaticResource lineStyle}" Y1="8" />
+                        <!--<Line Style="{StaticResource lineStyle}" Y1="8" />
 
                             <mtrl:MaterialButton
                                 Command="{Binding ChangeStatusTicketCommand}"
                                 Style="{StaticResource ButtonPrimary}"
                                 Text="Editar estado" />-->
 
-                            <Frame Padding="16,8" BackgroundColor="#E3E3E3">
-                                <Grid RowSpacing="0">
-                                    <Label Text="Ciudadano" />
+                        <Frame Padding="16,8" BackgroundColor="#E3E3E3">
+                            <Grid RowSpacing="0">
+                                <Label Text="Ciudadano" />
+                                <Label
+                                    Grid.Row="1"
+                                    FontAttributes="Bold"
+                                    FontSize="16">
+                                    <Label.Text>
+                                        <MultiBinding StringFormat="{}{0} {1}">
+                                            <Binding Path="Customer.FirstName" />
+                                            <Binding Path="Customer.LastName" />
+                                        </MultiBinding>
+                                    </Label.Text>
+                                </Label>
+
+                                <StackLayout Grid.Row="2" Orientation="Horizontal">
+                                    <Image
+                                        HeightRequest="14"
+                                        Source="{img:ImageResource Inspector.Resources.Images.carnet.png}"
+                                        WidthRequest="14" />
                                     <Label
-                                        Grid.Row="1"
-                                        FontAttributes="Bold"
-                                        FontSize="16">
-                                        <Label.Text>
-                                            <MultiBinding StringFormat="{}{0} {1}">
-                                                <Binding Path="Customer.FirstName" />
-                                                <Binding Path="Customer.LastName" />
-                                            </MultiBinding>
-                                        </Label.Text>
-                                    </Label>
+                                        Grid.Row="2"
+                                        Grid.Column="1"
+                                        Margin="0,0,16,0"
+                                        Text="{Binding Customer.CustomAttributes[cedula]}" />
 
-                                    <StackLayout Grid.Row="2" Orientation="Horizontal">
-                                        <Image
-                                            HeightRequest="14"
-                                            Source="{img:ImageResource Inspector.Resources.Images.carnet.png}"
-                                            WidthRequest="14" />
-                                        <Label
-                                            Grid.Row="2"
-                                            Grid.Column="1"
-                                            Margin="0,0,16,0"
-                                            Text="{Binding Customer.CustomAttributes[cedula]}" />
+                                    <Image
+                                        HeightRequest="14"
+                                        Source="{img:ImageResource Inspector.Resources.Images.phone.png}"
+                                        WidthRequest="14" />
+                                    <Label
+                                        Grid.Row="3"
+                                        Grid.Column="1"
+                                        Text="{Binding Customer.Phone}" />
+                                </StackLayout>
+                            </Grid>
+                        </Frame>
 
-                                        <Image
-                                            HeightRequest="14"
-                                            Source="{img:ImageResource Inspector.Resources.Images.phone.png}"
-                                            WidthRequest="14" />
-                                        <Label
-                                            Grid.Row="3"
-                                            Grid.Column="1"
-                                            Text="{Binding Customer.Phone}" />
-                                    </StackLayout>
-                                </Grid>
-                            </Frame>
+                        <Line Style="{StaticResource lineStyle}" Y1="8" />
+                    </StackLayout>
+                </CollectionView.Header>
 
-                            <Line Style="{StaticResource lineStyle}" Y1="8" />
-                        </StackLayout>
-                    </CollectionView.Header>
+                <!--<CollectionView.EmptyView>
+                    <Label Text="Sin comentarios" />
+                </CollectionView.EmptyView>-->
+            </CollectionView>
+            <!--</RefreshView>-->
 
-                    <CollectionView.EmptyView>
-                        <Label Text="Sin comentarios" />
-                    </CollectionView.EmptyView>
-                </CollectionView>
-            </RefreshView>
+            <Frame
+                BackgroundColor="{OnPlatform Android='White',
+                                             iOS='Transparent'}"
+                BorderColor="Transparent"
+                HeightRequest="56"
+                HorizontalOptions="Center"
+                IsVisible="{Binding IsBusy, Mode=OneWay}"
+                VerticalOptions="Start"
+                WidthRequest="56">
+                <ActivityIndicator IsRunning="{Binding IsBusy, Mode=OneWay}" />
+            </Frame>
 
             <Line Grid.Row="1" Style="{StaticResource lineStyle}" />
 
@@ -289,21 +299,30 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <!--<Entry
-                    Margin="1"
-                    BackgroundColor="Transparent"
-                    HorizontalOptions="FillAndExpand"
-                    Keyboard="Chat"
-                    Placeholder="Type your message here"
-                    PlaceholderColor="LightGray"
-                    TextColor="Black" />-->
+                <Grid.Resources>
+                    <ResourceDictionary>
+                        <Style TargetType="Button">
+                            <Setter Property="CornerRadius" Value="{OnPlatform Android='16', iOS='8'}" />
+                            <Setter Property="HeightRequest" Value="50" />
+                            <Setter Property="WidthRequest" Value="50" />
+                        </Style>
+                    </ResourceDictionary>
+                </Grid.Resources>
+
+                <Button
+                    Margin="16,6,0,6"
+                    BackgroundColor="#F5F5F5"
+                    Command="{Binding AttachFileCommand}"
+                    ImageSource="{img:ImageResource Inspector.Resources.Images.clip.png}" />
 
                 <mtrl:MaterialTextField
-                    Margin="10,10,10,10"
+                    Grid.Column="1"
+                    Margin="8,10,0,10"
                     AlwaysShowUnderline="False"
                     CardBackgroundColor="#F5F5F5"
                     FloatingPlaceholderEnabled="False"
@@ -317,15 +336,11 @@
                     UnderlineColor="Transparent" />
 
                 <Button
-                    Grid.Column="1"
-                    Margin="2,6,2,6"
+                    Grid.Column="2"
+                    Margin="0,6,16,6"
                     BackgroundColor="{StaticResource PrimaryColor}"
                     Command="{Binding SendCommentCommand}"
-                    CornerRadius="{OnPlatform Android='50',
-                                              iOS='25'}"
-                    HeightRequest="50"
-                    ImageSource="{img:ImageResource Inspector.Resources.Images.send.png}"
-                    WidthRequest="50" />
+                    ImageSource="{img:ImageResource Inspector.Resources.Images.send.png}" />
 
             </Grid>
 
