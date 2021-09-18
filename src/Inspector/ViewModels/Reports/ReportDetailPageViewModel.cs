@@ -200,7 +200,7 @@ namespace Inspector.ViewModels
             catch (Exception e)
             {
                 _logger.Report(e, LoggerExtension.InitDictionary(nameof(ReportDetailPageViewModel), nameof(ReportDetailPageViewModel.OnAttachFileCommandExecute)));
-                await _dialogService.DisplayAlertAsync("Ups :(", Message.SomethingHappen, "Ok");
+                await _dialogService.DisplayAlertAsync("", Message.SomethingHappen, "Ok");
             }
             finally
             {
@@ -255,16 +255,30 @@ namespace Inspector.ViewModels
                 updatedTicket.StateId = (int)Framework.Dtos.TicketState.Closed;
 
                 var ticket = await _ticketClient.UpdateTicketAsync(TicketSelected.Id, updatedTicket);
-                if (ticket != null)
-                    TicketSelected = ticket;
+                if (ticket == null)
+                {
+                    await MaterialDialog.Instance.SnackbarAsync(Message.SomethingHappen);
+                    return;
+                }
+
+                TicketSelected = ticket;
+                await _dialogService.DisplayAlertAsync("", Message.TicketUpdated, "Ok");
+
+                var parameters = new NavigationParameters()
+                    {
+                        { NavigationKeys.NewTicket, ticket }
+                    };
+                await _navigationService.GoBackAsync(parameters);
             }
             catch(Zammad.Client.Core.ZammadException e)
             {
                 _logger.Report(e, LoggerExtension.InitDictionary(nameof(ReportDetailPageViewModel), nameof(ReportDetailPageViewModel.OnChangeStatusTicketCommandExecute)));
+                await MaterialDialog.Instance.SnackbarAsync(Message.SomethingHappen);
             }
             catch (Exception e)
             {
                 _logger.Report(e, LoggerExtension.InitDictionary(nameof(ReportDetailPageViewModel), nameof(ReportDetailPageViewModel.OnChangeStatusTicketCommandExecute)));
+                await MaterialDialog.Instance.SnackbarAsync(Message.SomethingHappen);
             }
             finally
             {

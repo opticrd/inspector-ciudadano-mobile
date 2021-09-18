@@ -275,5 +275,14 @@ namespace Inspector.Resources.Labels {
                 return ResourceManager.GetString("TicketNotCreated", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to El ticket ha sido actualizado exitosamente..
+        /// </summary>
+        internal static string TicketUpdated {
+            get {
+                return ResourceManager.GetString("TicketUpdated", resourceCulture);
+            }
+        }
     }
 }
