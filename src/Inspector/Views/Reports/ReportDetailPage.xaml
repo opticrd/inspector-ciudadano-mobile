@@ -344,7 +344,7 @@
                 <Grid.Resources>
                     <ResourceDictionary>
                         <Style TargetType="Button">
-                            <Setter Property="CornerRadius" Value="{OnPlatform Android='16', iOS='8'}" />
+                            <Setter Property="CornerRadius" Value="8" />
                             <Setter Property="HeightRequest" Value="50" />
                             <Setter Property="WidthRequest" Value="50" />
                         </Style>
