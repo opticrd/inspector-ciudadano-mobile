@@ -3,7 +3,8 @@
     x:Class="Inspector.Views.ProfileView"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:prism="http://prismlibrary.com">
+    xmlns:prism="http://prismlibrary.com"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
 
     <Grid.Resources>
         <ResourceDictionary>
@@ -29,9 +30,9 @@
 
             <Frame>
                 <StackLayout Orientation="Horizontal">
-                    <Image Source="icon.png" />
+                    <xct:AvatarView Source="{Binding UserAccount.ImageSource}" Text="{Binding UserAccount.Initials}" />
 
-                    <StackLayout Spacing="8">
+                    <StackLayout Spacing="0">
                         <Label Style="{StaticResource TitleLabel}">
                             <Label.Text>
                                 <MultiBinding StringFormat="{}{0} {1}">

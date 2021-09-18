@@ -28,7 +28,6 @@ namespace Inspector.ViewModels
     public class ReportDetailPageViewModel : BaseViewModel
     {
         TicketClient _ticketClient;
-        User _userAccount;
         UserClient _userClient;
         ILogger _logger;
 
@@ -45,6 +44,7 @@ namespace Inspector.ViewModels
         public Ticket TicketSelected { get; set; }
         public string NewComment { get; set; }
         public User Customer { get; set; }
+        public CustomUser UserAccount { get; set; }
 
         #region Commands
         public ObservableCollection<Comment> Comments { get; set; }
@@ -57,7 +57,7 @@ namespace Inspector.ViewModels
         private async void Init()
         {
             var account = await _cacheService.GetSecureObject<ZammadAccount>(CacheKeys.ZammadAccount);
-            _userAccount = await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount);
+            UserAccount = CustomUser.Cast(await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount));
             _ticketClient = account.CreateTicketClient();
             _userClient = account.CreateUserClient();
         }
@@ -80,7 +80,7 @@ namespace Inspector.ViewModels
                 var comments = new List<Comment>();
                 foreach (var item in ticketArticles)
                 {
-                    var owner = item.CreatedById == _userAccount.Id;
+                    var owner = item.CreatedById == UserAccount.Id;
                     comments.Add(new Comment
                     {
                         Id = item.Id,

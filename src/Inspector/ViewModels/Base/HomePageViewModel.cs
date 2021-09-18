@@ -1,6 +1,7 @@
 ﻿using Inspector.Framework.Helpers;
 using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
+using Inspector.Models;
 using Inspector.Resources.Labels;
 using Prism.Commands;
 using Prism.Logging;
@@ -61,7 +62,7 @@ namespace Inspector.ViewModels
         public ObservableCollection<Ticket> Tickets { get; set; } = new ObservableCollection<Ticket>();
         public Ticket TicketSelected { get; set; }
         public int HistoryIndexSelected { get; set; }
-        public User UserAccount { get; set; }
+        public CustomUser UserAccount { get; set; }
 
         #region Commands
         public ICommand RefreshCommand { get; set; }
@@ -78,8 +79,8 @@ namespace Inspector.ViewModels
             var account = await _cacheService.GetSecureObject<ZammadAccount>(CacheKeys.ZammadAccount);
             _ticketClient = account.CreateTicketClient();
 
-            UserAccount = await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount);
-
+            UserAccount = CustomUser.Cast(await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount));
+            
             await OnRefreshCommandExecute();
         }
 

@@ -9,6 +9,7 @@
     xmlns:prism="http://prismlibrary.com"
     xmlns:tmp="clr-namespace:Inspector.Framework.Helpers"
     xmlns:vm="clr-namespace:Inspector.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:Name="this"
     Title="Detalles"
     Padding="0,20,0,0"
@@ -35,9 +36,25 @@
         <ResourceDictionary>
 
             <DataTemplate x:Key="incomingTemplate">
-                <StackLayout Margin="0,16,0,0" Padding="16,0,32,0">
-                    <Label Text="{Binding UserName}" TextColor="Black" />
+                <Grid
+                    Margin="0,16,0,0"
+                    Padding="16,0,16,0"
+                    ColumnDefinitions="Auto,*"
+                    RowDefinitions="Auto,*">
+                    <xct:AvatarView
+                        Grid.RowSpan="2"
+                        HeightRequest="42"
+                        Source="{Binding ImageSource}"
+                        Text="{Binding Initials}"
+                        VerticalOptions="Start" />
+
+                    <Label
+                        Grid.Column="1"
+                        Text="{Binding UserName}"
+                        TextColor="Black" />
                     <Frame
+                        Grid.Row="1"
+                        Grid.Column="1"
                         Padding="8,8,8,4"
                         BackgroundColor="#E3E3E3"
                         CornerRadius="10"
@@ -63,11 +80,11 @@
                                 Text="Ver Adjuntos" />
                         </StackLayout>
                     </Frame>
-                </StackLayout>
+                </Grid>
             </DataTemplate>
 
             <DataTemplate x:Key="outgoingTemplate">
-                <StackLayout Margin="0,16,0,0" Padding="32,0,16,0">
+                <StackLayout Margin="0,16,0,0" Padding="56,0,16,0">
                     <!--<Label Text="{Binding UserName}" TextColor="Black" />-->
                     <Frame
                         Padding="8,8,8,4"
@@ -266,6 +283,23 @@
                             </Grid>
                         </Frame>
 
+                        <StackLayout Margin="0,16,0,0" Orientation="Horizontal">
+                            <xct:AvatarView Source="{Binding UserAccount.ImageSource}" Text="{Binding UserAccount.Initials}" />
+
+                            <StackLayout Spacing="0">
+                                <Label FontAttributes="Bold" FontSize="16">
+                                    <Label.Text>
+                                        <MultiBinding StringFormat="{}{0} {1}">
+                                            <Binding Path="UserAccount.FirstName" />
+                                            <Binding Path="UserAccount.LastName" />
+                                        </MultiBinding>
+                                    </Label.Text>
+                                </Label>
+                                <Label Text="{Binding UserAccount.Email}" />
+                            </StackLayout>
+
+                        </StackLayout>
+
                         <Line Style="{StaticResource lineStyle}" Y1="8" />
                     </StackLayout>
                 </CollectionView.Header>
@@ -273,6 +307,9 @@
                 <!--<CollectionView.EmptyView>
                     <Label Text="Sin comentarios" />
                 </CollectionView.EmptyView>-->
+                <CollectionView.Footer>
+                    <BoxView BackgroundColor="Transparent" HeightRequest="8" />
+                </CollectionView.Footer>
             </CollectionView>
             <!--</RefreshView>-->
 
