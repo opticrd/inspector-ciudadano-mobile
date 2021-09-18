@@ -58,63 +58,127 @@
                 <Setter Property="X2" Value="3000" />
             </Style>
 
-            <Style x:Key="ChipState" TargetType="mtrl:MaterialChip">
+            <Style x:Key="ChipStateBase" TargetType="mtrl:MaterialChip">
 
                 <Setter Property="Text" Value="Indefinido" />
                 <Setter Property="TextColor" Value="#DE000000" />
-                <Setter Property="BackgroundColor" Value="LightGray" />
+                <Setter Property="BackgroundColor" Value="#FFF2F2F2" />
+            </Style>
 
-                <!--<Style.Triggers>
+            <Style
+                x:Key="ChipState"
+                BasedOn="{StaticResource ChipStateBase}"
+                TargetType="mtrl:MaterialChip">
+
+                <Style.Triggers>
+                    <DataTrigger
+                        Binding="{Binding StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="1">
+                        <Setter Property="Text" Value="Nuevo" />
+                        <Setter Property="BackgroundColor" Value="#FFFFE4B3" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="2">
+                        <Setter Property="Text" Value="Abierto" />
+                        <Setter Property="BackgroundColor" Value="#FFC1F0C1" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="3">
+                        <Setter Property="Text" Value="Pendienet Recordatorio" />
+                        <Setter Property="BackgroundColor" Value="#FFF5B9C5" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="4">
+                        <Setter Property="Text" Value="Cerrado" />
+                        <Setter Property="BackgroundColor" Value="#FFE5E5E5" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="5">
+                        <Setter Property="Text" Value="Fusionado" />
+                        <Setter Property="BackgroundColor" Value="#FFE0C1F0" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="6">
+                        <Setter Property="Text" Value="En progreso" />
+                        <Setter Property="BackgroundColor" Value="#FFBCDEFF" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="7">
+                        <Setter Property="Text" Value="Pendiente Cerrar" />
+                        <Setter Property="BackgroundColor" Value="#FFE4C1BF" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style
+                x:Key="TicketChipState"
+                BasedOn="{StaticResource ChipStateBase}"
+                TargetType="mtrl:MaterialChip">
+
+                <Style.Triggers>
                     <DataTrigger
                         Binding="{Binding TicketSelected.StateId}"
                         TargetType="mtrl:MaterialChip"
                         Value="1">
                         <Setter Property="Text" Value="Nuevo" />
-                        <Setter Property="BackgroundColor" Value="Orange" />
+                        <Setter Property="BackgroundColor" Value="#FFFFE4B3" />
                     </DataTrigger>
                     <DataTrigger
                         Binding="{Binding TicketSelected.StateId}"
                         TargetType="mtrl:MaterialChip"
                         Value="2">
                         <Setter Property="Text" Value="Abierto" />
-                        <Setter Property="BackgroundColor" Value="LimeGreen" />
+                        <Setter Property="BackgroundColor" Value="#FFC1F0C1" />
                     </DataTrigger>
                     <DataTrigger
                         Binding="{Binding TicketSelected.StateId}"
                         TargetType="mtrl:MaterialChip"
                         Value="3">
                         <Setter Property="Text" Value="Pendienet Recordatorio" />
-                        <Setter Property="BackgroundColor" Value="Crimson" />
+                        <Setter Property="BackgroundColor" Value="#FFF5B9C5" />
                     </DataTrigger>
                     <DataTrigger
                         Binding="{Binding TicketSelected.StateId}"
                         TargetType="mtrl:MaterialChip"
                         Value="4">
                         <Setter Property="Text" Value="Cerrado" />
-                        <Setter Property="BackgroundColor" Value="DarkGray" />
+                        <Setter Property="BackgroundColor" Value="#FFE5E5E5" />
                     </DataTrigger>
                     <DataTrigger
                         Binding="{Binding TicketSelected.StateId}"
                         TargetType="mtrl:MaterialChip"
                         Value="5">
                         <Setter Property="Text" Value="Fusionado" />
-                        <Setter Property="BackgroundColor" Value="DarkOrchid" />
+                        <Setter Property="BackgroundColor" Value="#FFE0C1F0" />
                     </DataTrigger>
                     <DataTrigger
                         Binding="{Binding TicketSelected.StateId}"
                         TargetType="mtrl:MaterialChip"
                         Value="6">
                         <Setter Property="Text" Value="En progreso" />
-                        <Setter Property="BackgroundColor" Value="DodgerBlue" />
+                        <Setter Property="BackgroundColor" Value="#FFBCDEFF" />
                     </DataTrigger>
                     <DataTrigger
                         Binding="{Binding TicketSelected.StateId}"
                         TargetType="mtrl:MaterialChip"
                         Value="7">
                         <Setter Property="Text" Value="Pendiente Cerrar" />
-                        <Setter Property="BackgroundColor" Value="Firebrick" />
+                        <Setter Property="BackgroundColor" Value="#FFE4C1BF" />
                     </DataTrigger>
-                </Style.Triggers>-->
+                </Style.Triggers>
             </Style>
 
 
