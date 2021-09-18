@@ -1,0 +1,35 @@
+name: $(Build.BuildId)
+
+on:
+  push:
+    branches:
+      - "*"
+      - "!staging"
+      - "!main"
+  pull_request:
+    branches:
+      - "staging"
+      - "main"
+    paths:
+      - "**/workflows/**"
+      - "**/src/**"
+
+env: 
+  ANDROID_NAME: Inspector.Android
+  ANDROID_BUILD_APK: x_do.gob.ogtic.inspector.apk
+  IOS_NAME: Inspector.iOS
+  IOS_BUILD_APK: do.gob.ogtic.Inspector.ipa
+  BUILD_CONFIGURATION: Debug-Agent
+  MONO_VERSION: '6.10'
+
+stages:
+- stage: reporter
+  displayName: Reporter Apps
+  jobs:
+  - template: jobs/reporter-android.yml
+    parameters:
+      versionName: '1.0.$(Build.BuildId)'
+
+  - template: jobs/reporter-ios.yml
+    parameters:
+      versionName: '1.0.$(Build.BuildId)'

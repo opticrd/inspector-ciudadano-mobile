@@ -1,0 +1,41 @@
+parameters:
+- name: buildConfiguration
+  type: string
+  default: 'Release-Agent'
+- name: versionName
+  type: string
+  default: ''
+
+jobs:
+- job: reporterIOS
+  displayName: Reportero iOS App
+  pool:
+    vmImage: $(MacImage)
+    demands:
+    - MSBuild
+
+  workspace:
+    clean: all
+
+  steps:
+  - task: ios-bundle-version@1
+    displayName: 'Bump iOS Versions in Info.plist'
+    inputs:
+      sourcePath: src/Inspector.iOS/Info.plist
+      versionCodeOption: 'buildid'
+      versionCode: '$(Build.BuildId)'
+      versionName: ${{ parameters.versionName }}
+      printFile: true
+
+  - template: ../steps/set-runtime.yml
+
+  - template: ../steps/prepare-build.yml
+    parameters:
+      solution: src/Inspector.sln
+
+  - task: XamariniOS@2
+    displayName: 'Build Xamarin.iOS solution Inspector.iOS.csproj'
+    inputs:
+      solutionFile: 'src/Inspector.iOS/Inspector.iOS.csproj'
+      configuration: ${{ parameters.buildConfiguration }}
+      buildForSimulator: true

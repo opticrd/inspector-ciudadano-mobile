@@ -1,0 +1,57 @@
+parameters:
+  buildConfiguration: 'Release-Agent'
+  versionName: ''
+
+jobs:
+
+- job: reporterAndroid
+  displayName: Reportero Android App
+  pool:
+    vmImage: $(MacImage)
+    demands:
+    - MSBuild
+    - Xamarin.Android
+    - JDK
+    - AndroidSDK
+
+  workspace:
+    clean: all
+
+  steps:
+  - task: android-manifest-version@1
+    displayName: 'Bump Android Versions in AndroidManifestAgent.xml'
+    inputs:
+      sourcePath: src/Inspector.Android/Properties/AndroidManifestAgent.xml
+      versionCodeOption: 'buildid'
+      versionCode: '$(Build.BuildId)'
+      versionName: ${{ parameters.versionName }}
+      printFile: true
+
+  - template: ../steps/set-runtime.yml
+
+  - template: ../steps/prepare-build.yml
+    parameters:
+      solution: src/Inspector.sln
+
+  - task: XamarinAndroid@1
+    displayName: 'Build Xamarin.Android project Inspector.Android.csproj'
+    inputs:
+      projectFile: src/Inspector.Android/Inspector.Android.csproj
+      outputDirectory: '$(Build.BinariesDirectory)/${{ parameters.buildConfiguration }}'
+      configuration: ${{ parameters.buildConfiguration }}
+
+  - bash: cp ./x_do.gob.ogtic.inspector.apk $stagingDir
+    displayName: Stage Artifacts
+    workingDirectory: '$(Build.BinariesDirectory)/${{ parameters.buildConfiguration }}'
+    env:
+      stagingDir: $(Build.ArtifactStagingDirectory)
+
+  - bash: rm -rf NuGet
+    displayName: Cleanup ArtifactStagingDirectory
+    workingDirectory: $(Build.ArtifactStagingDirectory)
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish Reporter Artifacts'
+    inputs:
+      targetPath: '$(Build.ArtifactStagingDirectory)'
+      artifactName: Reporter-Android
