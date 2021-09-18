@@ -110,7 +110,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid BackgroundColor="White" RowDefinitions="*,16">
+    <Grid BackgroundColor="White" RowDefinitions="{OnPlatform iOS='*,16', Android='*'}">
         <xct:TabView
             IsSwipeEnabled="False"
             TabContentBackgroundColor="{StaticResource BackgroundColor}"
