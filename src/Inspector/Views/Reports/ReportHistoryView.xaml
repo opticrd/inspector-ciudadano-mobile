@@ -116,63 +116,88 @@
                                         Grid.Column="1"
                                         State="{Binding StateId}" />-->
 
-                                    <mtrl:MaterialChip
-                                        Grid.Row="2"
-                                        Grid.Column="1"
-                                        Style="{StaticResource ChipState}">
+                                    <StackLayout Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Spacing="0">
+                                        <mtrl:MaterialChip Style="{StaticResource ChipState}">
 
-                                        <mtrl:MaterialChip.Triggers>
-                                            <DataTrigger
-                                                Binding="{Binding StateId}"
-                                                TargetType="mtrl:MaterialChip"
-                                                Value="1">
-                                                <Setter Property="Text" Value="Nuevo" />
-                                                <Setter Property="BackgroundColor" Value="Orange" />
-                                            </DataTrigger>
-                                            <DataTrigger
-                                                Binding="{Binding StateId}"
-                                                TargetType="mtrl:MaterialChip"
-                                                Value="2">
-                                                <Setter Property="Text" Value="Abierto" />
-                                                <Setter Property="BackgroundColor" Value="LimeGreen" />
-                                            </DataTrigger>
-                                            <DataTrigger
-                                                Binding="{Binding StateId}"
-                                                TargetType="mtrl:MaterialChip"
-                                                Value="3">
-                                                <Setter Property="Text" Value="Pendienet Recordatorio" />
-                                                <Setter Property="BackgroundColor" Value="Crimson" />
-                                            </DataTrigger>
-                                            <DataTrigger
-                                                Binding="{Binding StateId}"
-                                                TargetType="mtrl:MaterialChip"
-                                                Value="4">
-                                                <Setter Property="Text" Value="Cerrado" />
-                                                <Setter Property="BackgroundColor" Value="DarkGray" />
-                                            </DataTrigger>
-                                            <DataTrigger
-                                                Binding="{Binding StateId}"
-                                                TargetType="mtrl:MaterialChip"
-                                                Value="5">
-                                                <Setter Property="Text" Value="Fusionado" />
-                                                <Setter Property="BackgroundColor" Value="DarkOrchid" />
-                                            </DataTrigger>
-                                            <DataTrigger
-                                                Binding="{Binding StateId}"
-                                                TargetType="mtrl:MaterialChip"
-                                                Value="6">
-                                                <Setter Property="Text" Value="En progreso" />
-                                                <Setter Property="BackgroundColor" Value="DodgerBlue" />
-                                            </DataTrigger>
-                                            <DataTrigger
-                                                Binding="{Binding StateId}"
-                                                TargetType="mtrl:MaterialChip"
-                                                Value="7">
-                                                <Setter Property="Text" Value="Pendiente Cerrar" />
-                                                <Setter Property="BackgroundColor" Value="Firebrick" />
-                                            </DataTrigger>
-                                        </mtrl:MaterialChip.Triggers>
-                                    </mtrl:MaterialChip>
+                                            <mtrl:MaterialChip.Triggers>
+                                                <DataTrigger
+                                                    Binding="{Binding StateId}"
+                                                    TargetType="mtrl:MaterialChip"
+                                                    Value="1">
+                                                    <Setter Property="Text" Value="Nuevo" />
+                                                    <Setter Property="BackgroundColor" Value="Orange" />
+                                                </DataTrigger>
+                                                <DataTrigger
+                                                    Binding="{Binding StateId}"
+                                                    TargetType="mtrl:MaterialChip"
+                                                    Value="2">
+                                                    <Setter Property="Text" Value="Abierto" />
+                                                    <Setter Property="BackgroundColor" Value="LimeGreen" />
+                                                </DataTrigger>
+                                                <DataTrigger
+                                                    Binding="{Binding StateId}"
+                                                    TargetType="mtrl:MaterialChip"
+                                                    Value="3">
+                                                    <Setter Property="Text" Value="Pendienet Recordatorio" />
+                                                    <Setter Property="BackgroundColor" Value="Crimson" />
+                                                </DataTrigger>
+                                                <DataTrigger
+                                                    Binding="{Binding StateId}"
+                                                    TargetType="mtrl:MaterialChip"
+                                                    Value="4">
+                                                    <Setter Property="Text" Value="Cerrado" />
+                                                    <Setter Property="BackgroundColor" Value="DarkGray" />
+                                                </DataTrigger>
+                                                <DataTrigger
+                                                    Binding="{Binding StateId}"
+                                                    TargetType="mtrl:MaterialChip"
+                                                    Value="5">
+                                                    <Setter Property="Text" Value="Fusionado" />
+                                                    <Setter Property="BackgroundColor" Value="DarkOrchid" />
+                                                </DataTrigger>
+                                                <DataTrigger
+                                                    Binding="{Binding StateId}"
+                                                    TargetType="mtrl:MaterialChip"
+                                                    Value="6">
+                                                    <Setter Property="Text" Value="En progreso" />
+                                                    <Setter Property="BackgroundColor" Value="DodgerBlue" />
+                                                </DataTrigger>
+                                                <DataTrigger
+                                                    Binding="{Binding StateId}"
+                                                    TargetType="mtrl:MaterialChip"
+                                                    Value="7">
+                                                    <Setter Property="Text" Value="Pendiente Cerrar" />
+                                                    <Setter Property="BackgroundColor" Value="Firebrick" />
+                                                </DataTrigger>
+                                            </mtrl:MaterialChip.Triggers>
+                                        </mtrl:MaterialChip>
+                                        <mtrl:MaterialChip TextColor="#DE000000">
+                                            <mtrl:MaterialChip.Triggers>
+                                                <DataTrigger
+                                                    Binding="{Binding PriorityId}"
+                                                    TargetType="mtrl:MaterialChip"
+                                                    Value="1">
+                                                    <!--<Setter Property="Text" Value="Prioridad Baja" />
+                                            <Setter Property="BackgroundColor" Value="#EFFAE6" />-->
+                                                    <Setter Property="IsVisible" Value="False" />
+                                                </DataTrigger>
+                                                <DataTrigger
+                                                    Binding="{Binding PriorityId}"
+                                                    TargetType="mtrl:MaterialChip"
+                                                    Value="2">
+                                                    <Setter Property="Text" Value="Prioridad Normal" />
+                                                    <Setter Property="BackgroundColor" Value="#FFFF7F50" />
+                                                </DataTrigger>
+                                                <DataTrigger
+                                                    Binding="{Binding PriorityId}"
+                                                    TargetType="mtrl:MaterialChip"
+                                                    Value="3">
+                                                    <Setter Property="Text" Value="Prioridad Alta" />
+                                                    <Setter Property="BackgroundColor" Value="#FFCD5C5C" />
+                                                </DataTrigger>
+                                            </mtrl:MaterialChip.Triggers>
+                                        </mtrl:MaterialChip>
+                                    </StackLayout>
 
                                     <Label
                                         Grid.Row="2"
