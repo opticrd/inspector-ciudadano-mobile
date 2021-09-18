@@ -47,7 +47,7 @@ namespace Inspector.ViewModels
         public CustomUser UserAccount { get; set; }
 
         #region Commands
-        public ObservableCollection<Comment> Comments { get; set; }
+        public ObservableCollection<Comment> Comments { get; set; } = new ObservableCollection<Comment>();
         public DelegateCommand<Comment> ShowFilesCommand { get; set; }
         public DelegateCommand SendCommentCommand { get; set; }
         public ICommand AttachFileCommand { get; set; }
@@ -240,30 +240,19 @@ namespace Inspector.ViewModels
 
             try
             {
-                var choices = new string[]
+                if (TicketSelected.StateId != (int)Framework.Dtos.TicketState.New)
                 {
-                    "Abierto",
-                    "En progreso",
-                    "Cerrado",
-                };
+                    await MaterialDialog.Instance.SnackbarAsync("No tienes los permisos sufientes para cerrar este ticket.");
+                    return;
+                }
 
-                var view = new MaterialRadioButtonGroup() { Choices = choices };
-                bool? wasConfirmed = await MaterialDialog.Instance.ShowCustomContentAsync(view, TicketSelected.Title, "Cambiar estado del ticket");
-
-                if (wasConfirmed == null || !(bool)wasConfirmed)
+                bool wasConfirmed = await _dialogService.DisplayAlertAsync(TicketSelected.Title, "¿Seguro que desea cerrar este ticket?", "Si", "No");
+                
+                if (!wasConfirmed)
                     return;
 
-                int status = 0;
-
-                if (view.SelectedIndex == 0)
-                    status = (int)Framework.Dtos.TicketState.Open;
-                else if (view.SelectedIndex == 1)
-                    status = (int)Framework.Dtos.TicketState.InProgress;
-                else if (view.SelectedIndex == 2)
-                    status = (int)Framework.Dtos.TicketState.Closed;
-
                 var updatedTicket = TicketSelected;
-                updatedTicket.StateId = status;
+                updatedTicket.StateId = (int)Framework.Dtos.TicketState.Closed;
 
                 var ticket = await _ticketClient.UpdateTicketAsync(TicketSelected.Id, updatedTicket);
                 if (ticket != null)

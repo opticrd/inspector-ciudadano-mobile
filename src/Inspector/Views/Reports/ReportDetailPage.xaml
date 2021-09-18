@@ -30,6 +30,10 @@
             Command="{Binding AttachFileCommand}"
             Order="Secondary"
             Text="Adjuntar archivos" />-->
+        <ToolbarItem
+            Command="{Binding ChangeStatusTicketCommand}"
+            Order="Secondary"
+            Text="Cerrar" />
     </ContentPage.ToolbarItems>
 
     <ContentPage.Resources>
