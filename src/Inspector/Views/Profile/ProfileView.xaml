@@ -72,14 +72,25 @@
                     <Label Style="{StaticResource TitleLabel}" Text="Otros" />
 
                     <Label Style="{StaticResource ItemLabel}" Text="Ayuda" />
-                    <Label Style="{StaticResource ItemLabel}" Text="Términos y condiciones" />
-                    <Label Style="{StaticResource ItemLabel}" Text="Políticas de privacidad" />
-                    <Label Style="{StaticResource ItemLabel}" Text="Términos y condiciones" />
+
+                    <Label Style="{StaticResource ItemLabel}" Text="Políticas de privacidad">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PrivacyCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <Label Style="{StaticResource ItemLabel}" Text="Términos y condiciones">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ConditionsCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
                     <Label Style="{StaticResource ItemLabel}" Text="Detalles de la aplicación">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{prism:NavigateTo 'AppInfoPage'}" />
                         </Label.GestureRecognizers>
                     </Label>
+
                     <Label Style="{StaticResource ItemLabel}" Text="Cerrar sesión">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding LogoutCommand}" />
