@@ -318,14 +318,17 @@
             <!--</RefreshView>-->
 
             <Frame
+                Padding="4"
                 BackgroundColor="{OnPlatform Android='White',
                                              iOS='Transparent'}"
-                BorderColor="Transparent"
-                HeightRequest="56"
+                BorderColor="{OnPlatform Android='LightGray',
+                                         iOS='Transparent'}"
+                CornerRadius="50"
+                HeightRequest="36"
                 HorizontalOptions="Center"
                 IsVisible="{Binding IsBusy, Mode=OneWay}"
                 VerticalOptions="Start"
-                WidthRequest="56">
+                WidthRequest="36">
                 <ActivityIndicator IsRunning="{Binding IsBusy, Mode=OneWay}" />
             </Frame>
 
