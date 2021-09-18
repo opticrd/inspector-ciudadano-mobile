@@ -181,6 +181,73 @@
                 </Style.Triggers>
             </Style>
 
+            <Style x:Key="ChipPriorityBase" TargetType="mtrl:MaterialChip">
+
+                <Setter Property="TextColor" Value="#DE000000" />
+            </Style>
+
+
+            <Style
+                x:Key="ChipPriority"
+                BasedOn="{StaticResource ChipPriorityBase}"
+                TargetType="mtrl:MaterialChip">
+
+                <Style.Triggers>
+                    <DataTrigger
+                        Binding="{Binding PriorityId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="1">
+                        <!--<Setter Property="Text" Value="Prioridad Baja" />
+                        <Setter Property="BackgroundColor" Value="#EFFAE6" />-->
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding PriorityId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="2">
+                        <Setter Property="Text" Value="Prioridad" />
+                        <Setter Property="BackgroundColor" Value="#FFFFFFCC" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding PriorityId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="3">
+                        <Setter Property="Text" Value="Prioridad Alta" />
+                        <Setter Property="BackgroundColor" Value="#FFFFEBBE" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style
+                x:Key="TicketChipPriority"
+                BasedOn="{StaticResource ChipPriorityBase}"
+                TargetType="mtrl:MaterialChip">
+
+                <Style.Triggers>
+                    <DataTrigger
+                        Binding="{Binding TicketSelected.PriorityId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="1">
+                        <!--<Setter Property="Text" Value="Prioridad Baja" />
+                                            <Setter Property="BackgroundColor" Value="#EFFAE6" />-->
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding TicketSelected.PriorityId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="2">
+                        <Setter Property="Text" Value="Prioridad" />
+                        <Setter Property="BackgroundColor" Value="#FFFFFFCC" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding TicketSelected.PriorityId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="3">
+                        <Setter Property="Text" Value="Prioridad Alta" />
+                        <Setter Property="BackgroundColor" Value="#FFFFEBBE" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
 
             <!--<Style TargetType="ctrls:CustomNavigationPage">
                 <Setter Property="BarBackgroundColor" Value="{StaticResource SecondaryColor}" />

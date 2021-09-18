@@ -156,33 +156,7 @@
 
                             <!--<views:ShipState State="{Binding TicketSelected.StateId}" />-->
                             <mtrl:MaterialChip Style="{StaticResource TicketChipState}" />
-
-                            <mtrl:MaterialChip TextColor="#DE000000">
-                                <mtrl:MaterialChip.Triggers>
-                                    <DataTrigger
-                                        Binding="{Binding TicketSelected.PriorityId}"
-                                        TargetType="mtrl:MaterialChip"
-                                        Value="1">
-                                        <!--<Setter Property="Text" Value="Prioridad Baja" />
-                                            <Setter Property="BackgroundColor" Value="#EFFAE6" />-->
-                                        <Setter Property="IsVisible" Value="False" />
-                                    </DataTrigger>
-                                    <DataTrigger
-                                        Binding="{Binding TicketSelected.PriorityId}"
-                                        TargetType="mtrl:MaterialChip"
-                                        Value="2">
-                                        <Setter Property="Text" Value="Prioridad" />
-                                        <Setter Property="BackgroundColor" Value="#FFFFFFCC" />
-                                    </DataTrigger>
-                                    <DataTrigger
-                                        Binding="{Binding TicketSelected.PriorityId}"
-                                        TargetType="mtrl:MaterialChip"
-                                        Value="3">
-                                        <Setter Property="Text" Value="Prioridad Alta" />
-                                        <Setter Property="BackgroundColor" Value="#FFFFEBBE" />
-                                    </DataTrigger>
-                                </mtrl:MaterialChip.Triggers>
-                            </mtrl:MaterialChip>
+                            <mtrl:MaterialChip Style="{StaticResource TicketChipPriority}" />
 
                             <mtrl:MaterialChip
                                 BackgroundColor="#EEEEEE"
