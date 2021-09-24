@@ -11,7 +11,7 @@ namespace Inspector.Droid
 #if RELEASE || DEBUG
     [Activity(Label="Inspector", Icon = "@mipmap/ic_launcher", Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory = true, ScreenOrientation = ScreenOrientation.Portrait)]
 #else
-    [Activity(Label = "Reportero", Icon = "@mipmap/ic_launcher", Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory = true, ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label="Reportero", Icon = "@mipmap/ic_launcher", Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory = true, ScreenOrientation = ScreenOrientation.Portrait)]
 #endif
     public class SplashActivity : AppCompatActivity
     {
