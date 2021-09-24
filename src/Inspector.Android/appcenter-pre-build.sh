@@ -13,6 +13,7 @@ else
 fi
 
 ############################# Chenges on manifest files
+echo "=============================================================================="
 echo "Updating $MANIFEST file..."
 sed -i '' "s/versionName=\"[0-9.]*\"/versionName="\"${VERSION_NAME}.${APPCENTER_BUILD_ID}\""/" ${MANIFEST}
 sed -i '' "s/versionCode=\"1\"/versionCode=\"${APPCENTER_BUILD_ID}\"/" ${MANIFEST}
@@ -20,15 +21,19 @@ sed -i '' "s/package=\"[-a-zA-Z0-9_ .]*\"/package=\"${APP_BUNDLE_ID}\"/" ${MANIF
 
 cat $MANIFEST
 echo "Updated manifest file!"
+echo "=============================================================================="
 
 ############################# Changes on Main Activity
+echo "=============================================================================="
 echo "Updating app name to $APP_DISPLAY_NAME in Main Activity"
 sed -i '' "s/Label=\"[-a-zA-Z0-9_ ]*\"/Label=\"${APP_DISPLAY_NAME}\"/" ${MAINACTIVITY}
 
 cat $MAINACTIVITY
 echo "Updated Main Activity!"
+echo "=============================================================================="
 
 ############################# Changes on appsettings.json
+echo "=============================================================================="
 echo "Creating appsettings.json file..."
 echo "{
   \"ZammadApiBaseUrl\": \"${ZammadApiBaseUrl}\",
@@ -50,3 +55,4 @@ echo "{
 
 cat $APPSETTINGS
 echo "Created appsettings.json file!"
+echo "=============================================================================="
