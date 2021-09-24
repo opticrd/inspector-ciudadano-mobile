@@ -13,28 +13,30 @@ else
 fi
 
 ############################# Chenges on manifest files
+echo "##[section]Starting: Updating $MANIFEST file..."
 echo "=============================================================================="
-echo "Updating $MANIFEST file..."
 sed -i '' "s/versionName=\"[0-9.]*\"/versionName="\"${VERSION_NAME}.${APPCENTER_BUILD_ID}\""/" ${MANIFEST}
 sed -i '' "s/versionCode=\"1\"/versionCode=\"${APPCENTER_BUILD_ID}\"/" ${MANIFEST}
 sed -i '' "s/package=\"[-a-zA-Z0-9_ .]*\"/package=\"${APP_BUNDLE_ID}\"/" ${MANIFEST}
 
 cat $MANIFEST
-echo "Updated manifest file!"
 echo "=============================================================================="
+echo "##[section]Finishing: Updated manifest file!"
+echo "------------------------------------------------------------------------------"
 
 ############################# Changes on Main Activity
+echo "##[section]Starting: Updating app name to $APP_DISPLAY_NAME in Main Activity"
 echo "=============================================================================="
-echo "Updating app name to $APP_DISPLAY_NAME in Main Activity"
 sed -i '' "s/Label=\"[-a-zA-Z0-9_ ]*\"/Label=\"${APP_DISPLAY_NAME}\"/" ${MAINACTIVITY}
 
 cat $MAINACTIVITY
-echo "Updated Main Activity!"
 echo "=============================================================================="
+echo "##[section]Finishing: Updated Main Activity!"
+echo "------------------------------------------------------------------------------"
 
 ############################# Changes on appsettings.json
+echo "##[section]Starting: Creating appsettings.json file..."
 echo "=============================================================================="
-echo "Creating appsettings.json file..."
 echo "{
   \"ZammadApiBaseUrl\": \"${ZammadApiBaseUrl}\",
   \"ZammadToken\": \"${ZammadToken}\",
@@ -54,5 +56,6 @@ echo "{
 }" > ${APPSETTINGS}
 
 cat $APPSETTINGS
-echo "Created appsettings.json file!"
 echo "=============================================================================="
+echo "##[section]Finishing: Created appsettings.json file!"
+echo "------------------------------------------------------------------------------"
