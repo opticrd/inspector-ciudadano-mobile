@@ -1,54 +1,34 @@
 #!/usr/bin/env bash
 
-SPLASH_ACTIVITY="$BUILD_REPOSITORY_LOCALPATH/src/Inspector.Android/SplashActivity.cs"
-MANIFEST="$BUILD_REPOSITORY_LOCALPATH/src/Inspector.Android/Properties/AndroidManifest.xml"
+MAINACTIVITY="$BUILD_REPOSITORY_LOCALPATH/src/Inspector.Android/SplashActivity.cs"
+MANIFEST_CITIZEN="$BUILD_REPOSITORY_LOCALPATH/src/Inspector.Android/Properties/AndroidManifest.xml"
 MANIFEST_AGENT="$BUILD_REPOSITORY_LOCALPATH/src/Inspector.Android/Properties/AndroidManifestAgent.xml"
 APPSETTINGS="$BUILD_REPOSITORY_LOCALPATH/src/Inspector/appsettings.json"
-VERSIONNAME=`grep versionName ${MANIFEST} | sed 's/.*versionName\s*=\s*\"\([^\"]*\)\".*/\1/g'`
 
-# Lets work with the manifest files
-if [ "$APPCENTER_XAMARIN_CONFIGURATION" != "Release-agent" ]
+if [ "$APPCENTER_XAMARIN_CONFIGURATION" = "Release" ]
 then
-
-echo "Updating manifest file for agent..."
-sed -i.bak "s/android:versionName="\"${VERSIONNAME}\""/android:versionName="\"${BASE_VERSION}.${APPCENTER_BUILD_ID}\""/" ${MANIFEST_AGENT}
-rm -f ${MANIFEST_AGENT}.bak
-sed -i.bak "s/android:versionCode="\"1\""/android:versionCode="\"${APPCENTER_BUILD_ID}\""/" ${MANIFEST_AGENT}
-rm -f ${MANIFEST_AGENT}.bak
-
-sed -i.bak "s/package="\"do.gob.ogtic.inspector\""/package="\"${APP_BUNDLE_ID}\""/" ${MANIFEST_AGENT}
-rm -f ${MANIFEST_AGENT}.bak
-
-# Print out file for reference
-cat $MANIFEST_AGENT
-echo "Updated manifest file for agent!"
-
+  MANIFEST=$MANIFEST_CITIZEN
 else
+  MANIFEST=$MANIFEST_AGENT
+fi
 
-echo "Updating manifest file..."
-sed -i.bak "s/android:versionName="\"${VERSIONNAME}\""/android:versionName="\"${BASE_VERSION}.${APPCENTER_BUILD_ID}\""/" ${MANIFEST}
-rm -f ${MANIFEST}.bak
-sed -i.bak "s/android:versionCode="\"1\""/android:versionCode="\"${APPCENTER_BUILD_ID}\""/" ${MANIFEST}
-rm -f ${MANIFEST}.bak
+############################# Chenges on manifest files
+echo "Updating $MANIFEST file..."
+sed -i '' "s/versionName=\"[0-9.]*\"/versionName="\"${VERSION_NAME}.${APPCENTER_BUILD_ID}\""/" ${MANIFEST}
+sed -i '' "s/versionCode=\"1\"/versionCode=\"${APPCENTER_BUILD_ID}\"/" ${MANIFEST}
+sed -i '' "s/package=\"[-a-zA-Z0-9_ .]*\"/package=\"${APP_BUNDLE_ID}\"/" ${MANIFEST}
 
-sed -i.bak "s/package="\"do.gob.ogtic.inspector\""/package="\"${APP_BUNDLE_ID}\""/" ${MANIFEST}
-rm -f ${MANIFEST}.bak
-
-# Print out file for reference
 cat $MANIFEST
 echo "Updated manifest file!"
 
-fi
+############################# Changes on Main Activity
+echo "Updating app name to $APP_DISPLAY_NAME in Main Activity"
+sed -i '' "s/Label=\"[-a-zA-Z0-9_ ]*\"/Label=\"${APP_DISPLAY_NAME}\"/" ${MAINACTIVITY}
 
-# Lets work with the splash activity
-echo "Updating splash activity..."
-sed -i.bak "s/Label="\"Inspector\""/Label="\"${APP_NAME}\""/" ${SPLASH_ACTIVITY}
-rm -f ${SPLASH_ACTIVITY}.bak
+cat $MAINACTIVITY
+echo "Updated Main Activity!"
 
-cat $SPLASH_ACTIVITY
-echo "Updated splash activity!"
-
-# Lets work with the appsettings.json
+############################# Changes on appsettings.json
 echo "Creating appsettings.json file..."
 echo "{
   \"ZammadApiBaseUrl\": \"${ZammadApiBaseUrl}\",
