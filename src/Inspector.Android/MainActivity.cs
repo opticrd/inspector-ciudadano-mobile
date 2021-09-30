@@ -24,7 +24,7 @@ namespace Inspector.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             XF.Material.Droid.Material.Init(this, savedInstanceState);
 
-            Microsoft.AppCenter.Distribute.Distribute.SetEnabledForDebuggableBuild(true);
+            //Microsoft.AppCenter.Distribute.Distribute.SetEnabledForDebuggableBuild(true);
             LoadApplication(new App(new AndroidInitializer()));            
         }
         protected override void OnResume()
