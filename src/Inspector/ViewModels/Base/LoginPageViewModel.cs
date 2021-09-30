@@ -87,7 +87,7 @@ namespace Inspector.ViewModels
                     {
                         email = email.Replace("%40", "@");
 
-                        var response = await _authService.Login(email, "");
+                        var response = await _authService.Login(email);
 
                         if (response.doSignUp)
                         {

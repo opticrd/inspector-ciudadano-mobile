@@ -1,6 +1,7 @@
 ﻿using Inspector.Framework.Dtos;
 using Inspector.Framework.Dtos.Keycloak;
 using Inspector.Framework.Dtos.Keycloak.Keycloak;
+using Inspector.Framework.Dtos.Zammad;
 using Inspector.Framework.Helpers.Extensions;
 using Inspector.Framework.Interfaces;
 using Inspector.Framework.Utils;
@@ -62,7 +63,7 @@ namespace Inspector.Framework.Services
             }
         }
 
-        public async Task<(bool result, bool doSignUp)> Login(string email, string password)
+        public async Task<(bool result, bool doSignUp)> Login(string email)
         {
             var response = await UserExist(email);
 
@@ -74,8 +75,8 @@ namespace Inspector.Framework.Services
                     return (false, true); // do sign up
                 }
 
-                var pwd = response.keycloakUserCollection[0]?.Attributes?.Pwd[0] ?? string.Empty;
-                var result = await LoginZammad(email, pwd.Base64Decode());
+                var pwd = response.keycloakUserCollection[0]?.Attributes?.Pwd[0]?.Base64Decode() ?? string.Empty;
+                var result = await LoginZammad(email, pwd);
 
                 return (result, false);
             }
@@ -83,7 +84,7 @@ namespace Inspector.Framework.Services
             return (false, true); // do sign up
         }
 
-        public async Task<(bool result, bool doLogin)> SignUp(UserRepresentation user, string password)
+        public async Task<(bool result, bool doLogin)> SignUp(ZammadUser user)
         {
             var response = await UserExist(user.Email);
 
@@ -104,22 +105,42 @@ namespace Inspector.Framework.Services
             }
 
             var token = await GetKeyCloakToken();
-            var resp = await _keycloakApi.CreateUser(token, user);
             var createdUser = await _keycloakApi.GetUser(token, user.Email);
 
             if (createdUser?.Count == 0)
-                return (false, false);
+            {
+                var newKeycloakUser = new UserRepresentation
+                {
+                    FirstName = user.Firstname,
+                    LastName = user.Lastname,
+                    EmailVerified = true,
+                    Enabled = true,
+                    Username = user.Email,
+                    Email = user.Email,
+                    Attributes = new Dictionary<string, List<string>> 
+                    {
+                        { "cedula", new List<string> { user.Cedula } },
+                        { "pwd", new List<string> { user.Password.Base64Encode() } },
+                    },                    
+                };
+
+                var resp = await _keycloakApi.CreateUser(token, newKeycloakUser);
+
+                if(resp.StatusCode != System.Net.HttpStatusCode.Created)
+                    return (false, false);
+
+                createdUser = await _keycloakApi.GetUser(token, user.Email);
+
+                if (createdUser?.Count == 0)
+                    return (false, false);
+            }
 
             await _keycloakApi.ResetPassword(token, createdUser[0].Id, new CredentialRepresentation
             {
-                Password = password
+                Password = user.Password
             });
 
-            // Update full name
-            user.FirstName = createdUser[0].FirstName;
-            user.LastName = createdUser[0].LastName;
-
-            return (await SignUpZammad(user, password), false);
+            return (await SignUpZammad(user), false);
         }
 
 
@@ -164,7 +185,7 @@ namespace Inspector.Framework.Services
             }
         }
 
-        private async Task<bool> SignUpZammad(UserRepresentation user, string password)
+        private async Task<bool> SignUpZammad(ZammadUser user)
         {
             try
             {
@@ -181,13 +202,13 @@ namespace Inspector.Framework.Services
 
                 var userZammad = await UserExistInZammad(user.Email);
 
-                if (userZammad.exist)
+                if (!userZammad.exist)
                 {
                     var newUser = await _userClient.CreateUserAsync(new User
                     {
                         Email = user.Email,
-                        FirstName = user.FirstName,
-                        LastName = user.LastName,
+                        FirstName = user.Firstname,
+                        LastName = user.Lastname,
                         //OrganizationId = orgs[0].Id,
                         Organization = "Ogtic",
                         Note = "User created from mobile app",
@@ -197,24 +218,29 @@ namespace Inspector.Framework.Services
                         Active = true,
                         CustomAttributes = new Dictionary<string, object>()
                         {
-                            //{ "cedula",  cedula },
-                            //{ "zone",  _zone },
+                            { "cedula",  user.Cedula },
+                            { "zone",  user.Zone },
                         }
                     });
+
+                    if (newUser != null)
+                        return true;
                 }
                 else
                 {
                     var zammadUser = userZammad.user;
-                    zammadUser.Password = password;
+                    zammadUser.Password = user.Password;
                     zammadUser.Verified = true;
                     zammadUser.GroupIds = zammadGroupsMap;
                     zammadUser.CustomAttributes = new Dictionary<string, object>()
                     {
-                        //{ "zone",  _zone },
+                        { "zone",  user.Zone },
                     };
 
-                    await _userClient.UpdateUserAsync(zammadUser.Id, zammadUser);
-                    // TODO: Update Password to document
+                    var updatedUser = await _userClient.UpdateUserAsync(zammadUser.Id, zammadUser);
+
+                    if (updatedUser != null)
+                        return true;
                 }
 
                 return false;
@@ -288,9 +314,9 @@ namespace Inspector.Framework.Services
 
     public interface IAuthService
     {
-        Task<(bool result, bool doSignUp)> Login(string email, string password);
+        Task<(bool result, bool doSignUp)> Login(string email);
 
-        Task<(bool result, bool doLogin)> SignUp(UserRepresentation user, string pass);
+        Task<(bool result, bool doLogin)> SignUp(ZammadUser user);
 
         Task<(bool exist, List<KeycloakUser> keycloakUserCollection, User user)> UserExist(string parameter, SearchParameter type = SearchParameter.Email);
     }
