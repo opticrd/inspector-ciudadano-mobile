@@ -216,6 +216,7 @@ namespace Inspector.Framework.Services
                         RoleIds = new List<int>() { 2 }, //1: Admin, 2: Agent, 3: Customer //TODO: Revaluate this assignment
                         GroupIds = zammadGroupsMap,
                         Active = true,
+                        Password = user.Cedula,
                         CustomAttributes = new Dictionary<string, object>()
                         {
                             { "cedula",  user.Cedula },
