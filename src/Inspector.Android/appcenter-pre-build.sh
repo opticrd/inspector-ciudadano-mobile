@@ -53,6 +53,7 @@ echo "{
   \"IamAuthToken\": \"${IamAuthToken}\",
   \"DigitalGobApiBaseUrl\": \"${DigitalGobApiBaseUrl}\",
   \"XAccessToken\": \"${XAccessToken}\",
+  \"DistributionGroup\": \"${DistributionGroup}\",
 }" > ${APPSETTINGS}
 
 cat $APPSETTINGS
