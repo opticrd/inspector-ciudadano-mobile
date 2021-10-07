@@ -17,6 +17,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Zammad.Client;
+using Zammad.Client.Resources;
 
 namespace Inspector.ViewModels.Signup
 {
@@ -24,8 +26,8 @@ namespace Inspector.ViewModels.Signup
     {
         public Citizen Citizen { get; set; }
         public string FullName { get; set; }
-        public ObservableCollection<ZammadGroup> Groups { get; set; }
-        public Validatable<ZammadGroup> Group { get; set; }
+        public ObservableCollection<Group> Groups { get; set; }
+        public Validatable<Group> Group { get; set; }
 
         IZammadLiteApi _zammadLiteApi;
         ICitizenAPI _citizenClient;
@@ -38,9 +40,9 @@ namespace Inspector.ViewModels.Signup
             _citizenClient = citizenClient;
             _zammadLiteApi = zammadLiteApi;
             _logger = logger;
-            Group = Validator.Build<ZammadGroup>().IsRequired(Message.FieldRequired);
+            Group = Validator.Build<Group>().IsRequired(Message.FieldRequired);
 
-            SelectGroupCommand = new DelegateCommand<ZammadGroup>(group => SelectGroupCommandExecute(group));
+            SelectGroupCommand = new DelegateCommand<Group>(group => SelectGroupCommandExecute(group));
             ValidateLocationCommand = new DelegateCommand(OnValidateLocationCommandExecute);
             SelectDistrictCommand = new DelegateCommand<Zone>(zone => District.Value = zone);
         }
@@ -50,7 +52,7 @@ namespace Inspector.ViewModels.Signup
         public new ICommand SelectDistrictCommand { get; set; }
 
 
-        private void SelectGroupCommandExecute(ZammadGroup group)
+        private void SelectGroupCommandExecute(Group group)
         {
             Group.Value = group;
         }
@@ -116,8 +118,10 @@ namespace Inspector.ViewModels.Signup
                 FullName = $"{Citizen.Names} {Citizen.FirstSurname} {Citizen.SecondSurname}";
                 await LoadRegions();
 
-                var groups = await _zammadLiteApi.GetGroups($"Bearer {AppKeys.ZammadToken}");
-                Groups = new ObservableCollection<ZammadGroup>(groups.Where(x => x.Active).OrderBy(x => x.Name));
+                var account = ZammadAccount.CreateTokenAccount(AppKeys.ZammadApiBaseUrl, AppKeys.ZammadToken);
+                var groupClient = account.CreateGroupClient();
+                var groups = await groupClient.GetGroupListAsync();
+                Groups = new ObservableCollection<Group>(groups.Where(x => x.Active).OrderBy(x => x.Name));
             }
         }
     }
