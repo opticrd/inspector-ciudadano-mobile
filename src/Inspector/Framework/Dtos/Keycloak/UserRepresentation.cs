@@ -28,5 +28,20 @@ namespace Inspector.Framework.Dtos.Keycloak
 
         [JsonProperty("attributes")]
         public Dictionary<string, List<string>> Attributes { get; set; }
+
+        //[JsonProperty("credentials")]
+        //public Dictionary<string, List<string>> Credentials { get; set; }
     }
+
+    //public class Credential
+    //{
+    //    [JsonProperty("type")]
+    //    public string Type { get; set; }
+
+    //    [JsonProperty("secretData")]
+    //    public string SecretData { get; set; }
+
+    //    [JsonProperty("credentialData")]
+    //    public string CredentialData { get; set; }
+    //}
 }
