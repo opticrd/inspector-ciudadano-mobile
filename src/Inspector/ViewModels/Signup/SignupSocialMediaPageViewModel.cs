@@ -161,10 +161,8 @@ namespace Inspector.ViewModels
                                 await _navigationService.NavigateAsync($"/{NavigationKeys.LoginPage}");
                             else
                                 await _dialogService.DisplayAlertAsync("", "No pudimos completar el proceso, intenta iniciar sesión más tarde.", "Ok");
-
                             return;
-                        }
-                        
+                        }                        
                     }
                     else
                     {
