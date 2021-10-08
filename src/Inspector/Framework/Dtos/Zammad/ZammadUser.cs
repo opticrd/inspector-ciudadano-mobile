@@ -140,5 +140,8 @@ namespace Inspector.Framework.Dtos.Zammad
          */
         [JsonProperty("group_ids")]
         public Dictionary<string, List<string>> GroupIds { get; set; }
+
+
+        public Dictionary<string, List<string>> Attributes { get; set; }
     }
 }

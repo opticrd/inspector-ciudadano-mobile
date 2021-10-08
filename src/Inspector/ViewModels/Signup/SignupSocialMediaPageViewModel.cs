@@ -56,7 +56,7 @@ namespace Inspector.ViewModels
             }
         }
         public string Location { get; set;  }
-        public Citizen Citizen { get; set; }
+        public Citizen Citizen { get; set; } = new Citizen();
 
         public SignupSocialMediaPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ILogger logger, IAuthService authService,
             ICacheService cacheService, IKeycloakApi keycloakApi, IZammadLiteApi zammadLiteApi)
@@ -78,7 +78,7 @@ namespace Inspector.ViewModels
             {
                 Citizen = parameters.GetValue<Citizen>("Citizen");
                 _document = Citizen.Id;
-                _password = parameters.GetValue<string>("Password");
+                _password = Citizen.Id;
                 _zone = parameters.GetValue<string>("ZoneCode");
                 _group = parameters.GetValue<ZammadGroup>("Group");
                 _groups = parameters.GetValue<List<ZammadGroup>>("Groups");
@@ -134,39 +134,35 @@ namespace Inspector.ViewModels
                         {
                             lastName += " " + Citizen.SecondSurname;
                         }
-                        var attributes = new Dictionary<string, List<string>>();
-                        attributes.Add("cedula", new List<string>
-                        {
-                            Citizen.Id
-                        });
-                        attributes.Add("pwd", new List<string>
-                        {
-                            _password.Base64Encode()
-                        });
 
                         // Create user with email and Password
-                        var newKeycloakUser = new UserRepresentation
+                        var newUser = new ZammadUser
                         {
-                            FirstName = Citizen.Names,
-                            LastName = lastName,
-                            EmailVerified = true,
-                            Enabled = true,
-                            Username = _email,
+                            Zone = _zone, 
+                            Firstname  = Citizen.Names,
+                            Lastname = lastName,
                             Email = _email,
-                            Attributes = attributes
+                            //Attributes = attributes,
+                            Cedula = Citizen.Id, 
+                            Password = _password
                         };
 
-                        var response = await _authService.SignUp(newKeycloakUser, _password);
+                        var response = await _authService.SignUp(newUser);
 
-                        if (response.doLogin)
+                        if (response.doLogin || response.result)
                         {
-                            var resp = await _authService.Login(_email, _password);
+                            var resp = await _authService.Login(_email);
 
-                            if (resp.result) 
+                            if (resp.result)
                                 await _navigationService.NavigateAsync($"/{NavigationKeys.HomePage}");
-
+                            else if(resp.doSignUp)
+                                await _dialogService.DisplayAlertAsync("", "No pudimos completar el proceso, intenta de nuevo más tarde.", "Ok");
+                            else if (response.result)
+                                await _navigationService.NavigateAsync($"/{NavigationKeys.LoginPage}");
+                            else
+                                await _dialogService.DisplayAlertAsync("", "No pudimos completar el proceso, intenta iniciar sesión más tarde.", "Ok");
                             return;
-                        }
+                        }                        
                     }
                     else
                     {
