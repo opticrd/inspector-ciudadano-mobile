@@ -68,10 +68,6 @@ namespace Inspector
         {
             base.OnStart();
 #if RELEASE_AGENT || DEBUG_AGENT
-
-            if(AppKeys.DistributionGroup == "private")
-                Distribute.UpdateTrack = UpdateTrack.Private;
-
             // appcenter keys for inspector agents
             AppCenter.Start("android=1090a168-34ba-434f-ab47-7bef6201cd16;" +
                   "ios=0adb06a3-f245-4250-90c8-1fc488d6ee17",
