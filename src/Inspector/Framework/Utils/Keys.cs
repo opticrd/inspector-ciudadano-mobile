@@ -47,6 +47,5 @@ namespace Inspector.Framework.Utils
         public static string IamAuthToken => AppSettingsManager.Settings["IamAuthToken"];
         public static string DigitalGobApiBaseUrl => AppSettingsManager.Settings["DigitalGobApiBaseUrl"];
         public static string XAccessToken => AppSettingsManager.Settings["XAccessToken"];
-        public static string DistributionGroup => AppSettingsManager.Settings["DistributionGroup"];
     }
 }
