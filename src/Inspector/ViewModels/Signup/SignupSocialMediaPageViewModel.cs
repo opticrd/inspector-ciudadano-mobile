@@ -1,4 +1,4 @@
-﻿using Inspector.Framework.Dtos;
+using Inspector.Framework.Dtos;
 using Inspector.Framework.Dtos.Keycloak;
 using Inspector.Framework.Dtos.Keycloak.Keycloak;
 using Inspector.Framework.Dtos.Zammad;
