@@ -106,7 +106,13 @@ namespace Inspector.ViewModels
                     }
                     else
                     {
-                        await _dialogService.DisplayAlertAsync("", "No pudimos tomar tu correo del proveedor de identidad. Asegúrate de que tu correo sea público.", "Ok");
+                        string msj = "";
+                        if(scheme.Equals("Facebook"))
+                            msj = "Asegúrate de que tu correo sea público en la plataforma de Facebook.";
+                        else
+                            msj = "No pudimos tomar tu correo del proveedor de identidad. Asegúrate de que tu correo sea público.";
+
+                        await _dialogService.DisplayAlertAsync("", msj, "Ok");
                     }
                 }
             }
