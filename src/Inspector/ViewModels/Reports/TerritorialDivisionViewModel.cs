@@ -373,6 +373,9 @@ namespace Inspector.ViewModels
         #region CommandExecute
         private async Task SelectRegionCommandExecute(Zone zone)
         {
+            if (zone == null) 
+                return;
+
             Region.Value = zone;
             Provinces = Municipalities = Districts = Sections = Neighhborhoods = SubNeighhborhoods = null;
             Province.Value = Municipality.Value = District.Value = Section.Value = Neighhborhood.Value = SubNeighhborhood.Value = null;
@@ -381,6 +384,9 @@ namespace Inspector.ViewModels
 
         private async Task SelectProvinceCommandExecute(Zone zone)
         {
+            if (zone == null)
+                return;
+
             Province.Value = zone;
             Municipalities = Districts = Sections = Neighhborhoods = SubNeighhborhoods = null;
             Municipality.Value = District.Value = Section.Value = Neighhborhood.Value = SubNeighhborhood.Value = null;
@@ -389,6 +395,9 @@ namespace Inspector.ViewModels
 
         private async Task SelectMunicipalityCommandExecute(Zone zone)
         {
+            if (zone == null)
+                return;
+
             Municipality.Value = zone;
             Districts = Sections = Neighhborhoods = SubNeighhborhoods = null;
             District.Value = Section.Value = Neighhborhood.Value = SubNeighhborhood.Value = null;
@@ -397,6 +406,9 @@ namespace Inspector.ViewModels
 
         private async Task SelectDistrictCommandExecute(Zone zone)
         {
+            if (zone == null)
+                return;
+
             District.Value = zone;
             Sections = Neighhborhoods = SubNeighhborhoods = null;
             Section.Value = Neighhborhood.Value = SubNeighhborhood.Value = null;
@@ -405,6 +417,9 @@ namespace Inspector.ViewModels
 
         private async Task SelectSectionCommandExecute(Zone zone)
         {
+            if (zone == null)
+                return;
+
             Section.Value = zone;
             Neighhborhoods = SubNeighhborhoods = null;
             Neighhborhood.Value = SubNeighhborhood.Value = null;
@@ -413,6 +428,9 @@ namespace Inspector.ViewModels
 
         private async Task SelectNeighborhoodsCommandExecute(Zone zone)
         {
+            if (zone == null)
+                return;
+
             Neighhborhood.Value = zone;
             SubNeighhborhoods = null;
             SubNeighhborhood.Value = null;

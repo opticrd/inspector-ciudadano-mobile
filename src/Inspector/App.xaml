@@ -3,6 +3,7 @@
     x:Class="Inspector.App"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ctrls="clr-namespace:Inspector.Framework.Controls"
     xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
     xmlns:prism="http://prismlibrary.com"
     xmlns:stl="clr-namespace:UIModule.Resources.Styles;assembly=UIModule">
@@ -47,7 +48,7 @@
                 </Style.Triggers>
             </Style>-->
 
-            <Style TargetType="Line" x:Key="lineStyle">
+            <Style x:Key="lineStyle" TargetType="Line">
                 <Setter Property="Margin" Value="-16,0,-16,0" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
                 <Setter Property="Opacity" Value="0.3" />
@@ -57,6 +58,201 @@
                 <Setter Property="X2" Value="3000" />
             </Style>
 
+            <Style x:Key="ChipStateBase" TargetType="mtrl:MaterialChip">
+
+                <Setter Property="Text" Value="Indefinido" />
+                <Setter Property="TextColor" Value="#DE000000" />
+                <Setter Property="BackgroundColor" Value="#FFF2F2F2" />
+            </Style>
+
+            <Style
+                x:Key="ChipState"
+                BasedOn="{StaticResource ChipStateBase}"
+                TargetType="mtrl:MaterialChip">
+
+                <Style.Triggers>
+                    <DataTrigger
+                        Binding="{Binding StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="1">
+                        <Setter Property="Text" Value="Nuevo" />
+                        <Setter Property="BackgroundColor" Value="#FFFFE4B3" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="2">
+                        <Setter Property="Text" Value="Abierto" />
+                        <Setter Property="BackgroundColor" Value="#FFC1F0C1" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="3">
+                        <Setter Property="Text" Value="Pendienet Recordatorio" />
+                        <Setter Property="BackgroundColor" Value="#FFF5B9C5" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="4">
+                        <Setter Property="Text" Value="Cerrado" />
+                        <Setter Property="BackgroundColor" Value="#FFE5E5E5" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="5">
+                        <Setter Property="Text" Value="Fusionado" />
+                        <Setter Property="BackgroundColor" Value="#FFE0C1F0" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="6">
+                        <Setter Property="Text" Value="En progreso" />
+                        <Setter Property="BackgroundColor" Value="#FFBCDEFF" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="7">
+                        <Setter Property="Text" Value="Pendiente Cerrar" />
+                        <Setter Property="BackgroundColor" Value="#FFE4C1BF" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style
+                x:Key="TicketChipState"
+                BasedOn="{StaticResource ChipStateBase}"
+                TargetType="mtrl:MaterialChip">
+
+                <Style.Triggers>
+                    <DataTrigger
+                        Binding="{Binding TicketSelected.StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="1">
+                        <Setter Property="Text" Value="Nuevo" />
+                        <Setter Property="BackgroundColor" Value="#FFFFE4B3" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding TicketSelected.StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="2">
+                        <Setter Property="Text" Value="Abierto" />
+                        <Setter Property="BackgroundColor" Value="#FFC1F0C1" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding TicketSelected.StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="3">
+                        <Setter Property="Text" Value="Pendienet Recordatorio" />
+                        <Setter Property="BackgroundColor" Value="#FFF5B9C5" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding TicketSelected.StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="4">
+                        <Setter Property="Text" Value="Cerrado" />
+                        <Setter Property="BackgroundColor" Value="#FFE5E5E5" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding TicketSelected.StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="5">
+                        <Setter Property="Text" Value="Fusionado" />
+                        <Setter Property="BackgroundColor" Value="#FFE0C1F0" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding TicketSelected.StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="6">
+                        <Setter Property="Text" Value="En progreso" />
+                        <Setter Property="BackgroundColor" Value="#FFBCDEFF" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding TicketSelected.StateId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="7">
+                        <Setter Property="Text" Value="Pendiente Cerrar" />
+                        <Setter Property="BackgroundColor" Value="#FFE4C1BF" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="ChipPriorityBase" TargetType="mtrl:MaterialChip">
+
+                <Setter Property="TextColor" Value="#DE000000" />
+            </Style>
+
+
+            <Style
+                x:Key="ChipPriority"
+                BasedOn="{StaticResource ChipPriorityBase}"
+                TargetType="mtrl:MaterialChip">
+
+                <Style.Triggers>
+                    <DataTrigger
+                        Binding="{Binding PriorityId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="1">
+                        <!--<Setter Property="Text" Value="Prioridad Baja" />
+                        <Setter Property="BackgroundColor" Value="#EFFAE6" />-->
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding PriorityId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="2">
+                        <Setter Property="Text" Value="Prioridad" />
+                        <Setter Property="BackgroundColor" Value="#FFFFFFCC" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding PriorityId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="3">
+                        <Setter Property="Text" Value="Prioridad Alta" />
+                        <Setter Property="BackgroundColor" Value="#FFFFEBBE" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style
+                x:Key="TicketChipPriority"
+                BasedOn="{StaticResource ChipPriorityBase}"
+                TargetType="mtrl:MaterialChip">
+
+                <Style.Triggers>
+                    <DataTrigger
+                        Binding="{Binding TicketSelected.PriorityId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="1">
+                        <!--<Setter Property="Text" Value="Prioridad Baja" />
+                                            <Setter Property="BackgroundColor" Value="#EFFAE6" />-->
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding TicketSelected.PriorityId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="2">
+                        <Setter Property="Text" Value="Prioridad" />
+                        <Setter Property="BackgroundColor" Value="#FFFFFFCC" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding TicketSelected.PriorityId}"
+                        TargetType="mtrl:MaterialChip"
+                        Value="3">
+                        <Setter Property="Text" Value="Prioridad Alta" />
+                        <Setter Property="BackgroundColor" Value="#FFFFEBBE" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <!--<Style TargetType="ctrls:CustomNavigationPage">
+                <Setter Property="BarBackgroundColor" Value="{StaticResource SecondaryColor}" />
+                <Setter Property="BarTextColor" Value="{StaticResource SurfaceColor}" />
+            </Style>-->
 
         </ResourceDictionary>
     </Application.Resources>

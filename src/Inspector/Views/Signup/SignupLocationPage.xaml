@@ -1,23 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage 
+<ContentPage
+    x:Class="Inspector.Views.Signup.SignupLocationPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="Inspector.Views.Signup.SignupLocationPage"  
     xmlns:ctrls="clr-namespace:UIModule.Controls;assembly=UIModule"
     xmlns:img="clr-namespace:Inspector.Framework.Helpers.Extensions;assembly=Inspector"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
     xmlns:l18n="clr-namespace:Inspector.Framework.Helpers.Extensions"
     xmlns:mtrl="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
     xmlns:prism="http://prismlibrary.com"
-    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-    ios:Page.UseSafeArea="true" 
-    BackgroundColor="White"
-    prism:ViewModelLocator.AutowireViewModel="True">
+    ios:Page.UseSafeArea="true"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    BackgroundColor="White">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout
                 Padding="16,36,16,16"
                 Spacing="10"
                 VerticalOptions="CenterAndExpand">
+
                 <Label
                     FontAttributes="Bold"
                     HorizontalTextAlignment="Center"
@@ -30,88 +31,103 @@
                     TranslationY="-16" />
 
                 <StackLayout>
-                <Label 
-                    Text="{Binding FullName}"
-                    HorizontalTextAlignment="Center"
-                    Style="{StaticResource Body2}" />
-                <Label 
-                    Text="{Binding Citizen.Id}"
-                    HorizontalTextAlignment="Center"
-                    Style="{StaticResource Body2}" />
+                    <Label
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource Body2}"
+                        Text="{Binding FullName}" />
+                    <Label
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource Body2}"
+                        Text="{Binding Citizen.Id}" />
 
 
-                <ctrls:TextFieldLayout>
-                    <mtrl:MaterialTextField
-                        ChoiceSelectedCommand="{Binding SelectGroupCommand}"
-                        Choices="{Binding Groups}"
-                        ChoicesBindingName="Name"
-                        ChoicesResultBindingName="Name"
-                        ErrorText="{Binding Group.Error}"
-                        HasError="{Binding Group.HasErrors}"
-                        HelperText="Selecciona tu institución"
-                        Placeholder="Institución"
-                        ReturnType="Next"
-                        Style="{StaticResource TextFieldChoiceStyle}" />
-                </ctrls:TextFieldLayout>
-                <ctrls:TextFieldLayout IsVisible="{Binding RegionIsEnabled}">
-                    <mtrl:MaterialTextField
-                            ChoiceSelectedCommand="{Binding SelectRegionCommand}"
-                            Choices="{Binding Regions}"
-                            ChoicesBindingName="Name"
-                            ChoicesResultBindingName="Name"
-                            ErrorText="{Binding Region.Error}"
-                            HasError="{Binding Region.HasErrors}"
-                            HelperText="{l18n:Translate SelectRegion}"
-                            Placeholder="{l18n:Translate Region}"
-                            ReturnType="Next"
-                            Style="{StaticResource TextFieldChoiceStyle}" />
-                </ctrls:TextFieldLayout>
 
-                <ctrls:TextFieldLayout IsVisible="{Binding ProvinceIsEnabled}">
-                    <mtrl:MaterialTextField
-                            ChoiceSelectedCommand="{Binding SelectProvinceCommand}"
-                            Choices="{Binding Provinces}"
-                            ChoicesBindingName="Name"
-                            ChoicesResultBindingName="Name"
-                            ErrorText="{Binding Province.Error}"
-                            HasError="{Binding Province.HasErrors}"
-                            HelperText="{l18n:Translate SelectProvince}"
-                            Placeholder="{l18n:Translate Province}"
-                            ReturnType="Next"
-                            Style="{StaticResource TextFieldChoiceStyle}" />
-                </ctrls:TextFieldLayout>
+                    <ctrls:PickerLayout>
+                        <Picker
+                            x:Name="groupPicker"
+                            Title="{l18n:Translate Institution}"
+                            ItemDisplayBinding="{Binding Name}"
+                            ItemsSource="{Binding Groups}">
+                            <Picker.Behaviors>
+                                <prism:EventToCommandBehavior
+                                    Command="{Binding SelectGroupCommand}"
+                                    CommandParameter="{Binding Source={x:Reference groupPicker}, Path=SelectedItem}"
+                                    EventName="SelectedIndexChanged" />
+                            </Picker.Behaviors>
+                        </Picker>
+                        <Label Text="{l18n:Translate SelectInstitution}" />
+                    </ctrls:PickerLayout>
 
-                <ctrls:TextFieldLayout IsVisible="{Binding MunicipalityIsEnabled}">
-                    <mtrl:MaterialTextField
-                            ChoiceSelectedCommand="{Binding SelectMunicipalityCommand}"
-                            Choices="{Binding Municipalities}"
-                            ChoicesBindingName="Name"
-                            ChoicesResultBindingName="Name"
-                            ErrorText="{Binding Municipality.Error}"
-                            HasError="{Binding Municipality.HasErrors}"
-                            HelperText="{l18n:Translate SelectMunicipality}"
-                            Placeholder="{l18n:Translate Municipality}"
-                            ReturnType="Next"
-                            Style="{StaticResource TextFieldChoiceStyle}" />
-                </ctrls:TextFieldLayout>
+                    <ActivityIndicator IsRunning="True" IsVisible="{Binding IsSearchingZones}" />
 
-                <ctrls:TextFieldLayout IsVisible="{Binding DistrictIsEnabled}">
-                    <mtrl:MaterialTextField
-                            ChoiceSelectedCommand="{Binding SelectDistrictCommand}"
-                            Choices="{Binding Districts}"
-                            ChoicesBindingName="Name"
-                            ChoicesResultBindingName="Name"
-                            ErrorText="{Binding District.Error}"
-                            HasError="{Binding District.HasErrors}"
-                            HelperText="{l18n:Translate SelectDistrict}"
-                            Placeholder="{l18n:Translate District}"
-                            ReturnType="Next"
-                            Style="{StaticResource TextFieldChoiceStyle}" />
-                </ctrls:TextFieldLayout>
-                <mtrl:MaterialButton
-                    Command="{Binding ValidateLocationCommand}"
-                    Style="{StaticResource ButtonPrimary}"
-                    Text="Validar localidad" />
+                    <ctrls:PickerLayout IsVisible="{Binding RegionIsEnabled}">
+                        <Picker
+                            x:Name="regionPicker"
+                            Title="{l18n:Translate Region}"
+                            ItemDisplayBinding="{Binding Name}"
+                            ItemsSource="{Binding Regions}">
+                            <Picker.Behaviors>
+                                <prism:EventToCommandBehavior
+                                    Command="{Binding SelectRegionCommand}"
+                                    CommandParameter="{Binding Source={x:Reference regionPicker}, Path=SelectedItem}"
+                                    EventName="SelectedIndexChanged" />
+                            </Picker.Behaviors>
+                        </Picker>
+                        <Label Text="{l18n:Translate SelectRegion}" />
+                    </ctrls:PickerLayout>
+
+                    <ctrls:PickerLayout IsVisible="{Binding ProvinceIsEnabled}">
+                        <Picker
+                            x:Name="provincePicker"
+                            Title="{l18n:Translate Province}"
+                            ItemDisplayBinding="{Binding Name}"
+                            ItemsSource="{Binding Provinces}">
+                            <Picker.Behaviors>
+                                <prism:EventToCommandBehavior
+                                    Command="{Binding SelectProvinceCommand}"
+                                    CommandParameter="{Binding Source={x:Reference provincePicker}, Path=SelectedItem}"
+                                    EventName="SelectedIndexChanged" />
+                            </Picker.Behaviors>
+                        </Picker>
+                        <Label Text="{l18n:Translate SelectProvince}" />
+                    </ctrls:PickerLayout>
+
+                    <ctrls:PickerLayout IsVisible="{Binding MunicipalityIsEnabled}">
+                        <Picker
+                            x:Name="municipalityPicker"
+                            Title="{l18n:Translate Municipality}"
+                            ItemDisplayBinding="{Binding Name}"
+                            ItemsSource="{Binding Municipalities}">
+                            <Picker.Behaviors>
+                                <prism:EventToCommandBehavior
+                                    Command="{Binding SelectMunicipalityCommand}"
+                                    CommandParameter="{Binding Source={x:Reference municipalityPicker}, Path=SelectedItem}"
+                                    EventName="SelectedIndexChanged" />
+                            </Picker.Behaviors>
+                        </Picker>
+                        <Label Text="{l18n:Translate SelectMunicipality}" />
+                    </ctrls:PickerLayout>
+
+                    <ctrls:PickerLayout IsVisible="{Binding DistrictIsEnabled}">
+                        <Picker
+                            x:Name="districtPicker"
+                            Title="{l18n:Translate District}"
+                            ItemDisplayBinding="{Binding Name}"
+                            ItemsSource="{Binding Districts}">
+                            <Picker.Behaviors>
+                                <prism:EventToCommandBehavior
+                                    Command="{Binding SelectDistrictCommand}"
+                                    CommandParameter="{Binding Source={x:Reference districtPicker}, Path=SelectedItem}"
+                                    EventName="SelectedIndexChanged" />
+                            </Picker.Behaviors>
+                        </Picker>
+                        <Label Text="{l18n:Translate SelectDistrict}" />
+                    </ctrls:PickerLayout>
+
+                    <mtrl:MaterialButton
+                        Command="{Binding ValidateLocationCommand}"
+                        Style="{StaticResource ButtonPrimary}"
+                        Text="Validar localidad" />
                 </StackLayout>
             </StackLayout>
         </ScrollView>

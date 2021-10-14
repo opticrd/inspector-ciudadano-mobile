@@ -17,17 +17,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Zammad.Client;
+using Zammad.Client.Resources;
 
 namespace Inspector.ViewModels.Signup
 {
     public class SignupLocationPageViewModel : TerritorialDivisionViewModel
     {
-        public ICommand ValidateLocationCommand { get; set; }
-        public ICommand SelectGroupCommand { get; set; }
         public Citizen Citizen { get; set; }
         public string FullName { get; set; }
-        public ObservableCollection<ZammadGroup> Groups { get; set; }
-        public Validatable<ZammadGroup> Group { get; set; }
+        public ObservableCollection<Group> Groups { get; set; }
+        public Validatable<Group> Group { get; set; }
 
         IZammadLiteApi _zammadLiteApi;
         ICitizenAPI _citizenClient;
@@ -40,26 +40,19 @@ namespace Inspector.ViewModels.Signup
             _citizenClient = citizenClient;
             _zammadLiteApi = zammadLiteApi;
             _logger = logger;
-            Group = Validator.Build<ZammadGroup>().IsRequired(Message.FieldRequired);
+            Group = Validator.Build<Group>().IsRequired(Message.FieldRequired);
 
-            SelectGroupCommand = new DelegateCommand<ZammadGroup>(group => SelectGroupCommandExecute(group));
+            SelectGroupCommand = new DelegateCommand<Group>(group => SelectGroupCommandExecute(group));
             ValidateLocationCommand = new DelegateCommand(OnValidateLocationCommandExecute);
-        }
-        public override async void OnNavigatedTo(INavigationParameters parameters)
-        {
-            base.OnNavigatedTo(parameters);
-            if (parameters.ContainsKey("Citizen"))
-            {
-                Citizen = parameters.GetValue<Citizen>("Citizen");
-                FullName = $"{Citizen.Names} {Citizen.FirstSurname} {Citizen.SecondSurname}";
-                await LoadRegions();
-
-                var groups = await _zammadLiteApi.GetGroups($"Bearer {AppKeys.ZammadToken}");
-                Groups = new ObservableCollection<ZammadGroup>(groups.Where(x=>x.Active).OrderBy(x => x.Name));
-            }
+            SelectDistrictCommand = new DelegateCommand<Zone>(zone => District.Value = zone);
         }
 
-        private void SelectGroupCommandExecute(ZammadGroup group)
+        public ICommand ValidateLocationCommand { get; set; }
+        public ICommand SelectGroupCommand { get; set; }
+        public new ICommand SelectDistrictCommand { get; set; }
+
+
+        private void SelectGroupCommandExecute(Group group)
         {
             Group.Value = group;
         }
@@ -79,14 +72,14 @@ namespace Inspector.ViewModels.Signup
                 parameters.Add("Citizen", Citizen);
                 parameters.Add("Group", Group.Value);
                 parameters.Add("Groups", Groups.ToList());
-                parameters.Add("Region", Region.Value?.Name??string.Empty);
+                parameters.Add("Region", Region.Value?.Name ?? string.Empty);
                 parameters.Add("Province", Province.Value?.Name ?? string.Empty);
                 parameters.Add("Municipality", Municipality.Value?.Name ?? string.Empty);
                 parameters.Add("District", District.Value?.Name ?? string.Empty);
 
                 var zoneCode = string.Empty;
 
-                if(District.Value != null)
+                if (District.Value != null)
                 {
                     zoneCode = District.Value.Id;
                 }
@@ -104,7 +97,6 @@ namespace Inspector.ViewModels.Signup
                 }
 
                 parameters.Add("ZoneCode", zoneCode);
-                parameters.Add("Password", Citizen.Id);
 
                 await _navigationService.NavigateAsync("SignupSocialMediaPage", parameters);
             }
@@ -115,6 +107,22 @@ namespace Inspector.ViewModels.Signup
             }
 
             IsBusy = false;
+        }
+
+        public override async void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+            if (parameters.ContainsKey("Citizen"))
+            {
+                Citizen = parameters.GetValue<Citizen>("Citizen");
+                FullName = $"{Citizen.Names} {Citizen.FirstSurname} {Citizen.SecondSurname}";
+                await LoadRegions();
+
+                var account = ZammadAccount.CreateTokenAccount(AppKeys.ZammadApiBaseUrl, AppKeys.ZammadToken);
+                var groupClient = account.CreateGroupClient();
+                var groups = await groupClient.GetGroupListAsync();
+                Groups = new ObservableCollection<Group>(groups.Where(x => x.Active).OrderBy(x => x.Name));
+            }
         }
     }
 }

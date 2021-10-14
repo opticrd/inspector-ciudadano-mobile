@@ -189,4 +189,7 @@
   <data name="RequetLogout" xml:space="preserve">
     <value>¿Seguro que deseas cerrar sesión?</value>
   </data>
+  <data name="TicketUpdated" xml:space="preserve">
+    <value>El ticket ha sido actualizado exitosamente.</value>
+  </data>
 </root>

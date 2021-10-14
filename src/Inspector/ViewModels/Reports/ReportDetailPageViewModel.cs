@@ -28,7 +28,6 @@ namespace Inspector.ViewModels
     public class ReportDetailPageViewModel : BaseViewModel
     {
         TicketClient _ticketClient;
-        User _userAccount;
         UserClient _userClient;
         ILogger _logger;
 
@@ -45,9 +44,10 @@ namespace Inspector.ViewModels
         public Ticket TicketSelected { get; set; }
         public string NewComment { get; set; }
         public User Customer { get; set; }
+        public CustomUser UserAccount { get; set; }
 
         #region Commands
-        public ObservableCollection<Comment> Comments { get; set; }
+        public ObservableCollection<Comment> Comments { get; set; } = new ObservableCollection<Comment>();
         public DelegateCommand<Comment> ShowFilesCommand { get; set; }
         public DelegateCommand SendCommentCommand { get; set; }
         public ICommand AttachFileCommand { get; set; }
@@ -57,7 +57,7 @@ namespace Inspector.ViewModels
         private async void Init()
         {
             var account = await _cacheService.GetSecureObject<ZammadAccount>(CacheKeys.ZammadAccount);
-            _userAccount = await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount);
+            UserAccount = CustomUser.Cast(await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount));
             _ticketClient = account.CreateTicketClient();
             _userClient = account.CreateUserClient();
         }
@@ -80,7 +80,7 @@ namespace Inspector.ViewModels
                 var comments = new List<Comment>();
                 foreach (var item in ticketArticles)
                 {
-                    var owner = item.CreatedById == _userAccount.Id;
+                    var owner = item.CreatedById == UserAccount.Id;
                     comments.Add(new Comment
                     {
                         Id = item.Id,
@@ -200,7 +200,7 @@ namespace Inspector.ViewModels
             catch (Exception e)
             {
                 _logger.Report(e, LoggerExtension.InitDictionary(nameof(ReportDetailPageViewModel), nameof(ReportDetailPageViewModel.OnAttachFileCommandExecute)));
-                await _dialogService.DisplayAlertAsync("Ups :(", Message.SomethingHappen, "Ok");
+                await _dialogService.DisplayAlertAsync("", Message.SomethingHappen, "Ok");
             }
             finally
             {
@@ -240,42 +240,45 @@ namespace Inspector.ViewModels
 
             try
             {
-                var choices = new string[]
+                if (TicketSelected.StateId != (int)Framework.Dtos.TicketState.New)
                 {
-                    "Abierto",
-                    "En progreso",
-                    "Cerrado",
-                };
+                    await MaterialDialog.Instance.SnackbarAsync("No tienes los permisos sufientes para cerrar este ticket.");
+                    return;
+                }
 
-                var view = new MaterialRadioButtonGroup() { Choices = choices };
-                bool? wasConfirmed = await MaterialDialog.Instance.ShowCustomContentAsync(view, TicketSelected.Title, "Cambiar estado del ticket");
-
-                if (wasConfirmed == null || !(bool)wasConfirmed)
+                bool wasConfirmed = await _dialogService.DisplayAlertAsync(TicketSelected.Title, "¿Seguro que desea cerrar este ticket?", "Si", "No");
+                
+                if (!wasConfirmed)
                     return;
 
-                int status = 0;
-
-                if (view.SelectedIndex == 0)
-                    status = (int)Framework.Dtos.TicketState.Open;
-                else if (view.SelectedIndex == 1)
-                    status = (int)Framework.Dtos.TicketState.InProgress;
-                else if (view.SelectedIndex == 2)
-                    status = (int)Framework.Dtos.TicketState.Closed;
-
                 var updatedTicket = TicketSelected;
-                updatedTicket.StateId = status;
+                updatedTicket.StateId = (int)Framework.Dtos.TicketState.Closed;
 
                 var ticket = await _ticketClient.UpdateTicketAsync(TicketSelected.Id, updatedTicket);
-                if (ticket != null)
-                    TicketSelected = ticket;
+                if (ticket == null)
+                {
+                    await MaterialDialog.Instance.SnackbarAsync(Message.SomethingHappen);
+                    return;
+                }
+
+                TicketSelected = ticket;
+                await _dialogService.DisplayAlertAsync("", Message.TicketUpdated, "Ok");
+
+                var parameters = new NavigationParameters()
+                    {
+                        { NavigationKeys.NewTicket, ticket }
+                    };
+                await _navigationService.GoBackAsync(parameters);
             }
             catch(Zammad.Client.Core.ZammadException e)
             {
                 _logger.Report(e, LoggerExtension.InitDictionary(nameof(ReportDetailPageViewModel), nameof(ReportDetailPageViewModel.OnChangeStatusTicketCommandExecute)));
+                await MaterialDialog.Instance.SnackbarAsync(Message.SomethingHappen);
             }
             catch (Exception e)
             {
                 _logger.Report(e, LoggerExtension.InitDictionary(nameof(ReportDetailPageViewModel), nameof(ReportDetailPageViewModel.OnChangeStatusTicketCommandExecute)));
+                await MaterialDialog.Instance.SnackbarAsync(Message.SomethingHappen);
             }
             finally
             {

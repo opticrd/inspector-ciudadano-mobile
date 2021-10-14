@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Framework\Controls\CustomNavigationPage.cs" />
     <Compile Remove="Framework\Services\CitizenService.cs" />
     <Compile Remove="ViewModels\Base\MainTabbedPageViewModel.cs" />
     <Compile Remove="ViewModels\Profile\ProfilePageViewModel.cs" />
@@ -37,6 +38,7 @@
     <Compile Remove="Views\Profile\ProfilePage.xaml.cs" />
     <Compile Remove="Views\Reports\FeedReportsPage.xaml.cs" />
     <Compile Remove="Views\Reports\ReportHistoryPage.xaml.cs" />
+    <Compile Remove="Views\Shared\ShipState.xaml.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,6 +46,7 @@
     <EmbeddedResource Remove="Views\Profile\ProfilePage.xaml" />
     <EmbeddedResource Remove="Views\Reports\FeedReportsPage.xaml" />
     <EmbeddedResource Remove="Views\Reports\ReportHistoryPage.xaml" />
+    <EmbeddedResource Remove="Views\Shared\ShipState.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,6 +55,7 @@
     <None Remove="Resources\Images\bullhorn.png" />
     <None Remove="Resources\Images\carnet.png" />
     <None Remove="Resources\Images\citizens.png" />
+    <None Remove="Resources\Images\clip.png" />
     <None Remove="Resources\Images\facebook.png" />
     <None Remove="Resources\Images\google.png" />
     <None Remove="Resources\Images\ic_user.png" />
@@ -68,6 +72,7 @@
     <EmbeddedResource Include="Resources\Images\bullhorn.png" />
     <EmbeddedResource Include="Resources\Images\carnet.png" />
     <EmbeddedResource Include="Resources\Images\citizens.png" />
+    <EmbeddedResource Include="Resources\Images\clip.png" />
     <EmbeddedResource Include="Resources\Images\facebook.png" />
     <EmbeddedResource Include="Resources\Images\google.png" />
     <EmbeddedResource Include="Resources\Images\ic_user.png" />
@@ -148,7 +153,7 @@
     <EmbeddedResource Update="Views\Home\HomePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Home\LoginPage.xaml">
+    <EmbeddedResource Update="Views\Signup\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Gallery\PreviewGalleryPage.xaml">
@@ -166,9 +171,6 @@
     <EmbeddedResource Update="Views\Reports\AddReportPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Shared\ShipState.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Views\Signup\SignupDocumentPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -181,5 +183,8 @@
     <EmbeddedResource Update="Views\WelcomePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Shared\" />
   </ItemGroup>
 </Project>

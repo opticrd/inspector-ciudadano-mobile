@@ -111,10 +111,19 @@
                                         Text="{Binding Path=CustomAttributes[address]}"
                                         TranslationY="-6" />
 
-                                    <views:ShipState
+                                    <!--<views:ShipState
                                         Grid.Row="2"
                                         Grid.Column="1"
-                                        State="{Binding StateId}" />
+                                        State="{Binding StateId}" />-->
+
+                                    <StackLayout
+                                        Grid.Row="2"
+                                        Grid.Column="1"
+                                        Orientation="Horizontal"
+                                        Spacing="0">
+                                        <mtrl:MaterialChip Style="{StaticResource ChipState}" />
+                                        <mtrl:MaterialChip Style="{StaticResource ChipPriority}" />
+                                    </StackLayout>
 
                                     <Label
                                         Grid.Row="2"

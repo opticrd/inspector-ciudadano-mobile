@@ -1,6 +1,7 @@
 ﻿using Inspector.Framework.Helpers;
 using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
+using Inspector.Models;
 using Inspector.Resources.Labels;
 using Prism.Commands;
 using Prism.Logging;
@@ -12,6 +13,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using XF.Material.Forms.UI.Dialogs;
 using Zammad.Client;
 using Zammad.Client.Resources;
@@ -34,6 +36,10 @@ namespace Inspector.ViewModels
             AllTicketsCommand = new DelegateCommand(() => OnChangeHistoryTicketsFilter(0));
             OpenTicketsCommand = new DelegateCommand(() => OnChangeHistoryTicketsFilter(1));
             ClosedTicketsCommand = new DelegateCommand(() => OnChangeHistoryTicketsFilter(2));
+
+            PrivacyCommand = new DelegateCommand(async () => await OpenBrowser(new Uri("https://ogtic.gob.do/politicas/")));
+            ConditionsCommand = new DelegateCommand(async () => await OpenBrowser(new Uri("https://ogtic.gob.do/terminos-de-uso/")));
+
             TicketSelectedCommand = new DelegateCommand(async () =>
             {
                 var parameters = new NavigationParameters()
@@ -61,7 +67,7 @@ namespace Inspector.ViewModels
         public ObservableCollection<Ticket> Tickets { get; set; } = new ObservableCollection<Ticket>();
         public Ticket TicketSelected { get; set; }
         public int HistoryIndexSelected { get; set; }
-        public User UserAccount { get; set; }
+        public CustomUser UserAccount { get; set; }
 
         #region Commands
         public ICommand RefreshCommand { get; set; }
@@ -70,7 +76,9 @@ namespace Inspector.ViewModels
         public ICommand OpenTicketsCommand { get; set; }
         public ICommand ClosedTicketsCommand { get; set; }
         public ICommand TicketSelectedCommand { get; set; }
-        public ICommand LogoutCommand { get; set; } 
+        public ICommand LogoutCommand { get; set; }
+        public ICommand PrivacyCommand { get; set; }
+        public ICommand ConditionsCommand { get; set; }
         #endregion
 
         private async void Init()
@@ -78,8 +86,8 @@ namespace Inspector.ViewModels
             var account = await _cacheService.GetSecureObject<ZammadAccount>(CacheKeys.ZammadAccount);
             _ticketClient = account.CreateTicketClient();
 
-            UserAccount = await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount);
-
+            UserAccount = CustomUser.Cast(await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount));
+            
             await OnRefreshCommandExecute();
         }
 
@@ -180,9 +188,23 @@ namespace Inspector.ViewModels
             }
         }
 
+        public async Task OpenBrowser(Uri uri)
+        {
+            try
+            {
+                await Browser.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
+            }
+            catch (Exception ex)
+            {
+                // An unexpected error occured. No browser may be installed on the device.
+                _logger.Report(ex);
+                await MaterialDialog.Instance.SnackbarAsync(Message.SomethingHappen);
+            }
+        }
+
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.GetNavigationMode() == NavigationMode.Back && parameters.ContainsKey(NavigationKeys.NewTicket))
+            if (parameters.GetNavigationMode() == Prism.Navigation.NavigationMode.Back && parameters.ContainsKey(NavigationKeys.NewTicket))
             {
                 await OnRefreshCommandExecute();
             }
