@@ -5,6 +5,7 @@ using Inspector.Framework.Interfaces;
 using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
 using Inspector.Resources.Labels;
+using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Plugin.ValidationRules;
 using Plugin.ValidationRules.Extensions;
@@ -56,6 +57,15 @@ namespace Inspector.ViewModels
         {
             try
             {
+                var loginContext = new Dictionary<string, string>();
+                loginContext.Add("scheme", scheme);
+                loginContext.Add("device name", DeviceInfo.Name);
+                loginContext.Add("device platfor", DeviceInfo.Platform.ToString());
+                loginContext.Add("device version", DeviceInfo.VersionString);
+                loginContext.Add("device manufacturer", DeviceInfo.Manufacturer);
+
+                Analytics.TrackEvent("Comenzando un login", loginContext);
+
                 using (await MaterialDialog.Instance.LoadingDialogAsync(message: "Por favor, espere..."))
                 {
                     WebAuthenticatorResult result = null;
@@ -107,6 +117,14 @@ namespace Inspector.ViewModels
                     }
                     else
                     {
+                        var failedLoginContext = new Dictionary<string, string>();
+                        failedLoginContext.Add("scheme", scheme);
+                        failedLoginContext.Add("device name", DeviceInfo.Name);
+                        failedLoginContext.Add("device platfor", DeviceInfo.Platform.ToString());
+                        failedLoginContext.Add("device version", DeviceInfo.VersionString);
+                        failedLoginContext.Add("device manufacturer", DeviceInfo.Manufacturer);
+
+                        Analytics.TrackEvent("Error haciendo login", failedLoginContext);
                         string msj = "";
                         if(scheme.Equals("Facebook"))
                             msj = "Asegúrate de que tu correo sea público en la plataforma de Facebook.";

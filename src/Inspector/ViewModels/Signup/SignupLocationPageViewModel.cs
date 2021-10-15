@@ -4,6 +4,7 @@ using Inspector.Framework.Interfaces;
 using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
 using Inspector.Resources.Labels;
+using Microsoft.AppCenter.Crashes;
 using Plugin.ValidationRules;
 using Plugin.ValidationRules.Extensions;
 using Prism.Commands;
@@ -102,6 +103,7 @@ namespace Inspector.ViewModels.Signup
             }
             catch (System.Exception e)
             {
+                Crashes.TrackError(e);
                 _logger.Report(e);
                 await _dialogService.DisplayAlertAsync("", Message.AccountInvalid, "Ok");
             }
