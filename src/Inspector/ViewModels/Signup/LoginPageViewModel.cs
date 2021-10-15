@@ -5,6 +5,7 @@ using Inspector.Framework.Interfaces;
 using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
 using Inspector.Resources.Labels;
+using Microsoft.AppCenter.Crashes;
 using Plugin.ValidationRules;
 using Plugin.ValidationRules.Extensions;
 using Plugin.ValidationRules.Rules;
@@ -116,13 +117,15 @@ namespace Inspector.ViewModels
                     }
                 }
             }
-            catch (OperationCanceledException)
+            catch (OperationCanceledException ocex)
             {
+                Crashes.TrackError(ocex);
                 Console.WriteLine("Autenticación canceledada.");
                 await _dialogService.DisplayAlertAsync("", "Login cancelado.", "Ok");
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
                 _logger.Report(ex);
                 await _dialogService.DisplayAlertAsync("", Message.SomethingHappen, "Ok");
             }

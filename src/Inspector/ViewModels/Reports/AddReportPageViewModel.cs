@@ -6,6 +6,7 @@ using Inspector.Framework.Interfaces;
 using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
 using Inspector.Resources.Labels;
+using Microsoft.AppCenter.Crashes;
 using NativeMedia;
 using Plugin.ValidationRules;
 using Plugin.ValidationRules.Extensions;
@@ -157,6 +158,7 @@ namespace Inspector.ViewModels
             }
             catch (Exception e)
             {
+                Crashes.TrackError(e);
                 _logger.Report(e);
                 await _dialogService.DisplayAlertAsync("Ups :(", Message.GroupNotLoaded, "Ok");
                 await _navigationService.GoBackAsync();
@@ -195,6 +197,7 @@ namespace Inspector.ViewModels
             }
             catch (Exception e)
             {
+                Crashes.TrackError(e);
                 _logger.Report(e);
             }
             finally

@@ -3,6 +3,7 @@ using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
 using Inspector.Models;
 using Inspector.Resources.Labels;
+using Microsoft.AppCenter.Crashes;
 using Prism.Commands;
 using Prism.Logging;
 using Prism.Navigation;
@@ -112,6 +113,7 @@ namespace Inspector.ViewModels
             }
             catch (Exception e)
             {
+                Crashes.TrackError(e);
                 _logger.Report(e);
             }
             finally
@@ -156,6 +158,7 @@ namespace Inspector.ViewModels
             }
             catch (Exception e)
             {
+                Crashes.TrackError(e);
                 _logger.Report(e);
             }
             finally
@@ -183,6 +186,7 @@ namespace Inspector.ViewModels
             }
             catch (Exception e)
             {
+                Crashes.TrackError(e);
                 _logger.Report(e);
                 await MaterialDialog.Instance.SnackbarAsync(Message.ListNotUpdated, MaterialSnackbar.DurationLong);
             }
@@ -196,6 +200,7 @@ namespace Inspector.ViewModels
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(e);
                 // An unexpected error occured. No browser may be installed on the device.
                 _logger.Report(ex);
                 await MaterialDialog.Instance.SnackbarAsync(Message.SomethingHappen);
