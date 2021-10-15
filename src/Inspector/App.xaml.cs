@@ -115,16 +115,20 @@ namespace Inspector
             var territorialClient = RestService.For<ITerritorialDivisionAPI>(new HttpClient() { BaseAddress = new Uri(AppKeys.TerritorialDivisionApiBaseUrl) });
             containerRegistry.RegisterInstance(territorialClient);
 
-            var incidentsClient = RestService.For<IIncidentsAPI>(new HttpClient() { BaseAddress = new Uri(AppKeys.IncidentsApiBaseUrl) });
+            var httpClientHandler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; }
+            };
+            var incidentsClient = RestService.For<IIncidentsAPI>(new HttpClient(httpClientHandler) { BaseAddress = new Uri(AppKeys.IncidentsApiBaseUrl) });
             containerRegistry.RegisterInstance(incidentsClient);
 
-            var keycloakClient = RestService.For<IKeycloakApi>(AppKeys.KeycloakBaseUrl, new RefitSettings(new NewtonsoftJsonContentSerializer(new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() })));
+            var keycloakClient = RestService.For<IKeycloakApi>(new HttpClient(httpClientHandler) { BaseAddress = new Uri(AppKeys.KeycloakBaseUrl) }, new RefitSettings(new NewtonsoftJsonContentSerializer(new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() })));
             containerRegistry.RegisterInstance(keycloakClient);
 
-            var zammadClientLite = RestService.For<IZammadLiteApi>(AppKeys.ZammadApiBaseUrl, new RefitSettings(new NewtonsoftJsonContentSerializer(new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() })));
+            var zammadClientLite = RestService.For<IZammadLiteApi>(new HttpClient(httpClientHandler) { BaseAddress = new Uri(AppKeys.ZammadApiBaseUrl) }, new RefitSettings(new NewtonsoftJsonContentSerializer(new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() })));
             containerRegistry.RegisterInstance(zammadClientLite);
 
-            var iamclient = new HttpClient() { BaseAddress = new Uri(AppKeys.IAmApiBaseUrl) };
+            var iamclient = new HttpClient(httpClientHandler) { BaseAddress = new Uri(AppKeys.IAmApiBaseUrl) };
             iamclient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", AppKeys.IamAuthToken);
             var iamService = RestService.For<IAMAPI>(iamclient);
             containerRegistry.RegisterInstance(iamService);
