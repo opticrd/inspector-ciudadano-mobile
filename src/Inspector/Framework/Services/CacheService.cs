@@ -1,4 +1,5 @@
 ﻿using Akavache;
+using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,8 +24,9 @@ namespace Inspector.Framework.Services
             {
                 return await BlobCache.LocalMachine.GetObject<T>(key);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Crashes.TrackError(e);
                 return default(T);
             }
         }
@@ -50,8 +52,9 @@ namespace Inspector.Framework.Services
             {
                 return await BlobCache.Secure.GetObject<T>(key);
             }
-            catch (KeyNotFoundException)
+            catch (KeyNotFoundException e)
             {
+                Crashes.TrackError(e);
                 return default(T);
             }
         }

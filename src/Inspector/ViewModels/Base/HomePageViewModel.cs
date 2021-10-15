@@ -200,7 +200,7 @@ namespace Inspector.ViewModels
             }
             catch (Exception ex)
             {
-                Crashes.TrackError(e);
+                Crashes.TrackError(ex);
                 // An unexpected error occured. No browser may be installed on the device.
                 _logger.Report(ex);
                 await MaterialDialog.Instance.SnackbarAsync(Message.SomethingHappen);
