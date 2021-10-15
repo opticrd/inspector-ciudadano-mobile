@@ -67,13 +67,13 @@ namespace Inspector
         protected override void OnStart()
         {
             base.OnStart();
-#if RELEASE_AGENT || DEBUG_AGENT
+//#if RELEASE_AGENT || DEBUG_AGENT
             // appcenter keys for inspector agents
-            AppCenter.Start(AppKeys.AppCenterSecretKey, typeof(Analytics), typeof(Crashes), typeof(Distribute));
-#else
-            AppCenter.Start("android=8b508ed0-50f1-4836-a73d-76a7665351bd;" +
-                "ios=4afbe2f3-1f31-4fc7-8d10-21e62cea0fc9;", typeof(Analytics), typeof(Crashes), typeof(Distribute));
-#endif
+            AppCenter.Start("android=1090a168-34ba-434f-ab47-7bef6201cd16;", typeof(Analytics), typeof(Crashes), typeof(Distribute));
+//#else
+ //           AppCenter.Start("android=8b508ed0-50f1-4836-a73d-76a7665351bd;" +
+//                "ios=4afbe2f3-1f31-4fc7-8d10-21e62cea0fc9;", typeof(Analytics), typeof(Crashes), typeof(Distribute));
+//#endif
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
