@@ -88,7 +88,8 @@ namespace Inspector.ViewModels
 
             UserAccount = CustomUser.Cast(await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount));
             
-            await OnRefreshCommandExecute();
+            await OnRefreshCommandExecute();             
+            _logger.TrackEvent("HomePageLoaded");
         }
 
         private async Task OnRefreshCommandExecute()

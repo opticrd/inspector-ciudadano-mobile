@@ -68,6 +68,7 @@ namespace Inspector.ViewModels
 
                         if (resp.exist)
                         {
+                            _logger.TrackEvent("UserExistTryingToSignUp");
                             await _navigationService.NavigateAsync($"/{NavigationKeys.LoginPage}");
                             return;
                         }
