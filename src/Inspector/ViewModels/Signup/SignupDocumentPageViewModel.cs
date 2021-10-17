@@ -80,7 +80,7 @@ namespace Inspector.ViewModels
                         {
                             var loginParameters = new NavigationParameters();
                             loginParameters.Add("Document", Document.Value);
-                            await _dialogService.DisplayAlertAsync("Tu usuario ya existe.", "La cédula que digiaste ya existe. Te redirigiremos a la página iniciar sesión con tus redes.", "Ok");
+                            await _dialogService.DisplayAlertAsync("Ya existe un usuario con tu cédula.", "La cédula que digitaste ya existe. Te redirigiremos para que inicies sesión con tus redes.", "Ok");
                             await _navigationService.NavigateAsync($"/{NavigationKeys.LoginPage}", loginParameters);
                             return;
                         }
