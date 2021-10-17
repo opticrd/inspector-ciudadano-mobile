@@ -281,7 +281,7 @@ namespace Inspector.Framework.Services
         {
             var zammadUserSearch = await _userClient.SearchUserAsync(parameter, 1);
 
-            if (zammadUserSearch?.Count() > 0)
+            if (zammadUserSearch?.Count() > 0 && zammadUserSearch[0].Active)
                 return (true, zammadUserSearch[0]);
 
             return (false, null);

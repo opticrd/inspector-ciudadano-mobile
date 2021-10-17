@@ -33,6 +33,9 @@ namespace Inspector.ViewModels
         public ICommand FacebookCommand { get; set; }
         public ICommand MicrosoftCommand { get; set; }
 
+        private string _document;
+
+
         const string AuthenticationUrl = "https://citizens-auth-api-dev-i42qq4zxeq-ue.a.run.app/mobileauth/";
         public LoginPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ILogger logger, IAuthService authService,
             ICacheService cacheService, IKeycloakApi keycloakApi, IZammadLiteApi zammadLiteApi) 
@@ -48,6 +51,15 @@ namespace Inspector.ViewModels
 
         }
 
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+            if (parameters.ContainsKey("Document"))
+            {
+                _document = parameters.GetValue<string>("Document");
+            }
+        }
         private void OnSignupCommandExecute()
         {
             _navigationService.NavigateAsync("SignupDocumentPage");
@@ -102,11 +114,20 @@ namespace Inspector.ViewModels
 
                         if (response.doSignUp)
                         {
-                            var doSignUp = await _dialogService.DisplayAlertAsync("", "Debes registrar tu cuenta para iniciar sesión.", "Registrarme", "Ok");
-                            if (doSignUp)                            
-                                await _navigationService.NavigateAsync("/WelcomePage/SignupDocumentPage");
-                            
-                            return;
+                            //Si el usuario no viene desde la pagina de registro por una redireccion
+                            if (string.IsNullOrWhiteSpace(_document))
+                            {
+                                var doSignUp = await _dialogService.DisplayAlertAsync("", "Debes registrar tu cuenta para iniciar sesión.", "Registrarme", "Ok");
+                                if (doSignUp)
+                                    await _navigationService.NavigateAsync("/WelcomePage/SignupDocumentPage");
+
+                                return;
+                            }
+                            else
+                            {
+                                await _dialogService.DisplayAlertAsync("", "La red social que seleccionaste no está asociada a tu cuenta.", "Ok");
+                                return;
+                            }
                         }
 
                         if (response.result)
