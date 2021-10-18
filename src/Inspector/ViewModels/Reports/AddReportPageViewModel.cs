@@ -76,7 +76,6 @@ namespace Inspector.ViewModels
                             .Must(x => x > 0, Message.FieldRequired);
 
             Comments = Validator.Build<string>()
-                            .When(x => !string.IsNullOrEmpty(x))
                             .Must(x => x?.Length >= 10, Message.MinLengthField10);
 
             _validationUnit = new ValidationUnit(/*StateSelected,*/ ID, PhoneNumber, /*Title,*/ Address, GroupSelected, Neighhborhood, SubCategory, Comments);
