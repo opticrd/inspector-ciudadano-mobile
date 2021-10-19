@@ -152,7 +152,7 @@ namespace Inspector.ViewModels
 
                 _userAccount = await _cacheService.GetSecureObject<User>(CacheKeys.UserAccount);
 
-                Groups = ((List<Group>)await groupClient.GetGroupListAsync()).OrderBy(x => x.Name).ToList();
+                Groups = (await groupClient.GetGroupListAsync()).Where(x => x.Active).OrderBy(x => x.Name).ToList();
             }
             catch (Exception e)
             {
