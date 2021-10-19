@@ -78,8 +78,11 @@ namespace Inspector.ViewModels
 
                         if (resp.exist)
                         {
+                            _logger.TrackEvent("UserExistTryingToSignUp");
+
                             var loginParameters = new NavigationParameters();
                             loginParameters.Add("Document", Document.Value);
+
                             await _dialogService.DisplayAlertAsync("Ya existe un usuario con tu cédula.", "La cédula que digitaste ya existe. Te redirigiremos para que inicies sesión con tus redes.", "Ok");
                             await _navigationService.NavigateAsync($"/{NavigationKeys.LoginPage}", loginParameters);
                             return;

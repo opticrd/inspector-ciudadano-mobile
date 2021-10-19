@@ -80,6 +80,12 @@ namespace Inspector.Framework.Services
                 var pwd = response.keycloakUserCollection[0]?.Attributes?.Pwd[0]?.Base64Decode() ?? string.Empty;
                 var result = await LoginZammad(email, pwd);
 
+                _logger.TrackEvent("AuthLoginProcessCompleted", new Dictionary<string, string>
+                {
+                    { "KeyCloackPasswordGetIt", string.IsNullOrEmpty(pwd).ToString() },
+                    { "ZammadProcess", result.ToString() },
+                });
+
                 return (result, false);
             }
 
@@ -142,7 +148,14 @@ namespace Inspector.Framework.Services
                 Password = user.Password
             });
 
-            return (await SignUpZammad(user), false);
+            var zammadResponse = await SignUpZammad(user);
+            _logger.TrackEvent("AuthSignUpProcessCompleted", new Dictionary<string, string>
+            {
+                { "KeyCloackUserCreated", (createdUser?.Count == 0).ToString() },
+                { "ZammadProcess", zammadResponse.ToString() },
+            });
+
+            return (zammadResponse, false);
         }
 
 
