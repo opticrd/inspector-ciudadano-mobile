@@ -5,6 +5,8 @@ using Inspector.Framework.Interfaces;
 using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
 using Inspector.Resources.Labels;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Plugin.ValidationRules;
 using Plugin.ValidationRules.Extensions;
 using Plugin.ValidationRules.Rules;
@@ -31,6 +33,9 @@ namespace Inspector.ViewModels
         public ICommand FacebookCommand { get; set; }
         public ICommand MicrosoftCommand { get; set; }
 
+        private string _document;
+
+
         const string AuthenticationUrl = "https://citizens-auth-api-dev-i42qq4zxeq-ue.a.run.app/mobileauth/";
         public LoginPageViewModel(INavigationService navigationService, IPageDialogService dialogService, ILogger logger, IAuthService authService,
             ICacheService cacheService, IKeycloakApi keycloakApi, IZammadLiteApi zammadLiteApi) 
@@ -46,6 +51,15 @@ namespace Inspector.ViewModels
 
         }
 
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+            if (parameters.ContainsKey("Document"))
+            {
+                _document = parameters.GetValue<string>("Document");
+            }
+        }
         private void OnSignupCommandExecute()
         {
             _navigationService.NavigateAsync("SignupDocumentPage");
@@ -55,6 +69,15 @@ namespace Inspector.ViewModels
         {
             try
             {
+                var loginContext = new Dictionary<string, string>();
+                loginContext.Add("scheme", scheme);
+                loginContext.Add("device name", DeviceInfo.Name);
+                loginContext.Add("device platfor", DeviceInfo.Platform.ToString());
+                loginContext.Add("device version", DeviceInfo.VersionString);
+                loginContext.Add("device manufacturer", DeviceInfo.Manufacturer);
+
+                Analytics.TrackEvent("Comenzando un login", loginContext);
+
                 using (await MaterialDialog.Instance.LoadingDialogAsync(message: "Por favor, espere..."))
                 {
                     WebAuthenticatorResult result = null;
@@ -91,11 +114,20 @@ namespace Inspector.ViewModels
 
                         if (response.doSignUp)
                         {
-                            var doSignUp = await _dialogService.DisplayAlertAsync("", "Debes registrar tu cuenta para iniciar sesión.", "Registrarme", "Ok");
-                            if (doSignUp)                            
-                                await _navigationService.NavigateAsync("/WelcomePage/SignupDocumentPage");
-                            
-                            return;
+                            //Si el usuario no viene desde la pagina de registro por una redireccion
+                            if (string.IsNullOrWhiteSpace(_document))
+                            {
+                                var doSignUp = await _dialogService.DisplayAlertAsync("", "Debes registrar tu cuenta para iniciar sesión.", "Registrarme", "Ok");
+                                if (doSignUp)
+                                    await _navigationService.NavigateAsync("/WelcomePage/SignupDocumentPage");
+
+                                return;
+                            }
+                            else
+                            {
+                                await _dialogService.DisplayAlertAsync("", "La red social que seleccionaste no está asociada a tu cuenta.", "Ok");
+                                return;
+                            }
                         }
 
                         if (response.result)
@@ -106,6 +138,14 @@ namespace Inspector.ViewModels
                     }
                     else
                     {
+                        var failedLoginContext = new Dictionary<string, string>();
+                        failedLoginContext.Add("scheme", scheme);
+                        failedLoginContext.Add("device name", DeviceInfo.Name);
+                        failedLoginContext.Add("device platfor", DeviceInfo.Platform.ToString());
+                        failedLoginContext.Add("device version", DeviceInfo.VersionString);
+                        failedLoginContext.Add("device manufacturer", DeviceInfo.Manufacturer);
+
+                        Analytics.TrackEvent("Error haciendo login", failedLoginContext);
                         string msj = "";
                         if(scheme.Equals("Facebook"))
                             msj = "Asegúrate de que tu correo sea público en la plataforma de Facebook.";
@@ -116,13 +156,15 @@ namespace Inspector.ViewModels
                     }
                 }
             }
-            catch (OperationCanceledException)
+            catch (OperationCanceledException ocex)
             {
+                Crashes.TrackError(ocex);
                 Console.WriteLine("Autenticación canceledada.");
                 await _dialogService.DisplayAlertAsync("", "Login cancelado.", "Ok");
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
                 _logger.Report(ex);
                 await _dialogService.DisplayAlertAsync("", Message.SomethingHappen, "Ok");
             }

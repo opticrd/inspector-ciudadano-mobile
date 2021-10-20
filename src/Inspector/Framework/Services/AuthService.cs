@@ -6,6 +6,7 @@ using Inspector.Framework.Helpers.Extensions;
 using Inspector.Framework.Interfaces;
 using Inspector.Framework.Utils;
 using Inspector.Resources.Labels;
+using Microsoft.AppCenter.Crashes;
 using Prism.Logging;
 using Prism.Navigation;
 using Prism.Services;
@@ -58,6 +59,7 @@ namespace Inspector.Framework.Services
             }
             catch (Exception e)
             {
+                Crashes.TrackError(e);
                 _logger.Report(e);
                 await _dialogService.DisplayAlertAsync("", Message.SomethingHappen, "Ok");
             }
@@ -192,6 +194,7 @@ namespace Inspector.Framework.Services
             }
             catch (Exception e)
             {
+                Crashes.TrackError(e);
                 _logger.Report(e);
                 await _dialogService.DisplayAlertAsync("", Message.AccountInvalid, "Ok");
                 return false;
@@ -261,6 +264,7 @@ namespace Inspector.Framework.Services
             }
             catch (Exception e)
             {
+                Crashes.TrackError(e);
                 _logger.Report(e);
                 await _dialogService.DisplayAlertAsync("", Message.AccountInvalid, "Ok");
                 return false;
@@ -290,7 +294,7 @@ namespace Inspector.Framework.Services
         {
             var zammadUserSearch = await _userClient.SearchUserAsync(parameter, 1);
 
-            if (zammadUserSearch?.Count() > 0)
+            if (zammadUserSearch?.Count() > 0 && zammadUserSearch[0].Active)
                 return (true, zammadUserSearch[0]);
 
             return (false, null);

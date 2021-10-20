@@ -67,13 +67,13 @@ namespace Inspector
         protected override void OnStart()
         {
             base.OnStart();
-#if RELEASE_AGENT || DEBUG_AGENT
+//#if RELEASE_AGENT || DEBUG_AGENT
             // appcenter keys for inspector agents
             AppCenter.Start(AppKeys.AppCenterSecretKey, typeof(Analytics), typeof(Crashes), typeof(Distribute));
-#else
-            AppCenter.Start("android=8b508ed0-50f1-4836-a73d-76a7665351bd;" +
-                "ios=4afbe2f3-1f31-4fc7-8d10-21e62cea0fc9;", typeof(Analytics), typeof(Crashes), typeof(Distribute));
-#endif
+//#else
+ //           AppCenter.Start("android=8b508ed0-50f1-4836-a73d-76a7665351bd;" +
+//                "ios=4afbe2f3-1f31-4fc7-8d10-21e62cea0fc9;", typeof(Analytics), typeof(Crashes), typeof(Distribute));
+//#endif
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -115,16 +115,20 @@ namespace Inspector
             var territorialClient = RestService.For<ITerritorialDivisionAPI>(new HttpClient() { BaseAddress = new Uri(AppKeys.TerritorialDivisionApiBaseUrl) });
             containerRegistry.RegisterInstance(territorialClient);
 
-            var incidentsClient = RestService.For<IIncidentsAPI>(new HttpClient() { BaseAddress = new Uri(AppKeys.IncidentsApiBaseUrl) });
+            var httpClientHandler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; }
+            };
+            var incidentsClient = RestService.For<IIncidentsAPI>(new HttpClient(httpClientHandler) { BaseAddress = new Uri(AppKeys.IncidentsApiBaseUrl) });
             containerRegistry.RegisterInstance(incidentsClient);
 
-            var keycloakClient = RestService.For<IKeycloakApi>(AppKeys.KeycloakBaseUrl, new RefitSettings(new NewtonsoftJsonContentSerializer(new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() })));
+            var keycloakClient = RestService.For<IKeycloakApi>(new HttpClient(httpClientHandler) { BaseAddress = new Uri(AppKeys.KeycloakBaseUrl) }, new RefitSettings(new NewtonsoftJsonContentSerializer(new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() })));
             containerRegistry.RegisterInstance(keycloakClient);
 
-            var zammadClientLite = RestService.For<IZammadLiteApi>(AppKeys.ZammadApiBaseUrl, new RefitSettings(new NewtonsoftJsonContentSerializer(new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() })));
+            var zammadClientLite = RestService.For<IZammadLiteApi>(new HttpClient(httpClientHandler) { BaseAddress = new Uri(AppKeys.ZammadApiBaseUrl) }, new RefitSettings(new NewtonsoftJsonContentSerializer(new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() })));
             containerRegistry.RegisterInstance(zammadClientLite);
 
-            var iamclient = new HttpClient() { BaseAddress = new Uri(AppKeys.IAmApiBaseUrl) };
+            var iamclient = new HttpClient(httpClientHandler) { BaseAddress = new Uri(AppKeys.IAmApiBaseUrl) };
             iamclient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", AppKeys.IamAuthToken);
             var iamService = RestService.For<IAMAPI>(iamclient);
             containerRegistry.RegisterInstance(iamService);

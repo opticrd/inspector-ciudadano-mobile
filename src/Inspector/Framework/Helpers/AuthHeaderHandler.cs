@@ -25,7 +25,10 @@ namespace Inspector.Framework.Helpers
         public AuthHeaderHandler(IAMAPI iamClient)
         {
             _iamClient = iamClient;
-            InnerHandler = new HttpClientHandler();
+            InnerHandler = new HttpClientHandler()
+            {
+                ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; } //no SSL check needed yet
+            };
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)

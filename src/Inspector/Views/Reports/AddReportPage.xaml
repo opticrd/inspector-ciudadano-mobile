@@ -129,7 +129,7 @@
 
                     <ctrls:TextFieldLayout>
                         <!--<mtrl:MaterialTextField
-                            HelperText="Nombre completo del cuidadano"
+                            HelperText="Nombre completo del ciudadano"
                             IsEnabled="False"
                             Placeholder="{l18n:Translate FullName}"
                             ReturnType="Next"

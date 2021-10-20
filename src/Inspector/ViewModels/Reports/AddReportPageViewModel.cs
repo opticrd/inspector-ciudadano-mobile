@@ -6,6 +6,7 @@ using Inspector.Framework.Interfaces;
 using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
 using Inspector.Resources.Labels;
+using Microsoft.AppCenter.Crashes;
 using NativeMedia;
 using Plugin.ValidationRules;
 using Plugin.ValidationRules.Extensions;
@@ -116,7 +117,7 @@ namespace Inspector.ViewModels
         //public List<StateTicket> States { get; set; }
         //public Validatable<int> StateSelected { get; set; }
         public Validatable<string> ID { get; set; }
-        public string CitizenName { get; set; } = "Nombre del cuidadano";
+        public string CitizenName { get; set; } = "Nombre del ciudadano";
         public Validatable<string> PhoneNumber { get; set; }
         public Validatable<string> Title { get; set; }
         public Validatable<string> Address { get; set; }
@@ -156,6 +157,7 @@ namespace Inspector.ViewModels
             }
             catch (Exception e)
             {
+                Crashes.TrackError(e);
                 _logger.Report(e);
                 await _dialogService.DisplayAlertAsync("Ups :(", Message.GroupNotLoaded, "Ok");
                 await _navigationService.GoBackAsync();
@@ -194,6 +196,7 @@ namespace Inspector.ViewModels
             }
             catch (Exception e)
             {
+                Crashes.TrackError(e);
                 _logger.Report(e);
             }
             finally
@@ -304,8 +307,10 @@ namespace Inspector.ViewModels
                     ticket = await _ticketClient.CreateTicketAsync(formTicket, formTicketArticle);
                 }                    
 
-                if (ticket?.Id <= 0)                
+                if (ticket == null || ticket?.Id <= 0)                
                     await _dialogService.DisplayAlertAsync("", Message.TicketNotCreated, "Ok");
+                else if(ticket.OwnerId != _userAccount.Id)
+                    await _dialogService.DisplayAlertAsync("", "El ticket se ha creado pero es posible que no tengas los permisos suficientes para verlo.", "Ok");
                 else
                 {
                     ticketCreated = true;
@@ -316,8 +321,6 @@ namespace Inspector.ViewModels
             {
                 var content = await e.Response.Content.ReadAsStringAsync();
                 _logger.Report(e, LoggerExtension.InitDictionary(content));
-
-                await _dialogService.DisplayAlertAsync("Ups :(", Message.SomethingHappen, "Ok");
             }
             catch (Exception e)
             {
@@ -334,6 +337,10 @@ namespace Inspector.ViewModels
                         { NavigationKeys.NewTicket, ticket }
                     };
                     await _navigationService.GoBackAsync(parameters);
+                }
+                else
+                {
+                    await _dialogService.DisplayAlertAsync("", Message.SomethingHappen, "Ok");
                 }
 
                 IsBusy = false;

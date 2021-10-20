@@ -3,6 +3,8 @@ using Inspector.Framework.Interfaces;
 using Inspector.Framework.Services;
 using Inspector.Framework.Utils;
 using Inspector.Resources.Labels;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Plugin.ValidationRules;
 using Plugin.ValidationRules.Extensions;
 using Plugin.ValidationRules.Formatters;
@@ -58,6 +60,14 @@ namespace Inspector.ViewModels
 
             try
             {
+                var documentContext = new Dictionary<string, string>();
+                documentContext.Add("documento", Document.Value);
+                documentContext.Add("device name", DeviceInfo.Name);
+                documentContext.Add("device platfor", DeviceInfo.Platform.ToString());
+                documentContext.Add("device version", DeviceInfo.VersionString);
+                documentContext.Add("device manufacturer", DeviceInfo.Manufacturer);
+
+                Analytics.TrackEvent("Validando documento", documentContext);
                 using (await MaterialDialog.Instance.LoadingDialogAsync(message: "Por favor, espere..."))
                 {
                     var info = await _citizenClient.GetCitizenBasicInfo(Document.Value.Replace("-", ""));
@@ -87,6 +97,7 @@ namespace Inspector.ViewModels
             }
             catch (System.Exception ex)
             {
+                Crashes.TrackError(ex);
                 _logger.Report(ex);
                 await _dialogService.DisplayAlertAsync("", Message.AccountInvalid, "Ok");
             }
