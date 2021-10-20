@@ -140,7 +140,7 @@
             <xct:TabViewItem
                 ControlTemplate="{StaticResource FabTabItemTemplate}"
                 Icon="{img:ImageResource Inspector.Resources.Images.bullhorn.png}"
-                TapCommand="{prism:NavigateTo 'AddReportPage'}"
+                TapCommand="{Binding OpenAddReportPageCommand}"
                 Text="Reportar" />
 
         </xct:TabView>

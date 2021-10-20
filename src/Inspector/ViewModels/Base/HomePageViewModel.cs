@@ -32,6 +32,8 @@ namespace Inspector.ViewModels
         {
             _logger = logger;
             Init();
+
+            OpenAddReportPageCommand = new DelegateCommand(() => NavigateCommandExecute("AddReportPage"));
             RefreshCommand = new DelegateCommand(async () => await OnRefreshCommandExecute());
             LoadMoreItemsCommand = new DelegateCommand(OnLoadMoreItemsCommandsExecute);
             AllTicketsCommand = new DelegateCommand(() => OnChangeHistoryTicketsFilter(0));
@@ -71,6 +73,7 @@ namespace Inspector.ViewModels
         public CustomUser UserAccount { get; set; }
 
         #region Commands
+        public ICommand OpenAddReportPageCommand { get; set; }
         public ICommand RefreshCommand { get; set; }
         public ICommand LoadMoreItemsCommand { get; set; }
         public ICommand AllTicketsCommand { get; set; }
