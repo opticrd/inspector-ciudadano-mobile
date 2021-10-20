@@ -307,8 +307,10 @@ namespace Inspector.ViewModels
                     ticket = await _ticketClient.CreateTicketAsync(formTicket, formTicketArticle);
                 }                    
 
-                if (ticket?.Id <= 0)                
+                if (ticket == null || ticket?.Id <= 0)                
                     await _dialogService.DisplayAlertAsync("", Message.TicketNotCreated, "Ok");
+                else if(ticket.OwnerId != _userAccount.Id)
+                    await _dialogService.DisplayAlertAsync("", "El ticket se ha creado pero es posible que no tengas los permisos suficientes para verlo.", "Ok");
                 else
                 {
                     ticketCreated = true;
@@ -319,8 +321,6 @@ namespace Inspector.ViewModels
             {
                 var content = await e.Response.Content.ReadAsStringAsync();
                 _logger.Report(e, LoggerExtension.InitDictionary(content));
-
-                await _dialogService.DisplayAlertAsync("Ups :(", Message.SomethingHappen, "Ok");
             }
             catch (Exception e)
             {
@@ -337,6 +337,10 @@ namespace Inspector.ViewModels
                         { NavigationKeys.NewTicket, ticket }
                     };
                     await _navigationService.GoBackAsync(parameters);
+                }
+                else
+                {
+                    await _dialogService.DisplayAlertAsync("", Message.SomethingHappen, "Ok");
                 }
 
                 IsBusy = false;
