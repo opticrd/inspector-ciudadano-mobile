@@ -27,18 +27,26 @@ namespace Inspector.ViewModels
         }
 
         public bool IsBusy { get; set; }
+        public bool CanNavigate { get; set; } = true;
 
 
         public ICommand NavigateCommand { get; set; }
 
-       private async void NavigateCommandExecute(string uri)
+       public async void NavigateCommandExecute(string uri)
         {
+            if (!CanNavigate)
+                return;
+
+            CanNavigate = false;
+
             var result = await _navigationService.NavigateAsync(uri);
 
             if (!result.Success)
             {
                 Console.WriteLine(result.Exception);
             }
+
+            CanNavigate = true;
         }
 
         public string VersionNumber
