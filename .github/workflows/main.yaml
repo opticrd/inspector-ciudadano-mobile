@@ -54,7 +54,7 @@ jobs:
         - name: Create appsettings.json file
           uses: jsdaniell/create-json@1.1.2
           with:
-            name: "credentials.json"
+            name: "appsettings.json"
             json: ${{ secrets.APP_SETTINGS }}
             dir: './src/Inspector/'
 
