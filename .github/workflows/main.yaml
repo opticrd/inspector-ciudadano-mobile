@@ -52,7 +52,7 @@ jobs:
         #    dotnet-version: '3.1.x'
 
         - name: Restore NuGet packages
-          run: nuget restore
+          run: nuget restore ${{ env.SLN_FILE_PATH }}
 
         - name: Build Android
           run: MSBuild /t:PackageForAndroid /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:AndroidPackageFormat=apk ${{ env.CSPROJ_FILE_PATH }}
