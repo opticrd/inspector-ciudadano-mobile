@@ -32,7 +32,7 @@ jobs:
     env: 
           SLN_FILE_PATH: './src/Inspector.sln'
           CSPROJ_FILE_PATH: './src/Inspector.Android/Inspector.Android.csproj'
-          APK_FILE_PATH: './src/Inspector.Android/bin/Release/x_do.gob.ogtic.inspector.apk'
+          APK_FILE_PATH: './src/Inspector.Android/bin/Release-Agent/x_do.gob.ogtic.inspector.apk'
           ANDROID_VERSION: '11.1'
           DISTRIBUTION_GROUP: 'Internal'
 
