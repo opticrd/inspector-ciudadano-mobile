@@ -37,11 +37,11 @@ jobs:
           DISTRIBUTION_GROUP: 'Internal'
 
     steps:
-        - name: Checkout
+        - name: Checkout repository and submodules
           uses: actions/checkout@v2
           with:
             submodules: 'recursive'
-            token: ${{ secrets.OGTIC_PAT }}
+            token: ${{ secrets.INSPECTOR_PAT }}
 
         #- name: Set default Xamarin SDK versions
         #  run: |
