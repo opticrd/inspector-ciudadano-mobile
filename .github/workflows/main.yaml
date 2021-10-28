@@ -82,8 +82,8 @@ jobs:
     steps:
         - name: Set environment variables
           run: |
-            echo ::set-env name=ANDROID_PACKAGE_FILE_NAME::${{ env.PACKAGE_NAME }}.apk
-            echo ::set-env name=ANDROID_PACKAGE_FILE_PATH::./src/Inspector.Android/bin/Release-Agent/${{ env.PACKAGE_NAME }}.apk
+            export ANDROID_PACKAGE_FILE_NAME=${{ env.PACKAGE_NAME }}.apk
+            export ANDROID_PACKAGE_FILE_PATH=./src/Inspector.Android/bin/Release-Agent/${{ env.PACKAGE_NAME }}.apk
 
         - name: Checkout repository and submodules
           uses: actions/checkout@v2
