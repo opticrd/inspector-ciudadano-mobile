@@ -77,7 +77,7 @@ jobs:
     runs-on: macos-latest
     environment: testing
     env: 
-          PACKAGE_NAME: 'testing._do.gob.ogtic.rgg'
+          PACKAGE_NAME: 'testing.x_do.gob.ogtic.rgg'
           DISTRIBUTION_GROUP: 'Internal'
           APPCENTER_OWNER_APP: 'gobdo/Reportero-Testers-Droid'
 
