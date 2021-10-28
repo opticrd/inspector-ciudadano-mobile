@@ -126,7 +126,9 @@ jobs:
           run: MSBuild /t:PackageForAndroid /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:AndroidPackageFormat=apk ${{ env.ANDROID_CSPROJ_FILE_PATH }}
           
         - name: Setup App Center CLI
-          run: npm install -g appcenter-cli
+          run: |
+            npm install
+            npm install -g appcenter-cli
         
         - name: Upload Android app to App Center
           run: appcenter distribute release --silent --app ${{ env.APPCENTER_OWNER_APP }} --file ${{ env.PACKAGE_FILE_PATH }} --group "${{ env.DISTRIBUTION_GROUP }}" --token ${{ secrets.APP_CENTER_TOKEN }}
