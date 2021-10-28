@@ -27,7 +27,8 @@ env:
   OWNER_APP: 'gobdo/Reportero-Ciudadano-Droid'
 
 jobs:
-  build-android:
+  build-reportero:
+    if: github.head_ref == 'main' || github.ref == 'refs/heads/github-action'
     runs-on: macos-latest
     env: 
           SLN_FILE_PATH: './src/Inspector.sln'
@@ -41,15 +42,7 @@ jobs:
           uses: actions/checkout@v2
           with:
             submodules: 'recursive'
-            token: ${{ secrets.INSPECTOR_PAT }}
-
-        #- name: Set default Xamarin SDK versions
-        #  run: |
-        #    $VM_ASSETS/select-xamarin-sdk-v2.sh --mono=${{ env.MONO_VERSION }} --android=${{ env.ANDROID_VERSION }}
-
-        #- uses: actions/setup-dotnet@v1
-        #  with:
-        #    dotnet-version: '3.1.x'
+            token: ${{ secrets.INSPECTOR_PAT }}            
 
         - name: Create appsettings.json file
           uses: jsdaniell/create-json@1.1.2
@@ -71,6 +64,52 @@ jobs:
         #    if-no-files-found: error
         #    retention-days: 1
 
+        - name: Setup App Center CLI
+          run: npm install -g appcenter-cli
+        
+        - name: Upload Android app to App Center
+          run: appcenter distribute release --silent --app ${{ env.OWNER_APP }} --file ${{ env.APK_FILE_PATH }} --group "${{ env.DISTRIBUTION_GROUP }}" --token ${{ secrets.APP_CENTER_TOKEN }}
+
+  build-reportero-testing:
+    if: github.head_ref == 'testing' || github.ref == 'refs/heads/github-action'
+    runs-on: macos-latest
+    env: 
+          SLN_FILE_PATH: './src/Inspector.sln'
+          CSPROJ_FILE_PATH: './src/Inspector.Android/Inspector.Android.csproj'
+          APK_FILE_PATH: './src/Inspector.Android/bin/Release-Agent/x_do.gob.ogtic.reportero.apk'
+          DISTRIBUTION_GROUP: 'Internal'
+
+    steps:
+        - name: Checkout repository and submodules
+          uses: actions/checkout@v2
+          with:
+            submodules: 'recursive'
+            token: ${{ secrets.INSPECTOR_PAT }}            
+
+        - name: Create appsettings.json file
+          uses: jsdaniell/create-json@1.1.2
+          with:
+            name: "appsettings.json"
+            json: ${{ secrets.APP_SETTINGS }}
+            dir: './src/Inspector/'
+
+        - name: Restore NuGet packages
+          run: nuget restore ${{ env.SLN_FILE_PATH }}
+
+        #- name: Setup Android signing
+        #  run: (echo ${{ secrets.KEYSTORE }} | base64 --decode) > ./src/Inspector.Android/keystore.jks
+
+        #- name: Set Android version
+        #  uses: damienaicheh/update-android-version-manifest-action@v1.0.0
+        #  with:
+        #    android-manifest-path: ./src/Inspector.Android/Properties/AndroidManifestAgent.xml
+        #    version-name: ${{ secrets.APP_VERSION }}
+        #    version-code: ${{ secrets.APP_VERSION }}.${{ github.run_number }}
+        #    print-file: true
+
+        - name: Build Android
+          run: MSBuild /t:PackageForAndroid /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:AndroidPackageFormat=apk ${{ env.CSPROJ_FILE_PATH }}
+          
         - name: Setup App Center CLI
           run: npm install -g appcenter-cli
         
