@@ -76,14 +76,13 @@ jobs:
     runs-on: macos-latest
     env: 
           PACKAGE_NAME: 'testing_do.gob.ogtic.reportero'
-          APK_FILE_PATH: './src/Inspector.Android/bin/Release-Agent/testing_do.gob.ogtic.reportero.apk'
           DISTRIBUTION_GROUP: 'Internal'
 
     steps:
         - name: Set environment variables
           run: |
-            echo "ANDROID_PACKAGE_FILE_NAME=${{ env.PACKAGE_NAME }}.apk" >> $GITHUB_ENV
-            echo "ANDROID_PACKAGE_FILE_PATH=./src/Inspector.Android/bin/Release-Agent/${{ env.PACKAGE_NAME }}.apk" >> $GITHUB_ENV
+            echo "PACKAGE_FILE_NAME=${{ env.PACKAGE_NAME }}.apk" >> $GITHUB_ENV
+            echo "PACKAGE_FILE_PATH=./src/Inspector.Android/bin/Release-Agent/${{ env.PACKAGE_NAME }}.apk" >> $GITHUB_ENV
 
         - name: Checkout repository and submodules
           uses: actions/checkout@v2
@@ -104,19 +103,19 @@ jobs:
         #- name: Setup Android signing
         #  run: (echo ${{ secrets.KEYSTORE }} | base64 --decode) > ./src/Inspector.Android/keystore.jks
 
-        #- name: Set Android version
-        #  uses: damienaicheh/update-android-version-manifest-action@v1.0.0
-        #  with:
-        #    android-manifest-path: ${{ env.ANDROID_AGENTMANIFEST_FILE_PATH }}
-        #    version-name: ${{ secrets.APP_VERSION }}
-        #    version-code: ${{ secrets.APP_VERSION }}.${{ github.run_number }}
-        #    print-file: true
+        - name: Set Android version
+          uses: damienaicheh/update-android-version-manifest-action@v1.0.0
+          with:
+            android-manifest-path: ${{ env.ANDROID_AGENTMANIFEST_FILE_PATH }}
+            version-name: ${{ secrets.APP_VERSION }}.${{ github.run_number }}
+            version-code: ${{ github.run_number }}
+            print-file: true
 
         - name: Set Android Package and App Name
           uses: damienaicheh/update-android-manifest-package-action@v1.0.0
           with:
             android-manifest-path: ${{ env.ANDROID_AGENTMANIFEST_FILE_PATH }}
-            package-name: ${{ env.ANDROID_PACKAGE_FILE_NAME }}
+            package-name: ${{ env.PACKAGE_FILE_NAME }}
             app-name: 'Reportero Testing'
             print-file: true
 
@@ -127,7 +126,7 @@ jobs:
           run: npm install -g appcenter-cli
         
         - name: Upload Android app to App Center
-          run: appcenter distribute release --silent --app ${{ env.OWNER_APP }} --file ${{ env.APK_FILE_PATH }} --group "${{ env.DISTRIBUTION_GROUP }}" --token ${{ secrets.APP_CENTER_TOKEN }}
+          run: appcenter distribute release --silent --app ${{ env.OWNER_APP }} --file ${{ env.PACKAGE_FILE_PATH }} --group "${{ env.DISTRIBUTION_GROUP }}" --token ${{ secrets.APP_CENTER_TOKEN }}
 
   #build-ios:
   #  runs-on: macos-latest
