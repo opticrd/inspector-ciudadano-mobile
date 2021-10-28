@@ -79,7 +79,7 @@ jobs:
     env: 
           PACKAGE_NAME: 'testing_do.gob.ogtic.reportero'
           DISTRIBUTION_GROUP: 'Internal'
-          APPCENTER_OWNER_APP: 'Reportero-Testers-Droid'
+          APPCENTER_OWNER_APP: 'gobdo/Reportero-Testers-Droid'
 
     steps:
         - name: Set environment variables
