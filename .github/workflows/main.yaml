@@ -33,6 +33,7 @@ jobs:
   build-reportero:
     if: github.head_ref == 'main' #|| github.ref == 'refs/heads/github-action'
     runs-on: macos-latest
+    environment: production
     env: 
           APK_FILE_PATH: './src/Inspector.Android/bin/Release-Agent/x_do.gob.ogtic.reportero.apk'
           DISTRIBUTION_GROUP: 'Internal'
@@ -74,6 +75,7 @@ jobs:
   build-reportero-testing:
     if: github.head_ref == 'testing' || github.ref == 'refs/heads/github-action'
     runs-on: macos-latest
+    environment: testing
     env: 
           PACKAGE_NAME: 'testing_do.gob.ogtic.reportero'
           DISTRIBUTION_GROUP: 'Internal'
