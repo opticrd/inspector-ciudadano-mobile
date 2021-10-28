@@ -28,6 +28,7 @@ env:
   OWNER_APP: 'gobdo/Reportero-Ciudadano-Droid'
   SLN_FILE_PATH: './src/Inspector.sln'
   ANDROID_CSPROJ_FILE_PATH: './src/Inspector.Android/Inspector.Android.csproj'
+  ANDROID_AGENTMANIFEST_FILE_PATH: './src/Inspector.Android/Properties/AndroidManifestAgent.xml'
 
 jobs:
   build-reportero:
@@ -81,6 +82,7 @@ jobs:
     steps:
         - name: Set environment variables
           run: |
+            echo ::set-env name=ANDROID_PACKAGE_FILE_NAME::${{ env.PACKAGE_NAME }}.apk
             echo ::set-env name=ANDROID_PACKAGE_FILE_PATH::./src/Inspector.Android/bin/Release-Agent/${{ env.PACKAGE_NAME }}.apk
 
         - name: Checkout repository and submodules
@@ -105,7 +107,7 @@ jobs:
         #- name: Set Android version
         #  uses: damienaicheh/update-android-version-manifest-action@v1.0.0
         #  with:
-        #    android-manifest-path: ./src/Inspector.Android/Properties/AndroidManifestAgent.xml
+        #    android-manifest-path: ${{ env.ANDROID_AGENTMANIFEST_FILE_PATH }}
         #    version-name: ${{ secrets.APP_VERSION }}
         #    version-code: ${{ secrets.APP_VERSION }}.${{ github.run_number }}
         #    print-file: true
@@ -113,8 +115,8 @@ jobs:
         - name: Set Android Package and App Name
           uses: damienaicheh/update-android-manifest-package-action@v1.0.0
           with:
-            android-manifest-path: './path_to_your/AndroidManifest.xml'
-            package-name: 'testing_do.gob.ogtic.reportero.apk'
+            android-manifest-path: ${{ env.ANDROID_AGENTMANIFEST_FILE_PATH }}
+            package-name: ${{ env.ANDROID_PACKAGE_FILE_NAME }}
             app-name: 'Reportero Testing'
             print-file: true
 
