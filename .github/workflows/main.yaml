@@ -18,23 +18,23 @@ on:
       - "**/src/**"
 
 env: 
-  ANDROID_NAME: Inspector.Android
-  ANDROID_BUILD_APK: x_do.gob.ogtic.reportero.apk
-  IOS_NAME: Inspector.iOS
-  IOS_BUILD_APK: do.gob.ogtic.Inspector.ipa
+  #ANDROID_NAME: Inspector.Android
+  #ANDROID_BUILD_APK: x_do.gob.ogtic.reportero.apk
+  #IOS_NAME: Inspector.iOS
+  #IOS_BUILD_APK: do.gob.ogtic.Inspector.ipa
+  #MONO_VERSION: '6.10'
+  #ANDROID_VERSION: '11.1'
   BUILD_CONFIGURATION: Release-Agent
-  MONO_VERSION: '6.10'
   OWNER_APP: 'gobdo/Reportero-Ciudadano-Droid'
+  SLN_FILE_PATH: './src/Inspector.sln'
+  ANDROID_CSPROJ_FILE_PATH: './src/Inspector.Android/Inspector.Android.csproj'
 
 jobs:
   build-reportero:
-    if: github.head_ref == 'main' || github.ref == 'refs/heads/github-action'
+    if: github.head_ref == 'main' #|| github.ref == 'refs/heads/github-action'
     runs-on: macos-latest
     env: 
-          SLN_FILE_PATH: './src/Inspector.sln'
-          CSPROJ_FILE_PATH: './src/Inspector.Android/Inspector.Android.csproj'
           APK_FILE_PATH: './src/Inspector.Android/bin/Release-Agent/x_do.gob.ogtic.reportero.apk'
-          ANDROID_VERSION: '11.1'
           DISTRIBUTION_GROUP: 'Internal'
 
     steps:
@@ -55,7 +55,7 @@ jobs:
           run: nuget restore ${{ env.SLN_FILE_PATH }}
 
         - name: Build Android
-          run: MSBuild /t:PackageForAndroid /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:AndroidPackageFormat=apk ${{ env.CSPROJ_FILE_PATH }}
+          run: MSBuild /t:PackageForAndroid /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:AndroidPackageFormat=apk ${{ env.ANDROID_CSPROJ_FILE_PATH }}
 
         #- uses: actions/upload-artifact@v2
         #  with:
@@ -74,12 +74,15 @@ jobs:
     if: github.head_ref == 'testing' || github.ref == 'refs/heads/github-action'
     runs-on: macos-latest
     env: 
-          SLN_FILE_PATH: './src/Inspector.sln'
-          CSPROJ_FILE_PATH: './src/Inspector.Android/Inspector.Android.csproj'
-          APK_FILE_PATH: './src/Inspector.Android/bin/Release-Agent/x_do.gob.ogtic.reportero.apk'
+          PACKAGE_NAME: 'testing_do.gob.ogtic.reportero'
+          APK_FILE_PATH: './src/Inspector.Android/bin/Release-Agent/testing_do.gob.ogtic.reportero.apk'
           DISTRIBUTION_GROUP: 'Internal'
 
     steps:
+        - name: Set environment variables
+          run: |
+            echo ::set-env name=ANDROID_PACKAGE_FILE_PATH::./src/Inspector.Android/bin/Release-Agent/${{ env.PACKAGE_NAME }}.apk
+
         - name: Checkout repository and submodules
           uses: actions/checkout@v2
           with:
@@ -107,8 +110,16 @@ jobs:
         #    version-code: ${{ secrets.APP_VERSION }}.${{ github.run_number }}
         #    print-file: true
 
+        - name: Set Android Package and App Name
+          uses: damienaicheh/update-android-manifest-package-action@v1.0.0
+          with:
+            android-manifest-path: './path_to_your/AndroidManifest.xml'
+            package-name: 'testing_do.gob.ogtic.reportero.apk'
+            app-name: 'Reportero Testing'
+            print-file: true
+
         - name: Build Android
-          run: MSBuild /t:PackageForAndroid /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:AndroidPackageFormat=apk ${{ env.CSPROJ_FILE_PATH }}
+          run: MSBuild /t:PackageForAndroid /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:AndroidPackageFormat=apk ${{ env.ANDROID_CSPROJ_FILE_PATH }}
           
         - name: Setup App Center CLI
           run: npm install -g appcenter-cli
