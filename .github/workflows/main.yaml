@@ -24,7 +24,7 @@ env:
   IOS_BUILD_APK: do.gob.ogtic.Inspector.ipa
   BUILD_CONFIGURATION: Release-Agent
   MONO_VERSION: '6.10'
-  REPO_PATH: 'opticrd/inspector-ciudadano-mobile'
+  OWNER_APP: 'gobdo/Reportero-Ciudadano-Droid'
 
 jobs:
   build-android:
@@ -75,7 +75,7 @@ jobs:
           run: npm install -g appcenter-cli
         
         - name: Upload Android app to App Center
-          run: appcenter distribute release --silent --app ${{ env.REPO_PATH }} --file ${{ env.APK_FILE_PATH }} --group "${{ env.DISTRIBUTION_GROUP }}" --token ${{ secrets.APP_CENTER_TOKEN }}
+          run: appcenter distribute release --silent --app ${{ env.OWNER_APP }} --file ${{ env.APK_FILE_PATH }} --group "${{ env.DISTRIBUTION_GROUP }}" --token ${{ secrets.APP_CENTER_TOKEN }}
 
   #build-ios:
   #  runs-on: macos-latest
