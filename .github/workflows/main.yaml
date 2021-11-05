@@ -18,12 +18,6 @@ on:
       - "**/src/**"
 
 env: 
-  #ANDROID_NAME: Inspector.Android
-  #ANDROID_BUILD_APK: x_do.gob.ogtic.reportero.apk
-  #IOS_NAME: Inspector.iOS
-  #IOS_BUILD_APK: do.gob.ogtic.Inspector.ipa
-  #MONO_VERSION: '6.10'
-  #ANDROID_VERSION: '11.1'
   BUILD_CONFIGURATION: Release-Agent
   SLN_FILE_PATH: './src/Inspector.sln'
   ANDROID_CSPROJ_FILE_PATH: './src/Inspector.Android/Inspector.Android.csproj'
@@ -35,11 +29,16 @@ jobs:
     runs-on: macos-latest
     environment: production
     env: 
-          APK_FILE_PATH: './src/Inspector.Android/bin/Release-Agent/x_do.gob.ogtic.reportero.apk'
+          PACKAGE_NAME: 'x_do.gob.ogtic.reportero'
           DISTRIBUTION_GROUP: 'Internal'
           APPCENTER_OWNER_APP: 'gobdo/Reportero-Ciudadano-Droid'
 
     steps:
+        - name: Set environment variables
+          run: |
+            echo "PACKAGE_FILE_NAME=${{ env.PACKAGE_NAME }}.apk" >> $GITHUB_ENV
+            echo "PACKAGE_FILE_PATH=./src/Inspector.Android/bin/Release-Agent/${{ env.PACKAGE_NAME }}.apk" >> $GITHUB_ENV
+
         - name: Checkout repository and submodules
           uses: actions/checkout@v2
           with:
@@ -56,6 +55,25 @@ jobs:
         - name: Restore NuGet packages
           run: nuget restore ${{ env.SLN_FILE_PATH }}
 
+        #- name: Setup Android signing
+        #  run: (echo ${{ secrets.KEYSTORE }} | base64 --decode) > ./src/Inspector.Android/keystore.jks
+
+        - name: Set Android version
+          uses: damienaicheh/update-android-version-manifest-action@v1.0.0
+          with:
+            android-manifest-path: ${{ env.ANDROID_AGENTMANIFEST_FILE_PATH }}
+            version-name: ${{ secrets.APP_VERSION }}.${{ github.run_number }}
+            version-code: ${{ github.run_number }}
+            print-file: true
+
+        - name: Set Android Package and App Name
+          uses: damienaicheh/update-android-manifest-package-action@v1.0.0
+          with:
+            android-manifest-path: ${{ env.ANDROID_AGENTMANIFEST_FILE_PATH }}
+            package-name: ${{ env.PACKAGE_NAME }}
+            app-name: 'Reportero'
+            print-file: true
+
         - name: Build Android
           run: MSBuild /t:PackageForAndroid /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:AndroidPackageFormat=apk ${{ env.ANDROID_CSPROJ_FILE_PATH }}
 
@@ -70,7 +88,7 @@ jobs:
           run: npm install -g appcenter-cli
         
         - name: Upload Android app to App Center
-          run: appcenter distribute release --silent --app ${{ env.APPCENTER_OWNER_APP }} --file ${{ env.APK_FILE_PATH }} --group "${{ env.DISTRIBUTION_GROUP }}" --token ${{ secrets.APP_CENTER_TOKEN }}
+          run: appcenter distribute release --silent --app ${{ env.APPCENTER_OWNER_APP }} --file ${{ env.PACKAGE_FILE_PATH }} --group "${{ env.DISTRIBUTION_GROUP }}" --token ${{ secrets.APP_CENTER_TOKEN }}
 
   build-reportero-testing:
     if: github.head_ref == 'testing' || github.ref == 'refs/heads/github-action'
