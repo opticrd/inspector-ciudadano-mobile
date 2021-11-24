@@ -97,12 +97,14 @@ namespace Inspector.ViewModels
 
         private async Task OnAuthenticate(string scheme)
         {
+            IMaterialModalPage loadingDialog = null;
+
             try
             {
-                using (await MaterialDialog.Instance.LoadingDialogAsync(message: "Por favor, espere..."))
+                using (loadingDialog = await MaterialDialog.Instance.LoadingDialogAsync(message: "Por favor, espere..."))
                 {
                     WebAuthenticatorResult result = null;
-
+                    
                     if (scheme.Equals("Apple") && DeviceInfo.Platform == DevicePlatform.iOS && DeviceInfo.Version.Major >= 13)
                     {
                         // Make sure to enable Apple Sign In in both the
@@ -175,6 +177,7 @@ namespace Inspector.ViewModels
             {
                 Crashes.TrackError(ocex);
                 Console.WriteLine("Autenticación canceledada.");
+                await loadingDialog?.DismissAsync();
 
                 await _dialogService.DisplayAlertAsync("", "Autenticación canceledada.", "Ok");
             }

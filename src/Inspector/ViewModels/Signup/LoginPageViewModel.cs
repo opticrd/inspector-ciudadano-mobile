@@ -67,6 +67,8 @@ namespace Inspector.ViewModels
 
         private async Task OnAuthenticate(string scheme)
         {
+            IMaterialModalPage loadingDialog = null;
+
             try
             {
                 var loginContext = new Dictionary<string, string>();
@@ -78,7 +80,7 @@ namespace Inspector.ViewModels
 
                 Analytics.TrackEvent("Comenzando un login", loginContext);
 
-                using (await MaterialDialog.Instance.LoadingDialogAsync(message: "Por favor, espere..."))
+                using (loadingDialog = await MaterialDialog.Instance.LoadingDialogAsync(message: "Por favor, espere..."))
                 {
                     WebAuthenticatorResult result = null;
 
@@ -160,6 +162,8 @@ namespace Inspector.ViewModels
             {
                 Crashes.TrackError(ocex);
                 Console.WriteLine("Autenticación canceledada.");
+                await loadingDialog?.DismissAsync();
+
                 await _dialogService.DisplayAlertAsync("", "Login cancelado.", "Ok");
             }
             catch (Exception ex)
