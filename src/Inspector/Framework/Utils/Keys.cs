@@ -30,6 +30,11 @@ namespace Inspector.Framework.Utils
         public const string OAuthToken = nameof(OAuthToken);
     }
 
+    public static class OAuthKeys
+    {
+        public const string Scheme = "ogticapp";
+    }
+
     public static class AppKeys
     {
         public static string ZammadApiBaseUrl => AppSettingsManager.Settings["ZammadApiBaseUrl"];
