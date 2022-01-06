@@ -33,6 +33,7 @@ namespace Inspector.Framework.Utils
     public static class OAuthKeys
     {
         public const string Scheme = "ogticapp";
+        public const string CallbackUrl = Scheme + "://";
     }
 
     public static class AppKeys
