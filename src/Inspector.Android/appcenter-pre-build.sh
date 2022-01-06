@@ -18,6 +18,7 @@ echo "==========================================================================
 sed -i '' "s/versionName=\"[0-9.]*\"/versionName="\"${VERSION_NAME}.${APPCENTER_BUILD_ID}\""/" ${MANIFEST}
 sed -i '' "s/versionCode=\"1\"/versionCode=\"${APPCENTER_BUILD_ID}\"/" ${MANIFEST}
 sed -i '' "s/package=\"[-a-zA-Z0-9_ .]*\"/package=\"${APP_BUNDLE_ID}\"/" ${MANIFEST}
+sed -i '' "s/label=\"[-a-zA-Z0-9_ .]*\"/label=\"${APP_DISPLAY_NAME}\"/" ${MANIFEST}
 
 cat $MANIFEST
 echo "=============================================================================="
