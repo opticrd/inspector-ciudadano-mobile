@@ -98,7 +98,7 @@ namespace Inspector.ViewModels
                     else
                     {
                         var authUrl = new Uri(AuthenticationUrl + scheme);
-                        var callbackUrl = new Uri("ogticapp://");
+                        var callbackUrl = new Uri($"{OAuthKeys.Scheme}://");
 
                         result = await WebAuthenticator.AuthenticateAsync(new WebAuthenticatorOptions
                         {
@@ -148,32 +148,26 @@ namespace Inspector.ViewModels
                         failedLoginContext.Add("device manufacturer", DeviceInfo.Manufacturer);
 
                         Analytics.TrackEvent("Error haciendo login", failedLoginContext);
-                        string msj = "";
-                        if(scheme.Equals("Facebook"))
-                            msj = "Asegúrate de que tu correo sea público en la plataforma de Facebook.";
-                        else
-                            msj = "No pudimos tomar tu correo del proveedor de identidad. Asegúrate de que tu correo sea público.";
-
+                        string msj = "No pudimos tomar tu correo del proveedor de identidad. Asegúrate de que tu correo sea público.";
                         await _dialogService.DisplayAlertAsync("", msj, "Ok");
                     }
                 }
             }
             catch (OperationCanceledException ocex)
             {
-                Crashes.TrackError(ocex);
+                _logger.Report(ocex);
                 Console.WriteLine("Autenticación canceledada.");
-                await loadingDialog?.DismissAsync();
 
                 await _dialogService.DisplayAlertAsync("", "Login cancelado.", "Ok");
             }
             catch (Exception ex)
             {
-                Crashes.TrackError(ex);
                 _logger.Report(ex);
                 await _dialogService.DisplayAlertAsync("", Message.SomethingHappen, "Ok");
             }
             finally
             {
+                await loadingDialog?.DismissAsync();
                 IsBusy = false;
             }
         }
