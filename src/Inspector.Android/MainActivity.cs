@@ -8,6 +8,7 @@ using Android.OS;
 using Prism;
 using Prism.Ioc;
 using AndroidX.AppCompat.App;
+using Inspector.Framework.Utils;
 
 namespace Inspector.Droid
 {
@@ -49,7 +50,7 @@ namespace Inspector.Droid
     }
 
     [Activity(NoHistory = true, LaunchMode = LaunchMode.SingleTop)]
-    [IntentFilter(new[] { Intent.ActionView }, Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable }, DataScheme = "ogticapp")]
+    [IntentFilter(new[] { Intent.ActionView }, Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable }, DataScheme = OAuthKeys.Scheme)]
     public class WebAuthenticationCallbackActivity : Xamarin.Essentials.WebAuthenticatorCallbackActivity
     {
     }
