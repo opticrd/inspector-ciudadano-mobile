@@ -97,7 +97,7 @@ namespace Inspector.ViewModels
                     }
                     else
                     {
-                        var authUrl = new Uri(AuthenticationUrl + scheme);
+                        var authUrl = new Uri(AuthenticationUrl + scheme + "?prompt=login");
                         var callbackUrl = new Uri(OAuthKeys.CallbackUrl);
 
                         result = await WebAuthenticator.AuthenticateAsync(new WebAuthenticatorOptions
