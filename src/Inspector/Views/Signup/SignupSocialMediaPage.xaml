@@ -49,6 +49,10 @@
                         HorizontalTextAlignment="Center"
                         Style="{StaticResource Body2}"
                         Text="{Binding Citizen.Id}" />
+                    <Label
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource Body2}"
+                        Text="{Binding Organization.Name}" />
 
                     <Label
                         HorizontalTextAlignment="Center"
