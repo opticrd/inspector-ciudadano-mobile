@@ -29,6 +29,7 @@ namespace Inspector.Framework.Services
         //OAuthToken _keycloakToken;
         UserClient _userClient;
         GroupClient _groupClient;
+        OrganizationClient _organizationClient;
 
         public AuthService(IPageDialogService dialogService, ILogger logger, ICacheService cacheService, IKeycloakApi keycloakApi)
         {
@@ -55,7 +56,7 @@ namespace Inspector.Framework.Services
                 var account = ZammadAccount.CreateTokenAccount(AppKeys.ZammadApiBaseUrl, AppKeys.ZammadToken);
                 _userClient = account.CreateUserClient();
                 _groupClient = account.CreateGroupClient();
-                //var organizationClient = account.CreateOrganizationClient();
+                _organizationClient = account.CreateOrganizationClient();
             }
             catch (Exception e)
             {
@@ -71,18 +72,24 @@ namespace Inspector.Framework.Services
 
             if(response.exist)
             {
-                var pwdList = response.keycloakUserCollection[0]?.Attributes?.Pwd;
-                if (pwdList == null)
-                {
-                    return (false, true); // do sign up
-                }
+                //var pwdList = response.keycloakUserCollection[0]?.Attributes?.Pwd;
+                //if (pwdList == null)
+                //{
+                //    return (false, true); // do sign up
+                //}
 
-                var pwd = response.keycloakUserCollection[0]?.Attributes?.Pwd[0]?.Base64Decode() ?? string.Empty;
-                var result = await LoginZammad(email, pwd);
+                //var pwd = response.keycloakUserCollection[0]?.Attributes?.Pwd[0]?.Base64Decode() ?? string.Empty;
+
+                var user = response.user;
+                if (user == null || !user.Active)
+                    return (false, false);
+
+                var password = user.Password ?? (string)user.CustomAttributes["cedula"];
+                var result = await LoginZammad(email, password);
 
                 _logger.TrackEvent("AuthLoginProcessCompleted", new Dictionary<string, string>
                 {
-                    { "KeyCloackPasswordGetIt", string.IsNullOrEmpty(pwd).ToString() },
+                    //{ "KeyCloackPasswordGetIt", string.IsNullOrEmpty(pwd).ToString() },
                     { "ZammadProcess", result.ToString() },
                 });
 
@@ -112,46 +119,46 @@ namespace Inspector.Framework.Services
                 return (false, true); // do login
             }
 
-            var token = await GetKeyCloakToken();
-            var createdUser = await _keycloakApi.GetUser(token, user.Email);
+            //var token = await GetKeyCloakToken();
+            //var createdUser = await _keycloakApi.GetUser(token, user.Email);
 
-            if (createdUser?.Count == 0)
-            {
-                var newKeycloakUser = new UserRepresentation
-                {
-                    FirstName = user.Firstname,
-                    LastName = user.Lastname,
-                    EmailVerified = true,
-                    Enabled = true,
-                    Username = user.Email,
-                    Email = user.Email,
-                    Attributes = new Dictionary<string, List<string>> 
-                    {
-                        { "cedula", new List<string> { user.Cedula } },
-                        { "pwd", new List<string> { user.Password.Base64Encode() } },
-                    },                    
-                };
+            //if (createdUser?.Count == 0)
+            //{
+            //    var newKeycloakUser = new UserRepresentation
+            //    {
+            //        FirstName = user.Firstname,
+            //        LastName = user.Lastname,
+            //        EmailVerified = true,
+            //        Enabled = true,
+            //        Username = user.Email,
+            //        Email = user.Email,
+            //        Attributes = new Dictionary<string, List<string>> 
+            //        {
+            //            { "cedula", new List<string> { user.Cedula } },
+            //            { "pwd", new List<string> { user.Password.Base64Encode() } },
+            //        },                    
+            //    };
 
-                var resp = await _keycloakApi.CreateUser(token, newKeycloakUser);
+            //    var resp = await _keycloakApi.CreateUser(token, newKeycloakUser);
 
-                if(resp.StatusCode != System.Net.HttpStatusCode.Created)
-                    return (false, false);
+            //    if(resp.StatusCode != System.Net.HttpStatusCode.Created)
+            //        return (false, false);
 
-                createdUser = await _keycloakApi.GetUser(token, user.Email);
+            //    createdUser = await _keycloakApi.GetUser(token, user.Email);
 
-                if (createdUser?.Count == 0)
-                    return (false, false);
-            }
+            //    if (createdUser?.Count == 0)
+            //        return (false, false);
+            //}
 
-            await _keycloakApi.ResetPassword(token, createdUser[0].Id, new CredentialRepresentation
-            {
-                Password = user.Password
-            });
+            //await _keycloakApi.ResetPassword(token, createdUser[0].Id, new CredentialRepresentation
+            //{
+            //    Password = user.Password
+            //});
 
             var zammadResponse = await SignUpZammad(user);
             _logger.TrackEvent("AuthSignUpProcessCompleted", new Dictionary<string, string>
             {
-                { "KeyCloackUserCreated", (createdUser?.Count == 0).ToString() },
+                //{ "KeyCloackUserCreated", (createdUser?.Count == 0).ToString() },
                 { "ZammadProcess", zammadResponse.ToString() },
             });
 
@@ -206,7 +213,7 @@ namespace Inspector.Framework.Services
             try
             {
                 var groups = await _groupClient.GetGroupListAsync();
-                //var orgs = await organizationClient.SearchOrganizationAsync("Ogtic", 1);
+                var orgs = await _organizationClient.SearchOrganizationAsync("Ogtic", 1);
 
                 var zammadGroupsMap = new Dictionary<int, List<string>>();
 
@@ -220,13 +227,13 @@ namespace Inspector.Framework.Services
 
                 if (!userZammad.exist)
                 {
-                    var newUser = await _userClient.CreateUserAsync(new User
+                    var newUser = new User
                     {
                         Email = user.Email,
                         FirstName = user.Firstname,
                         LastName = user.Lastname,
                         //OrganizationId = orgs[0].Id,
-                        Organization = "Ogtic",
+                        Organization = user.Organization,
                         Note = "User created from mobile app",
                         Verified = true,
                         RoleIds = new List<int>() { 2 }, //1: Admin, 2: Agent, 3: Customer //TODO: Revaluate this assignment
@@ -238,9 +245,11 @@ namespace Inspector.Framework.Services
                             { "cedula",  user.Cedula },
                             { "zone",  user.Zone },
                         }
-                    });
+                    };
 
-                    if (newUser != null)
+                    var reponse = await _userClient.CreateUserAsync(newUser);
+
+                    if (reponse != null)
                         return true;
                 }
                 else
@@ -271,24 +280,24 @@ namespace Inspector.Framework.Services
             }
         }
 
-        public async Task<(bool exist, List<KeycloakUser> keycloakUserCollection, User user)> UserExist(string parameter, SearchParameter type = SearchParameter.Email)
+        public async Task<(bool exist, /*List<KeycloakUser> keycloakUserCollection,*/ User user)> UserExist(string parameter, SearchParameter type = SearchParameter.Email)
         {
-            List<KeycloakUser> keycloakUserCollection = null;
+            //List<KeycloakUser> keycloakUserCollection = null;
 
-            if (type == SearchParameter.Email)
-            {
-                keycloakUserCollection = await _keycloakApi.GetUser(await GetKeyCloakToken(), parameter);
+            //if (type == SearchParameter.Email)
+            //{
+            //    keycloakUserCollection = await _keycloakApi.GetUser(await GetKeyCloakToken(), parameter);
 
-                if (keycloakUserCollection == null || keycloakUserCollection.Count == 0)
-                    return (false, null, null);
-            }
+            //    if (keycloakUserCollection == null || keycloakUserCollection.Count == 0)
+            //        return (false, null, null);
+            //}
 
             var userZammad = await UserExistInZammad(parameter);
 
             if (userZammad.exist)
-                return (true, keycloakUserCollection, userZammad.user);
+                return (true, userZammad.user);
 
-            return (false, null, null);
+            return (false, null);
         }
         private async Task<(bool exist, User user)> UserExistInZammad(string parameter)
         {
@@ -300,27 +309,27 @@ namespace Inspector.Framework.Services
             return (false, null);
         }
 
-        private async Task<OAuthToken> AuthKeyCloak()
-        {
-            var auth = await _keycloakApi.Authenticate(new TokenRequestBody
-            {
-                ClientId = AppKeys.KeycloakClientId,
-                GrantType = AppKeys.KeycloakGrantType,
-                Password = AppKeys.KeycloakPassword,
-                Username = AppKeys.KeycloakUsername
-            });
+        //private async Task<OAuthToken> AuthKeyCloak()
+        //{
+        //    var auth = await _keycloakApi.Authenticate(new TokenRequestBody
+        //    {
+        //        ClientId = AppKeys.KeycloakClientId,
+        //        GrantType = AppKeys.KeycloakGrantType,
+        //        Password = AppKeys.KeycloakPassword,
+        //        Username = AppKeys.KeycloakUsername
+        //    });
 
-            auth.AccessToken = $"Bearer {auth.AccessToken}";
+        //    auth.AccessToken = $"Bearer {auth.AccessToken}";
 
-            return auth;
-        }
+        //    return auth;
+        //}
 
-        private async Task<string> GetKeyCloakToken()
-        {
-            var auth = await AuthKeyCloak();
+        //private async Task<string> GetKeyCloakToken()
+        //{
+        //    var auth = await AuthKeyCloak();
 
-            return auth.AccessToken;
-        }
+        //    return auth.AccessToken;
+        //}
 
     }
 
@@ -336,6 +345,6 @@ namespace Inspector.Framework.Services
 
         Task<(bool result, bool doLogin)> SignUp(ZammadUser user);
 
-        Task<(bool exist, List<KeycloakUser> keycloakUserCollection, User user)> UserExist(string parameter, SearchParameter type = SearchParameter.Email);
+        Task<(bool exist, /*List<KeycloakUser> keycloakUserCollection,*/ User user)> UserExist(string parameter, SearchParameter type = SearchParameter.Email);
     }
 }

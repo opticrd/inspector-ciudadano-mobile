@@ -27,8 +27,8 @@ namespace Inspector.ViewModels.Signup
     {
         public Citizen Citizen { get; set; }
         public string FullName { get; set; }
-        public ObservableCollection<Group> Groups { get; set; }
-        public Validatable<Group> Group { get; set; }
+        public ObservableCollection<Organization> Organizations { get; set; }
+        public Validatable<Organization> Organization { get; set; }
 
         IZammadLiteApi _zammadLiteApi;
         ICitizenAPI _citizenClient;
@@ -41,21 +41,21 @@ namespace Inspector.ViewModels.Signup
             _citizenClient = citizenClient;
             _zammadLiteApi = zammadLiteApi;
             _logger = logger;
-            Group = Validator.Build<Group>().IsRequired(Message.FieldRequired);
+            Organization = Validator.Build<Organization>().IsRequired(Message.FieldRequired);
 
-            SelectGroupCommand = new DelegateCommand<Group>(group => SelectGroupCommandExecute(group));
+            SelectOrganizationCommand = new DelegateCommand<Organization>(organization => SelectOrganizationCommandExecute(organization));
             ValidateLocationCommand = new DelegateCommand(OnValidateLocationCommandExecute);
             SelectDistrictCommand = new DelegateCommand<Zone>(zone => District.Value = zone);
         }
 
         public ICommand ValidateLocationCommand { get; set; }
-        public ICommand SelectGroupCommand { get; set; }
+        public ICommand SelectOrganizationCommand { get; set; }
         public new ICommand SelectDistrictCommand { get; set; }
 
 
-        private void SelectGroupCommandExecute(Group group)
+        private void SelectOrganizationCommandExecute(Organization organization)
         {
-            Group.Value = group;
+            Organization.Value = organization;
         }
 
         async void OnValidateLocationCommandExecute()
@@ -68,11 +68,10 @@ namespace Inspector.ViewModels.Signup
 
             try
             {
-
                 var parameters = new NavigationParameters();
                 parameters.Add("Citizen", Citizen);
-                parameters.Add("Group", Group.Value);
-                parameters.Add("Groups", Groups.ToList());
+                parameters.Add("Organization", Organization.Value);
+                //parameters.Add("Organizations", Organizations.ToList());
                 parameters.Add("Region", Region.Value?.Name ?? string.Empty);
                 parameters.Add("Province", Province.Value?.Name ?? string.Empty);
                 parameters.Add("Municipality", Municipality.Value?.Name ?? string.Empty);
@@ -121,9 +120,9 @@ namespace Inspector.ViewModels.Signup
                 await LoadRegions();
 
                 var account = ZammadAccount.CreateTokenAccount(AppKeys.ZammadApiBaseUrl, AppKeys.ZammadToken);
-                var groupClient = account.CreateGroupClient();
-                var groups = await groupClient.GetGroupListAsync();
-                Groups = new ObservableCollection<Group>(groups.Where(x => x.Active).OrderBy(x => x.Name));
+                var organizationClient = account.CreateOrganizationClient();
+                var organizations = await organizationClient.GetOrganizationListAsync();
+                Organizations = new ObservableCollection<Organization>(organizations.Where(x => x.Active).OrderBy(x => x.Name));
             }
         }
     }

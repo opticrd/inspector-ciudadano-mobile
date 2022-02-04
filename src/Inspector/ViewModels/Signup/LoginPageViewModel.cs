@@ -67,6 +67,8 @@ namespace Inspector.ViewModels
 
         private async Task OnAuthenticate(string scheme)
         {
+            IMaterialModalPage loadingDialog = null;
+
             try
             {
                 var loginContext = new Dictionary<string, string>();
@@ -78,7 +80,7 @@ namespace Inspector.ViewModels
 
                 Analytics.TrackEvent("Comenzando un login", loginContext);
 
-                using (await MaterialDialog.Instance.LoadingDialogAsync(message: "Por favor, espere..."))
+                using (loadingDialog = await MaterialDialog.Instance.LoadingDialogAsync(message: "Por favor, espere..."))
                 {
                     WebAuthenticatorResult result = null;
 
@@ -95,8 +97,8 @@ namespace Inspector.ViewModels
                     }
                     else
                     {
-                        var authUrl = new Uri(AuthenticationUrl + scheme);
-                        var callbackUrl = new Uri("ogticapp://");
+                        var authUrl = new Uri(AuthenticationUrl + scheme + "?prompt=login");
+                        var callbackUrl = new Uri(OAuthKeys.CallbackUrl);
 
                         result = await WebAuthenticator.AuthenticateAsync(new WebAuthenticatorOptions
                         {
@@ -146,30 +148,26 @@ namespace Inspector.ViewModels
                         failedLoginContext.Add("device manufacturer", DeviceInfo.Manufacturer);
 
                         Analytics.TrackEvent("Error haciendo login", failedLoginContext);
-                        string msj = "";
-                        if(scheme.Equals("Facebook"))
-                            msj = "Asegúrate de que tu correo sea público en la plataforma de Facebook.";
-                        else
-                            msj = "No pudimos tomar tu correo del proveedor de identidad. Asegúrate de que tu correo sea público.";
-
+                        string msj = "No pudimos tomar tu correo del proveedor de identidad. Asegúrate de que tu correo sea público.";
                         await _dialogService.DisplayAlertAsync("", msj, "Ok");
                     }
                 }
             }
             catch (OperationCanceledException ocex)
             {
-                Crashes.TrackError(ocex);
+                _logger.Report(ocex);
                 Console.WriteLine("Autenticación canceledada.");
+
                 await _dialogService.DisplayAlertAsync("", "Login cancelado.", "Ok");
             }
             catch (Exception ex)
             {
-                Crashes.TrackError(ex);
                 _logger.Report(ex);
                 await _dialogService.DisplayAlertAsync("", Message.SomethingHappen, "Ok");
             }
             finally
             {
+                await loadingDialog?.DismissAsync();
                 IsBusy = false;
             }
         }
