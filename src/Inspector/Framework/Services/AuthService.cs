@@ -29,6 +29,7 @@ namespace Inspector.Framework.Services
         //OAuthToken _keycloakToken;
         UserClient _userClient;
         GroupClient _groupClient;
+        OrganizationClient _organizationClient;
 
         public AuthService(IPageDialogService dialogService, ILogger logger, ICacheService cacheService, IKeycloakApi keycloakApi)
         {
@@ -55,7 +56,7 @@ namespace Inspector.Framework.Services
                 var account = ZammadAccount.CreateTokenAccount(AppKeys.ZammadApiBaseUrl, AppKeys.ZammadToken);
                 _userClient = account.CreateUserClient();
                 _groupClient = account.CreateGroupClient();
-                //var organizationClient = account.CreateOrganizationClient();
+                _organizationClient = account.CreateOrganizationClient();
             }
             catch (Exception e)
             {
@@ -212,7 +213,7 @@ namespace Inspector.Framework.Services
             try
             {
                 var groups = await _groupClient.GetGroupListAsync();
-                //var orgs = await organizationClient.SearchOrganizationAsync("Ogtic", 1);
+                var orgs = await _organizationClient.SearchOrganizationAsync("Ogtic", 1);
 
                 var zammadGroupsMap = new Dictionary<int, List<string>>();
 
@@ -226,13 +227,13 @@ namespace Inspector.Framework.Services
 
                 if (!userZammad.exist)
                 {
-                    var newUser = await _userClient.CreateUserAsync(new User
+                    var newUser = new User
                     {
                         Email = user.Email,
                         FirstName = user.Firstname,
                         LastName = user.Lastname,
                         //OrganizationId = orgs[0].Id,
-                        Organization = "Ogtic",
+                        Organization = user.Organization,
                         Note = "User created from mobile app",
                         Verified = true,
                         RoleIds = new List<int>() { 2 }, //1: Admin, 2: Agent, 3: Customer //TODO: Revaluate this assignment
@@ -244,9 +245,11 @@ namespace Inspector.Framework.Services
                             { "cedula",  user.Cedula },
                             { "zone",  user.Zone },
                         }
-                    });
+                    };
 
-                    if (newUser != null)
+                    var reponse = await _userClient.CreateUserAsync(newUser);
+
+                    if (reponse != null)
                         return true;
                 }
                 else

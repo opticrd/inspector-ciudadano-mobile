@@ -44,14 +44,14 @@
 
                     <ctrls:PickerLayout>
                         <Picker
-                            x:Name="groupPicker"
+                            x:Name="organizationPicker"
                             Title="{l18n:Translate Institution}"
                             ItemDisplayBinding="{Binding Name}"
-                            ItemsSource="{Binding Groups}">
+                            ItemsSource="{Binding Organizations}">
                             <Picker.Behaviors>
                                 <prism:EventToCommandBehavior
-                                    Command="{Binding SelectGroupCommand}"
-                                    CommandParameter="{Binding Source={x:Reference groupPicker}, Path=SelectedItem}"
+                                    Command="{Binding SelectOrganizationCommand}"
+                                    CommandParameter="{Binding Source={x:Reference organizationPicker}, Path=SelectedItem}"
                                     EventName="SelectedIndexChanged" />
                             </Picker.Behaviors>
                         </Picker>
